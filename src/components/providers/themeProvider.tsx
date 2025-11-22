@@ -2,17 +2,17 @@
 
 import type { PropsWithChildren } from 'react';
 
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider as NextThemeProvider } from 'next-themes';
 
-export const ThemeProviderClient = ({ children }: PropsWithChildren) => {
+export const ThemeProvider = ({ children }: PropsWithChildren) => {
   return (
-    <ThemeProvider
+    <NextThemeProvider
       attribute="class"
       defaultTheme="system"
       enableSystem
       enableColorScheme
       disableTransitionOnChange>
       {children}
-    </ThemeProvider>
+    </NextThemeProvider>
   );
 };

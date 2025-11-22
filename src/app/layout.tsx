@@ -2,7 +2,7 @@ import '../styles/globals.css';
 
 import type { PropsWithChildren } from 'react';
 
-import { ThemeProviderClient } from '@/_shared/_clientBoundaries/themeProviderClient';
+import { ThemeProvider } from '@/components/providers/themeProvider';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -28,7 +28,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={`${pretendard.variable} antialiased`}>
-        <ThemeProviderClient>{children}</ThemeProviderClient>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
