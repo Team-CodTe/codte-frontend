@@ -27,30 +27,39 @@
 ## 📁 프로젝트 구조
 
 ```
-src/
-├── _shared/
-│   ├── _clientBoundaries/   # 공통 클라이언트 컴포넌트 (파일 최상단에 'use client' 지시자 사용)
-│   ├── _components/         # 공통 컴포넌트
-│   └── _helper/
-│       ├── constants/       # 공통 상수
-│       ├── hooks/           # 공통 커스텀 훅
-│       └── utils/           # 공통 유틸리티 함수
+├── public/              # [정적 파일 담당] 정적 파일
+├── src/
+│   ├── app/             # [라우팅 담당] 페이지, 레이아웃, API 라우트
+│   │   ├── (페이지 그룹)/  # Route Group (URL에 포함 안 됨)
+│   │   ├── 실제 페이지/
+│   │   │   └── page.tsx    # 실제 페이지
+│   │   ├── api/         # 백엔드 API 라우트
+│   │   ├── layout.tsx   # 루트 레이아웃
+│   │   └── page.tsx     # 루트 페이지
+│   │
+│   ├── features/        # [기능 담당] 기능별 도메인 로직 분리
+│   │   └── 실제 페이지/
+│   │      ├── components/  # 해당 페이지에서만 쓰이는 컴포넌트
+│   │      ├── hooks/       # 해당 페이지 전용 훅
+│   │      ├── lib/         # 해당 페이지 전용 유틸리티
+│   │      ├── api/         # 해당 페이지 API 호출 함수
+│   │      └── types.ts     # 해당 페이지 타입 정의
+│   │
+│   ├── components/      # [UI 담당] 전역에서 재사용되는 UI 컴포넌트
+│   │   ├── ui/          # 버튼, 인풋, 모달 등 (shadcn/ui 스타일)
+│   │   └── layout/      # 헤더, 푸터, 사이드바 등
+│   │
+│   ├── lib/             # [유틸리티 담당] 외부 라이브러리 설정 및 유틸리티
+│   │   └── utils.ts     # 단순 헬퍼 함수
+│   │
+│   ├── hooks/           # [훅 담당] 전역적으로 쓰이는 커스텀 훅
+│   ├── types/           # [타입 담당] 전역 타입 정의
+│   ├── styles/          # [스타일 담당] 전역 스타일 변수, 믹스인 등
+│   └── constants/       # [상수 담당] 전역 상수
 │
-├── app/
-│   ├── layout.tsx           # 루트 레이아웃
-│   ├── page.tsx             # 메인 페이지
-│   └── [PageName 폴더]/
-│       ├── _clientBoundaries/   # 페이지별 클라이언트 컴포넌트 (파일 최상단에 'use client' 지시자 사용)
-│       ├── _components/         # 페이지별 컴포넌트
-│       ├── _helper/
-│       │   ├── constants/       # 페이지별 상수
-│       │   ├── hooks/           # 페이지별 커스텀 훅
-│       │   └── utils/           # 페이지별 유틸리티 함수
-│       └── page.tsx             # 페이지 파일
-│
-└── styles/                  # 스타일 파일
-    ├── globals.css          # 전역 스타일
-    └── fonts/               # 폰트 파일
+├── next.config.js
+├── package.json
+└── tsconfig.json
 ```
 
 - 기본 `page.tsx`, `layout.tsx` 파일 등은 `const Page = () => {}, export default Page` 형식으로 작성됩니다.
