@@ -1,9 +1,11 @@
-const Home = () => {
+import { LandingHeader } from '@/features/ladning/components/LandingHeader';
+
+const LandingPage = () => {
   return (
     <div>
-      <p>랜딩 페이지 들어갈 예정</p>
+      <LandingHeader />
     </div>
   );
 };
 
-export default Home;
+export default LandingPage;

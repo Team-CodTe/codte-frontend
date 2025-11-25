@@ -32,11 +32,7 @@ const eslintConfig = defineConfig([
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: [
-            './tsconfig.json',
-            './packages/*/tsconfig.json',
-            './apps/*/tsconfig.json',
-          ],
+          project: ['./tsconfig.json'],
         },
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
