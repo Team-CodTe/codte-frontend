@@ -1,10 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
-import { type SolutionNoteResponse } from '@/api/types/solutionDto';
-import { TierBadge } from '@/components/icons/TierBadge';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import {
@@ -22,7 +20,6 @@ import {
 } from '@/components/ui/Table';
 import { useDebounce } from '@/hooks/useDebounce';
 import {
-  type ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -39,6 +36,8 @@ import {
   SquarePenIcon,
 } from 'lucide-react';
 
+import { SolutionNoteTableColumns } from './SolutionNoteTableColumns';
+
 export const SolutionNoteTable = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const debouncedSearchKeyword = useDebounce(searchKeyword, 200); // 디바운스 200ms 설정
@@ -47,77 +46,26 @@ export const SolutionNoteTable = () => {
     setSearchKeyword('');
   };
 
-  const data = [...mockSolutionNotes]
-    .filter((note) => {
-      if (!debouncedSearchKeyword) return true;
+  const data = useMemo(() => {
+    return [...mockSolutionNotes]
+      .filter((note) => {
+        if (!debouncedSearchKeyword) return true;
 
-      const lowerKeyword = debouncedSearchKeyword.toLowerCase();
-
-      return (
-        note.problem.bojNumber.toString().includes(lowerKeyword) ||
-        note.problem.title.toLowerCase().includes(lowerKeyword) ||
-        note.user.username.toLowerCase().includes(lowerKeyword)
-      );
-    })
-    .sort((a, b) => b.id - a.id);
-
-  const columns: ColumnDef<SolutionNoteResponse>[] = [
-    {
-      accessorKey: 'id',
-      header: '글 번호',
-      cell: ({ row }) => <div>{row.original.id}</div>,
-    },
-    {
-      accessorKey: 'problemId',
-      header: '문제 번호',
-      cell: ({ row }) => {
-        const problem = row.original.problem;
+        const lowerKeyword = debouncedSearchKeyword.toLowerCase();
 
         return (
-          <div className="flex items-center gap-2">
-            <TierBadge level={problem.tier} />
-            <a
-              href={problem.link}
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline">
-              {problem.bojNumber}
-            </a>
-          </div>
+          note.problem.bojNumber.toString().includes(lowerKeyword) ||
+          note.problem.title.toLowerCase().includes(lowerKeyword) ||
+          note.user.username.toLowerCase().includes(lowerKeyword)
         );
-      },
-    },
-    {
-      accessorKey: 'userName',
-      header: '작성자',
-      cell: ({ row }) => (
-        <div>
-          <span>{row.original.user.username}</span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'createdAt',
-      header: '작성일',
-      cell: ({ row }) => (
-        <div>
-          {new Date(row.original.createdAt).toLocaleString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          })}
-        </div>
-      ),
-    },
-  ];
+      })
+      .sort((a, b) => b.id - a.id);
+  }, [debouncedSearchKeyword]);
 
   // eslint-disable-next-line
   const table = useReactTable({
     data,
-    columns,
+    columns: SolutionNoteTableColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
@@ -174,7 +122,9 @@ export const SolutionNoteTable = () => {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="min-w-24">
+                  <TableHead
+                    key={header.id}
+                    className={`min-w-24 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -205,12 +155,24 @@ export const SolutionNoteTable = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
-                  className="text-muted-foreground h-24 text-center">
+                  colSpan={SolutionNoteTableColumns.length}
+                  className="text-muted-foreground h-110 text-center">
                   글을 찾을 수 없습니다
                 </TableCell>
               </TableRow>
             )}
+            {/* 데이터가 10개 미만일 때 빈 행 추가 */}
+            {table.getRowModel().rows.length > 0 &&
+              Array.from({ length: 10 - table.getRowModel().rows.length }).map(
+                (_, index) => (
+                  <TableRow key={`empty-${index}`}>
+                    <TableCell
+                      colSpan={SolutionNoteTableColumns.length}
+                      className="h-11"
+                    />
+                  </TableRow>
+                ),
+              )}
           </TableBody>
         </Table>
       </div>

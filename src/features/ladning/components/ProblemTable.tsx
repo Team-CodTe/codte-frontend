@@ -1,9 +1,6 @@
 'use client';
 
 import { mockDailyAssignment } from '@/api/mock/mockDailyAssignment';
-import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
-import { type DailyAssignmentResponse } from '@/api/types/problemDto';
-import { TierBadge } from '@/components/icons/TierBadge';
 import { Button } from '@/components/ui/Button';
 import {
   Table,
@@ -13,100 +10,25 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import { cn } from '@/lib/utils';
 import {
-  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import { CodeXmlIcon, KeyboardIcon, PlusIcon } from 'lucide-react';
 
+import { ProblemTableColumns } from './ProblemTableColumns';
 import { TableLabel } from './TableLabel';
 
 export const ProblemTable = () => {
-  const isSolved = (problemId: number) => {
-    return mockSolutionNotes.some(
-      (note) => note.problem.id === problemId && note.user.id === 1,
-    );
-  };
-
   const data = [...mockDailyAssignment].sort(
     (a, b) => a.problem.bojNumber - b.problem.bojNumber,
   );
 
-  const columns: ColumnDef<DailyAssignmentResponse>[] = [
-    {
-      accessorKey: 'problem.bojNumber',
-      header: '문제 번호',
-      cell: ({ row }) => {
-        const { problem } = row.original;
-        const isProblemSolved = isSolved(problem.id);
-
-        return (
-          <div className="flex items-center gap-2">
-            <TierBadge level={problem.tier} />
-            <a
-              href={problem.link}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                'hover:underline',
-                isProblemSolved && 'text-muted-foreground',
-              )}>
-              {problem.bojNumber}
-            </a>
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: 'problem.title',
-      header: '제목',
-      cell: ({ row }) => {
-        const { problem } = row.original;
-        const isProblemSolved = isSolved(problem.id);
-
-        return (
-          <a
-            href={problem.link}
-            target="_blank"
-            rel="noreferrer"
-            className={cn(
-              'hover:underline',
-              isProblemSolved && 'text-muted-foreground',
-            )}>
-            {problem.title}
-          </a>
-        );
-      },
-    },
-    {
-      id: 'actions',
-      header: '문제 풀이 글',
-      cell: ({ row }) => {
-        const { problem } = row.original;
-        const isProblemSolved = isSolved(problem.id);
-
-        return (
-          <button
-            className={cn(
-              'cursor-pointer underline-offset-4 hover:underline',
-              isProblemSolved &&
-                'text-muted-foreground cursor-default no-underline hover:no-underline',
-            )}
-            disabled={isProblemSolved}>
-            {isProblemSolved ? '작성완료' : '작성하기'}
-          </button>
-        );
-      },
-    },
-  ];
-
   // eslint-disable-next-line
   const table = useReactTable({
     data,
-    columns,
+    columns: ProblemTableColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -133,7 +55,9 @@ export const ProblemTable = () => {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="min-w-24">
+                    <TableHead
+                      key={header.id}
+                      className={`min-w-24 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -165,7 +89,7 @@ export const ProblemTable = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={ProblemTableColumns.length}
                   className="text-muted-foreground h-24 text-center">
                   문제를 찾을 수 없습니다
                 </TableCell>

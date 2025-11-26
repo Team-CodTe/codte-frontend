@@ -1,9 +1,6 @@
 'use client';
 
-import { mockDailyAssignment } from '@/api/mock/mockDailyAssignment';
-import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
 import { mockStudyMembers } from '@/api/mock/mockStudyMember';
-import { type StudyMemberResponse } from '@/api/types/studyDto';
 import { Button } from '@/components/ui/Button';
 import {
   Table,
@@ -14,100 +11,22 @@ import {
   TableRow,
 } from '@/components/ui/Table';
 import {
-  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {
-  CheckIcon,
-  CircleCheckBigIcon,
-  CircleIcon,
-  UserRoundCogIcon,
-} from 'lucide-react';
+import { CheckIcon, UserRoundCogIcon } from 'lucide-react';
 
+import { MemberTableColumns } from './MemberTableColumns';
 import { TableLabel } from './TableLabel';
 
 export const MemberTable = () => {
-  const hasSolutionNote = (userId: number, problemId: number) => {
-    return mockSolutionNotes.some(
-      (note) => note.user.id === userId && note.problem.id === problemId,
-    );
-  };
-
   const data = [...mockStudyMembers].sort((a, b) => a.user.id - b.user.id);
-
-  const columns: ColumnDef<StudyMemberResponse>[] = [
-    {
-      accessorKey: 'user.username',
-      header: '스터디원',
-    },
-    {
-      id: 'solvedStatus',
-      header: '문제 풀이',
-      cell: ({ row }) => {
-        const member = row.original;
-
-        return (
-          <div className="flex flex-row items-center gap-2">
-            {mockDailyAssignment.map((assignment) => {
-              const hasNote = hasSolutionNote(
-                member.user.id,
-                assignment.problem.id,
-              );
-
-              // ID 합이 짝수라는 규칙에 따라 문제는 풀었지만 글은 작성하지 않은 경우 표현
-              const isSolved =
-                hasNote || (member.user.id + assignment.problem.id) % 2 === 0;
-
-              return (
-                <div key={`solved-${assignment.id}`}>
-                  {isSolved ? (
-                    <CircleCheckBigIcon className="text-success size-4" />
-                  ) : (
-                    <CircleIcon className="text-muted-foreground size-4" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        );
-      },
-    },
-    {
-      id: 'noteStatus',
-      header: '문제 풀이 글 작성',
-      cell: ({ row }) => {
-        const member = row.original;
-
-        return (
-          <div className="flex flex-row items-center gap-2">
-            {mockDailyAssignment.map((assignment) => {
-              const hasNote = hasSolutionNote(
-                member.user.id,
-                assignment.problem.id,
-              );
-
-              return (
-                <div key={`note-${assignment.id}`}>
-                  {hasNote ? (
-                    <CircleCheckBigIcon className="text-success size-4" />
-                  ) : (
-                    <CircleIcon className="text-muted-foreground size-4" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        );
-      },
-    },
-  ];
 
   // eslint-disable-next-line
   const table = useReactTable({
     data,
-    columns,
+    columns: MemberTableColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -129,7 +48,9 @@ export const MemberTable = () => {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="min-w-24">
+                    <TableHead
+                      key={header.id}
+                      className={`min-w-24 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -161,9 +82,9 @@ export const MemberTable = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={MemberTableColumns.length}
                   className="text-muted-foreground h-24 text-center">
-                  멤버를 찾을 수 없습니다
+                  스터디원을 찾을 수 없습니다
                 </TableCell>
               </TableRow>
             )}
