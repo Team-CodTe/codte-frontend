@@ -1,6 +1,6 @@
-import { BojProblemTable } from '@/features/ladning/components/BojProblemTable';
+import { ProblemTable } from '@/features/ladning/components/ProblemTable';
 import { LandingHeader } from '@/features/ladning/components/LandingHeader';
-import { MemberSolvingStatusTable } from '@/features/ladning/components/MemberSolvingStatusTable';
+import { MemberTable } from '@/features/ladning/components/MemberTable';
 import { SolutionNoteTable } from '@/features/ladning/components/SolutionNoteTable';
 
 const LandingPage = () => {
@@ -8,8 +8,8 @@ const LandingPage = () => {
     <div className="min-h-screen">
       <LandingHeader />
       <main className="container mx-auto max-w-3xl space-y-15 p-5 py-24">
-        <BojProblemTable />
-        <MemberSolvingStatusTable />
+        <ProblemTable />
+        <MemberTable />
         <SolutionNoteTable />
       </main>
     </div>
