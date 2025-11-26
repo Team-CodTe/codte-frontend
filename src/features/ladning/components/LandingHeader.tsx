@@ -1,8 +1,8 @@
 'use client';
 
-import { AppLogo } from '@/components/icons/AppLogo';
+import { AppLogo } from '@/components/logos/AppLogo';
+import { GitHubLogo } from '@/components/logos/GitHubLogo';
 import { Button } from '@/components/ui/Button';
-import { GitHubLogo } from '@/components/icons/GitHubLogo';
 
 export const LandingHeader = () => {
   return (
