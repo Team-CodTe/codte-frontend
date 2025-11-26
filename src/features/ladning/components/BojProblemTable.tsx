@@ -1,3 +1,5 @@
+import { mockDailyAssignment } from '@/api/mock/mockDailyAssignment';
+import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
 import { TierBadge } from '@/components/icons/TierBadge';
 import { Button } from '@/components/ui/Button';
 import {
@@ -8,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
+import { cn } from '@/lib/utils';
 import { CodeXmlIcon, KeyboardIcon, PlusIcon } from 'lucide-react';
 
 export const BojProblemTable = () => {
@@ -16,7 +19,7 @@ export const BojProblemTable = () => {
       <div className="flex flex-row items-center justify-between">
         <div className="text-muted-foreground ml-4 flex items-center gap-2 text-sm font-semibold">
           <CodeXmlIcon className="size-3.5" />
-          <p>오늘의 추천 문제 리스트</p>
+          <p>오늘의 추천 문제</p>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" size="sm">
@@ -34,72 +37,60 @@ export const BojProblemTable = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-36 min-w-32">#</TableHead>
+              <TableHead className="w-36 min-w-32">문제 번호</TableHead>
               <TableHead>제목</TableHead>
               <TableHead className="w-36 min-w-32">문제 풀이 글</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="flex items-center gap-2">
-                <TierBadge level={13} />
-                2708
-              </TableCell>
-              <TableCell>폴리큐브의 겉넓이</TableCell>
-              <TableCell className="flex items-center justify-center">
-                <button className="cursor-pointer underline-offset-4 hover:underline">
-                  작성하기
-                </button>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="flex items-center gap-2">
-                <TierBadge level={14} />
-                2931
-              </TableCell>
-              <TableCell>가스관</TableCell>
-              <TableCell className="flex items-center justify-center">
-                <button className="cursor-pointer underline-offset-4 hover:underline">
-                  작성하기
-                </button>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="flex items-center gap-2">
-                <TierBadge level={13} />
-                34156
-              </TableCell>
-              <TableCell>테토와 바게트</TableCell>
-              <TableCell className="flex items-center justify-center">
-                <button className="cursor-pointer underline-offset-4 hover:underline">
-                  작성하기
-                </button>
-              </TableCell>
-            </TableRow>
-            <TableRow className="text-muted-foreground">
-              <TableCell className="flex items-center gap-2">
-                <TierBadge level={8} />
-                11727
-              </TableCell>
-              <TableCell>2xn 타일링 2</TableCell>
-              <TableCell className="flex items-center justify-center">
-                <button className="cursor-pointer underline-offset-4 hover:underline">
-                  작성하기
-                </button>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="flex items-center gap-2">
-                <TierBadge level={10} />
-                10844
-              </TableCell>
-              <TableCell>쉬운 계단 수</TableCell>
-              <TableCell className="flex items-center justify-center">
-                <button className="cursor-pointer underline-offset-4 hover:underline">
-                  작성하기
-                </button>
-              </TableCell>
-            </TableRow>
+            {mockDailyAssignment.map((assignment) => {
+              const isSolved = mockSolutionNotes.some(
+                (note) =>
+                  note.problem.id === assignment.problem.id &&
+                  note.user.id === 1,
+              );
+
+              return (
+                <TableRow key={assignment.id}>
+                  <TableCell className="flex items-center gap-2">
+                    <TierBadge level={assignment.problem.tier} />
+                    <a
+                      href={assignment.problem.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={cn(
+                        'hover:underline',
+                        isSolved && 'text-muted-foreground',
+                      )}>
+                      {assignment.problem.bojNumber}
+                    </a>
+                  </TableCell>
+                  <TableCell>
+                    <a
+                      href={assignment.problem.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={cn(
+                        'hover:underline',
+                        isSolved && 'text-muted-foreground',
+                      )}>
+                      {assignment.problem.title}
+                    </a>
+                  </TableCell>
+                  <TableCell className="flex items-center justify-center">
+                    <button
+                      className={cn(
+                        'cursor-pointer underline-offset-4 hover:underline',
+                        isSolved &&
+                          'text-muted-foreground cursor-default no-underline hover:no-underline',
+                      )}
+                      disabled={isSolved}>
+                      {isSolved ? '작성완료' : '작성하기'}
+                    </button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

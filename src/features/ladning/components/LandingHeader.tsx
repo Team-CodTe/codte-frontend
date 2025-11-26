@@ -1,5 +1,6 @@
 'use client';
 
+import { mockStudy } from '@/api/mock/mockStudy';
 import { AppLogo } from '@/components/logos/AppLogo';
 import { GitHubLogo } from '@/components/logos/GitHubLogo';
 import { Button } from '@/components/ui/Button';
@@ -11,7 +12,7 @@ export const LandingHeader = () => {
         <AppLogo className="h-9 w-auto" />
 
         <p className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
-          Gold 문제 가볍게 풀기위한 사람들 모임
+          {mockStudy.name}
         </p>
 
         <Button
