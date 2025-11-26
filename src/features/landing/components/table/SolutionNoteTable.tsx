@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
-import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
+import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import {
@@ -36,8 +36,8 @@ import {
   SquarePenIcon,
 } from 'lucide-react';
 
-import { SolutionNoteTableColumns } from './SolutionNoteTableColumns';
 import { TableLabel } from './TableLabel';
+import { solutionNoteTableColumns } from './SolutionNoteTableColumns';
 
 export const SolutionNoteTable = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -48,7 +48,7 @@ export const SolutionNoteTable = () => {
   };
 
   const data = useMemo(() => {
-    return [...mockSolutionNotes]
+    return [...MOCK_SOLUTION_NOTES]
       .filter((note) => {
         if (!debouncedSearchKeyword) return true;
 
@@ -66,7 +66,7 @@ export const SolutionNoteTable = () => {
   // eslint-disable-next-line
   const table = useReactTable({
     data,
-    columns: SolutionNoteTableColumns,
+    columns: solutionNoteTableColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
@@ -157,7 +157,7 @@ export const SolutionNoteTable = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={SolutionNoteTableColumns.length}
+                  colSpan={solutionNoteTableColumns.length}
                   className="text-muted-foreground h-110 text-center">
                   글을 찾을 수 없습니다
                 </TableCell>
@@ -169,7 +169,7 @@ export const SolutionNoteTable = () => {
                 (_, index) => (
                   <TableRow key={`empty-${index}`}>
                     <TableCell
-                      colSpan={SolutionNoteTableColumns.length}
+                      colSpan={solutionNoteTableColumns.length}
                       className="h-11"
                     />
                   </TableRow>

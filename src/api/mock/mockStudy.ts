@@ -1,9 +1,9 @@
 import { type StudyResponse } from '../types/studyDto';
-import { mockUser1 } from './mockUser';
+import { MOCK_USER_1 } from './mockUser';
 
-export const mockStudy: StudyResponse = {
+export const MOCK_STUDY: StudyResponse = {
   id: 1,
-  owner: mockUser1,
+  owner: MOCK_USER_1,
   name: 'Gold 문제 가볍게 풀기위한 사람들 모임',
   description: '매일 빡세게 5문제씩 풀 수 있는 사람들을 모았습니다.',
   inviteCode: 'aiwnlaki2319dnalk2',

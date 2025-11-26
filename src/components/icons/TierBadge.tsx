@@ -1,4 +1,4 @@
-import { solvedAcNumericTierIcons } from '@/assets/svg/tier';
+import { SOLVED_AC_NUMERIC_TIER_ICONS } from '@/assets/svg/tier';
 import Image from 'next/image';
 
 type Props = {
@@ -6,13 +6,16 @@ type Props = {
   size?: number;
 };
 
-export const TierBadge = ({ level, size = 12 }: Props) => {
+const DEFAULT_TIER_BADGE_SIZE = 12;
+
+export const TierBadge = ({ level, size = DEFAULT_TIER_BADGE_SIZE }: Props) => {
   const iconSrc =
-    solvedAcNumericTierIcons[level as keyof typeof solvedAcNumericTierIcons] ||
-    solvedAcNumericTierIcons[0];
+    SOLVED_AC_NUMERIC_TIER_ICONS[
+      level as keyof typeof SOLVED_AC_NUMERIC_TIER_ICONS
+    ] || SOLVED_AC_NUMERIC_TIER_ICONS[0];
 
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+    <div className="inline-flex items-center">
       <Image
         src={iconSrc}
         alt={`Solved.ac Tier ${level}`}

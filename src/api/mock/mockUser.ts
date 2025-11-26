@@ -1,7 +1,7 @@
 import { type UserResponse } from '../types/userDto';
 import { Provider } from '../types/userDto';
 
-export const mockUser1: UserResponse = {
+export const MOCK_USER_1: UserResponse = {
   id: 1,
   username: '강동우',
   email: 'kdw34441360@gmail.com',
@@ -12,7 +12,7 @@ export const mockUser1: UserResponse = {
   createdAt: '2025-01-01',
 };
 
-export const mockUser2: UserResponse = {
+export const MOCK_USER_2: UserResponse = {
   id: 2,
   username: '이상훈',
   email: 'dltkdgns830@naver.com',
@@ -23,7 +23,7 @@ export const mockUser2: UserResponse = {
   createdAt: '2025-01-02',
 };
 
-export const mockUser3: UserResponse = {
+export const MOCK_USER_3: UserResponse = {
   id: 3,
   username: '김수인',
   email: 'waterperosn@google.com',
@@ -34,7 +34,7 @@ export const mockUser3: UserResponse = {
   createdAt: '2025-01-03',
 };
 
-export const mockUser4: UserResponse = {
+export const MOCK_USER_4: UserResponse = {
   id: 4,
   username: '이기현',
   email: 'leekki@naver.com',
@@ -45,7 +45,7 @@ export const mockUser4: UserResponse = {
   createdAt: '2025-01-04',
 };
 
-export const mockUser5: UserResponse = {
+export const MOCK_USER_5: UserResponse = {
   id: 5,
   username: '김진영',
   email: 'joannekim@google.com',
@@ -56,10 +56,10 @@ export const mockUser5: UserResponse = {
   createdAt: '2025-01-05',
 };
 
-export const mockUsers: UserResponse[] = [
-  mockUser1,
-  mockUser2,
-  mockUser3,
-  mockUser4,
-  mockUser5,
+export const MOCK_USERS: UserResponse[] = [
+  MOCK_USER_1,
+  MOCK_USER_2,
+  MOCK_USER_3,
+  MOCK_USER_4,
+  MOCK_USER_5,
 ];

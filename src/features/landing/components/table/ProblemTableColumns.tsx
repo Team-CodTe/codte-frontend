@@ -1,16 +1,16 @@
-import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
+import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
 import { type DailyAssignmentResponse } from '@/api/types/problemDto';
 import { TierBadge } from '@/components/icons/TierBadge';
 import { cn } from '@/lib/utils';
 import { type ColumnDef } from '@tanstack/react-table';
 
 const isSolved = (problemId: number) => {
-  return mockSolutionNotes.some(
+  return MOCK_SOLUTION_NOTES.some(
     (note) => note.problem.id === problemId && note.user.id === 1,
   );
 };
 
-export const ProblemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
+export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
   {
     accessorKey: 'problem.bojNumber',
     header: '문제 번호',

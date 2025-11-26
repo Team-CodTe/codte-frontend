@@ -1,6 +1,6 @@
 'use client';
 
-import { mockDailyAssignment } from '@/api/mock/mockDailyAssignment';
+import { MOCK_STUDY_MEMBERS } from '@/api/mock/mockStudyMember';
 import { Button } from '@/components/ui/Button';
 import {
   Table,
@@ -20,20 +20,18 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { CodeXmlIcon, KeyboardIcon, PlusIcon } from 'lucide-react';
+import { CheckIcon, UserRoundCogIcon } from 'lucide-react';
 
-import { ProblemTableColumns } from './ProblemTableColumns';
+import { memberTableColumns } from './MemberTableColumns';
 import { TableLabel } from './TableLabel';
 
-export const ProblemTable = () => {
-  const data = [...mockDailyAssignment].sort(
-    (a, b) => a.problem.bojNumber - b.problem.bojNumber,
-  );
+export const MemberTable = () => {
+  const data = [...MOCK_STUDY_MEMBERS].sort((a, b) => a.user.id - b.user.id);
 
   // eslint-disable-next-line
   const table = useReactTable({
     data,
-    columns: ProblemTableColumns,
+    columns: memberTableColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -41,20 +39,15 @@ export const ProblemTable = () => {
     <div className="flex flex-col space-y-3">
       <div className="flex flex-row items-center justify-between">
         <TableLabel
-          icon={CodeXmlIcon}
-          label="오늘의 추천 문제"
-          tooltipContent="스터디원들의 백준 ID를 이용해서 쿼리에 맞는 문제를 매일 추천해줘요"
+          icon={CheckIcon}
+          label="스터디 문제 풀이 상태"
+          tooltipContent="스터디원들의 문제 풀이 현황과 풀이 글 작성 현황을 한 눈에 볼 수 있어요"
         />
-        <div className="flex gap-2">
-          <Button variant="secondary" size="sm">
-            <PlusIcon />
-            <span className="hidden sm:inline">문제 수동 추가</span>
-          </Button>
-          <Button variant="secondary" size="sm">
-            <KeyboardIcon />
-            <span className="hidden sm:inline">추천 쿼리 변경</span>
-          </Button>
-        </div>
+        {/** @todo 스터디 회장만 보이도록 변경 */}
+        <Button variant="secondary" size="sm">
+          <UserRoundCogIcon />
+          <span className="hidden sm:inline">스터디원 관리</span>
+        </Button>
       </div>
 
       <div className="rounded-md border">
@@ -98,9 +91,9 @@ export const ProblemTable = () => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={ProblemTableColumns.length}
+                  colSpan={memberTableColumns.length}
                   className="text-muted-foreground h-24 text-center">
-                  문제를 찾을 수 없습니다
+                  스터디원을 찾을 수 없습니다
                 </TableCell>
               </TableRow>
             )}
@@ -110,23 +103,24 @@ export const ProblemTable = () => {
 
       <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
         <p className="text-right">
-          {new Date().toLocaleDateString('ko-KR', {
+          {new Date().toLocaleString('ko-KR', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
           })}{' '}
-          00:00 기준
+          기준
         </p>
         <Tooltip>
           <TooltipTrigger asChild>
             <button className="cursor-pointer underline-offset-4 hover:underline">
-              추천 문제 강제 갱신
+              풀이 상태 강제 갱신
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>
-              새로운 스터디원이 들어와서 새로운 문제를 추천받아야 할 때 사용해요
-            </p>
+            <p>문제를 풀어도 풀이 상태가 갱신되지 않을 때 사용해요</p>
             <p>30분에 한 번만 강제 갱신할 수 있어요</p>
           </TooltipContent>
         </Tooltip>

@@ -2,7 +2,7 @@ import { type SolutionNoteResponse } from '@/api/types/solutionDto';
 import { TierBadge } from '@/components/icons/TierBadge';
 import { type ColumnDef } from '@tanstack/react-table';
 
-export const SolutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
+export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
   {
     accessorKey: 'id',
     header: '글 번호',

@@ -1,10 +1,10 @@
 import type { DailyAssignmentResponse } from '../types/problemDto';
-import { mockStudy } from './mockStudy';
+import { MOCK_STUDY } from './mockStudy';
 
-export const mockDailyAssignment: DailyAssignmentResponse[] = [
+export const MOCK_DAILY_ASSIGNMENT: DailyAssignmentResponse[] = [
   {
     id: 1,
-    study: mockStudy,
+    study: MOCK_STUDY,
     assignedDate: '2025-11-26',
     isCustom: false,
     problem: {
@@ -17,7 +17,7 @@ export const mockDailyAssignment: DailyAssignmentResponse[] = [
   },
   {
     id: 2,
-    study: mockStudy,
+    study: MOCK_STUDY,
     assignedDate: '2025-11-26',
     isCustom: false,
     problem: {
@@ -30,7 +30,7 @@ export const mockDailyAssignment: DailyAssignmentResponse[] = [
   },
   {
     id: 3,
-    study: mockStudy,
+    study: MOCK_STUDY,
     assignedDate: '2025-11-26',
     isCustom: false,
     problem: {
@@ -43,7 +43,7 @@ export const mockDailyAssignment: DailyAssignmentResponse[] = [
   },
   {
     id: 4,
-    study: mockStudy,
+    study: MOCK_STUDY,
     assignedDate: '2025-11-26',
     isCustom: false,
     problem: {
@@ -56,7 +56,7 @@ export const mockDailyAssignment: DailyAssignmentResponse[] = [
   },
   {
     id: 5,
-    study: mockStudy,
+    study: MOCK_STUDY,
     assignedDate: '2025-11-26',
     isCustom: true,
     problem: {
