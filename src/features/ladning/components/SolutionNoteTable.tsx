@@ -37,6 +37,7 @@ import {
 } from 'lucide-react';
 
 import { SolutionNoteTableColumns } from './SolutionNoteTableColumns';
+import { TableLabel } from './TableLabel';
 
 export const SolutionNoteTable = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -78,10 +79,11 @@ export const SolutionNoteTable = () => {
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-        <div className="text-muted-foreground flex items-center gap-2 text-sm font-semibold">
-          <LibraryIcon className="size-3.5" />
-          <p>문제 풀이 글</p>
-        </div>
+        <TableLabel
+          icon={LibraryIcon}
+          label="문제 풀이 글"
+          tooltipContent="스터디원들이 작성한 문제 풀이 글을 볼 수 있어요"
+        />
         <div className="flex gap-2">
           <div className="relative w-full">
             <Input

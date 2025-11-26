@@ -11,6 +11,11 @@ import {
   TableRow,
 } from '@/components/ui/Table';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/Tooltip';
+import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -35,7 +40,11 @@ export const ProblemTable = () => {
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex flex-row items-center justify-between">
-        <TableLabel icon={CodeXmlIcon} label="오늘의 추천 문제" />
+        <TableLabel
+          icon={CodeXmlIcon}
+          label="오늘의 추천 문제"
+          tooltipContent="스터디원들의 백준 ID를 이용해서 쿼리에 맞는 문제를 매일 추천해줘요"
+        />
         <div className="flex gap-2">
           <Button variant="secondary" size="sm">
             <PlusIcon />
@@ -108,9 +117,19 @@ export const ProblemTable = () => {
           })}{' '}
           00:00 기준
         </p>
-        <button className="cursor-pointer underline-offset-4 hover:underline">
-          추천 문제 강제 갱신
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className="cursor-pointer underline-offset-4 hover:underline">
+              추천 문제 강제 갱신
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>
+              새로운 스터디원이 들어와서 새로운 문제를 추천받아야 할 때 사용해요
+            </p>
+            <p>30분에 한 번만 강제 갱신할 수 있어요</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
     </div>
   );

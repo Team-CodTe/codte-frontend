@@ -1,6 +1,11 @@
 import { mockDailyAssignment } from '@/api/mock/mockDailyAssignment';
 import { mockSolutionNotes } from '@/api/mock/mockSolutionNote';
 import { type StudyMemberResponse } from '@/api/types/studyDto';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/Tooltip';
 import { type ColumnDef } from '@tanstack/react-table';
 import { CircleCheckBigIcon, CircleIcon } from 'lucide-react';
 
@@ -42,9 +47,23 @@ export const MemberTableColumns: ColumnDef<StudyMemberResponse>[] = [
             return (
               <div key={`solved-${assignment.id}`}>
                 {isSolved ? (
-                  <CircleCheckBigIcon className="text-success size-4" />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <CircleCheckBigIcon className="text-success size-4" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{assignment.problem.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 ) : (
-                  <CircleIcon className="text-muted-foreground size-4" />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <CircleIcon className="text-muted-foreground size-4" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{assignment.problem.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 )}
               </div>
             );
@@ -73,9 +92,23 @@ export const MemberTableColumns: ColumnDef<StudyMemberResponse>[] = [
             return (
               <div key={`note-${assignment.id}`}>
                 {hasNote ? (
-                  <CircleCheckBigIcon className="text-success size-4" />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <CircleCheckBigIcon className="text-success size-4" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{assignment.problem.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 ) : (
-                  <CircleIcon className="text-muted-foreground size-4" />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <CircleIcon className="text-muted-foreground size-4" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{assignment.problem.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 )}
               </div>
             );

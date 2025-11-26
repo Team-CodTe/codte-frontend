@@ -11,6 +11,11 @@ import {
   TableRow,
 } from '@/components/ui/Table';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/Tooltip';
+import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -33,7 +38,11 @@ export const MemberTable = () => {
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex flex-row items-center justify-between">
-        <TableLabel icon={CheckIcon} label="스터디 문제 풀이 상태" />
+        <TableLabel
+          icon={CheckIcon}
+          label="스터디 문제 풀이 상태"
+          tooltipContent="스터디원들의 문제 풀이 현황과 풀이 글 작성 현황을 한 눈에 볼 수 있어요"
+        />
         {/** @todo 스터디 회장만 보이도록 변경 */}
         <Button variant="secondary" size="sm">
           <UserRoundCogIcon />
@@ -104,9 +113,17 @@ export const MemberTable = () => {
           })}{' '}
           기준
         </p>
-        <button className="cursor-pointer underline-offset-4 hover:underline">
-          풀이 상태 강제 갱신
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className="cursor-pointer underline-offset-4 hover:underline">
+              풀이 상태 강제 갱신
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>문제를 풀어도 풀이 상태가 갱신되지 않을 때 사용해요</p>
+            <p>30분에 한 번만 강제 갱신할 수 있어요</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
     </div>
   );
