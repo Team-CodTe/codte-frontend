@@ -2,7 +2,7 @@ import '../styles/globals.css';
 
 import type { PropsWithChildren } from 'react';
 
-import { ThemeProvider } from '@/components/providers/themeProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 

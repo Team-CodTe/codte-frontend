@@ -27,35 +27,43 @@
 ## 📁 프로젝트 구조
 
 ```
-├── public/              # [정적 파일 담당] 정적 파일
+├── public/              # 정적 파일
 ├── src/
-│   ├── app/             # [라우팅 담당] 페이지, 레이아웃, API 라우트
-│   │   ├── (페이지 그룹)/  # Route Group (URL에 포함 안 됨)
-│   │   ├── 실제 페이지/
-│   │   │   └── page.tsx    # 실제 페이지
-│   │   ├── api/         # 백엔드 API 라우트
-│   │   ├── layout.tsx   # 루트 레이아웃
-│   │   └── page.tsx     # 루트 페이지
+│   ├── app/             # [라우팅 담당]
+│   │   ├── (auth)/      # Route Group 예시
+│   │   ├── api/         # Next.js Route Handlers (백엔드 프록시 역할 필요 시)
+│   │   ├── layout.tsx
+│   │   └── page.tsx
 │   │
-│   ├── features/        # [기능 담당] 기능별 도메인 로직 분리
-│   │   └── 실제 페이지/
-│   │      ├── components/  # 해당 페이지에서만 쓰이는 컴포넌트
-│   │      ├── hooks/       # 해당 페이지 전용 훅
-│   │      ├── lib/         # 해당 페이지 전용 유틸리티
-│   │      ├── api/         # 해당 페이지 API 호출 함수
-│   │      └── types.ts     # 해당 페이지 타입 정의
+│   ├── api/             # [API 담당] 서버 통신 중앙 관리
+│   │   ├── config/      # Axios/Fetch 인스턴스, 인터셉터 설정
+│   │   │   └── instance.ts
+│   │   ├── endpoints/   # 도메인별 실제 API 호출 함수 (features와 매칭)
+│   │   │   ├── auth.ts
+│   │   │   ├── board.ts
+│   │   │   └── user.ts
+│   │   └── types/       # API 요청/응답 데이터 타입 (DTO)
+│   │       ├── authDto.ts
+│   │       └── boardDto.ts
 │   │
-│   ├── components/      # [UI 담당] 전역에서 재사용되는 UI 컴포넌트
-│   │   ├── ui/          # 버튼, 인풋, 모달 등 (shadcn/ui 스타일)
-│   │   └── layout/      # 헤더, 푸터, 사이드바 등
+│   ├── features/        # [기능 담당] UI + 비즈니스 로직
+│   │   └── board/       # 예: 게시판 기능
+│   │      ├── components/  # 게시판 전용 UI 컴포넌트
+│   │      ├── hooks/       # React Query 등 훅 (여기서 src/api 함수 호출)
+│   │      ├── lib/         # 게시판 전용 유틸 (데이터 가공 등)
+│   │      └── types.ts     # UI 전용 타입 (컴포넌트 Props, 상태 타입 등)
 │   │
-│   ├── lib/             # [유틸리티 담당] 외부 라이브러리 설정 및 유틸리티
-│   │   └── utils.ts     # 단순 헬퍼 함수
+│   ├── components/      # [공통 UI 담당]
+│   │   ├── ui/          # shadcn/ui 등 아토믹 컴포넌트
+│   │   └── layout/      # Header, Sidebar 등
 │   │
-│   ├── hooks/           # [훅 담당] 전역적으로 쓰이는 커스텀 훅
-│   ├── types/           # [타입 담당] 전역 타입 정의
-│   ├── styles/          # [스타일 담당] 전역 스타일 변수, 믹스인 등
-│   └── constants/       # [상수 담당] 전역 상수
+│   ├── lib/             # [공통 유틸 담당]
+│   │   └── utils.ts     # cn 등 전역 헬퍼
+│   │
+│   ├── hooks/           # [공통 훅 담당] (useScroll, useInput 등)
+│   ├── types/           # [공통 타입 담당] (전역 상태 타입, 환경변수 타입 등)
+│   ├── styles/          # [스타일 담당]
+│   └── constants/       # [상수 담당]
 │
 ├── next.config.js
 ├── package.json
@@ -94,6 +102,7 @@ pnpm format         # Prettier 포맷팅
 ## 🧑‍💻 규칙
 
 1. 브랜치 전략
+
 - `main`, `dev`는 항상 존재하며, 기능을 개발할 땐 `dev` 브랜치로부터 분기하여 `feat/기능명` 브랜치를 생성합니다.
 - 기능 브랜치의 개발이 완료되면 PR을 통해 `dev` 브랜치로 **Squash and Merge** 합니다.
   - 이유: 기능 브랜치에서의 자잘한 커밋(오타 수정 등)을 없애고, dev에는 기능 단위로 깔끔하게 커밋이 쌓이게 하기 위함

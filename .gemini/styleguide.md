@@ -8,12 +8,12 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
 
 ## Technology Stack
 
-  - **Framework**: Next.js 16 (App Router)
-  - **Language**: TypeScript
-  - **Styling**: Tailwind CSS 4
-  - **UI Components**: Radix UI Primitives, Custom Components (Shadcn UI pattern)
-  - **Icons**: Lucide React
-  - **Package Manager**: pnpm
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **UI Components**: Radix UI Primitives, Custom Components (Shadcn UI pattern)
+- **Icons**: Lucide React
+- **Package Manager**: pnpm
 
 ## Directory Structure
 
@@ -36,14 +36,14 @@ src/
 
 ## Naming Conventions
 
-  - **Files/Folders**:
-      - Components: `PascalCase.tsx` (e.g., `Button.tsx`, `UserProfile.tsx`)
-      - Hooks: `camelCase.ts` (e.g., `useAuth.ts`)
-      - Utilities: `camelCase.ts` (e.g., `formatDate.ts`)
-      - Directories: `kebab-case` (e.g., `user-profile`, `auth-provider`)
-  - **Variables/Functions**: `camelCase`
-  - **Types/Interfaces**: `PascalCase`
-  - **Constants**: `UPPER_SNAKE_CASE`
+- **Files/Folders**:
+  - Components: `PascalCase.tsx` (e.g., `Button.tsx`, `UserProfile.tsx`)
+  - Hooks: `camelCase.ts` (e.g., `useAuth.ts`)
+  - Utilities: `camelCase.ts` (e.g., `formatDate.ts`)
+  - Directories: `kebab-case` (e.g., `user-profile`, `auth-provider`)
+- **Variables/Functions**: `camelCase`
+- **Types/Interfaces**: `PascalCase`
+- **Constants**: `UPPER_SNAKE_CASE`
 
 ## Domain Models & Types
 
@@ -52,7 +52,7 @@ These interfaces represent the core data structures used in the frontend.
 
 ### User
 
-*Extends basic auth user with platform specific fields.*
+_Extends basic auth user with platform specific fields._
 
 ```typescript
 export type AuthProvider = 'GOOGLE' | 'GITHUB';
@@ -62,27 +62,27 @@ export interface User {
   username: string;
   email: string;
   provider: AuthProvider;
-  bojUsername: string;     // Mapped from 'boj_username'
+  bojUsername: string; // Mapped from 'boj_username'
   profileImgUrl: string | null; // Mapped from 'profile_img_url'
-  createdAt: string;       // ISO Date string
+  createdAt: string; // ISO Date string
 }
 ```
 
 ### Study
 
-*Manages study group settings and shared templates.*
+_Manages study group settings and shared templates._
 
 ```typescript
 export type StudyRole = 'OWNER' | 'MEMBER';
 
 export interface Study {
   id: number;
-  ownerId: number;         // FK -> User
+  ownerId: number; // FK -> User
   name: string;
   description: string;
-  inviteCode: string;      // Random string
+  inviteCode: string; // Random string
   dailyProblemCount: number; // Default: 3
-  targetTier: string;      // e.g., 'gold', 'silver'
+  targetTier: string; // e.g., 'gold', 'silver'
   templateContent: string; // Markdown template for solutions
   createdAt: string;
 }
@@ -98,12 +98,12 @@ export interface StudyMember {
 
 ### Problem & Assignment
 
-*Tracks problems and daily assignments.*
+_Tracks problems and daily assignments._
 
 ```typescript
 export interface Problem {
   id: number;
-  bojNumber: number;       // Unique Baekjoon ID
+  bojNumber: number; // Unique Baekjoon ID
   title: string;
   tier: string;
   link: string;
@@ -113,15 +113,15 @@ export interface DailyAssignment {
   id: number;
   studyId: number;
   problemId: number;
-  problem?: Problem;       // Optional expanded relation
-  assignedDate: string;    // YYYY-MM-DD
-  isCustom: boolean;       // True if manually added by user
+  problem?: Problem; // Optional expanded relation
+  assignedDate: string; // YYYY-MM-DD
+  isCustom: boolean; // True if manually added by user
 }
 ```
 
 ### Solution Note
 
-*Markdown-based solution notes for specific problems.*
+_Markdown-based solution notes for specific problems._
 
 ```typescript
 export interface SolutionNote {
@@ -129,7 +129,7 @@ export interface SolutionNote {
   studyId: number;
   userId: number;
   problemId: number;
-  content: string;         // Markdown content
+  content: string; // Markdown content
   createdAt: string;
   updatedAt: string;
 }
@@ -137,28 +137,28 @@ export interface SolutionNote {
 
 ## Component Guidelines
 
-  - **Functional Components**: Use React Functional Components with TypeScript interfaces for props.
-  - **Export**: Use named exports for components (e.g., `export const Button = () => {}`).
-  - **Styling**:
-      - Use Tailwind CSS for styling.
-      - Use `clsx` and `tailwind-merge` (via `cn` utility in `src/lib/utils.ts`) for conditional classes.
-      - Avoid inline styles unless absolutely necessary for dynamic values.
-  - **Props**:
-      - Define props interfaces explicitly.
-      - Use `React.ReactNode` for children.
-      - Destructure props in the function signature.
+- **Functional Components**: Use React Functional Components with TypeScript interfaces for props.
+- **Export**: Use named exports for components (e.g., `export const Button = () => {}`).
+- **Styling**:
+  - Use Tailwind CSS for styling.
+  - Use `clsx` and `tailwind-merge` (via `cn` utility in `src/lib/utils.ts`) for conditional classes.
+  - Avoid inline styles unless absolutely necessary for dynamic values.
+- **Props**:
+  - Define props interfaces explicitly.
+  - Use `React.ReactNode` for children.
+  - Destructure props in the function signature.
 
 ## Best Practices
 
-  - **Server vs Client Components**:
-      - Default to Server Components.
-      - Add `'use client'` directive at the top of the file only when using hooks or event listeners.
-  - **Accessibility**:
-      - Ensure all interactive elements have proper ARIA attributes.
-      - Use semantic HTML tags.
-  - **Performance**:
-      - Use `next/image` for images.
-      - Optimize fonts using `next/font`.
+- **Server vs Client Components**:
+  - Default to Server Components.
+  - Add `'use client'` directive at the top of the file only when using hooks or event listeners.
+- **Accessibility**:
+  - Ensure all interactive elements have proper ARIA attributes.
+  - Use semantic HTML tags.
+- **Performance**:
+  - Use `next/image` for images.
+  - Optimize fonts using `next/font`.
 
 ## Core Principles
 

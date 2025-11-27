@@ -1,0 +1,23 @@
+import { useEffect, useState } from 'react';
+
+/**
+ * 검색할 때 디바운스된 값을 반환하는 훅
+ * @param value 디바운스할 값
+ * @param delay 디바운스 지연 시간 (밀리초), 기본값 500ms
+ * @returns 디바운스된 값
+ */
+export const useDebounce = <T>(value: T, delay: number = 500): T => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
