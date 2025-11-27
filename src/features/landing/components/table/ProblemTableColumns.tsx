@@ -1,6 +1,6 @@
 import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
 import { type DailyAssignmentResponse } from '@/api/types/problemDto';
-import { TierBadge } from '@/components/icons/TierBadge';
+import { TierBadge } from '@/components/common/TierBadge';
 import { cn } from '@/lib/utils';
 import { type ColumnDef } from '@tanstack/react-table';
 

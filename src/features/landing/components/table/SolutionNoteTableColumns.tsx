@@ -1,5 +1,5 @@
 import { type SolutionNoteResponse } from '@/api/types/solutionDto';
-import { TierBadge } from '@/components/icons/TierBadge';
+import { TierBadge } from '@/components/common/TierBadge';
 import { type ColumnDef } from '@tanstack/react-table';
 
 export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [

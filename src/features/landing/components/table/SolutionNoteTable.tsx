@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 
 import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
+import { HintTooltip } from '@/components/common/HintTooltip';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import {
@@ -36,8 +37,8 @@ import {
   SquarePenIcon,
 } from 'lucide-react';
 
-import { TableLabel } from './TableLabel';
 import { solutionNoteTableColumns } from './SolutionNoteTableColumns';
+import { TableLabel } from './TableLabel';
 
 export const SolutionNoteTable = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -82,7 +83,7 @@ export const SolutionNoteTable = () => {
         <TableLabel
           icon={LibraryIcon}
           label="문제 풀이 글"
-          tooltipContent="스터디원들이 작성한 문제 풀이 글을 볼 수 있어요"
+          tooltipContent="스터디원들이 작성한 문제 풀이 글을 볼 수 있어요."
         />
         <div className="flex gap-2">
           <div className="relative w-full">
@@ -107,10 +108,12 @@ export const SolutionNoteTable = () => {
             )}
           </div>
           {/** @todo 스터디 회장만 보이도록 변경 */}
-          <Button variant="secondary" size="sm">
-            <FileCog2Icon />
-            <span className="hidden sm:inline">템플릿 관리</span>
-          </Button>
+          <HintTooltip content="문제 풀이 글에 대한 템플릿을 변경하거나 선택할 수 있어요.">
+            <Button variant="secondary" size="sm">
+              <FileCog2Icon />
+              <span className="hidden sm:inline">템플릿 관리</span>
+            </Button>
+          </HintTooltip>
           <Button variant="secondary" size="sm">
             <SquarePenIcon />
             <span className="hidden sm:inline">글 작성</span>

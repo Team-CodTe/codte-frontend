@@ -1,9 +1,5 @@
 import { type DailyAssignmentResponse } from '@/api/types/problemDto';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip';
+import { HintTooltip } from '@/components/common/HintTooltip';
 import { CircleCheckBigIcon, CircleIcon } from 'lucide-react';
 
 type Props = {
@@ -22,18 +18,13 @@ export const AssignmentStatusIcon = ({
 
         return (
           <div key={assignment.id}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                {isCompleted ? (
-                  <CircleCheckBigIcon className="text-success size-4" />
-                ) : (
-                  <CircleIcon className="text-muted-foreground size-4" />
-                )}
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{assignment.problem.title}</p>
-              </TooltipContent>
-            </Tooltip>
+            <HintTooltip content={assignment.problem.title}>
+              {isCompleted ? (
+                <CircleCheckBigIcon className="text-success size-4" />
+              ) : (
+                <CircleIcon className="text-muted-foreground size-4" />
+              )}
+            </HintTooltip>
           </div>
         );
       })}

@@ -2,6 +2,7 @@
 
 import type { PropsWithChildren } from 'react';
 
+import { TooltipProvider } from '@/components/ui/Tooltip';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
@@ -12,7 +13,7 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
       enableSystem
       enableColorScheme
       disableTransitionOnChange>
-      {children}
+      <TooltipProvider>{children}</TooltipProvider>
     </NextThemeProvider>
   );
 };

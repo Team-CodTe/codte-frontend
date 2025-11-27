@@ -1,6 +1,7 @@
 'use client';
 
 import { MOCK_STUDY_MEMBERS } from '@/api/mock/mockStudyMember';
+import { HintTooltip } from '@/components/common/HintTooltip';
 import { Button } from '@/components/ui/Button';
 import {
   Table,
@@ -10,11 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip';
 import {
   flexRender,
   getCoreRowModel,
@@ -26,7 +22,7 @@ import { memberTableColumns } from './MemberTableColumns';
 import { TableLabel } from './TableLabel';
 
 export const MemberTable = () => {
-  const data = [...MOCK_STUDY_MEMBERS].sort((a, b) => a.user.id - b.user.id);
+  const data = MOCK_STUDY_MEMBERS;
 
   // eslint-disable-next-line
   const table = useReactTable({
@@ -41,7 +37,7 @@ export const MemberTable = () => {
         <TableLabel
           icon={CheckIcon}
           label="스터디 문제 풀이 상태"
-          tooltipContent="스터디원들의 문제 풀이 현황과 풀이 글 작성 현황을 한 눈에 볼 수 있어요"
+          tooltipContent="스터디원들의 문제 풀이 현황과 풀이 글 작성 현황을 한 눈에 볼 수 있어요."
         />
         {/** @todo 스터디 회장만 보이도록 변경 */}
         <Button variant="secondary" size="sm">
@@ -102,7 +98,8 @@ export const MemberTable = () => {
       </div>
 
       <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
-        <p className="text-right">
+        {/** 여기서는 현재 시각을 보여주는 것이지만, 실제 대시보드에서는 업데이트된 시간을 보여줘야 함 */}
+        <span className="text-right" suppressHydrationWarning>
           {new Date().toLocaleString('ko-KR', {
             year: 'numeric',
             month: 'long',
@@ -112,18 +109,14 @@ export const MemberTable = () => {
             hour12: false,
           })}{' '}
           기준
-        </p>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="cursor-pointer underline-offset-4 hover:underline">
-              풀이 상태 강제 갱신
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>문제를 풀어도 풀이 상태가 갱신되지 않을 때 사용해요</p>
-            <p>30분에 한 번만 강제 갱신할 수 있어요</p>
-          </TooltipContent>
-        </Tooltip>
+        </span>
+        <HintTooltip content="문제를 풀어도 풀이 상태가 갱신되지 않을 때 사용해요. 30분에 한 번만 강제 갱신할 수 있어요.">
+          <button
+            onClick={() => console.log('강제 갱신 버튼 클릭')}
+            className="cursor-pointer underline-offset-4 hover:underline">
+            풀이 상태 강제 갱신
+          </button>
+        </HintTooltip>
       </div>
     </div>
   );
