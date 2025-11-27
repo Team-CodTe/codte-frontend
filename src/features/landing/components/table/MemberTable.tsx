@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
+import { formatDate } from '@/lib/formatDate';
 import {
   flexRender,
   getCoreRowModel,
@@ -33,7 +34,7 @@ export const MemberTable = () => {
 
   return (
     <div className="flex min-h-0 flex-col space-y-3 md:flex-1">
-      <div className="flex flex-row items-center justify-between">
+      <div className="flex flex-row items-center justify-between gap-3">
         <TableLabel
           icon={CheckIcon}
           label="스터디 문제 풀이 상태"
@@ -46,7 +47,7 @@ export const MemberTable = () => {
         </Button>
       </div>
 
-      <div className="relative max-h-66 min-h-0 overflow-auto rounded-md border lg:max-h-none lg:flex-1">
+      <div className="relative max-h-64 min-h-0 overflow-auto rounded-md border lg:max-h-none">
         <Table noWrapper>
           <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -100,14 +101,7 @@ export const MemberTable = () => {
       <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
         {/** 여기서는 현재 시각을 보여주는 것이지만, 실제 대시보드에서는 업데이트된 시간을 보여줘야 함 */}
         <span className="text-right" suppressHydrationWarning>
-          {new Date().toLocaleString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          })}{' '}
+          {formatDate(new Date())}
           기준
         </span>
         <HintTooltip content="문제를 풀어도 풀이 상태가 갱신되지 않을 때 사용해요. 30분에 한 번만 강제 갱신할 수 있어요.">

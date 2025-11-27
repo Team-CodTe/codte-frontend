@@ -1,15 +1,30 @@
+import { MOCK_DAILY_ASSIGNMENT } from '@/api/mock/mockDailyAssignment';
 import { type SolutionNoteResponse } from '@/api/types/solutionDto';
 import { TierBadge } from '@/components/common/TierBadge';
+import { formatDate } from '@/lib/formatDate';
 import { type ColumnDef } from '@tanstack/react-table';
+
+const getAssignedAt = (problemId: number) => {
+  const assignment = MOCK_DAILY_ASSIGNMENT.find(
+    (a) => a.problem.id === problemId,
+  );
+
+  return assignment ? assignment.assignedDate : null;
+};
 
 export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
   {
-    accessorKey: 'id',
-    header: '글 번호',
+    accessorKey: 'assignAt',
+    header: '문제 추천 날짜',
     meta: {
-      className: 'w-[20%]',
+      className: 'w-[25%]',
     },
-    cell: ({ row }) => <div>{row.original.id}</div>,
+    cell: ({ row }) => {
+      const problemId = row.original.problem.id;
+      const date = getAssignedAt(problemId);
+
+      return date ? <div>{formatDate(date, { includeTime: false })}</div> : '-';
+    },
   },
   {
     accessorKey: 'problemId',
@@ -50,19 +65,8 @@ export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
     accessorKey: 'createdAt',
     header: '작성일',
     meta: {
-      className: 'w-[40%]',
+      className: 'w-[30%]',
     },
-    cell: ({ row }) => (
-      <div>
-        {new Date(row.original.createdAt).toLocaleString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-        })}
-      </div>
-    ),
+    cell: ({ row }) => <div>{formatDate(row.original.createdAt)}</div>,
   },
 ];

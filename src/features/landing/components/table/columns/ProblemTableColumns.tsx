@@ -1,6 +1,8 @@
 import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
 import { type DailyAssignmentResponse } from '@/api/types/problemDto';
+import { HintTooltip } from '@/components/common/HintTooltip';
 import { TierBadge } from '@/components/common/TierBadge';
+import { Badge } from '@/components/ui/Badge';
 import { cn } from '@/lib/utils';
 import { type ColumnDef } from '@tanstack/react-table';
 
@@ -46,19 +48,27 @@ export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
     },
     cell: ({ row }) => {
       const { problem } = row.original;
+      const isCustom = row.original.isCustom;
       const isProblemSolved = isSolved(problem.id);
 
       return (
-        <a
-          href={problem.link}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(
-            'hover:underline',
-            isProblemSolved && 'text-muted-foreground',
-          )}>
-          {problem.title}
-        </a>
+        <div className="flex flex-row items-center gap-2">
+          <a
+            href={problem.link}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(
+              'hover:underline',
+              isProblemSolved && 'text-muted-foreground',
+            )}>
+            {problem.title}
+          </a>
+          {isCustom && (
+            <HintTooltip content="스터디장이 직접 추가한 문제예요.">
+              <Badge variant="secondary">추가됨</Badge>
+            </HintTooltip>
+          )}
+        </div>
       );
     },
   },

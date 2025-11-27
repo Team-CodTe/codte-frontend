@@ -63,7 +63,7 @@ export const SolutionNoteTable = () => {
 
   return (
     <div className="flex h-full flex-col space-y-3 lg:pb-12">
-      <div className="flex flex-col justify-between gap-3 lg:flex-row lg:items-center">
+      <div className="flex flex-row items-center justify-between gap-3">
         <TableLabel
           icon={LibraryIcon}
           label="문제 풀이 글"
@@ -105,7 +105,7 @@ export const SolutionNoteTable = () => {
         </div>
       </div>
 
-      <div className="relative h-121 min-h-0 overflow-auto rounded-md border lg:max-h-none lg:flex-1">
+      <div className="relative h-96 min-h-0 overflow-auto rounded-md border lg:h-auto lg:max-h-none">
         <Table noWrapper className="h-full">
           <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
