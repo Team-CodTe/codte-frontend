@@ -18,7 +18,8 @@ export const AssignmentStatusIcon = ({
 
         return (
           <div key={assignment.id}>
-            <HintTooltip content={assignment.problem.title}>
+            <HintTooltip
+              content={`${assignment.problem.bojNumber} : ${assignment.problem.title}`}>
               {isCompleted ? (
                 <CircleCheckBigIcon className="text-success size-4" />
               ) : (

@@ -7,11 +7,6 @@ import { HintTooltip } from '@/components/common/HintTooltip';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from '@/components/ui/Pagination';
-import {
   Table,
   TableBody,
   TableCell,
@@ -23,21 +18,16 @@ import { useDebounce } from '@/hooks/useDebounce';
 import {
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import {
-  ChevronFirstIcon,
-  ChevronLastIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   CircleXIcon,
   FileCog2Icon,
   LibraryIcon,
   SquarePenIcon,
 } from 'lucide-react';
 
-import { solutionNoteTableColumns } from './SolutionNoteTableColumns';
+import { solutionNoteTableColumns } from './columns/SolutionNoteTableColumns';
 import { TableLabel } from './TableLabel';
 
 export const SolutionNoteTable = () => {
@@ -69,16 +59,10 @@ export const SolutionNoteTable = () => {
     data,
     columns: solutionNoteTableColumns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
-    },
   });
 
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex h-full flex-col space-y-3 lg:pb-12">
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <TableLabel
           icon={LibraryIcon}
@@ -93,7 +77,7 @@ export const SolutionNoteTable = () => {
               inputMode="search"
               placeholder="검색..."
               value={searchKeyword}
-              className="pr-8"
+              className="h-8 pr-8"
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
             {searchKeyword && (
@@ -121,9 +105,9 @@ export const SolutionNoteTable = () => {
         </div>
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+      <div className="relative max-h-121 min-h-0 overflow-auto rounded-md border lg:max-h-none lg:flex-1">
+        <Table noWrapper>
+          <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -161,107 +145,13 @@ export const SolutionNoteTable = () => {
               <TableRow>
                 <TableCell
                   colSpan={solutionNoteTableColumns.length}
-                  className="text-muted-foreground h-110 text-center">
+                  className="text-muted-foreground h-full flex-1 text-center">
                   글을 찾을 수 없습니다
                 </TableCell>
               </TableRow>
             )}
-            {/* 데이터가 10개 미만일 때 빈 행 추가 */}
-            {table.getRowModel().rows.length > 0 &&
-              Array.from({ length: 10 - table.getRowModel().rows.length }).map(
-                (_, index) => (
-                  <TableRow key={`empty-${index}`}>
-                    <TableCell
-                      colSpan={solutionNoteTableColumns.length}
-                      className="h-11"
-                    />
-                  </TableRow>
-                ),
-              )}
           </TableBody>
         </Table>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <div className="text-muted-foreground flex grow justify-end text-sm whitespace-nowrap">
-          <p
-            className="text-muted-foreground text-sm whitespace-nowrap"
-            aria-live="polite">
-            <span className="text-foreground">
-              {table.getState().pagination.pageIndex *
-                table.getState().pagination.pageSize +
-                1}
-              -
-              {Math.min(
-                Math.max(
-                  table.getState().pagination.pageIndex *
-                    table.getState().pagination.pageSize +
-                    table.getState().pagination.pageSize,
-                  0,
-                ),
-                table.getRowCount(),
-              )}
-            </span>{' '}
-            of{' '}
-            <span className="text-foreground">
-              {table.getRowCount().toString()}
-            </span>
-          </p>
-        </div>
-
-        <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.firstPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to first page">
-                  <ChevronFirstIcon aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to previous page">
-                  <ChevronLeftIcon aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to next page">
-                  <ChevronRightIcon aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.lastPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to last page">
-                  <ChevronLastIcon aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
       </div>
     </div>
   );

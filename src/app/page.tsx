@@ -5,13 +5,18 @@ import { SolutionNoteTable } from '@/features/landing/components/table/SolutionN
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
       <LandingHeader />
-      <div className="container mx-auto max-w-3xl space-y-16 p-4 py-24">
-        <ProblemTable />
-        <MemberTable />
-        <SolutionNoteTable />
-      </div>
+      <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-8 p-4 lg:max-w-4/5 lg:grid-cols-2 lg:grid-rows-1 lg:py-6">
+        <div className="flex min-h-0 flex-col gap-8 lg:h-full">
+          <ProblemTable />
+          <MemberTable />
+        </div>
+
+        <div className="h-full min-h-0">
+          <SolutionNoteTable />
+        </div>
+      </main>
     </div>
   );
 };

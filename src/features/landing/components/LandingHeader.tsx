@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 
 export const LandingHeader = () => {
   return (
-    <header className="bg-background fixed top-0 left-0 z-10 w-full px-6 py-4">
+    <header className="bg-background w-full px-6 py-4">
       <div className="relative flex items-center justify-between">
         <AppLogo className="h-9 w-auto" />
 

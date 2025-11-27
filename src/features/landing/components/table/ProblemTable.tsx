@@ -18,7 +18,7 @@ import {
 } from '@tanstack/react-table';
 import { CodeXmlIcon, KeyboardIcon, PlusIcon } from 'lucide-react';
 
-import { problemTableColumns } from './ProblemTableColumns';
+import { problemTableColumns } from './columns/ProblemTableColumns';
 import { TableLabel } from './TableLabel';
 
 export const ProblemTable = () => {
@@ -32,7 +32,7 @@ export const ProblemTable = () => {
   });
 
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex min-h-0 flex-col space-y-3 md:flex-1">
       <div className="flex flex-row items-center justify-between">
         <TableLabel
           icon={CodeXmlIcon}
@@ -53,9 +53,9 @@ export const ProblemTable = () => {
         </div>
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+      <div className="relative max-h-66 min-h-0 overflow-auto rounded-md border lg:max-h-none lg:flex-1">
+        <Table noWrapper>
+          <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

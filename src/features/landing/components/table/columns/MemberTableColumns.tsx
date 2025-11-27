@@ -3,7 +3,7 @@ import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
 import { type StudyMemberResponse } from '@/api/types/studyDto';
 import { type ColumnDef } from '@tanstack/react-table';
 
-import { AssignmentStatusIcon } from './AssignmentStatusIcon';
+import { AssignmentStatusIcon } from '../../AssignmentStatusIcon';
 
 // 헬퍼 함수
 const hasSolutionNote = (userId: number, problemId: number) => {
