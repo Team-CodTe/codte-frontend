@@ -63,7 +63,7 @@ export const SolutionNoteTable = () => {
 
   return (
     <div className="flex h-full flex-col space-y-3 lg:pb-12">
-      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-3 lg:flex-row lg:items-center">
         <TableLabel
           icon={LibraryIcon}
           label="문제 풀이 글"
@@ -85,7 +85,7 @@ export const SolutionNoteTable = () => {
                 variant="ghost"
                 size="icon"
                 onClick={handleClearSearch}
-                className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent">
+                className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 h-8 rounded-l-none hover:bg-transparent">
                 <CircleXIcon />
                 <span className="sr-only">검색어 초기화</span>
               </Button>
@@ -105,8 +105,8 @@ export const SolutionNoteTable = () => {
         </div>
       </div>
 
-      <div className="relative max-h-121 min-h-0 overflow-auto rounded-md border lg:max-h-none lg:flex-1">
-        <Table noWrapper>
+      <div className="relative h-121 min-h-0 overflow-auto rounded-md border lg:max-h-none lg:flex-1">
+        <Table noWrapper className="h-full">
           <TableHeader className="bg-muted sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -142,10 +142,10 @@ export const SolutionNoteTable = () => {
                 </TableRow>
               ))
             ) : (
-              <TableRow>
+              <TableRow className="h-full min-h-11">
                 <TableCell
                   colSpan={solutionNoteTableColumns.length}
-                  className="text-muted-foreground h-full flex-1 text-center">
+                  className="text-muted-foreground text-center">
                   글을 찾을 수 없습니다
                 </TableCell>
               </TableRow>

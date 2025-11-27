@@ -7,7 +7,7 @@ const LandingPage = () => {
   return (
     <div className="flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
       <LandingHeader />
-      <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-8 p-4 lg:max-w-4/5 lg:grid-cols-2 lg:grid-rows-1 lg:py-6">
+      <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-8 p-5 lg:max-w-4/5 lg:grid-cols-2 lg:grid-rows-1 lg:py-6">
         <div className="flex min-h-0 flex-col gap-8 lg:h-full">
           <ProblemTable />
           <MemberTable />
