@@ -1,7 +1,7 @@
 ---
 name: 📌 기능 요청
 about: 새로운 기능을 제안해 주세요.
-title: ''
+title: 'Feat: '
 labels: ''
 assignees: ''
 ---
@@ -15,6 +15,8 @@ assignees: ''
 - ex) 일정 생성 API 연동
 -->
 
+- 
+
 ---
 
 ## 🎯 세부 작업 내용
@@ -27,6 +29,8 @@ assignees: ''
 - [ ] 예: `/auth/login` API 연동
 -->
 
+- [ ] 
+
 ---
 
 ## ✅ 완료 조건 (Acceptance Criteria)
@@ -38,6 +42,8 @@ assignees: ''
 - [ ] 디자인 가이드(Figma)와 일치한다.
 - [ ] 관련 테스트 통과 (if applicable)
 -->
+
+- [ ] 
 
 ---
 
