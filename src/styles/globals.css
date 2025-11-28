@@ -136,6 +136,7 @@
 @theme {
   /* Fonts */
   --font-pretendard: var(--font-pretendard);
+  --font-toss-face: var(--font-toss-face);
 
   /* Colors */
   --color-background: var(--background);
