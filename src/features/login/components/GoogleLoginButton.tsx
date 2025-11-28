@@ -12,7 +12,11 @@ const robotoMedium = Roboto({
 export const GoogleLoginButton = () => {
   return (
     <Button
-      className={`${robotoMedium.className} bg-[#F2F2F2] text-[#1F1F1F] hover:bg-[#F2F2F2]/70 dark:border-[#8E918F] dark:bg-[#131314]/70 dark:text-[#E3E3E3] dark:hover:bg-[#131314]`}>
+      variant="secondary"
+      className={robotoMedium.className}
+      onClick={() => {
+        console.log('Login with Google');
+      }}>
       <FcGoogle />
       Google 계정으로 로그인
     </Button>

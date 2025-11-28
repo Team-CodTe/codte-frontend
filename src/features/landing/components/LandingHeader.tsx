@@ -1,10 +1,8 @@
-'use client';
-
 import { MOCK_STUDY } from '@/api/mock/mockStudy';
 import { HintTooltip } from '@/components/common/HintTooltip';
 import { AppLogo } from '@/components/logos/AppLogo';
 
-import { LoginDropdownButton } from './LoginDialogButton';
+import { ToLoginPageButton } from './ToLoginPageButton';
 
 export const LandingHeader = () => {
   return (
@@ -18,7 +16,7 @@ export const LandingHeader = () => {
             {MOCK_STUDY.name}
           </span>
         </HintTooltip>
-        <LoginDropdownButton />
+        <ToLoginPageButton />
       </div>
     </header>
   );

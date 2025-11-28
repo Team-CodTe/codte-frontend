@@ -1,6 +1,7 @@
 'use client';
 
-import { GitHubLogo } from '@/components/logos/GitHubLogo';
+import { BsGithub } from 'react-icons/bs';
+
 import { Button } from '@/components/ui/Button';
 
 export const GitHubLoginButton = () => {
@@ -10,7 +11,7 @@ export const GitHubLoginButton = () => {
       onClick={() => {
         console.log('Login with GitHub');
       }}>
-      <GitHubLogo />
+      <BsGithub />
       GitHub 계정으로 로그인
     </Button>
   );
