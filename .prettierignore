@@ -7,4 +7,5 @@ Dockerfile
 .nvmrc
 .vscode
 .idea
-test.tsx
+.github
+.gemini
