@@ -6,7 +6,7 @@ import { ToLoginPageButton } from './ToLoginPageButton';
 
 export const LandingHeader = () => {
   return (
-    <header className="bg-background w-full max-w-11/12 px-6 py-4">
+    <header className="bg-background w-full px-5 py-4 lg:max-w-11/12 lg:px-6">
       <div className="relative flex items-center justify-between">
         <AppLogo className="h-9 w-auto" />
         <HintTooltip

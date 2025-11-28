@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { LogoutButton } from '@/features/sign-up/components/LogoutButton';
 import { TestAuthCard } from '@/features/sign-up/components/test/TestAuthCard';
-import { AuthTestLogger } from '@/features/sign-up/components/test/TestAuthLogger';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
@@ -42,7 +41,7 @@ const SignUpPage = async () => {
 
       {/** 로그인 완료 테스트 카드 - 개발 환경에서만 표시 */}
       {process.env.NODE_ENV === 'development' && (
-        <div>
+        <div className="w-full max-w-3xl">
           <TestAuthCard
             user={{
               name: user?.name || '',

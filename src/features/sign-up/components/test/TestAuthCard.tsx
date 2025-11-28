@@ -34,7 +34,7 @@ export const TestAuthCard = ({ user, provider, accessToken }: Props) => {
       <CardContent>
         <span className="text-xs">{provider} 액세스 토큰:</span>
         <div className="bg-muted rounded-sm px-4 py-2">
-          <span className="font-mono text-xs">{accessToken}</span>
+          <span className="font-mono text-xs break-all">{accessToken}</span>
         </div>
       </CardContent>
     </Card>
