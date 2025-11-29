@@ -2,7 +2,8 @@ import '../styles/globals.css';
 
 import type { PropsWithChildren } from 'react';
 
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { Providers } from '@/components/providers/Providers';
+import { auth } from '@/lib/auth';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -19,16 +20,25 @@ const pretendard = localFont({
   weight: '100 900',
 });
 
+const tossFace = localFont({
+  src: '../styles/fonts/toss-face/TossFaceFontMac.ttf',
+  display: 'swap',
+  variable: '--font-toss-face',
+});
+
 /**
  * 서버에서 렌더링된 HTML과 클라이언트에서의 초기 렌더링이 정확히 일치하지 않을 수 있는 경우,
  * 이를 방지하기 위해 suppressHydrationWarning을 사용합니다.
  * @see https://ui.shadcn.com/docs/dark-mode/next
  */
-const RootLayout = ({ children }: PropsWithChildren) => {
+const RootLayout = async ({ children }: PropsWithChildren) => {
+  const session = await auth();
+
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${pretendard.variable} antialiased`}>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body
+        className={`${pretendard.variable} ${tossFace.variable} antialiased`}>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );
