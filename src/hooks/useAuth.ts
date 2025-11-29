@@ -1,4 +1,3 @@
-// src/features/auth/hooks/useAuth.ts
 import { useCallback, useState } from 'react';
 
 import { type SocialProvider } from '@/types/socialProvider';

@@ -41,12 +41,12 @@ const SignUpPage = async () => {
 
       {/** 로그인 완료 테스트 카드 - 개발 환경에서만 표시 */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="w-full max-w-3xl">
+        <div>
           <TestAuthCard
             user={{
-              name: user?.name || '',
-              email: user?.email || '',
-              image: user?.image || '',
+              name: user.name || '',
+              email: user.email || '',
+              image: user.image || '',
             }}
             provider={provider || ''}
             accessToken={accessToken || ''}
