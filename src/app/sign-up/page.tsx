@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { LogoutButton } from '@/features/sign-up/components/LogoutButton';
 import { TestAuthCard } from '@/features/sign-up/components/test/TestAuthCard';
-import { AuthTestLogger } from '@/features/sign-up/components/test/TestAuthLogger';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
@@ -45,9 +44,9 @@ const SignUpPage = async () => {
         <div>
           <TestAuthCard
             user={{
-              name: user?.name || '',
-              email: user?.email || '',
-              image: user?.image || '',
+              name: user.name || '',
+              email: user.email || '',
+              image: user.image || '',
             }}
             provider={provider || ''}
             accessToken={accessToken || ''}
