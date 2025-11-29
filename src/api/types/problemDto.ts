@@ -1,17 +1,15 @@
-import type { StudyResponse } from './studyDto';
-
 export interface ProblemResponse {
   id: number;
   bojNumber: number;
   title: string;
-  tier: number; // 난이도 (Solved.ac level)
+  tier: number;
   link: string;
 }
 
 export interface DailyAssignmentResponse {
   id: number;
-  study: StudyResponse;
-  problem: ProblemResponse;
-  assignedDate: string; // YYYY-MM-DD
+  studyId: number;
+  problemId: number;
+  assignedDate: string;
   isCustom: boolean;
 }

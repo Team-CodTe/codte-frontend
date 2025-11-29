@@ -1,5 +1,6 @@
 import { MOCK_DAILY_ASSIGNMENT } from '@/api/mock/mockDailyAssignment';
 import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
+import { MOCK_USERS } from '@/api/mock/mockUser';
 import { type StudyMemberResponse } from '@/api/types/studyDto';
 import { type ColumnDef } from '@tanstack/react-table';
 
@@ -11,15 +12,21 @@ const TODAY_ASSIGNMENTS = MOCK_DAILY_ASSIGNMENT.filter(
 
 const hasSolutionNote = (userId: number, problemId: number) => {
   return MOCK_SOLUTION_NOTES.some(
-    (note) => note.user.id === userId && note.problem.id === problemId,
+    (note) => note.userId === userId && note.problemId === problemId,
   );
 };
 
 export const memberTableColumns: ColumnDef<StudyMemberResponse>[] = [
   {
-    accessorKey: 'user.username',
+    accessorKey: 'userId',
     header: '스터디원',
     meta: { className: 'w-[20%]' },
+    cell: ({ row }) => {
+      const userId = row.original.userId;
+      const user = MOCK_USERS.find((u) => u.id === userId);
+
+      return user?.username || `User ${userId}`;
+    },
   },
   {
     id: 'solvedStatus',
@@ -32,9 +39,9 @@ export const memberTableColumns: ColumnDef<StudyMemberResponse>[] = [
         <AssignmentStatusIcon
           assignments={TODAY_ASSIGNMENTS}
           checkIsCompleted={(problemId) => {
-            const hasNote = hasSolutionNote(member.user.id, problemId);
+            const hasNote = hasSolutionNote(member.userId, problemId);
 
-            return hasNote || (member.user.id + problemId) % 2 === 0;
+            return hasNote || (member.userId + problemId) % 2 === 0;
           }}
         />
       );
@@ -51,7 +58,7 @@ export const memberTableColumns: ColumnDef<StudyMemberResponse>[] = [
         <AssignmentStatusIcon
           assignments={TODAY_ASSIGNMENTS}
           checkIsCompleted={(problemId) => {
-            return hasSolutionNote(member.user.id, problemId);
+            return hasSolutionNote(member.userId, problemId);
           }}
         />
       );

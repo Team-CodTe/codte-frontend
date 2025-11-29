@@ -2,7 +2,9 @@
 
 import { useMemo, useState } from 'react';
 
+import { MOCK_PROBLEMS } from '@/api/mock/mockProblem';
 import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
+import { MOCK_USERS } from '@/api/mock/mockUser';
 import { HintTooltip } from '@/components/common/HintTooltip';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -44,11 +46,14 @@ export const SolutionNoteTable = () => {
         if (!debouncedSearchKeyword) return true;
 
         const lowerKeyword = debouncedSearchKeyword.toLowerCase();
+        const problem = MOCK_PROBLEMS.find((p) => p.id === note.problemId);
+        const user = MOCK_USERS.find((u) => u.id === note.userId);
 
         return (
-          note.problem.bojNumber.toString().includes(lowerKeyword) ||
-          note.problem.title.toLowerCase().includes(lowerKeyword) ||
-          note.user.username.toLowerCase().includes(lowerKeyword)
+          problem?.bojNumber.toString().includes(lowerKeyword) ||
+          problem?.title.toLowerCase().includes(lowerKeyword) ||
+          user?.username.toLowerCase().includes(lowerKeyword) ||
+          note.content.toLowerCase().includes(lowerKeyword)
         );
       })
       .sort((a, b) => b.id - a.id);

@@ -1,13 +1,8 @@
-import type { UserResponse } from './userDto';
-
-export enum StudyRole {
-  OWNER = 'OWNER',
-  MEMBER = 'MEMBER',
-}
+import { type StudyRole } from '@/types/studyRole';
 
 export interface StudyResponse {
   id: number;
-  owner: UserResponse;
+  ownerId: number;
   name: string;
   description: string;
   inviteCode: string;
@@ -19,8 +14,8 @@ export interface StudyResponse {
 
 export interface StudyMemberResponse {
   id: number;
-  study: StudyResponse;
-  user: UserResponse;
+  studyId: number;
+  userId: number;
   role: StudyRole;
   joinedAt: string;
 }

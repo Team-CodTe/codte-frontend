@@ -1,14 +1,11 @@
-export enum Provider {
-  GOOGLE = 'GOOGLE',
-  GITHUB = 'GITHUB',
-}
+import { type SocialProvider } from '@/types/socialProvider';
 
 export interface UserResponse {
   id: number;
   username: string;
   email: string;
   nickname: string;
-  provider: Provider;
+  provider: SocialProvider;
   bojUsername: string;
   profileImgUrl: string;
   createdAt: string;
