@@ -4,7 +4,7 @@ import { MOCK_USERS } from '@/api/mock/mockUser';
 import { type StudyMemberResponse } from '@/api/types/studyDto';
 import { type ColumnDef } from '@tanstack/react-table';
 
-import { AssignmentStatusIcon } from '../../AssignmentStatusIcon';
+import { AssignmentStatusIcon } from '../daily-assignment/AssignmentStatusIcon';
 
 const TODAY_ASSIGNMENTS = MOCK_DAILY_ASSIGNMENT.filter(
   (assignment) => assignment.assignedDate === '2025-11-28',
