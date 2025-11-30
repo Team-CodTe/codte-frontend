@@ -10,7 +10,7 @@ const SignUpFormSchema = z.object({
     .string()
     .min(2, '닉네임은 최소 2글자 이상이어야 합니다.')
     .max(15, '닉네임은 최대 15글자 이하이어야 합니다.'),
-  bojUsername: z.string().min(1, 'BOJ 사용자 이름은 필수입니다.'),
+  bojUsername: z.string().min(1, '백준 계정은 꼭 필요합니다.'),
 });
 
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
