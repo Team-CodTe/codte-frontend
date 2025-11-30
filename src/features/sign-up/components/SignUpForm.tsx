@@ -1,7 +1,5 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-
 import { Button } from '@/components/ui/Button';
 import {
   Form,
@@ -13,32 +11,12 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 
+import { useSignUpForm } from '../hooks/useSignUpForm';
 import { LogoutButton } from './LogoutButton';
 
-const SignUpFormSchema = z.object({
-  nickname: z
-    .string()
-    .min(2, '닉네임은 최소 2글자 이상이어야 합니다.')
-    .max(15, '닉네임은 최대 15글자 이하이어야 합니다.'),
-  bojUsername: z.string().min(1, 'BOJ 사용자 이름은 필수입니다.'),
-});
-
 export const SignUpForm = () => {
-  const form = useForm<z.infer<typeof SignUpFormSchema>>({
-    resolver: zodResolver(SignUpFormSchema),
-    defaultValues: {
-      nickname: '',
-      bojUsername: '',
-    },
-  });
-
-  const onSubmit = (data: z.infer<typeof SignUpFormSchema>) => {
-    /** @todo 회원가입 폼 전송 API 추가 */
-    console.log(data);
-  };
+  const { form, onSubmit } = useSignUpForm();
 
   return (
     <Form {...form}>
