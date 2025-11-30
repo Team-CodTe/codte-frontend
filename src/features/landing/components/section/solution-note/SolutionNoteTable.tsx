@@ -25,7 +25,7 @@ export const SolutionNoteTable = <TData, TValue>({
   });
 
   return (
-    <div className="relative h-96 min-h-0 overflow-auto rounded-md border lg:h-auto lg:max-h-none">
+    <div className="relative max-h-96 min-h-0 overflow-auto rounded-md border lg:h-auto lg:max-h-none">
       <Table noWrapper className="h-full">
         <TableHeader className="bg-muted sticky top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (

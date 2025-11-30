@@ -21,13 +21,16 @@ export const SolutionNoteSection = () => {
   };
 
   const data = useMemo(() => {
+    const problemMap = new Map(MOCK_PROBLEMS.map((p) => [p.id, p]));
+    const userMap = new Map(MOCK_USERS.map((u) => [u.id, u]));
+
     return [...MOCK_SOLUTION_NOTES]
       .filter((note) => {
         if (!debouncedSearchKeyword) return true;
 
         const lowerKeyword = debouncedSearchKeyword.toLowerCase();
-        const problem = MOCK_PROBLEMS.find((p) => p.id === note.problemId);
-        const user = MOCK_USERS.find((u) => u.id === note.userId);
+        const problem = problemMap.get(note.problemId);
+        const user = userMap.get(note.userId);
 
         return (
           problem?.bojNumber.toString().includes(lowerKeyword) ||

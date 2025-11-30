@@ -16,6 +16,8 @@ const hasSolutionNote = (userId: number, problemId: number) => {
   );
 };
 
+const userMap = new Map(MOCK_USERS.map((u) => [u.id, u]));
+
 export const memberTableColumns: ColumnDef<StudyMemberResponse>[] = [
   {
     accessorKey: 'userId',
@@ -23,9 +25,11 @@ export const memberTableColumns: ColumnDef<StudyMemberResponse>[] = [
     meta: { className: 'w-[20%]' },
     cell: ({ row }) => {
       const userId = row.original.userId;
-      const user = MOCK_USERS.find((u) => u.id === userId);
+      const user = userMap.get(userId);
 
-      return user?.username || `User ${userId}`;
+      if (!user) return `User ${userId}`;
+
+      return user.username;
     },
   },
   {

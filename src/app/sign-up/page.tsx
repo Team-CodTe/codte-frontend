@@ -21,7 +21,9 @@ const SignUpPage = async () => {
       <div className="flex w-full max-w-xs flex-col gap-8">
         <div className="leading-relaxed">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold">안녕하세요! {user.name}님 </h2>
+            <h2 className="text-xl font-bold">
+              안녕하세요! {user.name ?? '유저'}님{' '}
+            </h2>
             <span className="font-toss-face text-xl">👋🏻</span>
           </div>
           <div className="text-muted-foreground">

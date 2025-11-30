@@ -14,6 +14,9 @@ const getAssignedAt = (problemId: number) => {
   return assignment ? assignment.assignedDate : null;
 };
 
+const problemMap = new Map(MOCK_PROBLEMS.map((p) => [p.id, p]));
+const userMap = new Map(MOCK_USERS.map((u) => [u.id, u]));
+
 export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
   {
     accessorKey: 'assignAt',
@@ -25,7 +28,9 @@ export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
       const problemId = row.original.problemId;
       const date = getAssignedAt(problemId);
 
-      return date ? <div>{formatDate(date, { includeTime: false })}</div> : '-';
+      if (!date) return '-';
+
+      return <div>{formatDate(date, { includeTime: false })}</div>;
     },
   },
   {
@@ -36,7 +41,7 @@ export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
     },
     cell: ({ row }) => {
       const problemId = row.original.problemId;
-      const problem = MOCK_PROBLEMS.find((p) => p.id === problemId);
+      const problem = problemMap.get(problemId);
 
       if (!problem) return <div>Problem {problemId}</div>;
 
@@ -62,11 +67,13 @@ export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
     },
     cell: ({ row }) => {
       const userId = row.original.userId;
-      const user = MOCK_USERS.find((u) => u.id === userId);
+      const user = userMap.get(userId);
+
+      if (!user) return <div>User {userId}</div>;
 
       return (
         <div>
-          <span>{user?.username || `User ${userId}`}</span>
+          <span>{user.username}</span>
         </div>
       );
     },
@@ -77,6 +84,12 @@ export const solutionNoteTableColumns: ColumnDef<SolutionNoteResponse>[] = [
     meta: {
       className: 'w-[30%]',
     },
-    cell: ({ row }) => <div>{formatDate(row.original.createdAt)}</div>,
+    cell: ({ row }) => {
+      const createdAt = row.original.createdAt;
+
+      if (!createdAt) return '-';
+
+      return <div>{formatDate(createdAt)}</div>;
+    },
   },
 ];

@@ -13,6 +13,8 @@ const isSolved = (problemId: number) => {
   );
 };
 
+const problemMap = new Map(MOCK_PROBLEMS.map((p) => [p.id, p]));
+
 export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
   {
     accessorKey: 'problemId',
@@ -22,8 +24,8 @@ export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
     },
     cell: ({ row }) => {
       const problemId = row.original.problemId;
-      const problem = MOCK_PROBLEMS.find((p) => p.id === problemId);
       const isProblemSolved = isSolved(problemId);
+      const problem = problemMap.get(problemId);
 
       if (!problem) return <div>Problem {problemId}</div>;
 
@@ -52,9 +54,9 @@ export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
     },
     cell: ({ row }) => {
       const problemId = row.original.problemId;
-      const problem = MOCK_PROBLEMS.find((p) => p.id === problemId);
-      const isCustom = row.original.isCustom;
       const isProblemSolved = isSolved(problemId);
+      const problem = problemMap.get(problemId);
+      const isCustom = row.original.isCustom;
 
       if (!problem) return <div>Problem {problemId}</div>;
 
