@@ -5,7 +5,7 @@ import { setupInterceptors } from './interceptor';
 const API_TIMEOUT_MS = 5000;
 
 export const instance = axios.create({
-  baseURL: process.env.LOCAL_API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   timeout: API_TIMEOUT_MS,
   headers: {
     'Content-Type': 'application/json',
