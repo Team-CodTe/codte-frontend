@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+const API_TIMEOUT_MS = 5000;
+
 /** @todo API URL 추가 */
 export const instance = axios.create({
   baseURL: '',
-  timeout: 5000,
+  timeout: API_TIMEOUT_MS,
   headers: {
     'Content-Type': 'application/json',
   },
