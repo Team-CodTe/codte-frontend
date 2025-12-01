@@ -3,6 +3,7 @@
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
+import { Toaster } from '@/components/ui/Sonner';
 import { TooltipProvider } from '@/components/ui/Tooltip';
 import { makeQueryClient } from '@/lib/queryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -27,6 +28,7 @@ export const Providers = ({ children, session }: Props) => {
           enableSystem
           enableColorScheme
           disableTransitionOnChange>
+          <Toaster />
           <TooltipProvider>{children}</TooltipProvider>
         </NextThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
