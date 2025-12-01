@@ -1,12 +1,8 @@
-import type { ProblemResponse } from './problemDto';
-import type { StudyResponse } from './studyDto';
-import type { UserResponse } from './userDto';
-
 export interface SolutionNoteResponse {
   id: number;
-  study: StudyResponse;
-  user: UserResponse;
-  problem: ProblemResponse;
+  studyId: number;
+  userId: number;
+  problemId: number;
   content: string;
   createdAt: string;
   updatedAt: string;

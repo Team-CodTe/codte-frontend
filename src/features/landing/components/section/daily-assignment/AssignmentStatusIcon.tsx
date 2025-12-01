@@ -1,3 +1,4 @@
+import { MOCK_PROBLEMS } from '@/api/mock/mockProblem';
 import { type DailyAssignmentResponse } from '@/api/types/problemDto';
 import { HintTooltip } from '@/components/common/HintTooltip';
 import { CircleCheckBigIcon, CircleIcon } from 'lucide-react';
@@ -14,12 +15,14 @@ export const AssignmentStatusIcon = ({
   return (
     <div className="flex flex-row items-center gap-2">
       {assignments.map((assignment) => {
-        const isCompleted = checkIsCompleted(assignment.problem.id);
+        const isCompleted = checkIsCompleted(assignment.problemId);
+        const problem = MOCK_PROBLEMS.find(
+          (problem) => problem.id === assignment.problemId,
+        );
 
         return (
           <div key={assignment.id}>
-            <HintTooltip
-              content={`${assignment.problem.bojNumber} : ${assignment.problem.title}`}>
+            <HintTooltip content={`${problem?.bojNumber} : ${problem?.title}`}>
               {isCompleted ? (
                 <CircleCheckBigIcon className="text-success size-4" />
               ) : (

@@ -1,3 +1,4 @@
+import { MOCK_PROBLEMS } from '@/api/mock/mockProblem';
 import { MOCK_SOLUTION_NOTES } from '@/api/mock/mockSolutionNote';
 import { type DailyAssignmentResponse } from '@/api/types/problemDto';
 import { HintTooltip } from '@/components/common/HintTooltip';
@@ -8,20 +9,25 @@ import { type ColumnDef } from '@tanstack/react-table';
 
 const isSolved = (problemId: number) => {
   return MOCK_SOLUTION_NOTES.some(
-    (note) => note.problem.id === problemId && note.user.id === 1,
+    (note) => note.problemId === problemId && note.userId === 1,
   );
 };
 
+const problemMap = new Map(MOCK_PROBLEMS.map((p) => [p.id, p]));
+
 export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
   {
-    accessorKey: 'problem.bojNumber',
+    accessorKey: 'problemId',
     header: '문제 번호',
     meta: {
       className: 'w-[20%]',
     },
     cell: ({ row }) => {
-      const { problem } = row.original;
-      const isProblemSolved = isSolved(problem.id);
+      const problemId = row.original.problemId;
+      const isProblemSolved = isSolved(problemId);
+      const problem = problemMap.get(problemId);
+
+      if (!problem) return <div>Problem {problemId}</div>;
 
       return (
         <div className="flex items-center gap-2">
@@ -41,15 +47,18 @@ export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
     },
   },
   {
-    accessorKey: 'problem.title',
+    accessorKey: 'problemTitle',
     header: '제목',
     meta: {
       className: 'w-[40%]',
     },
     cell: ({ row }) => {
-      const { problem } = row.original;
+      const problemId = row.original.problemId;
+      const isProblemSolved = isSolved(problemId);
+      const problem = problemMap.get(problemId);
       const isCustom = row.original.isCustom;
-      const isProblemSolved = isSolved(problem.id);
+
+      if (!problem) return <div>Problem {problemId}</div>;
 
       return (
         <div className="flex flex-row items-center gap-2">
@@ -79,8 +88,8 @@ export const problemTableColumns: ColumnDef<DailyAssignmentResponse>[] = [
       className: 'w-[20%]',
     },
     cell: ({ row }) => {
-      const { problem } = row.original;
-      const isProblemSolved = isSolved(problem.id);
+      const problemId = row.original.problemId;
+      const isProblemSolved = isSolved(problemId);
 
       return (
         <button

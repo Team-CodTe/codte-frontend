@@ -1,6 +1,6 @@
 {
   /** prettier 설정 파일 경로 지정 */
-  "prettier.configPath": "./prettier.config.js",
+  "prettier.configPath": "./prettier.config.mjs",
 
   /** prettier 기본 포맷터로 설정 */
   "editor.defaultFormatter": "esbenp.prettier-vscode",

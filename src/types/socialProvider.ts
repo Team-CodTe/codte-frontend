@@ -1,1 +1,4 @@
-export type SocialProvider = 'github' | 'google';
+export enum SocialProvider {
+  GOOGLE = 'google',
+  GITHUB = 'github',
+}

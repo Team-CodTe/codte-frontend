@@ -1,8 +1,9 @@
 /**
  * Prettier Configuration
  * @see https://prettier.io/docs/options
+ * @type {import("prettier").Config}
  */
-module.exports = {
+const config = {
   /**
    * 한 줄 최대 길이 80자로 제한 (자동 줄바꿈 기준)
    * @see https://prettier.io/docs/options#print-width
@@ -87,3 +88,5 @@ module.exports = {
    */
   plugins: ['prettier-plugin-tailwindcss'],
 };
+
+export default config;
