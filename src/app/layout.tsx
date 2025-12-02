@@ -2,8 +2,8 @@ import '../styles/globals.css';
 
 import type { PropsWithChildren } from 'react';
 
+import { auth } from '@/app/api/auth/[...nextauth]/route';
 import { Providers } from '@/components/providers/Providers';
-import { auth } from '@/lib/auth';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
