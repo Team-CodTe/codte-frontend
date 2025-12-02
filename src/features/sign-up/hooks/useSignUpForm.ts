@@ -8,6 +8,7 @@ import { useValidateUsernameMutation } from '@/api/user/postValidateUsername/mut
 import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutation';
 import { showToast } from '@/lib/showToast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { type AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
@@ -20,16 +21,20 @@ const SignUpFormSchema = z.object({
     .max(20, '20글자 이하로 입력해주세요.')
     .regex(
       /^[\uAC00-\uD7A3a-zA-Z0-9_-]+$/,
-      '한글, 영문, 숫자, _, -만 입력 가능해요.',
+      '한글, 영문, 숫자, _, -만 입력 가능합니다.',
     ),
   bojUsername: z
     .string()
     .min(3, '3글자 이상 입력해주세요.')
     .max(50, '50글자 이하로 입력해주세요.')
-    .regex(/^[a-zA-Z0-9]+$/, '영문, 숫자만 입력 가능해요.'),
+    .regex(/^[a-zA-Z0-9]+$/, '영문, 숫자만 입력 가능합니다.'),
 });
 
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
+
+type ApiErrorResponse = {
+  message: string;
+};
 
 export const useSignUpForm = () => {
   const router = useRouter();
@@ -62,13 +67,20 @@ export const useSignUpForm = () => {
         validatedValue: variables.username,
       });
     },
-    onError: () => {
+    onError: (error) => {
       setUsernameValidation((prev) => ({
         ...prev,
         status: 'invalid',
       }));
 
-      showToast({ message: '이미 사용 중인 닉네임이에요.', type: 'error' });
+      const errorResponse = error as AxiosError<ApiErrorResponse>;
+
+      form.setError('username', {
+        type: 'manual',
+        message:
+          errorResponse.response?.data.message ||
+          '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+      });
     },
   });
 
@@ -79,13 +91,20 @@ export const useSignUpForm = () => {
         validatedValue: variables.boj_username,
       });
     },
-    onError: () => {
+    onError: (error) => {
       setBojValidation((prev) => ({
         ...prev,
         status: 'invalid',
       }));
 
-      showToast({ message: '존재하지 않는 백준 계정이에요.', type: 'error' });
+      const errorResponse = error as AxiosError<ApiErrorResponse>;
+
+      form.setError('bojUsername', {
+        type: 'manual',
+        message:
+          errorResponse.response?.data.message ||
+          '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+      });
     },
   });
 
