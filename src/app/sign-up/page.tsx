@@ -16,8 +16,8 @@ const SignUpPage = async () => {
   }
 
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center justify-center gap-16 p-5 md:p-5">
-      <div className="flex w-full max-w-xs flex-col gap-8">
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center px-5 py-10 md:p-12">
+      <div className="flex w-full max-w-xs flex-col gap-12">
         <div className="leading-relaxed">
           <div className="flex items-center gap-1">
             <h2 className="text-xl font-bold">처음 오셨네요! 반가워요</h2>

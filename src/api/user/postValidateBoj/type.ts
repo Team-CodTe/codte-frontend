@@ -1,3 +1,3 @@
 export type PostValidateBojRequest = {
-  bojUsername: string;
+  boj_username: string;
 };
