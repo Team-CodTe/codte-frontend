@@ -1,6 +1,6 @@
 export type PostSocialLoginRequest = {
   provider: string;
-  access_token: string;
+  accessToken: string;
 };
 
 export type PostSocialLoginResponse = {
@@ -9,8 +9,8 @@ export type PostSocialLoginResponse = {
     provider: string;
     email: string;
     username: string;
-    boj_username: string;
-    profile_img_url: string;
+    bojUsername: string;
+    profileImgUrl: string;
   };
-  requires_registration: boolean;
+  requiresRegistration: boolean;
 };

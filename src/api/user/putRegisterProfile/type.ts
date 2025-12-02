@@ -1,8 +1,8 @@
 export type PutRegisterProfileRequest = {
   username: string;
-  boj_username: string;
+  bojUsername: string;
 };
 
 export type PutRegisterProfileResponse = {
-  userId: number;
+  id: number;
 };

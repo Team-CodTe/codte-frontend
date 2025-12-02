@@ -3,7 +3,7 @@ export type GetMyProfileResponse = {
   provider: string;
   email: string;
   username: string;
-  boj_username?: string;
-  profile_img_url?: string;
-  created_at: string;
+  bojUsername?: string;
+  profileImgUrl?: string;
+  createdAt: string;
 };

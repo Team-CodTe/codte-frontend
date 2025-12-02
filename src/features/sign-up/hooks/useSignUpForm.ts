@@ -88,7 +88,7 @@ export const useSignUpForm = () => {
     onSuccess: (_, variables) => {
       setBojValidation({
         status: 'valid',
-        validatedValue: variables.boj_username,
+        validatedValue: variables.bojUsername,
       });
     },
     onError: (error) => {
@@ -131,7 +131,7 @@ export const useSignUpForm = () => {
 
     setBojValidation({ status: 'validating', validatedValue: '' });
 
-    validateBojMutation.mutate({ boj_username: bojUsername });
+    validateBojMutation.mutate({ bojUsername });
   }, [form, validateBojMutation]);
 
   const resetUsernameValidation = useCallback(() => {
@@ -186,7 +186,7 @@ export const useSignUpForm = () => {
 
     registerProfileMutation.mutate({
       username: data.username,
-      boj_username: data.bojUsername,
+      bojUsername: data.bojUsername,
     });
   };
 

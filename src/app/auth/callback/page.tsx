@@ -23,7 +23,7 @@ const AuthCallbackPage = () => {
 
   const socialLoginMutation = useSocialLoginMutation({
     onSuccess: (data) => {
-      if (data.requires_registration) {
+      if (data.requiresRegistration) {
         router.replace('/sign-up');
       } else {
         router.replace('/welcome');
@@ -71,7 +71,7 @@ const AuthCallbackPage = () => {
 
       socialLoginMutation.mutate({
         provider: session.provider,
-        access_token: session.accessToken,
+        accessToken: session.accessToken,
       });
     }
   }, [status, session, router, socialLoginMutation, hasCalledApi]);
