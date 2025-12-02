@@ -6,7 +6,7 @@ import {
   type PostSocialLoginResponse,
 } from './type';
 
-export const usePostSocialLoginMutation = (
+export const useSocialLoginMutation = (
   options?: UseMutationOptions<
     PostSocialLoginResponse,
     Error,

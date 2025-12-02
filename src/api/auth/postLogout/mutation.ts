@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { postLogout } from './post';
 
-export const usePostLogoutMutation = (options?: UseMutationOptions<void>) => {
+export const useLogoutMutation = (options?: UseMutationOptions<void>) => {
   return useMutation({
     mutationKey: ['logout'],
     mutationFn: () => postLogout(),

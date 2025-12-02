@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { usePostSocialLoginMutation } from '@/api/auth/postSocialLogin/mutation';
+import { useSocialLoginMutation } from '@/api/auth/postSocialLogin/mutation';
+import { Spinner } from '@/components/ui/Spinner';
 import { showToast } from '@/lib/showToast';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
@@ -10,8 +11,9 @@ import { signOut, useSession } from 'next-auth/react';
 const AuthCallbackPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const hasCalledApi = useRef(false);
 
-  const socialLoginMutation = usePostSocialLoginMutation({
+  const socialLoginMutation = useSocialLoginMutation({
     onSuccess: (data) => {
       if (data.requires_registration) {
         router.replace('/sign-up');
@@ -34,7 +36,7 @@ const AuthCallbackPage = () => {
   });
 
   useEffect(() => {
-    if (status === 'loading') {
+    if (hasCalledApi.current || status === 'loading') {
       return;
     }
 
@@ -45,14 +47,20 @@ const AuthCallbackPage = () => {
     }
 
     if (session?.provider && session?.accessToken) {
+      hasCalledApi.current = true;
+
       socialLoginMutation.mutate({
         provider: session.provider,
         access_token: session.accessToken,
       });
     }
-  }, [status, session, router, socialLoginMutation]);
+  }, [status, session, router, socialLoginMutation, hasCalledApi]);
 
-  return null;
+  return (
+    <div className="flex min-h-screen w-screen items-center justify-center">
+      <Spinner className="text-muted-foreground size-6" />
+    </div>
+  );
 };
 
 export default AuthCallbackPage;

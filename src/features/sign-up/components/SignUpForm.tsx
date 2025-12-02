@@ -27,13 +27,13 @@ export const SignUpForm = () => {
           <FormField
             aria-label="닉네임"
             control={form.control}
-            name="nickname"
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>닉네임</FormLabel>
                 <FormControl>
                   <Input
-                    id="nickname"
+                    id="username"
                     type="text"
                     inputMode="text"
                     placeholder="파이썬조아"
@@ -65,7 +65,7 @@ export const SignUpForm = () => {
                   />
                 </FormControl>
                 <FormDescription>
-                  문제 추천 쿼리 및 문제 풀이 상태에 사용돼요.
+                  문제 추천 쿼리 및 문제 풀이 상태 조회에 사용돼요.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

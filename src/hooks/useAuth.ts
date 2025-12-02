@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { usePostLogoutMutation } from '@/api/auth/postLogout/mutation';
+import { useLogoutMutation } from '@/api/auth/postLogout/mutation';
 import { showToast } from '@/lib/showToast';
 import { type SocialProvider } from '@/types/socialProvider';
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -29,7 +29,7 @@ export const useAuth = () => {
     }
   }, []);
 
-  const logoutMutation = usePostLogoutMutation({
+  const logoutMutation = useLogoutMutation({
     onSuccess: async () => {
       await signOut({ callbackUrl: '/' });
     },
