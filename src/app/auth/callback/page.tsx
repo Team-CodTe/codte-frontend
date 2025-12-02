@@ -3,10 +3,18 @@
 import { useEffect, useRef } from 'react';
 
 import { useSocialLoginMutation } from '@/api/auth/postSocialLogin/mutation';
-import { Spinner } from '@/components/ui/Spinner';
+import Loading from '@/app/loading';
 import { showToast } from '@/lib/showToast';
+import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
+
+type ApiErrorResponse = {
+  error: {
+    code: string;
+    message: string;
+  };
+};
 
 const AuthCallbackPage = () => {
   const { data: session, status } = useSession();
@@ -24,10 +32,22 @@ const AuthCallbackPage = () => {
     onError: (error) => {
       console.error('❌ 로그인 API 호출 실패', error);
 
-      showToast({
-        message: '로그인에 실패했습니다. 다시 시도해주세요.',
-        type: 'error',
-      });
+      if (isAxiosError<ApiErrorResponse>(error)) {
+        const errorCode = error.response?.data?.error?.code;
+        const errorMessage = error.response?.data?.error?.message;
+
+        if (errorCode === 'INVALID_ACCESS_TOKEN' && errorMessage) {
+          showToast({
+            message: errorMessage,
+            type: 'info',
+          });
+        }
+      } else {
+        showToast({
+          message: '로그인에 실패했습니다. 다시 시도해주세요.',
+          type: 'error',
+        });
+      }
 
       signOut({ redirect: false });
 
@@ -56,11 +76,7 @@ const AuthCallbackPage = () => {
     }
   }, [status, session, router, socialLoginMutation, hasCalledApi]);
 
-  return (
-    <div className="flex min-h-screen w-screen items-center justify-center">
-      <Spinner className="text-muted-foreground size-6" />
-    </div>
-  );
+  return <Loading />;
 };
 
 export default AuthCallbackPage;
