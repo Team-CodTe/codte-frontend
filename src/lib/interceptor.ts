@@ -5,12 +5,24 @@ import {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import axios from 'axios';
 
-const refreshToken = async (instance: AxiosInstance): Promise<void> => {
+const API_TIMEOUT_MS = 5000;
+
+const instanceForRefresh = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  timeout: API_TIMEOUT_MS,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
+});
+
+const refreshToken = async (): Promise<void> => {
   try {
     console.log('🔄 Token 재발급 시도');
 
-    await instance.post(API_URLS.AUTH.REFRESH);
+    await instanceForRefresh.post(API_URLS.AUTH.REFRESH);
 
     console.log('✅ Token 재발급 성공');
   } catch (error) {
@@ -36,7 +48,7 @@ export const setupInterceptors = (instance: AxiosInstance): void => {
   // 동시 401 발생 시 단일 리프레시 호출을 공유하기 위한 Promise
   let refreshTokenPromise: Promise<void> | null = null;
 
-  // Response 인터셉터(액세스토큰 재발급 처리)
+  // Response 인터셉터(토큰 재발급)
   instance.interceptors.response.use(
     (response: AxiosResponse) => response,
     async (error: AxiosError) => {
@@ -72,7 +84,7 @@ export const setupInterceptors = (instance: AxiosInstance): void => {
 
       // 진행 중인 리프레시가 없으면 시작, 있으면 대기
       if (!refreshTokenPromise) {
-        refreshTokenPromise = refreshToken(instance).finally(() => {
+        refreshTokenPromise = refreshToken().finally(() => {
           // 완료 후 다음 401을 위해 초기화
           refreshTokenPromise = null;
         });
