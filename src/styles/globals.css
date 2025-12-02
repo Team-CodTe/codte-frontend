@@ -232,29 +232,29 @@ body {
     --border-radius: var(--radius);
   }
   .toast-info {
-    --normal-bg: color-mix(in srgb, var(--primary) 10%, var(--background));
+    --normal-bg: color-mix(in srgb, var(--primary) 5%, var(--background));
     --normal-text: var(--primary);
-    --normal-border: color-mix(in srgb, var(--primary) 20%, var(--background));
+    --normal-border: color-mix(in srgb, var(--primary) 50%, var(--background));
     --border-radius: var(--radius);
   }
   .toast-success {
-    --normal-bg: color-mix(in srgb, var(--success) 10%, var(--background));
+    --normal-bg: color-mix(in srgb, var(--success) 5%, var(--background));
     --normal-text: var(--success);
-    --normal-border: color-mix(in srgb, var(--success) 20%, var(--background));
+    --normal-border: color-mix(in srgb, var(--success) 50%, var(--background));
     --border-radius: var(--radius);
   }
   .toast-warning {
-    --normal-bg: color-mix(in srgb, var(--caution) 10%, var(--background));
+    --normal-bg: color-mix(in srgb, var(--caution) 5%, var(--background));
     --normal-text: var(--caution);
-    --normal-border: color-mix(in srgb, var(--caution) 20%, var(--background));
+    --normal-border: color-mix(in srgb, var(--caution) 50%, var(--background));
     --border-radius: var(--radius);
   }
   .toast-error {
-    --normal-bg: color-mix(in srgb, var(--destructive) 10%, var(--background));
+    --normal-bg: color-mix(in srgb, var(--destructive) 5%, var(--background));
     --normal-text: var(--destructive);
     --normal-border: color-mix(
       in srgb,
-      var(--destructive) 20%,
+      var(--destructive) 50%,
       var(--background)
     );
     --border-radius: var(--radius);
