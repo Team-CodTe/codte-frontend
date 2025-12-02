@@ -1,6 +1,6 @@
 export type PutRegisterProfileRequest = {
   username: string;
-  bojUsername: string;
+  boj_username: string;
 };
 
 export type PutRegisterProfileResponse = {

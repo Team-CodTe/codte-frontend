@@ -30,6 +30,7 @@ export const SignUpForm = () => {
     isUsernameValidated,
     isBojValidated,
     canSubmit,
+    isSubmitting,
   } = useSignUpForm();
 
   const getValidationButtonText = (status: ValidationStatus) => {
@@ -136,8 +137,12 @@ export const SignUpForm = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit" className="w-full" disabled={!canSubmit}>
-            회원가입
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={!canSubmit || isSubmitting}>
+            {isSubmitting ? <Spinner /> : null}
+            {isSubmitting ? '등록 중...' : '회원가입'}
           </Button>
           <LogoutButton />
         </div>

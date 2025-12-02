@@ -5,8 +5,10 @@ import { useForm } from 'react-hook-form';
 
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
 import { useValidateUsernameMutation } from '@/api/user/postValidateUsername/mutation';
+import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutation';
 import { showToast } from '@/lib/showToast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 import { type ValidationStatus } from '../types/validationStatus';
@@ -30,6 +32,10 @@ const SignUpFormSchema = z.object({
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
 
 export const useSignUpForm = () => {
+  const router = useRouter();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [usernameValidation, setUsernameValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
@@ -50,10 +56,10 @@ export const useSignUpForm = () => {
   });
 
   const validateUsernameMutation = useValidateUsernameMutation({
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       setUsernameValidation({
         status: 'valid',
-        validatedValue: form.getValues('username'),
+        validatedValue: variables.username,
       });
     },
     onError: () => {
@@ -67,10 +73,10 @@ export const useSignUpForm = () => {
   });
 
   const validateBojMutation = useValidateBojMutation({
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       setBojValidation({
         status: 'valid',
-        validatedValue: form.getValues('bojUsername'),
+        validatedValue: variables.boj_username,
       });
     },
     onError: () => {
@@ -131,11 +137,38 @@ export const useSignUpForm = () => {
 
   const canSubmit = isUsernameValidated && isBojValidated;
 
-  const onSubmit = (data: SignUpFormData) => {
-    if (!canSubmit) return;
+  const registerProfileMutation = useRegisterProfileMutation({
+    onSuccess: () => {
+      showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
 
-    /** @todo 회원가입 폼 전송 API 추가 */
-    console.log(data);
+      resetUsernameValidation();
+      resetBojValidation();
+
+      router.replace('/welcome');
+
+      setIsSubmitting(false);
+    },
+    onError: () => {
+      showToast({
+        message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        type: 'error',
+      });
+
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmit = (data: SignUpFormData) => {
+    if (!canSubmit) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    registerProfileMutation.mutate({
+      username: data.username,
+      boj_username: data.bojUsername,
+    });
   };
 
   return {
@@ -150,5 +183,6 @@ export const useSignUpForm = () => {
     isUsernameValidated,
     isBojValidated,
     canSubmit,
+    isSubmitting,
   };
 };
