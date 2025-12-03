@@ -3,13 +3,16 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { getMyProfile } from '@/api/user/getMyProfile/fetch';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
 import { useValidateUsernameMutation } from '@/api/user/postValidateUsername/mutation';
 import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutation';
+import { PATH } from '@/constants/path';
 import { showToast } from '@/lib/showToast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 import { z } from 'zod';
 
 import { type ValidationStatus } from '../types/validationStatus';
@@ -38,6 +41,7 @@ type ApiErrorResponse = {
 
 export const useSignUpForm = () => {
   const router = useRouter();
+  const { update: updateSession } = useSession();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -157,15 +161,40 @@ export const useSignUpForm = () => {
   const canSubmit = isUsernameValidated && isBojValidated;
 
   const registerProfileMutation = useRegisterProfileMutation({
-    onSuccess: () => {
-      showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
+    onSuccess: async () => {
+      try {
+        const profile = await getMyProfile();
 
-      resetUsernameValidation();
-      resetBojValidation();
+        await updateSession({
+          user: {
+            id: String(profile.id),
+            provider: profile.provider,
+            email: profile.email,
+            username: profile.username,
+            bojUsername: profile.bojUsername,
+            profileImgUrl: profile.profileImgUrl,
+            createdAt: profile.createdAt,
+          },
+        });
 
-      router.replace('/welcome');
+        showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
 
-      setIsSubmitting(false);
+        resetUsernameValidation();
+        resetBojValidation();
+
+        router.replace(PATH.STUDY);
+      } catch (error) {
+        console.error('❌ 유저 세션 업데이트 실패:', error);
+
+        showToast({
+          message: '회원 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
+          type: 'error',
+        });
+
+        signOut({ redirect: false });
+
+        router.replace(PATH.LOGIN);
+      }
     },
     onError: () => {
       showToast({

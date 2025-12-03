@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/Separator';
 
 export const LoginFooter = () => {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-2">
+    <div className="flex w-full flex-col items-center justify-center gap-4">
       {/** @todo 도움받기 이메일 주소 추가 */}
       <div className="flex gap-1 text-center text-sm">
         도움이 필요하신가요?

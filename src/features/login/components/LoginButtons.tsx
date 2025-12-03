@@ -22,7 +22,7 @@ export const LoginButtons = () => {
   const isAnyLoading = loadingProvider !== null;
 
   return (
-    <div className="flex w-full max-w-xs min-w-48 flex-col gap-2">
+    <div className="flex w-full max-w-72 min-w-48 flex-col gap-2">
       <Button
         className="bg-foreground text-background hover:bg-foreground/90"
         onClick={() => login(SocialProvider.GITHUB)}
