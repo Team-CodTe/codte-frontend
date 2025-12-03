@@ -25,7 +25,7 @@ const DEFAULT_QUERY_OPTIONS: Options['queryOptions'] = {
 };
 
 const DEFAULT_MUTATION_OPTIONS: Options['mutationOptions'] = {
-  throwOnError: true,
+  throwOnError: false,
 };
 
 export const makeQueryClient = () => {

@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
 
+import { useLogoutMutation } from '@/api/auth/postLogout/mutation';
+import { showToast } from '@/lib/showToast';
 import { type SocialProvider } from '@/types/socialProvider';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 export const useAuth = () => {
-  const { data: session, status } = useSession();
+  const { data: session, update: updateSession } = useSession();
   const [loadingProvider, setLoadingProvider] = useState<SocialProvider | null>(
     null,
   );
@@ -14,35 +16,53 @@ export const useAuth = () => {
     try {
       setLoadingProvider(provider);
 
-      await signIn(provider, { callbackUrl: '/sign-up' });
-
-      /** @todo 로그인이후 JWT 토큰 발급 API 호출 필요 */
+      await signIn(provider, { callbackUrl: '/auth/callback' });
     } catch (err) {
-      console.error('로그인 실패', err);
+      console.error('❌ 로그인 실패', err);
+
+      showToast({
+        message: '로그인 페이지로 이동할 수 없습니다.',
+        type: 'error',
+      });
+
       setLoadingProvider(null);
     }
   }, []);
+
+  const logoutMutation = useLogoutMutation({
+    onSuccess: async () => {
+      await signOut({ callbackUrl: '/' });
+    },
+    onError: (error) => {
+      console.error('❌ 로그아웃 API 호출 실패', error);
+
+      showToast({
+        message: '로그아웃에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+
+      setIsLoggingOut(false);
+    },
+  });
 
   const logout = useCallback(async () => {
     try {
       setIsLoggingOut(true);
 
-      await signOut({ callbackUrl: '/' });
-
-      /** @todo 로그아웃 API 호출 필요 */
+      logoutMutation.mutate();
     } catch (err) {
-      console.error('로그아웃 실패', err);
+      console.error('❌ 로그아웃 실패', err);
+
       setIsLoggingOut(false);
     }
-  }, []);
+  }, [logoutMutation]);
 
   return {
     session,
-    isAuthenticated: status === 'authenticated',
-    isSessionLoading: status === 'loading',
     loadingProvider,
     isLoggingOut,
     login,
     logout,
+    updateSession,
   };
 };
