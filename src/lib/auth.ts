@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth } = NextAuth({
   session: { strategy: 'jwt' },
   providers: [
     GitHub({
@@ -18,7 +18,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ account, token }) {
       if (account) {
         token.provider = account.provider;
         token.accessToken = account.access_token;
@@ -26,7 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return token;
     },
-    async session({ session, token }) {
+    async session({ token, session }) {
       if (token.provider && token.accessToken) {
         session.provider = token.provider;
         session.accessToken = token.accessToken;

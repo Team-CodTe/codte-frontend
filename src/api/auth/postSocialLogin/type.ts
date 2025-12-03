@@ -12,5 +12,5 @@ export type PostSocialLoginResponse = {
     bojUsername: string;
     profileImgUrl: string;
   };
-  requiresRegistration: boolean;
+  isRegistered: boolean;
 };
