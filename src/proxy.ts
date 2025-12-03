@@ -8,35 +8,35 @@ export const proxy = auth((req) => {
   const { nextUrl } = req;
   const { pathname } = nextUrl;
 
-  if (PATH.AUTH_CALLBACK.includes(pathname)) {
+  if (pathname === PATH.AUTH_CALLBACK) {
     return NextResponse.next();
   }
 
   const isRegisteredCookie = req.cookies.get('is_registered');
   const isRegistered = isRegisteredCookie?.value === 'true';
 
-  // CASE A: 로그인을 하지 않은 경우
+  // 로그인을 하지 않은 경우 접근 가능한 경로
+  const publicPaths = [PATH.HOME, PATH.LOGIN];
+  // 로그인 및 회원가입을 마친 유저가 접근 시 리다이렉션될 경로
+  const authRestrictedPaths = [PATH.HOME, PATH.LOGIN, PATH.SIGN_UP];
+
   if (!isLoggedIn) {
-    if (!PATH.HOME.includes(pathname) && !PATH.LOGIN.includes(pathname)) {
-      return NextResponse.redirect(new URL('/login', nextUrl));
+    // CASE A: 로그인을 하지 않은 경우
+    if (!publicPaths.includes(pathname)) {
+      return NextResponse.redirect(new URL(PATH.LOGIN, nextUrl));
     }
-  }
-
-  // CASE B: 로그인 했지만, 회원가입이 안 된 경우
-  if (isLoggedIn && !isRegistered) {
-    if (!PATH.SIGN_UP.includes(pathname)) {
-      return NextResponse.redirect(new URL('/sign-up', nextUrl));
-    }
-  }
-
-  // CASE C: 로그인도 했고, 회원가입도 완료된 경우
-  if (isLoggedIn && isRegistered) {
-    if (
-      PATH.HOME.includes(pathname) ||
-      PATH.LOGIN.includes(pathname) ||
-      PATH.SIGN_UP.includes(pathname)
-    ) {
-      return NextResponse.redirect(new URL('/welcome', nextUrl));
+  } else {
+    // 로그인을 한 경우
+    if (!isRegistered) {
+      // CASE B: 회원가입이 안 된 경우
+      if (pathname !== PATH.SIGN_UP) {
+        return NextResponse.redirect(new URL(PATH.SIGN_UP, nextUrl));
+      }
+    } else {
+      // CASE C: 회원가입이 완료된 경우
+      if (authRestrictedPaths.includes(pathname)) {
+        return NextResponse.redirect(new URL(PATH.WELCOME, nextUrl));
+      }
     }
   }
 
