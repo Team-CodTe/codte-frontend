@@ -23,10 +23,12 @@ const AuthCallbackPage = () => {
 
   const socialLoginMutation = useSocialLoginMutation({
     onSuccess: (data) => {
-      if (data.requiresRegistration) {
-        router.replace('/sign-up');
-      } else {
+      router.refresh();
+
+      if (data.isRegistered) {
         router.replace('/welcome');
+      } else {
+        router.replace('/sign-up');
       }
     },
     onError: (error) => {
