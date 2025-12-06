@@ -1,10 +1,10 @@
 import { API_URLS } from '@/api/apiUrls';
-import { instance } from '@/lib/axios';
+import { customFetch } from '@/lib/fetchInstance';
 
 import { type PostValidateBojRequest } from './type';
 
-export const postValidateBoj = async (req: PostValidateBojRequest) => {
-  const { data } = await instance.post(API_URLS.USER.VALIDATE.BOJ, req);
-
-  return data;
+export const postValidateBoj = async (
+  req: PostValidateBojRequest,
+): Promise<void> => {
+  await customFetch.post(API_URLS.USER.VALIDATE.BOJ, req);
 };

@@ -6,9 +6,9 @@ import { useForm } from 'react-hook-form';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
 import { useValidateUsernameMutation } from '@/api/user/postValidateUsername/mutation';
 import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutation';
+import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
@@ -73,13 +73,15 @@ export const useSignUpForm = () => {
         status: 'invalid',
       }));
 
-      const errorResponse = error as AxiosError<ApiErrorResponse>;
+      const errorMessage =
+        error instanceof FetchError
+          ? (error.data as ApiErrorResponse | null)?.message
+          : undefined;
 
       form.setError('username', {
         type: 'manual',
         message:
-          errorResponse.response?.data.message ||
-          '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+          errorMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
       });
     },
   });
@@ -97,13 +99,15 @@ export const useSignUpForm = () => {
         status: 'invalid',
       }));
 
-      const errorResponse = error as AxiosError<ApiErrorResponse>;
+      const errorMessage =
+        error instanceof FetchError
+          ? (error.data as ApiErrorResponse | null)?.message
+          : undefined;
 
       form.setError('bojUsername', {
         type: 'manual',
         message:
-          errorResponse.response?.data.message ||
-          '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+          errorMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
       });
     },
   });

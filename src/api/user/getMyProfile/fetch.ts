@@ -1,10 +1,8 @@
 import { API_URLS } from '@/api/apiUrls';
-import { instance } from '@/lib/axios';
+import { customFetch } from '@/lib/fetchInstance';
 
 import { type GetMyProfileResponse } from './type';
 
 export const getMyProfile = async () => {
-  const { data } = await instance.get<GetMyProfileResponse>(API_URLS.USER.ME);
-
-  return data;
+  return await customFetch.get<GetMyProfileResponse>(API_URLS.USER.ME);
 };

@@ -1,5 +1,5 @@
 import { API_URLS } from '@/api/apiUrls';
-import { instance } from '@/lib/axios';
+import { customFetch } from '@/lib/fetchInstance';
 
 import {
   type PostSocialLoginRequest,
@@ -7,10 +7,8 @@ import {
 } from './type';
 
 export const postSocialLogin = async (req: PostSocialLoginRequest) => {
-  const { data } = await instance.post<PostSocialLoginResponse>(
+  return await customFetch.post<PostSocialLoginResponse>(
     API_URLS.AUTH.LOGIN,
     req,
   );
-
-  return data;
 };
