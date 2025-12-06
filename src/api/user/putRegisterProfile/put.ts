@@ -1,5 +1,5 @@
 import { API_URLS } from '@/api/apiUrls';
-import { instance } from '@/lib/axios';
+import { customFetch } from '@/lib/fetchInstance';
 
 import {
   type PutRegisterProfileRequest,
@@ -7,10 +7,8 @@ import {
 } from './type';
 
 export const putRegisterProfile = async (req: PutRegisterProfileRequest) => {
-  const { data } = await instance.put<PutRegisterProfileResponse>(
+  return await customFetch.put<PutRegisterProfileResponse>(
     API_URLS.USER.REGISTER,
     req,
   );
-
-  return data;
 };
