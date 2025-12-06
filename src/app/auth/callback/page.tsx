@@ -6,12 +6,12 @@ import { useSocialLoginMutation } from '@/api/auth/postSocialLogin/mutation';
 import { getMyProfile } from '@/api/user/getMyProfile/fetch';
 import Loading from '@/app/loading';
 import { PATH } from '@/constants/path';
+import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
-import { isAxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
-type ApiErrorResponse = {
+type ApiErrorData = {
   error: {
     code: string;
     message: string;
@@ -61,17 +61,23 @@ const AuthCallbackPage = () => {
         router.replace(PATH.SIGN_UP);
       }
     },
-    onError: (error) => {
+    onError: async (error) => {
       console.error('❌ 로그인 API 호출 실패', error);
 
-      if (isAxiosError<ApiErrorResponse>(error)) {
-        const errorCode = error.response?.data?.error?.code;
-        const errorMessage = error.response?.data?.error?.message;
+      if (error instanceof FetchError) {
+        const data = error.data as ApiErrorData | null;
+        const errorCode = data?.error?.code;
+        const errorMessage = data?.error?.message;
 
         if (errorCode === 'INVALID_ACCESS_TOKEN' && errorMessage) {
           showToast({
             message: errorMessage,
             type: 'info',
+          });
+        } else {
+          showToast({
+            message: '로그인에 실패했습니다. 다시 시도해주세요.',
+            type: 'error',
           });
         }
       } else {
@@ -81,7 +87,7 @@ const AuthCallbackPage = () => {
         });
       }
 
-      signOut({ redirect: false });
+      await signOut({ redirect: false });
 
       router.replace(PATH.LOGIN);
     },

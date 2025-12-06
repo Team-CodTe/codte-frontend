@@ -1,6 +1,6 @@
 import { API_URLS } from '@/api/apiUrls';
-import { instance } from '@/lib/axios';
+import { customFetch } from '@/lib/fetchInstance';
 
-export const postLogout = async () => {
-  await instance.post(API_URLS.AUTH.LOGOUT);
+export const postLogout = async (): Promise<void> => {
+  await customFetch.post(API_URLS.AUTH.LOGOUT);
 };
