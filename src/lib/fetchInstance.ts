@@ -183,8 +183,6 @@ const request = async <T>(
       return undefined as T;
     }
 
-    console.log('Response text:', text);
-
     return JSON.parse(text) as T;
   } catch (error) {
     // 요청 시간 초과 혹은 수동 취소
