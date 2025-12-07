@@ -1,4 +1,5 @@
 import { API_URLS } from '@/api/apiUrls';
+import { PATH } from '@/constants/path';
 
 const API_TIMEOUT_MS = 5000;
 const REFRESH_TIMEOUT_MS = 10000;
@@ -124,7 +125,7 @@ const request = async <T>(
       // 리프레시 요청 자체가 401 -> 리프레시 토큰도 만료 -> 로그인 페이지
       if (isRefreshCall) {
         if (typeof window !== 'undefined') {
-          window.location.href = '/login';
+          window.location.href = `${PATH.LOGIN}?expired=true`;
         }
 
         throw new FetchError('리프레시 토큰이 만료되었습니다.', 401, null);
@@ -143,7 +144,7 @@ const request = async <T>(
       } catch (error) {
         // 리프레시 실패 시, 대기하던 요청들도 에러 처리 혹은 로그인 페이지로 보냄
         if (typeof window !== 'undefined') {
-          window.location.href = '/login';
+          window.location.href = `${PATH.LOGIN}?expired=true`;
         }
 
         throw error;

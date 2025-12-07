@@ -1,10 +1,20 @@
 import { AppLogo } from '@/components/logos/AppLogo';
 import { LoginButtons } from '@/features/login/components/LoginButtons';
 import { LoginFooter } from '@/features/login/components/LoginFooter';
+import { LoginSessionHandler } from '@/features/login/components/LoginSessionHandler';
 
-const LoginPage = () => {
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+const LoginPage = async ({ searchParams }: Props) => {
+  const { expired } = await searchParams;
+  const isExpired = expired === 'true';
+
   return (
     <div className="bg-background flex min-h-screen w-screen flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <LoginSessionHandler isExpired={isExpired} />
+
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center justify-center gap-8">
           <AppLogo className="h-10 w-auto" />
