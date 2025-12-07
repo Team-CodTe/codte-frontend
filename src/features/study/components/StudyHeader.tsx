@@ -5,18 +5,14 @@ import { Avatar, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import { Spinner } from '@/components/ui/Spinner';
 import { useAuth } from '@/hooks/useAuth';
-import {
-  LogOutIcon,
-  MonitorSmartphoneIcon,
-  MoonIcon,
-  SunIcon,
-} from 'lucide-react';
+import { MonitorIcon, MoonIcon, SunIcon } from 'lucide-react';
 import { type Session } from 'next-auth';
 import { useTheme } from 'next-themes';
 
@@ -36,15 +32,11 @@ export const StudyHeader = ({ session }: Props) => {
   };
 
   const ThemeIcon =
-    theme === 'light'
-      ? SunIcon
-      : theme === 'dark'
-        ? MoonIcon
-        : MonitorSmartphoneIcon;
+    theme === 'light' ? SunIcon : theme === 'dark' ? MoonIcon : MonitorIcon;
 
   return (
-    <header className="flex w-full items-center justify-between px-5 py-4 lg:px-10">
-      <AppLogo className="h-9 w-auto" />
+    <header className="flex h-16 w-full items-center justify-between px-5 py-4 lg:px-6">
+      <AppLogo className="h-8 w-auto" />
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
@@ -71,15 +63,28 @@ export const StudyHeader = ({ session }: Props) => {
               </div>
             </div>
           </DropdownMenuItem>
+
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <span>프로필 설정</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="justify-between"
+              onSelect={(event) => {
+                event.preventDefault();
+                handleToggleTheme();
+              }}>
+              <span>테마 변경</span>
+              <ThemeIcon />
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleToggleTheme}>
-            <ThemeIcon />
-            <span>테마 변경</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={logout} disabled={isLoggingOut}>
-            {isLoggingOut ? <Spinner /> : <LogOutIcon />}
+          <DropdownMenuItem
+            className="justify-between"
+            onClick={logout}
+            disabled={isLoggingOut}>
             {isLoggingOut ? <span>로그아웃 중...</span> : <span>로그아웃</span>}
+            {isLoggingOut ? <Spinner /> : null}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

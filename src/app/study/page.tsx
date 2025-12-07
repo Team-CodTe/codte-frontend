@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/Button';
+import { ScrollArea, ScrollBar } from '@/components/ui/ScrollArea';
 import { StudyHeader } from '@/features/study/components/StudyHeader';
 import { auth } from '@/lib/auth';
 import {
@@ -13,6 +14,7 @@ const StudyListPage = async () => {
   return (
     <div className="bg-background flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
       <StudyHeader session={session} />
+
       <div className="flex w-full flex-col items-start gap-12 p-5 md:max-w-xl md:px-0 md:py-10">
         <div className="leading-relaxed">
           <div className="flex items-center gap-1 text-xl">
@@ -43,6 +45,15 @@ const StudyListPage = async () => {
               </Button>
             </div>
           </div>
+
+          <ScrollArea className="flex w-full gap-4 whitespace-nowrap">
+            <div className="flex w-max space-x-3">
+              <Button variant="outline" className="h-32 w-32">
+                <PlusIcon />
+              </Button>
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </div>
       </div>
     </div>

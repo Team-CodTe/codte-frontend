@@ -6,9 +6,9 @@ import { ToLoginPageButton } from './ToLoginPageButton';
 
 export const LandingHeader = () => {
   return (
-    <header className="flex w-full items-center justify-between px-5 py-4 lg:px-10">
+    <header className="flex h-16 w-full items-center justify-between px-5 py-4 lg:px-6">
       <div className="flex items-center gap-12">
-        <AppLogo className="h-9 w-auto" />
+        <AppLogo className="h-8 w-auto" />
         <HintTooltip
           content="실제 볼 수 있는 스터디 화면이에요. 한 번 살펴보고 시작해보세요."
           side="bottom">

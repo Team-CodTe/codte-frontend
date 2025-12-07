@@ -24,19 +24,21 @@ export const LoginButtons = () => {
   return (
     <div className="flex w-full max-w-72 min-w-48 flex-col gap-2">
       <Button
-        className="bg-foreground text-background hover:bg-foreground/90"
+        variant="outline"
+        size="lg"
         onClick={() => login(SocialProvider.GITHUB)}
         disabled={isAnyLoading}>
         {isGithubLoading ? <Spinner /> : <BsGithub />}
-        {isGithubLoading ? 'GitHub 로그인 중...' : 'GitHub 계정으로 로그인'}
+        {isGithubLoading ? 'GitHub 로그인 중...' : 'GitHub'}
       </Button>
       <Button
-        variant="secondary"
+        variant="outline"
+        size="lg"
         className={robotoMedium.className}
         onClick={() => login(SocialProvider.GOOGLE)}
         disabled={isAnyLoading}>
         {isGoogleLoading ? <Spinner /> : <FcGoogle />}
-        {isGoogleLoading ? 'Google 로그인 중...' : 'Google 계정으로 로그인'}
+        {isGoogleLoading ? 'Google 로그인 중...' : 'Google'}
       </Button>
     </div>
   );
