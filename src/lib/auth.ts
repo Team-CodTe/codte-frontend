@@ -2,9 +2,12 @@ import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
+const SESSION_MAX_AGE = 7 * 60 * 60 * 24;
+
 export const { handlers, auth } = NextAuth({
   session: {
     strategy: 'jwt',
+    maxAge: SESSION_MAX_AGE,
   },
   providers: [
     GitHub({

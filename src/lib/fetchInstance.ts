@@ -1,5 +1,6 @@
 import { API_URLS } from '@/api/apiUrls';
 import { PATH } from '@/constants/path';
+import { triggerSessionUpdate } from '@/lib/authSessionSync';
 
 const API_TIMEOUT_MS = 5000;
 const REFRESH_TIMEOUT_MS = 10000;
@@ -75,6 +76,8 @@ const refreshToken = async (): Promise<void> => {
     if (!response.ok) {
       throw new FetchError('토큰 갱신에 실패했습니다.', response.status, null);
     }
+
+    await triggerSessionUpdate();
 
     console.log('✅ 토큰 재발급 성공');
   } catch (error) {
