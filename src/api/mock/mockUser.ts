@@ -1,4 +1,4 @@
-import { SocialProvider } from '@/types/socialProvider';
+import { SOCIAL_PROVIDER } from '@/types/socialProvider';
 
 import { type UserResponse } from '../types/userDto';
 
@@ -7,7 +7,7 @@ export const MOCK_USER_1: UserResponse = {
   username: '강동우',
   email: 'kdw34441360@gmail.com',
   nickname: '코테초보',
-  provider: SocialProvider.GOOGLE,
+  provider: SOCIAL_PROVIDER.GOOGLE,
   bojUsername: 'alsdn1360',
   profileImgUrl: 'https://github.com/shadcn.png',
   createdAt: '2025-01-01',
@@ -18,7 +18,7 @@ export const MOCK_USER_2: UserResponse = {
   username: '이상훈',
   email: 'dltkdgns830@naver.com',
   nickname: '알고리즘마스터',
-  provider: SocialProvider.GITHUB,
+  provider: SOCIAL_PROVIDER.GITHUB,
   bojUsername: 'dltkdgns830',
   profileImgUrl: 'https://github.com/shadcn.png',
   createdAt: '2025-01-02',
@@ -29,7 +29,7 @@ export const MOCK_USER_3: UserResponse = {
   username: '김수인',
   email: 'waterperosn@google.com',
   nickname: '자바깎는노인',
-  provider: SocialProvider.GOOGLE,
+  provider: SOCIAL_PROVIDER.GOOGLE,
   bojUsername: 'waterperson',
   profileImgUrl: 'https://github.com/shadcn.png',
   createdAt: '2025-01-03',
@@ -40,7 +40,7 @@ export const MOCK_USER_4: UserResponse = {
   username: '이기현',
   email: 'leekki@naver.com',
   nickname: '씨플플조아',
-  provider: SocialProvider.GITHUB,
+  provider: SOCIAL_PROVIDER.GITHUB,
   bojUsername: 'a1522',
   profileImgUrl: 'https://github.com/shadcn.png',
   createdAt: '2025-01-04',
@@ -51,7 +51,7 @@ export const MOCK_USER_5: UserResponse = {
   username: '김진영',
   email: 'joannekim@google.com',
   nickname: '문과지만코테를풀겠어요',
-  provider: SocialProvider.GOOGLE,
+  provider: SOCIAL_PROVIDER.GOOGLE,
   bojUsername: 'joanne',
   profileImgUrl: 'https://github.com/shadcn.png',
   createdAt: '2025-01-05',

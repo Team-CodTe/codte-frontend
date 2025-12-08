@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import { type TableProps } from '@/features/landing/types/tableProps';
+import { type TableProps } from '@/types/tableProps';
 import {
   flexRender,
   getCoreRowModel,

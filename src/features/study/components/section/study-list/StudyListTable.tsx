@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Table,
   TableBody,
@@ -13,7 +15,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export const MemberTable = <TData, TValue>({
+export const StudyListTable = <TData, TValue>({
   data,
   columns,
 }: TableProps<TData, TValue>) => {
@@ -25,7 +27,7 @@ export const MemberTable = <TData, TValue>({
   });
 
   return (
-    <div className="relative max-h-64 min-h-0 overflow-auto rounded-md border lg:max-h-none">
+    <div className="max-h-64 min-h-0 overflow-auto rounded-md border">
       <Table noWrapper>
         <TableHeader className="bg-muted sticky top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -64,8 +66,8 @@ export const MemberTable = <TData, TValue>({
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className="text-muted-foreground h-24 text-center">
-                스터디원을 찾을 수 없습니다
+                className="text-muted-foreground text-center">
+                가입된 스터디가 없습니다
               </TableCell>
             </TableRow>
           )}

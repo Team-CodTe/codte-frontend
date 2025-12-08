@@ -1,12 +1,6 @@
-import { Button } from '@/components/ui/Button';
-import { ScrollArea, ScrollBar } from '@/components/ui/ScrollArea';
+import { StudyListSection } from '@/features/study/components/section/study-list/StudyListSection';
 import { StudyHeader } from '@/features/study/components/StudyHeader';
 import { auth } from '@/lib/auth';
-import {
-  GitPullRequestArrowIcon,
-  NotebookPenIcon,
-  PlusIcon,
-} from 'lucide-react';
 
 const StudyListPage = async () => {
   const session = await auth();
@@ -15,7 +9,7 @@ const StudyListPage = async () => {
     <div className="bg-background flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
       <StudyHeader session={session} />
 
-      <div className="flex w-full flex-col items-start gap-12 p-5 md:max-w-xl md:px-0 md:py-10">
+      <div className="flex w-full flex-col items-start gap-12 p-5 md:max-w-3xl md:px-0 md:py-10">
         <div className="leading-relaxed">
           <div className="flex items-center gap-1 text-xl">
             <h2 className="font-bold">
@@ -28,33 +22,8 @@ const StudyListPage = async () => {
             아직 가입된 스터디가 없으시네요!
           </span>
         </div>
-        <div className="flex w-full flex-col gap-3">
-          <div className="flex w-full flex-row items-center justify-between gap-3">
-            <div className="text-muted-foreground flex shrink-0 items-center gap-2 text-sm font-semibold whitespace-nowrap">
-              <NotebookPenIcon className="size-3.5" />
-              <span>내 스터디</span>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <PlusIcon />
-                <span className="hidden sm:inline">새로 만들기</span>
-              </Button>
-              <Button variant="outline" size="sm">
-                <GitPullRequestArrowIcon />
-                <span className="hidden sm:inline">들어가기</span>
-              </Button>
-            </div>
-          </div>
 
-          <ScrollArea className="flex w-full gap-4 whitespace-nowrap">
-            <div className="flex w-max space-x-3">
-              <Button variant="outline" className="h-32 w-32">
-                <PlusIcon />
-              </Button>
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </div>
+        <StudyListSection />
       </div>
     </div>
   );

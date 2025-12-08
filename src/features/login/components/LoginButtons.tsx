@@ -6,7 +6,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { useAuth } from '@/hooks/useAuth';
-import { SocialProvider } from '@/types/socialProvider';
+import { SOCIAL_PROVIDER } from '@/types/socialProvider';
 import { Roboto } from 'next/font/google';
 
 const robotoMedium = Roboto({
@@ -16,8 +16,8 @@ const robotoMedium = Roboto({
 export const LoginButtons = () => {
   const { login, loadingProvider } = useAuth();
 
-  const isGithubLoading = loadingProvider === SocialProvider.GITHUB;
-  const isGoogleLoading = loadingProvider === SocialProvider.GOOGLE;
+  const isGithubLoading = loadingProvider === SOCIAL_PROVIDER.GITHUB;
+  const isGoogleLoading = loadingProvider === SOCIAL_PROVIDER.GOOGLE;
 
   const isAnyLoading = loadingProvider !== null;
 
@@ -26,7 +26,7 @@ export const LoginButtons = () => {
       <Button
         variant="outline"
         size="lg"
-        onClick={() => login(SocialProvider.GITHUB)}
+        onClick={() => login(SOCIAL_PROVIDER.GITHUB)}
         disabled={isAnyLoading}>
         {isGithubLoading ? <Spinner /> : <BsGithub />}
         {isGithubLoading ? 'GitHub 로그인 중...' : 'GitHub'}
@@ -35,7 +35,7 @@ export const LoginButtons = () => {
         variant="outline"
         size="lg"
         className={robotoMedium.className}
-        onClick={() => login(SocialProvider.GOOGLE)}
+        onClick={() => login(SOCIAL_PROVIDER.GOOGLE)}
         disabled={isAnyLoading}>
         {isGoogleLoading ? <Spinner /> : <FcGoogle />}
         {isGoogleLoading ? 'Google 로그인 중...' : 'Google'}
