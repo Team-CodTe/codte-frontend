@@ -269,7 +269,7 @@ export const CreateStudyForm = () => {
                 if (!hasRangeError)
                   return (
                     <div className="text-muted-foreground text-sm leading-normal font-normal">
-                      입력하지 않으면 전체 범위로 설정돼요.
+                      비워두면 전체 범위로 설정돼요.
                     </div>
                   );
 

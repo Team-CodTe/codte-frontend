@@ -10,7 +10,7 @@ const CreateStudyFormSchema = z
   .object({
     name: z
       .string()
-      .min(3, '스터디 이름은 3글자 이상 입력해주세요.')
+      .min(3, '3글자 이상 입력해주세요.')
       .max(50, '50글자 이하로 입력해주세요.'),
     description: z
       .string()
@@ -68,16 +68,17 @@ export const useCreateStudyForm = () => {
       maxSolved: null,
     } satisfies CreateStudyFormData as CreateStudyFormData,
     validators: {
+      onBlur: CreateStudyFormSchema,
       onSubmit: CreateStudyFormSchema,
     },
     onSubmit: async ({ value }) => {
       try {
         setIsSubmitting(true);
 
-        // TODO: API 호출 로직 추가
-        console.log('Creating study with data:', value);
+        /**  @todo API 호출 로직 추가 */
+        console.log(value);
       } catch (error) {
-        console.error('Failed to create study:', error);
+        console.error(error);
       } finally {
         setIsSubmitting(false);
       }
