@@ -1,11 +1,20 @@
+'use client';
+
 import { Button } from '@/components/ui/Button';
 import {
   GitPullRequestArrowIcon,
   NotebookPenIcon,
   PlusIcon,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export const StudyListTableHeader = () => {
+  const router = useRouter();
+
+  const onClickCreate = () => {
+    router.push('/study/create');
+  };
+
   return (
     <div className="flex w-full flex-row items-center justify-between gap-3">
       <div className="text-muted-foreground flex shrink-0 items-center gap-2 text-sm font-semibold whitespace-nowrap">
@@ -13,7 +22,7 @@ export const StudyListTableHeader = () => {
         <span>내 스터디</span>
       </div>
       <div className="flex gap-2">
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={onClickCreate}>
           <PlusIcon />
           <span className="hidden sm:inline">새로 만들기</span>
         </Button>

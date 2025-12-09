@@ -1,5 +1,5 @@
-import { StudyListSection } from '@/features/study/components/section/study-list/StudyListSection';
-import { StudyHeader } from '@/features/study/components/StudyHeader';
+import { StudyListSection } from '@/features/study/components/home/section/study-list/StudyListSection';
+import { StudyHeader } from '@/features/study/components/home/StudyHeader';
 import { auth } from '@/lib/auth';
 
 const StudyListPage = async () => {
