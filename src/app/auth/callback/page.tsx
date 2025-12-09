@@ -43,7 +43,7 @@ const AuthCallbackPage = () => {
             },
           });
 
-          router.replace(PATH.STUDY);
+          router.replace(PATH.STUDY.HOME);
         } catch (error) {
           console.error('❌ 유저 세션 업데이트 실패:', error);
 

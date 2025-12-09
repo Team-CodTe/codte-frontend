@@ -1,7 +1,11 @@
 export const PATH = {
-  HOME: '/',
+  LANDING: '/',
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
-  STUDY: '/study',
   AUTH_CALLBACK: '/auth/callback',
+  STUDY: {
+    HOME: '/study',
+    CREATE: '/study/create',
+    JOIN: '/study/join',
+  },
 };

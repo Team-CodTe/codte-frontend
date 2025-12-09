@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
+import { PATH } from '@/constants/path';
 import {
   GitPullRequestArrowIcon,
   NotebookPenIcon,
@@ -12,7 +13,11 @@ export const StudyListTableHeader = () => {
   const router = useRouter();
 
   const onClickCreate = () => {
-    router.push('/study/create');
+    router.push(PATH.STUDY.CREATE);
+  };
+
+  const onClickJoin = () => {
+    router.push(PATH.STUDY.JOIN);
   };
 
   return (
@@ -26,7 +31,7 @@ export const StudyListTableHeader = () => {
           <PlusIcon />
           <span className="hidden sm:inline">새로 만들기</span>
         </Button>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={onClickJoin}>
           <GitPullRequestArrowIcon />
           <span className="hidden sm:inline">들어가기</span>
         </Button>

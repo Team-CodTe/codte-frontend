@@ -2,8 +2,8 @@ import { PATH } from '@/constants/path';
 import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
-const PUBLIC_PATHS = [PATH.HOME, PATH.LOGIN];
-const GUEST_ONLY_PATHS = [PATH.HOME, PATH.LOGIN, PATH.SIGN_UP];
+const PUBLIC_PATHS = [PATH.LANDING, PATH.LOGIN];
+const GUEST_ONLY_PATHS = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
 
 export const proxy = auth((req) => {
   const { nextUrl } = req;
@@ -45,7 +45,7 @@ export const proxy = auth((req) => {
 
   // 회원가입 완료 유저 처리
   if (GUEST_ONLY_PATHS.includes(pathname)) {
-    return NextResponse.redirect(new URL(PATH.STUDY, nextUrl));
+    return NextResponse.redirect(new URL(PATH.STUDY.HOME, nextUrl));
   }
 
   return NextResponse.next();

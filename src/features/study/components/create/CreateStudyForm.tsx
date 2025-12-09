@@ -53,7 +53,7 @@ export const CreateStudyForm = () => {
       <FieldSet>
         <FieldLegend>
           <div className="flex items-center gap-1">
-            <h2 className="text-xl font-bold">스터디장이 되어보아요</h2>
+            <h2 className="text-xl font-bold">스터디장이 되어봐요</h2>
             <span className="font-toss-face text-xl">😏</span>
           </div>
         </FieldLegend>

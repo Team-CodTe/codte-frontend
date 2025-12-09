@@ -32,7 +32,7 @@ export const useAuth = () => {
 
   const logoutMutation = useLogoutMutation({
     onSuccess: async () => {
-      await signOut({ callbackUrl: PATH.HOME });
+      await signOut({ callbackUrl: PATH.LANDING });
     },
     onError: (error) => {
       console.error('❌ 로그아웃 API 호출 실패', error);

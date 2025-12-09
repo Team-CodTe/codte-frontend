@@ -16,7 +16,7 @@ import { z } from 'zod';
 
 import { type ValidationStatus } from '../types/validationStatus';
 
-const usernameSchema = z
+const UsernameSchema = z
   .string()
   .min(2, '2글자 이상 입력해주세요.')
   .max(20, '20글자 이하로 입력해주세요.')
@@ -25,15 +25,15 @@ const usernameSchema = z
     '한글, 영문, 숫자, _, -만 입력 가능합니다.',
   );
 
-const bojUsernameSchema = z
+const BojUsernameSchema = z
   .string()
   .min(3, '3글자 이상 입력해주세요.')
   .max(50, '50글자 이하로 입력해주세요.')
   .regex(/^[a-zA-Z0-9]+$/, '영문, 숫자만 입력 가능합니다.');
 
 const SignUpFormSchema = z.object({
-  username: usernameSchema,
-  bojUsername: bojUsernameSchema,
+  username: UsernameSchema,
+  bojUsername: BojUsernameSchema,
 });
 
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
@@ -83,7 +83,7 @@ export const useSignUpForm = () => {
         resetUsernameValidation();
         resetBojValidation();
 
-        router.replace(PATH.STUDY);
+        router.replace(PATH.STUDY.HOME);
       } catch (error) {
         console.error('❌ 유저 세션 업데이트 실패:', error);
 
@@ -189,7 +189,7 @@ export const useSignUpForm = () => {
   const validateUsername = useCallback(() => {
     const username = form.getFieldValue('username');
 
-    const result = usernameSchema.safeParse(username);
+    const result = UsernameSchema.safeParse(username);
 
     if (!result.success) {
       form.setFieldMeta('username', (prev) => ({
@@ -209,7 +209,7 @@ export const useSignUpForm = () => {
   const validateBojUsername = useCallback(() => {
     const bojUsername = form.getFieldValue('bojUsername');
 
-    const result = bojUsernameSchema.safeParse(bojUsername);
+    const result = BojUsernameSchema.safeParse(bojUsername);
 
     if (!result.success) {
       form.setFieldMeta('bojUsername', (prev) => ({
