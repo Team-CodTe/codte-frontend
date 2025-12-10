@@ -1,7 +1,7 @@
 'use client';
 
 import { AppLogo } from '@/components/logos/AppLogo';
-import { Avatar, AvatarImage } from '@/components/ui/Avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,6 +44,9 @@ export const StudyHeader = ({ session }: Props) => {
               src={session?.user?.profileImgUrl}
               alt={session?.user.id}
             />
+            <AvatarFallback>
+              {session?.user?.username?.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -54,6 +57,9 @@ export const StudyHeader = ({ session }: Props) => {
                   src={session?.user?.profileImgUrl}
                   alt={session?.user.id}
                 />
+                <AvatarFallback>
+                  {session?.user?.username?.charAt(0).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <span className="font-medium">{session?.user?.username}</span>

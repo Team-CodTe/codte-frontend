@@ -25,6 +25,33 @@ export class FetchError extends Error {
   }
 }
 
+// SSR 환경에서 JWT 쿠키만 추출하는 헬퍼 함수
+const getAuthCookieString = async (): Promise<string> => {
+  if (typeof window !== 'undefined') return ''; // 클라이언트는 브라우저가 알아서 처리
+
+  try {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+
+    const accessToken = cookieStore.get('access_token');
+    const refreshToken = cookieStore.get('refresh_token');
+
+    const cookieParts: string[] = [];
+
+    if (accessToken) {
+      cookieParts.push(`access_token=${accessToken.value}`);
+    }
+
+    if (refreshToken) {
+      cookieParts.push(`refresh_token=${refreshToken.value}`);
+    }
+
+    return cookieParts.join('; ');
+  } catch {
+    return '';
+  }
+};
+
 // 유틸리티 함수
 const fetchWithTimeout = async (
   url: string,
@@ -58,7 +85,7 @@ const fetchWithTimeout = async (
 };
 
 // 토큰 갱신 로직
-const refreshToken = async (): Promise<void> => {
+const tokenRefresh = async (): Promise<void> => {
   // 리프레시 요청은 별도의 긴 타임아웃 적용
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REFRESH_TIMEOUT_MS);
@@ -66,9 +93,17 @@ const refreshToken = async (): Promise<void> => {
   try {
     console.log('🔄 토큰 재발급 시도');
 
+    const headers: HeadersInit = { 'Content-Type': 'application/json' };
+
+    const cookieString = await getAuthCookieString();
+
+    if (cookieString) {
+      (headers as Record<string, string>)['Cookie'] = cookieString;
+    }
+
     const response = await fetch(`${BASE_URL}${API_URLS.AUTH.REFRESH}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       credentials: 'include',
       signal: controller.signal,
     });
@@ -90,7 +125,7 @@ const refreshToken = async (): Promise<void> => {
 };
 
 // 동시에 여러 401이 터져도 갱신 요청은 한 번만 보내기 위한 Promise
-let refreshTokenPromise: Promise<void> | null = null;
+let tokenRefreshPromise: Promise<void> | null = null;
 
 // 메인 Request 함수
 const request = async <T>(
@@ -102,12 +137,20 @@ const request = async <T>(
 ): Promise<T> => {
   const { timeout = API_TIMEOUT_MS, ...restConfig } = config;
 
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...restConfig.headers,
+  };
+
+  const cookieString = await getAuthCookieString();
+
+  if (cookieString) {
+    (headers as Record<string, string>)['Cookie'] = cookieString;
+  }
+
   const options: RequestInit = {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...restConfig.headers,
-    },
+    headers,
     credentials: 'include',
     ...restConfig,
   };
@@ -116,13 +159,20 @@ const request = async <T>(
     options.body = JSON.stringify(data);
   }
 
-  const fullUrl = `${BASE_URL}${url}`;
-
   try {
-    const response = await fetchWithTimeout(fullUrl, options, timeout);
+    const response = await fetchWithTimeout(
+      `${BASE_URL}${url}`,
+      options,
+      timeout,
+    );
 
     // 401 Unauthorized 처리
     if (response.status === 401 && !isRetry) {
+      // SSR 환경에서는 토큰 갱신 후 브라우저 쿠키 설정을 할 수 없으므로 갱신 시도 안함
+      if (typeof window === 'undefined') {
+        throw new FetchError('SSR에서 인증 권한이 없습니다.', 401, null);
+      }
+
       const isRefreshCall = url.includes(API_URLS.AUTH.REFRESH);
 
       // 리프레시 요청 자체가 401 -> 리프레시 토큰도 만료 -> 로그인 페이지
@@ -135,15 +185,15 @@ const request = async <T>(
       }
 
       // 일반 요청 401 -> 토큰 갱신 시도
-      if (!refreshTokenPromise) {
-        refreshTokenPromise = refreshToken().finally(() => {
-          refreshTokenPromise = null; // 성공하든 실패하든 Promise 초기화
+      if (!tokenRefreshPromise) {
+        tokenRefreshPromise = tokenRefresh().finally(() => {
+          tokenRefreshPromise = null; // 성공하든 실패하든 Promise 초기화
         });
       }
 
       // 다른 요청들은 여기서 대기함
       try {
-        await refreshTokenPromise;
+        await tokenRefreshPromise;
       } catch (error) {
         // 리프레시 실패 시, 대기하던 요청들도 에러 처리 혹은 로그인 페이지로 보냄
         if (typeof window !== 'undefined') {
