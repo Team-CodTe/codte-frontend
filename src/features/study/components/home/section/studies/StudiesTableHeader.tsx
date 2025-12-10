@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export const StudyListTableHeader = () => {
+export const StudiesTableHeader = () => {
   const router = useRouter();
 
   const onClickCreate = () => {

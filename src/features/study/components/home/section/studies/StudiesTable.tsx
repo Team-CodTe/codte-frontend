@@ -15,7 +15,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export const StudyListTable = <TData, TValue>({
+export const StudiesTable = <TData, TValue>({
   data,
   columns,
 }: TableProps<TData, TValue>) => {

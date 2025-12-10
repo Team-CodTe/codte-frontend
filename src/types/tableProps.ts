@@ -1,6 +1,6 @@
 import { type ColumnDef } from '@tanstack/react-table';
 
 export type TableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  columns: ColumnDef<TData, TValue>[];
 };

@@ -1,8 +1,8 @@
-import { StudyListSection } from '@/features/study/components/home/section/study-list/StudyListSection';
 import { StudyHeader } from '@/features/study/components/home/StudyHeader';
+import { StudiesSuspense } from '@/features/study/suspenses/StudiesSuspense';
 import { auth } from '@/lib/auth';
 
-const StudyListPage = async () => {
+const StudyHomePage = async () => {
   const session = await auth();
 
   return (
@@ -22,10 +22,10 @@ const StudyListPage = async () => {
           </span>
         </div>
 
-        <StudyListSection />
+        <StudiesSuspense />
       </div>
     </div>
   );
 };
 
-export default StudyListPage;
+export default StudyHomePage;
