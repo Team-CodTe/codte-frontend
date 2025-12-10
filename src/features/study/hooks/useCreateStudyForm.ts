@@ -11,7 +11,11 @@ const CreateStudyFormSchema = z
     name: z
       .string()
       .min(3, '3글자 이상 입력해주세요.')
-      .max(50, '50글자 이하로 입력해주세요.'),
+      .max(50, '50글자 이하로 입력해주세요.')
+      .regex(
+        /^[\uAC00-\uD7A3a-zA-Z0-9_-]+$/,
+        '한글, 영문, 숫자, _, -만 입력 가능합니다.',
+      ),
     description: z
       .string()
       .min(1, '스터디 설명을 입력해주세요.')

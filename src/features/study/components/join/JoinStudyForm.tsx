@@ -29,7 +29,7 @@ export const JoinStudyForm = () => {
         <FieldLegend>
           <div className="flex items-center gap-1">
             <h2 className="text-xl font-bold">스터디 멤버로 참여해봐요</h2>
-            <span className="font-toss-face text-xl">😎</span>
+            <span className="font-toss-face text-xl">😏</span>
           </div>
         </FieldLegend>
         <FieldDescription>
