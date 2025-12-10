@@ -12,7 +12,9 @@ export const LandingHeader = () => {
         <HintTooltip
           content="실제 볼 수 있는 스터디 화면이에요. 한 번 살펴보고 시작해보세요."
           side="bottom">
-          <span className="hidden font-medium sm:block">{MOCK_STUDY.name}</span>
+          <span className="hidden font-medium sm:block">
+            {MOCK_STUDY[0].name}
+          </span>
         </HintTooltip>
       </div>
 

@@ -1,3 +1,10 @@
+type DefaultPathParams = Record<string, string | number | boolean>;
+
+type DefaultQueryParams = Record<
+  string,
+  string | number | boolean | undefined | null | (string | number | boolean)[]
+>;
+
 type Params<PathParams, QueryParams> = {
   url: string;
   pathParams?: PathParams;
@@ -10,16 +17,14 @@ type Params<PathParams, QueryParams> = {
  * @param pathParams - path parameter (예: `{ id: 1 }`)
  * @param queryParams - query parameter (예: `{ bojUsername: 'alsdn1360' }`)
  */
-export function buildUrlWithParams<
-  PathParams extends Record<string, string | number> = Record<
-    string,
-    string | number
-  >,
-  QueryParams extends Record<
-    string,
-    string | number | boolean | undefined | null
-  > = Record<string, string | number | boolean | undefined | null>,
->({ url, pathParams, queryParams }: Params<PathParams, QueryParams>) {
+export const buildUrlWithParams = <
+  PathParams extends DefaultPathParams = DefaultPathParams,
+  QueryParams extends DefaultQueryParams = DefaultQueryParams,
+>({
+  url,
+  pathParams,
+  queryParams,
+}: Params<PathParams, QueryParams>) => {
   let newUrl = url;
 
   if (pathParams) {
@@ -28,11 +33,24 @@ export function buildUrlWithParams<
     }
   }
 
+  // 아직 치환되지 않은 URL 파라미터 체크
+  if (newUrl.match(/\{[a-zA-Z0-9_]+\}/)) {
+    console.warn(
+      `[buildUrlWithParams] 아직 치환되지 않은 파라미터가 있습니다: ${newUrl}`,
+    );
+  }
+
   if (queryParams) {
     const searchParams = new URLSearchParams();
 
     for (const [key, value] of Object.entries(queryParams)) {
-      if (value !== undefined && value !== null) {
+      if (value === undefined || value === null) {
+        continue;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((item) => searchParams.append(key, String(item)));
+      } else {
         searchParams.append(key, String(value));
       }
     }
@@ -47,4 +65,4 @@ export function buildUrlWithParams<
   }
 
   return newUrl;
-}
+};

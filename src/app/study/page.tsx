@@ -17,9 +17,8 @@ const StudyListPage = async () => {
             </h2>
             <span className="font-toss-face">🙌🏻</span>
           </div>
-          {/** @todo 가입된 스터디에 따라 문구 다르게 변경 */}
-          <span className="text-muted-foreground text-lg font-semibold">
-            아직 가입된 스터디가 없으시네요!
+          <span className="text-muted-foreground font-semibold">
+            오늘도 한 걸음 나아가는 모습, 멋있어요!
           </span>
         </div>
 

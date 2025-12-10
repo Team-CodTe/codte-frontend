@@ -6,9 +6,6 @@ type ComponentProps<P> = ComponentType<P> | AsyncComponent<P>;
 
 /**
  * 컴포넌트를 Suspense 로 감싸는 HOC
- * - Client Component와 Server Component(async)를 모두 지원합니다.
- * - React.lazy로 불러온 컴포넌트도 지원합니다.
- *
  * @param WrappedComponent 감싸질 컴포넌트
  * @param options suspense fallback 옵션
  * @returns Suspense로 감싼 컴포넌트
