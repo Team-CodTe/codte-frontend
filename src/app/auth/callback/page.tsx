@@ -8,15 +8,9 @@ import Loading from '@/app/loading';
 import { PATH } from '@/constants/path';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
+import { type ApiErrorData } from '@/types/apiErrorData';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-
-type ApiErrorData = {
-  error: {
-    code: string;
-    message: string;
-  };
-};
 
 const AuthCallbackPage = () => {
   const { data: session, update: updateSession, status } = useSession();

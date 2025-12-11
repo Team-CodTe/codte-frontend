@@ -9,6 +9,7 @@ import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutati
 import { PATH } from '@/constants/path';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
+import { type ApiErrorData } from '@/types/apiErrorData';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
@@ -37,10 +38,6 @@ const SignUpFormSchema = z.object({
 });
 
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
-
-type ApiErrorResponse = {
-  message: string;
-};
 
 export const useSignUpForm = () => {
   const router = useRouter();
@@ -97,12 +94,15 @@ export const useSignUpForm = () => {
         router.replace(PATH.LOGIN);
       }
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('❌ 회원가입 실패:', error);
+
       showToast({
         message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
         type: 'error',
       });
-
+    },
+    onSettled: () => {
       setIsSubmitting(false);
     },
   });
@@ -147,7 +147,7 @@ export const useSignUpForm = () => {
     onError: (error) => {
       const errorMessage =
         error instanceof FetchError
-          ? (error.data as ApiErrorResponse | null)?.message
+          ? (error.data as ApiErrorData | null)?.error?.message
           : undefined;
 
       setUsernameApiError(
@@ -172,7 +172,7 @@ export const useSignUpForm = () => {
     onError: (error) => {
       const errorMessage =
         error instanceof FetchError
-          ? (error.data as ApiErrorResponse | null)?.message
+          ? (error.data as ApiErrorData | null)?.error?.message
           : undefined;
 
       setBojApiError(

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { useCreateStudyMutation } from '@/api/study/postCreateStudy/mutation';
+import { PATH } from '@/constants/path';
 import { showToast } from '@/lib/showToast';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
@@ -64,8 +65,10 @@ export const useCreateStudyForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createStudyMutation = useCreateStudyMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
+
+      router.replace(`${PATH.STUDY.HOME}/${data.id}`);
     },
     onError: (error) => {
       console.error('❌ 스터디 생성 실패', error);
@@ -91,7 +94,6 @@ export const useCreateStudyForm = () => {
       maxSolved: null,
     } satisfies CreateStudyFormData as CreateStudyFormData,
     validators: {
-      onBlur: CreateStudyFormSchema,
       onSubmit: CreateStudyFormSchema,
     },
     onSubmit: ({ value }) => {

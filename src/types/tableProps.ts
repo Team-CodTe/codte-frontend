@@ -4,4 +4,5 @@ export type TableProps<TData, TValue> = {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
   isLoading?: boolean;
+  onRowClick?: (data: TData) => void;
 };

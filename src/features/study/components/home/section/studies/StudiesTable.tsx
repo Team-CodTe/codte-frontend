@@ -20,6 +20,7 @@ export const StudiesTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
+  onRowClick,
 }: TableProps<TData, TValue>) => {
   // eslint-disable-next-line
   const table = useReactTable({
@@ -66,7 +67,8 @@ export const StudiesTable = <TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && 'selected'}>
+                data-state={row.getIsSelected() && 'selected'}
+                onClick={() => onRowClick?.(row.original)}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
