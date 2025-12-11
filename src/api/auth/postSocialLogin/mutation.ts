@@ -1,4 +1,5 @@
-import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
+import { type OmittedMutationOptions } from '@/lib/queryClient';
+import { useMutation } from '@tanstack/react-query';
 
 import { postSocialLogin } from './post';
 import {
@@ -7,7 +8,7 @@ import {
 } from './type';
 
 export const useSocialLoginMutation = (
-  options?: UseMutationOptions<
+  options?: OmittedMutationOptions<
     PostSocialLoginResponse,
     Error,
     PostSocialLoginRequest
@@ -15,7 +16,7 @@ export const useSocialLoginMutation = (
 ) => {
   return useMutation({
     mutationKey: ['login', 'social_login'],
-    mutationFn: (req: PostSocialLoginRequest) => postSocialLogin(req),
+    mutationFn: postSocialLogin,
     ...options,
   });
 };

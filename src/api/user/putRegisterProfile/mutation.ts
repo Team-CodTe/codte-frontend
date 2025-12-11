@@ -1,4 +1,4 @@
-import { type UseMutationOptions } from '@tanstack/react-query';
+import { type OmittedMutationOptions } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
 import { putRegisterProfile } from './put';
@@ -8,7 +8,7 @@ import {
 } from './type';
 
 export const useRegisterProfileMutation = (
-  options?: UseMutationOptions<
+  options?: OmittedMutationOptions<
     PutRegisterProfileResponse,
     Error,
     PutRegisterProfileRequest
@@ -16,7 +16,7 @@ export const useRegisterProfileMutation = (
 ) => {
   return useMutation({
     mutationKey: ['register', 'profile'],
-    mutationFn: (req: PutRegisterProfileRequest) => putRegisterProfile(req),
+    mutationFn: putRegisterProfile,
     ...options,
   });
 };

@@ -1,5 +1,5 @@
+import { StudiesSection } from '@/features/study/components/home/section/studies/StudiesSection';
 import { StudyHeader } from '@/features/study/components/home/StudyHeader';
-import { StudiesSuspense } from '@/features/study/suspenses/StudiesSuspense';
 import { auth } from '@/lib/auth';
 
 const StudyHomePage = async () => {
@@ -22,7 +22,7 @@ const StudyHomePage = async () => {
           </span>
         </div>
 
-        <StudiesSuspense />
+        <StudiesSection />
       </div>
     </div>
   );

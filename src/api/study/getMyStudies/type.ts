@@ -6,7 +6,3 @@ export type GetMyStudiesResponse = {
   role: StudyRole;
   joinedAt: string;
 };
-
-export type GetMyStudiesResponseWrapper = {
-  data: GetMyStudiesResponse[];
-};

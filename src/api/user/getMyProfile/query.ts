@@ -12,7 +12,7 @@ export const useMyProfileQuery = (
 ) => {
   return useQuery({
     queryKey: ['user', 'my-profile'],
-    queryFn: () => getMyProfile(),
+    queryFn: getMyProfile,
     ...options,
   });
 };
@@ -22,7 +22,7 @@ export const useMyProfileSuspenseQuery = (
 ) => {
   return useSuspenseQuery({
     queryKey: ['user', 'my-profile'],
-    queryFn: () => getMyProfile(),
+    queryFn: getMyProfile,
     ...options,
   });
 };

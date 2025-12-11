@@ -1,12 +1,12 @@
-import { type UseMutationOptions } from '@tanstack/react-query';
+import { type OmittedMutationOptions } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
 import { postLogout } from './post';
 
-export const useLogoutMutation = (options?: UseMutationOptions<void>) => {
+export const useLogoutMutation = (options?: OmittedMutationOptions<void>) => {
   return useMutation({
     mutationKey: ['logout'],
-    mutationFn: () => postLogout(),
+    mutationFn: postLogout,
     ...options,
   });
 };
