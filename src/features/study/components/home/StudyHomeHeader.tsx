@@ -20,9 +20,11 @@ type Props = {
   session: Session | null;
 };
 
-export const StudyHeader = ({ session }: Props) => {
+export const StudyHomeHeader = ({ session }: Props) => {
   const { logout, isLoggingOut } = useAuth();
   const { theme = 'system', setTheme } = useTheme();
+
+  const user = session?.user;
 
   const handleToggleTheme = () => {
     const nextTheme =
@@ -40,12 +42,9 @@ export const StudyHeader = ({ session }: Props) => {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
-            <AvatarImage
-              src={session?.user?.profileImgUrl}
-              alt={session?.user.id}
-            />
+            <AvatarImage src={user?.profileImgUrl} alt={user?.id} />
             <AvatarFallback>
-              {session?.user?.username?.charAt(0).toUpperCase()}
+              {user?.username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -53,18 +52,15 @@ export const StudyHeader = ({ session }: Props) => {
           <DropdownMenuItem className="focus:bg-transparent">
             <div className="flex items-center gap-2">
               <Avatar>
-                <AvatarImage
-                  src={session?.user?.profileImgUrl}
-                  alt={session?.user.id}
-                />
+                <AvatarImage src={user?.profileImgUrl} alt={user?.id} />
                 <AvatarFallback>
-                  {session?.user?.username?.charAt(0).toUpperCase()}
+                  {user?.username?.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="font-medium">{session?.user?.username}</span>
+                <span className="font-medium">{user?.username}</span>
                 <span className="text-muted-foreground text-xs">
-                  {session?.user?.email}
+                  {user?.email}
                 </span>
               </div>
             </div>

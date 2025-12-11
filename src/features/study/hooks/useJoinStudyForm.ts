@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useJoinStudyMutation } from '@/api/study/postJoinStudy/mutation';
+import { showToast } from '@/lib/showToast';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
 import z from 'zod';
@@ -17,6 +19,23 @@ export const useJoinStudyForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const joinStudyMutation = useJoinStudyMutation({
+    onSuccess: () => {
+      showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
+    },
+    onError: (error) => {
+      console.error('❌ 스터디 가입 실패', error);
+
+      showToast({
+        message: '스터디 가입에 실패했습니다. 초대 코드를 확인해주세요.',
+        type: 'error',
+      });
+    },
+    onSettled: () => {
+      setIsSubmitting(false);
+    },
+  });
+
   const form = useForm({
     defaultValues: {
       inviteCode: '',
@@ -24,17 +43,10 @@ export const useJoinStudyForm = () => {
     validators: {
       onSubmit: JoinStudyFormSchema,
     },
-    onSubmit: async ({ value }) => {
-      try {
-        setIsSubmitting(true);
+    onSubmit: ({ value }) => {
+      setIsSubmitting(true);
 
-        /**  @todo API 호출 로직 추가 */
-        console.log(value);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsSubmitting(false);
-      }
+      joinStudyMutation.mutate(value);
     },
   });
 

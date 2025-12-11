@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useCreateStudyMutation } from '@/api/study/postCreateStudy/mutation';
+import { showToast } from '@/lib/showToast';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
 import z from 'zod';
@@ -61,6 +63,23 @@ export const useCreateStudyForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const createStudyMutation = useCreateStudyMutation({
+    onSuccess: () => {
+      showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
+    },
+    onError: (error) => {
+      console.error('❌ 스터디 생성 실패', error);
+
+      showToast({
+        message: '스터디 생성에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+    onSettled: () => {
+      setIsSubmitting(false);
+    },
+  });
+
   const form = useForm({
     defaultValues: {
       name: '',
@@ -75,17 +94,10 @@ export const useCreateStudyForm = () => {
       onBlur: CreateStudyFormSchema,
       onSubmit: CreateStudyFormSchema,
     },
-    onSubmit: async ({ value }) => {
-      try {
-        setIsSubmitting(true);
+    onSubmit: ({ value }) => {
+      setIsSubmitting(true);
 
-        /**  @todo API 호출 로직 추가 */
-        console.log(value);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsSubmitting(false);
-      }
+      createStudyMutation.mutate(value);
     },
   });
 
