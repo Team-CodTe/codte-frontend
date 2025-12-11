@@ -6,9 +6,12 @@ import { ToLoginPageButton } from './ToLoginPageButton';
 
 export const LandingHeader = () => {
   return (
-    <header className="flex h-16 w-full items-center justify-between px-5 py-4 lg:px-6">
-      <div className="flex items-center gap-12">
+    <header className="relative flex h-16 w-full items-center justify-between px-5 py-4 lg:px-6">
+      <div className="flex items-center">
         <AppLogo className="h-8 w-auto" />
+      </div>
+
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
         <HintTooltip
           content="실제 볼 수 있는 스터디 화면이에요. 한 번 살펴보고 시작해보세요."
           side="bottom">

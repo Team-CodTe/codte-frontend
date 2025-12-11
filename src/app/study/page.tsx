@@ -10,7 +10,7 @@ const StudyHomePage = async () => {
 
   return (
     <div className="bg-background flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
-      <StudyHomeHeader session={session} />
+      <StudyHomeHeader />
 
       <div className="flex w-full flex-col items-start gap-12 p-5 md:max-w-3xl md:px-0 md:py-10">
         <StudyHomeTitle session={session} />
