@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/Skeleton';
 import {
   Table,
   TableBody,
@@ -18,6 +19,7 @@ import {
 export const StudiesTable = <TData, TValue>({
   data,
   columns,
+  isLoading = false,
 }: TableProps<TData, TValue>) => {
   // eslint-disable-next-line
   const table = useReactTable({
@@ -50,7 +52,17 @@ export const StudiesTable = <TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                {columns.map((_, cellIndex) => (
+                  <TableCell key={cellIndex}>
+                    <Skeleton className="h-5 w-full" />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}

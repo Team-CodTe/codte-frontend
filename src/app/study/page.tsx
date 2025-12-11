@@ -13,7 +13,7 @@ const StudyHomePage = async () => {
         <div className="leading-relaxed">
           <div className="flex items-center gap-1 text-xl">
             <h2 className="font-bold">
-              {session?.user.username}님, 안녕하세요
+              {session?.user?.username ?? '사용자'}님, 안녕하세요
             </h2>
             <span className="font-toss-face">🙌🏻</span>
           </div>
