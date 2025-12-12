@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { useLogoutMutation } from '@/api/auth/postLogout/mutation';
+import { PATH } from '@/constants/path';
 import { showToast } from '@/lib/showToast';
 import { type SocialProvider } from '@/types/socialProvider';
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -16,7 +17,7 @@ export const useAuth = () => {
     try {
       setLoadingProvider(provider);
 
-      await signIn(provider, { callbackUrl: '/auth/callback' });
+      await signIn(provider, { callbackUrl: PATH.AUTH_CALLBACK });
     } catch (err) {
       console.error('❌ 로그인 실패', err);
 
@@ -31,7 +32,7 @@ export const useAuth = () => {
 
   const logoutMutation = useLogoutMutation({
     onSuccess: async () => {
-      await signOut({ callbackUrl: '/' });
+      await signOut({ callbackUrl: PATH.LANDING });
     },
     onError: (error) => {
       console.error('❌ 로그아웃 API 호출 실패', error);

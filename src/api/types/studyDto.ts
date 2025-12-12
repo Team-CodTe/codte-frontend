@@ -7,7 +7,10 @@ export interface StudyResponse {
   description: string;
   inviteCode: string;
   dailyProblemCount: number;
-  targetTier: string;
+  tierMin: number;
+  tierMax: number;
+  minSolved?: number;
+  maxSolved?: number;
   templateContent: string;
   createdAt: string;
 }

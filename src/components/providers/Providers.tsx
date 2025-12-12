@@ -3,6 +3,7 @@
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
+import { AuthSessionSyncProvider } from '@/components/providers/AuthSessionSyncProvider';
 import { Toaster } from '@/components/ui/Sonner';
 import { TooltipProvider } from '@/components/ui/Tooltip';
 import { makeQueryClient } from '@/lib/queryClient';
@@ -12,11 +13,11 @@ import type { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
 
-interface Props extends PropsWithChildren {
+type Props = {
   session: Session | null;
-}
+};
 
-export const Providers = ({ children, session }: Props) => {
+export const Providers = ({ children, session }: PropsWithChildren<Props>) => {
   const [queryClient] = useState(makeQueryClient);
 
   return (
@@ -29,7 +30,9 @@ export const Providers = ({ children, session }: Props) => {
           enableColorScheme
           disableTransitionOnChange>
           <Toaster />
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <AuthSessionSyncProvider>{children}</AuthSessionSyncProvider>
+          </TooltipProvider>
         </NextThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

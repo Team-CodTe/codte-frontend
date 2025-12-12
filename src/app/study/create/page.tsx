@@ -1,13 +1,13 @@
-import { SignUpForm } from '@/features/sign-up/components/SignUpForm';
+import { CreateStudyForm } from '@/features/study/components/create/CreateStudyForm';
 
-const SignUpPage = () => {
+const CreateStudyPage = () => {
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-center px-5 py-10 md:p-12">
       <div className="flex w-full max-w-md">
-        <SignUpForm />
+        <CreateStudyForm />
       </div>
     </div>
   );
 };
 
-export default SignUpPage;
+export default CreateStudyPage;

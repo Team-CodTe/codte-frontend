@@ -2,34 +2,33 @@
 
 import { Button } from '@/components/ui/Button';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/Form';
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from '@/components/ui/Field';
 import { Input } from '@/components/ui/Input';
 import { Spinner } from '@/components/ui/Spinner';
 import { CheckCircle } from 'lucide-react';
 
 import { useSignUpForm } from '../hooks/useSignUpForm';
 import { type ValidationStatus } from '../types/validationStatus';
-import { FormDescriptionWithError } from './FormDescriptionWithError';
 import { LogoutButton } from './LogoutButton';
 
 export const SignUpForm = () => {
   const {
     form,
-    onSubmit,
     validateUsername,
     validateBojUsername,
     resetUsernameValidation,
     resetBojValidation,
     usernameValidation,
     bojValidation,
-    isUsernameValidated,
-    isBojValidated,
-    canSubmit,
+    usernameApiError,
+    bojApiError,
     isSubmitting,
   } = useSignUpForm();
 
@@ -46,107 +45,177 @@ export const SignUpForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-12">
-        <div className="flex flex-col gap-6">
-          <FormField
-            aria-label="닉네임"
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="username">닉네임</FormLabel>
-                <div className="flex gap-2">
-                  <FormControl>
+    <form
+      id="sign-up-form"
+      className="w-full"
+      onSubmit={(e) => {
+        e.preventDefault();
+        form.handleSubmit();
+      }}>
+      <FieldSet>
+        <FieldLegend>
+          <div className="flex items-center gap-1">
+            <h2 className="text-xl font-bold">처음 오셨네요! 반가워요</h2>
+            <span className="font-toss-face text-xl">👋🏻</span>
+          </div>
+        </FieldLegend>
+        <FieldDescription>
+          서비스 이용을 위해 딱 두 가지만 알려주세요.
+        </FieldDescription>
+
+        <FieldGroup>
+          <form.Field name="username">
+            {(field) => {
+              const hasSchemaError =
+                field.state.meta.isTouched && !field.state.meta.isValid;
+              const hasApiError =
+                usernameValidation.status === 'invalid' && usernameApiError;
+              const isInvalid = hasSchemaError || hasApiError;
+              const isUsernameValidated =
+                usernameValidation.status === 'valid' &&
+                usernameValidation.validatedValue === field.state.value;
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>닉네임</FieldLabel>
+                  <div className="flex gap-2">
                     <Input
-                      id="username"
+                      id={field.name}
+                      name={field.name}
                       type="text"
                       inputMode="text"
                       placeholder="파이썬조아"
-                      {...field}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
                       onChange={(e) => {
-                        field.onChange(e);
+                        field.handleChange(e.target.value);
                         resetUsernameValidation();
                       }}
+                      data-invalid={isInvalid}
+                      autoComplete="off"
                     />
-                  </FormControl>
-                  <Button
-                    type="button"
-                    variant={isUsernameValidated ? 'outline' : 'secondary'}
-                    onClick={validateUsername}
-                    size={
-                      usernameValidation.status === 'validating' ||
-                      isUsernameValidated
-                        ? 'icon'
-                        : 'default'
-                    }
-                    disabled={
-                      usernameValidation.status === 'validating' ||
-                      isUsernameValidated
-                    }>
-                    {getValidationButtonText(usernameValidation.status)}
-                  </Button>
-                </div>
-                <FormDescriptionWithError message="스터디원들에게 보여질 닉네임이에요." />
-              </FormItem>
-            )}
-          />
+                    <Button
+                      type="button"
+                      variant={isUsernameValidated ? 'outline' : 'secondary'}
+                      onClick={validateUsername}
+                      size={
+                        usernameValidation.status === 'validating' ||
+                        isUsernameValidated
+                          ? 'icon'
+                          : 'default'
+                      }
+                      disabled={
+                        usernameValidation.status === 'validating' ||
+                        isUsernameValidated
+                      }>
+                      {getValidationButtonText(usernameValidation.status)}
+                    </Button>
+                  </div>
+                  {hasSchemaError ? (
+                    <FieldError errors={field.state.meta.errors} />
+                  ) : hasApiError ? (
+                    <FieldError>{usernameApiError}</FieldError>
+                  ) : (
+                    <FieldDescription>
+                      스터디원들에게 보여질 닉네임이에요.
+                    </FieldDescription>
+                  )}
+                </Field>
+              );
+            }}
+          </form.Field>
 
-          <FormField
-            aria-label="백준 계정"
-            control={form.control}
-            name="bojUsername"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="bojUsername">백준 계정</FormLabel>
-                <div className="flex gap-2">
-                  <FormControl>
+          <form.Field name="bojUsername">
+            {(field) => {
+              const hasSchemaError =
+                field.state.meta.isTouched && !field.state.meta.isValid;
+              const hasApiError =
+                bojValidation.status === 'invalid' && bojApiError;
+              const isInvalid = hasSchemaError || hasApiError;
+              const isBojValidated =
+                bojValidation.status === 'valid' &&
+                bojValidation.validatedValue === field.state.value;
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>백준 계정</FieldLabel>
+                  <div className="flex gap-2">
                     <Input
-                      id="bojUsername"
+                      id={field.name}
+                      name={field.name}
                       type="text"
                       inputMode="text"
                       placeholder="alsdn1360"
-                      {...field}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
                       onChange={(e) => {
-                        field.onChange(e);
+                        field.handleChange(e.target.value);
                         resetBojValidation();
                       }}
+                      data-invalid={isInvalid}
+                      autoComplete="off"
                     />
-                  </FormControl>
-                  <Button
-                    type="button"
-                    variant={isBojValidated ? 'outline' : 'secondary'}
-                    onClick={validateBojUsername}
-                    size={
-                      bojValidation.status === 'validating' || isBojValidated
-                        ? 'icon'
-                        : 'default'
-                    }
-                    disabled={
-                      bojValidation.status === 'validating' || isBojValidated
-                    }>
-                    {getValidationButtonText(bojValidation.status)}
-                  </Button>
-                </div>
-                <FormDescriptionWithError message="문제 추천 쿼리 및 문제 풀이 상태 조회에 사용돼요." />
-              </FormItem>
-            )}
-          />
-        </div>
+                    <Button
+                      type="button"
+                      variant={isBojValidated ? 'outline' : 'secondary'}
+                      onClick={validateBojUsername}
+                      size={
+                        bojValidation.status === 'validating' || isBojValidated
+                          ? 'icon'
+                          : 'default'
+                      }
+                      disabled={
+                        bojValidation.status === 'validating' || isBojValidated
+                      }>
+                      {getValidationButtonText(bojValidation.status)}
+                    </Button>
+                  </div>
+                  {hasSchemaError ? (
+                    <FieldError errors={field.state.meta.errors} />
+                  ) : hasApiError ? (
+                    <FieldError>{bojApiError}</FieldError>
+                  ) : (
+                    <FieldDescription>
+                      문제 추천 쿼리 및 문제 풀이 상태 조회에 사용돼요.
+                    </FieldDescription>
+                  )}
+                </Field>
+              );
+            }}
+          </form.Field>
+        </FieldGroup>
 
-        <div className="flex flex-col gap-2">
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={!canSubmit || isSubmitting}>
-            {isSubmitting ? <Spinner /> : null}
-            {isSubmitting ? '등록 중...' : '회원가입'}
-          </Button>
+        <Field>
+          <form.Subscribe
+            selector={(state) => ({
+              username: state.values.username,
+              bojUsername: state.values.bojUsername,
+              canSubmit: state.canSubmit,
+            })}>
+            {({ username, bojUsername, canSubmit }) => {
+              const isUsernameValidated =
+                usernameValidation.status === 'valid' &&
+                usernameValidation.validatedValue === username;
+              const isBojValidated =
+                bojValidation.status === 'valid' &&
+                bojValidation.validatedValue === bojUsername;
+              const isFormValid =
+                canSubmit && isUsernameValidated && isBojValidated;
+
+              return (
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={!isFormValid || isSubmitting}>
+                  {isSubmitting ? <Spinner /> : null}
+                  {isSubmitting ? '등록 중...' : '회원가입'}
+                </Button>
+              );
+            }}
+          </form.Subscribe>
           <LogoutButton />
-        </div>
-      </form>
-    </Form>
+        </Field>
+      </FieldSet>
+    </form>
   );
 };
