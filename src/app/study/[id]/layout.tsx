@@ -2,11 +2,23 @@ import { type PropsWithChildren } from 'react';
 
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 import { StudyMainHeader } from '@/features/study/components/id/StudyMainHeader';
+import { type Metadata } from 'next';
 
 type Props = {
   params: Promise<{
     id: string;
   }>;
+};
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const { id } = await params;
+  const study = await getStudyDetail(id);
+
+  return {
+    title: `CodTe - ${study.name}`,
+  };
 };
 
 const StudyMainLayout = async ({

@@ -11,7 +11,6 @@ export const useAuth = () => {
   const [loadingProvider, setLoadingProvider] = useState<SocialProvider | null>(
     null,
   );
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const login = useCallback(async (provider: SocialProvider) => {
     try {
@@ -30,38 +29,33 @@ export const useAuth = () => {
     }
   }, []);
 
-  const logoutMutation = useLogoutMutation({
-    onSuccess: async () => {
-      await signOut({ callbackUrl: PATH.LANDING });
-    },
-    onError: (error) => {
-      console.error('❌ 로그아웃 API 호출 실패', error);
+  const { mutate: mutateLogout, isPending: isLogoutPending } =
+    useLogoutMutation({
+      onSuccess: async () => {
+        await signOut({ callbackUrl: PATH.LANDING });
+      },
+      onError: (error) => {
+        console.error('❌ 로그아웃 API 호출 실패', error);
 
-      showToast({
-        message: '로그아웃에 실패했습니다. 다시 시도해주세요.',
-        type: 'error',
-      });
-
-      setIsLoggingOut(false);
-    },
-  });
+        showToast({
+          message: '로그아웃에 실패했습니다. 다시 시도해주세요.',
+          type: 'error',
+        });
+      },
+    });
 
   const logout = useCallback(async () => {
-    try {
-      setIsLoggingOut(true);
-
-      logoutMutation.mutate();
-    } catch (err) {
-      console.error('❌ 로그아웃 실패', err);
-
-      setIsLoggingOut(false);
+    if (isLogoutPending) {
+      return;
     }
-  }, [logoutMutation]);
+
+    mutateLogout();
+  }, [mutateLogout, isLogoutPending]);
 
   return {
     session,
     loadingProvider,
-    isLoggingOut,
+    isLogoutPending,
     login,
     logout,
     updateSession,

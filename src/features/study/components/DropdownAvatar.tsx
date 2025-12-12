@@ -14,7 +14,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useThemeAction } from '@/hooks/useThemeAction';
 
 export const DropdownAvatar = () => {
-  const { session, logout, isLoggingOut } = useAuth();
+  const { session, logout, isLogoutPending } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
 
   const user = session?.user;
@@ -55,9 +55,13 @@ export const DropdownAvatar = () => {
         <DropdownMenuItem
           className="justify-between"
           onClick={logout}
-          disabled={isLoggingOut}>
-          {isLoggingOut ? <span>로그아웃 중...</span> : <span>로그아웃</span>}
-          {isLoggingOut ? <Spinner /> : null}
+          disabled={isLogoutPending}>
+          {isLogoutPending ? (
+            <span>로그아웃 중...</span>
+          ) : (
+            <span>로그아웃</span>
+          )}
+          {isLogoutPending ? <Spinner /> : null}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

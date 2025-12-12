@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useTransition } from 'react';
 
 import { getMyProfile } from '@/api/user/getMyProfile/fetch';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
@@ -43,7 +43,7 @@ export const useSignUpForm = () => {
   const router = useRouter();
   const { update: updateSession } = useSession();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNavigating, startTransition] = useTransition();
 
   const [usernameValidation, setUsernameValidation] = useState<{
     status: ValidationStatus;
@@ -58,54 +58,57 @@ export const useSignUpForm = () => {
   const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
   const [bojApiError, setBojApiError] = useState<string | null>(null);
 
-  const registerProfileMutation = useRegisterProfileMutation({
-    onSuccess: async () => {
-      try {
-        const profile = await getMyProfile();
+  const { mutate: mutateRegisterProfile, isPending: isRegisteringProfile } =
+    useRegisterProfileMutation({
+      onSuccess: async () => {
+        try {
+          const profile = await getMyProfile();
 
-        await updateSession({
-          user: {
-            id: String(profile.id),
-            provider: profile.provider,
-            email: profile.email,
-            username: profile.username,
-            bojUsername: profile.bojUsername,
-            profileImgUrl: profile.profileImgUrl,
-            createdAt: profile.createdAt,
-          },
-        });
+          await updateSession({
+            user: {
+              id: String(profile.id),
+              provider: profile.provider,
+              email: profile.email,
+              username: profile.username,
+              bojUsername: profile.bojUsername,
+              profileImgUrl: profile.profileImgUrl,
+              createdAt: profile.createdAt,
+            },
+          });
 
-        showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
+          showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
 
-        resetUsernameValidation();
-        resetBojValidation();
+          resetUsernameValidation();
+          resetBojValidation();
 
-        router.replace(PATH.STUDY.HOME);
-      } catch (error) {
-        console.error('❌ 유저 세션 업데이트 실패:', error);
+          startTransition(() => {
+            router.replace(PATH.STUDY.HOME);
+          });
+        } catch (error) {
+          console.error('❌ 유저 세션 업데이트 실패:', error);
+
+          showToast({
+            message:
+              '회원 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
+            type: 'error',
+          });
+
+          signOut({ redirect: false });
+
+          startTransition(() => {
+            router.replace(PATH.LOGIN);
+          });
+        }
+      },
+      onError: (error) => {
+        console.error('❌ 회원가입 실패:', error);
 
         showToast({
-          message: '회원 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
+          message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
           type: 'error',
         });
-
-        signOut({ redirect: false });
-
-        router.replace(PATH.LOGIN);
-      }
-    },
-    onError: (error) => {
-      console.error('❌ 회원가입 실패:', error);
-
-      showToast({
-        message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-        type: 'error',
-      });
-    },
-    onSettled: () => {
-      setIsSubmitting(false);
-    },
-  });
+      },
+    });
 
   const form = useForm({
     defaultValues: {
@@ -127,9 +130,11 @@ export const useSignUpForm = () => {
         return;
       }
 
-      setIsSubmitting(true);
+      if (isRegisteringProfile) {
+        return;
+      }
 
-      registerProfileMutation.mutate({
+      mutateRegisterProfile({
         username: value.username,
         bojUsername: value.bojUsername,
       });
@@ -246,6 +251,6 @@ export const useSignUpForm = () => {
     bojValidation,
     usernameApiError,
     bojApiError,
-    isSubmitting,
+    isSubmitting: isRegisteringProfile || isNavigating,
   };
 };

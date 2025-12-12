@@ -1,5 +1,3 @@
-'use client';
-
 import { AppLogo } from '@/components/logos/AppLogo';
 
 import { DropdownAvatar } from '../DropdownAvatar';

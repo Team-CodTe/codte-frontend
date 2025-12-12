@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useTransition } from 'react';
 
 import { useCreateStudyMutation } from '@/api/study/postCreateStudy/mutation';
 import { PATH } from '@/constants/path';
@@ -16,7 +16,7 @@ const CreateStudyFormSchema = z
       .min(3, '3글자 이상 입력해주세요.')
       .max(50, '50글자 이하로 입력해주세요.')
       .regex(
-        /^[\uAC00-\uD7A3a-zA-Z0-9_-]+$/,
+        /^[\uAC00-\uD7A3a-zA-Z0-9 _-]+$/,
         '한글, 영문, 숫자, _, -만 입력 가능합니다.',
       ),
     description: z
@@ -62,26 +62,26 @@ type CreateStudyFormData = z.infer<typeof CreateStudyFormSchema>;
 
 export const useCreateStudyForm = () => {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNavigating, startTransition] = useTransition();
 
-  const createStudyMutation = useCreateStudyMutation({
-    onSuccess: (data) => {
-      showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
+  const { mutate: mutateCreateStudy, isPending: isCreatingStudy } =
+    useCreateStudyMutation({
+      onSuccess: (data) => {
+        showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
 
-      router.replace(`${PATH.STUDY.HOME}/${data.id}`);
-    },
-    onError: (error) => {
-      console.error('❌ 스터디 생성 실패', error);
+        startTransition(() => {
+          router.replace(`${PATH.STUDY.HOME}/${data.id}`);
+        });
+      },
+      onError: (error) => {
+        console.error('❌ 스터디 생성 실패', error);
 
-      showToast({
-        message: '스터디 생성에 실패했습니다. 다시 시도해주세요.',
-        type: 'error',
-      });
-    },
-    onSettled: () => {
-      setIsSubmitting(false);
-    },
-  });
+        showToast({
+          message: '스터디 생성에 실패했습니다. 다시 시도해주세요.',
+          type: 'error',
+        });
+      },
+    });
 
   const form = useForm({
     defaultValues: {
@@ -97,9 +97,11 @@ export const useCreateStudyForm = () => {
       onSubmit: CreateStudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      setIsSubmitting(true);
+      if (isCreatingStudy) {
+        return;
+      }
 
-      createStudyMutation.mutate(value);
+      mutateCreateStudy(value);
     },
   });
 
@@ -111,6 +113,6 @@ export const useCreateStudyForm = () => {
   return {
     form,
     onQuit,
-    isSubmitting,
+    isSubmitting: isCreatingStudy || isNavigating,
   };
 };

@@ -54,13 +54,6 @@ export const proxy = auth(async (req) => {
     } catch (error) {
       console.error('[ Proxy ]: 토큰 재발급 에러', error);
     }
-
-    return NextResponse.redirect(new URL(PATH.SIGN_UP, nextUrl));
-  }
-
-  // 회원가입 완료 유저 처리
-  if (GUEST_PATHS.includes(pathname)) {
-    return NextResponse.redirect(new URL(PATH.STUDY.HOME, nextUrl));
   }
 
   // 로그인 검증(세션과 리프레시 토큰 둘 다 있어야 함)
