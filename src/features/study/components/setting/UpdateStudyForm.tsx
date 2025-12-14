@@ -29,14 +29,21 @@ import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
 import { useUpdateStudyForm } from '../../hooks/useUpdateStudyForm';
 import { type StudyFormData } from '../../schemas/studyForm.schema';
+import { InviteCodeInput } from './InviteCodeInput';
 
 type Props = {
   id: string;
   initialData: StudyFormData;
   role: StudyRole;
+  inviteCode: string;
 };
 
-export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
+export const UpdateStudyForm = ({
+  id,
+  initialData,
+  role,
+  inviteCode,
+}: Props) => {
   const { form, onReset, isSubmitting } = useUpdateStudyForm({
     id,
     initialData,
@@ -293,6 +300,8 @@ export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
               </form.Subscribe>
             ) : null}
           </div>
+
+          <InviteCodeInput inviteCode={inviteCode} />
         </FieldGroup>
 
         {canEdit ? (

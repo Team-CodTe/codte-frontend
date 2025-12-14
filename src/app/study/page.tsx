@@ -10,7 +10,7 @@ const StudyHomePage = async () => {
     <div className="flex w-screen flex-col items-center">
       <StudyHomeHeader />
 
-      <main className="flex w-full flex-col items-start gap-18 px-5 py-10 md:max-w-3xl md:p-12">
+      <main className="flex w-full flex-col items-start gap-18 p-5 md:max-w-2xl md:p-10 md:px-0">
         <StudyHomeTitle session={session} />
 
         <StudiesSection />
