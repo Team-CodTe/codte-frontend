@@ -20,7 +20,7 @@ export const StudiesTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
-  onRowClick,
+  onClickRow,
 }: TableProps<TData, TValue>) => {
   // eslint-disable-next-line
   const table = useReactTable({
@@ -32,7 +32,7 @@ export const StudiesTable = <TData, TValue>({
   return (
     <div className="max-h-64 min-h-0 overflow-auto rounded-md border">
       <Table noWrapper>
-        <TableHeader className="bg-muted sticky top-0 z-10">
+        <TableHeader className="bg-muted sticky top-0 z-1">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -68,7 +68,7 @@ export const StudiesTable = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
-                onClick={() => onRowClick?.(row.original)}>
+                onClick={() => onClickRow?.(row.original)}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

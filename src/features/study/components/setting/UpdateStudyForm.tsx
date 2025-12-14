@@ -4,11 +4,9 @@ import { TierBadge } from '@/components/common/TierBadge';
 import { Button } from '@/components/ui/Button';
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-  FieldLegend,
   FieldSet,
 } from '@/components/ui/Field';
 import { Input } from '@/components/ui/Input';
@@ -27,11 +25,24 @@ import {
 } from '@/components/ui/Select';
 import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
+import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
-import { useCreateStudyForm } from '../../hooks/useCreateStudyForm';
+import { useUpdateStudyForm } from '../../hooks/useUpdateStudyForm';
+import { type StudyFormData } from '../../schemas/studyForm.schema';
 
-export const CreateStudyForm = () => {
-  const { form, onQuit, isSubmitting } = useCreateStudyForm();
+type Props = {
+  id: string;
+  initialData: StudyFormData;
+  role: StudyRole;
+};
+
+export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
+  const { form, onReset, isSubmitting } = useUpdateStudyForm({
+    id,
+    initialData,
+  });
+
+  const canEdit = role !== STUDY_ROLE.MEMBER;
 
   const handleNumberChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -44,23 +55,16 @@ export const CreateStudyForm = () => {
 
   return (
     <form
-      id="create-study-form"
+      id="update-study-form"
       className="w-full"
       onSubmit={(e) => {
         e.preventDefault();
-        form.handleSubmit();
+
+        if (canEdit) {
+          form.handleSubmit();
+        }
       }}>
       <FieldSet>
-        <FieldLegend>
-          <div className="flex items-center gap-1">
-            <h2 className="text-xl font-bold">스터디장이 되어봐요</h2>
-            <span className="font-toss-face text-xl">😎</span>
-          </div>
-        </FieldLegend>
-        <FieldDescription>
-          스터디를 등록하고 멤버들을 모집해보세요.
-        </FieldDescription>
-
         <FieldGroup>
           <form.Field name="name">
             {(field) => {
@@ -76,11 +80,13 @@ export const CreateStudyForm = () => {
                     type="text"
                     inputMode="text"
                     placeholder="코딩테스트를 스터디하는 사람들 모임"
+                    readOnly={!canEdit}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     data-invalid={isInvalid}
                     autoComplete="off"
+                    className="md:max-w-[calc(50%-6px)]"
                   />
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -102,12 +108,13 @@ export const CreateStudyForm = () => {
                       name={field.name}
                       inputMode="text"
                       placeholder="저희는 매일 3문제씩 풀어요."
+                      readOnly={!canEdit}
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       data-invalid={isInvalid}
                       rows={6}
-                      className="min-h-24 resize-none"
+                      className="min-h-24 resize-none md:min-h-16"
                       autoComplete="off"
                     />
                     <InputGroupAddon align="block-end">
@@ -133,10 +140,13 @@ export const CreateStudyForm = () => {
                   <Select
                     name={field.name}
                     value={field.state.value.toString()}
+                    disabled={!canEdit}
                     onValueChange={(value) =>
                       field.handleChange(parseInt(value, 10))
                     }>
-                    <SelectTrigger id={field.name}>
+                    <SelectTrigger
+                      id={field.name}
+                      className="md:max-w-[calc(50%-6px)]">
                       <SelectValue placeholder="추천 문제 개수" />
                     </SelectTrigger>
                     <SelectContent>
@@ -173,15 +183,13 @@ export const CreateStudyForm = () => {
                         min={0}
                         max={30}
                         step={1}
+                        disabled={!canEdit}
                         value={[tierMin, tierMax]}
                         onValueChange={(values) => {
                           tierMinField.handleChange(values[0]);
                           tierMaxField.handleChange(values[1]);
                         }}
                       />
-                      <FieldDescription>
-                        설정한 티어 범위 안의 문제만 추천돼요.
-                      </FieldDescription>
                     </Field>
                   );
                 }}
@@ -208,6 +216,7 @@ export const CreateStudyForm = () => {
                         inputMode="numeric"
                         placeholder="500"
                         min={0}
+                        readOnly={!canEdit}
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
@@ -240,6 +249,7 @@ export const CreateStudyForm = () => {
                         inputMode="numeric"
                         placeholder="14000"
                         min={0}
+                        readOnly={!canEdit}
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
@@ -256,45 +266,54 @@ export const CreateStudyForm = () => {
               </form.Field>
             </div>
 
-            <form.Subscribe
-              selector={(state) => ({
-                min: state.values.minSolved,
-                max: state.values.maxSolved,
-                errors: state.errors,
-              })}>
-              {({ min, max }) => {
-                const hasRangeError = min !== null && max !== null && min > max;
+            {canEdit ? (
+              <form.Subscribe
+                selector={(state) => ({
+                  min: state.values.minSolved,
+                  max: state.values.maxSolved,
+                  errors: state.errors,
+                })}>
+                {({ min, max }) => {
+                  const hasRangeError =
+                    min !== null && max !== null && min > max;
 
-                if (!hasRangeError)
+                  if (!hasRangeError)
+                    return (
+                      <div className="text-muted-foreground text-sm leading-normal font-normal">
+                        비워두면 전체 범위로 설정돼요.
+                      </div>
+                    );
+
                   return (
-                    <div className="text-muted-foreground text-sm leading-normal font-normal">
-                      비워두면 전체 범위로 설정돼요.
+                    <div className="text-destructive text-sm leading-normal font-normal">
+                      맞힌 사람 수의 최소값은 최대값보다 작아야 합니다.
                     </div>
                   );
-
-                return (
-                  <div className="text-destructive text-sm leading-normal font-normal">
-                    맞힌 사람 수의 최소값은 최대값보다 작아야 합니다.
-                  </div>
-                );
-              }}
-            </form.Subscribe>
+                }}
+              </form.Subscribe>
+            ) : null}
           </div>
         </FieldGroup>
 
-        <Field>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? <Spinner /> : null}
-            {isSubmitting ? '등록 중...' : '생성'}
-          </Button>
-          <Button
-            variant="outline"
-            type="button"
-            onClick={onQuit}
-            disabled={isSubmitting}>
-            뒤로
-          </Button>
-        </Field>
+        {canEdit ? (
+          <form.Subscribe selector={(state) => state.isDirty}>
+            {(isDirty) => (
+              <Field orientation="horizontal" className="flex justify-end">
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={onReset}
+                  disabled={isSubmitting || !isDirty}>
+                  초기화
+                </Button>
+                <Button type="submit" disabled={isSubmitting || !isDirty}>
+                  {isSubmitting ? <Spinner /> : null}
+                  {isSubmitting ? '저장 중...' : '저장'}
+                </Button>
+              </Field>
+            )}
+          </form.Subscribe>
+        ) : null}
       </FieldSet>
     </form>
   );

@@ -67,7 +67,11 @@ export const JoinStudyForm = () => {
             {isSubmitting ? <Spinner /> : null}
             {isSubmitting ? '가입 중...' : '가입'}
           </Button>
-          <Button variant="outline" type="button" onClick={onQuit}>
+          <Button
+            variant="outline"
+            type="button"
+            onClick={onQuit}
+            disabled={isSubmitting}>
             뒤로
           </Button>
         </Field>

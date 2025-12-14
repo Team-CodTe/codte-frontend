@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useState, useTransition } from 'react';
 
 import { getMyProfile } from '@/api/user/getMyProfile/fetch';

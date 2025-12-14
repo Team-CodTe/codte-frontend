@@ -12,7 +12,7 @@ export const useStudyDetailQuery = (
   options?: OmittedQueryOptions<GetStudyDetailResponse>,
 ) => {
   return useQuery({
-    queryKey: ['studyDetail', id],
+    queryKey: ['study', 'detail', id],
     queryFn: () => getStudyDetail(id),
     ...options,
   });
@@ -23,7 +23,7 @@ export const useStudyDetailSuspenseQuery = (
   options?: OmittedSuspenseQueryOptions<GetStudyDetailResponse>,
 ) => {
   return useQuery({
-    queryKey: ['studyDetail', id],
+    queryKey: ['study', 'detail', id],
     queryFn: () => getStudyDetail(id),
     ...options,
   });

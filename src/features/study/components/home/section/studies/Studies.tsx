@@ -1,8 +1,11 @@
 'use client';
 
+import { useTransition } from 'react';
+
 import { useMyStudiesQuery } from '@/api/study/getMyStudies/query';
 import { type GetMyStudiesResponse } from '@/api/study/getMyStudies/type';
 import { PATH } from '@/constants/path';
+import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
 
 import { StudiesTable } from './StudiesTable';
@@ -14,17 +17,29 @@ type Props = {
 
 export const Studies = ({ initialData }: Props) => {
   const router = useRouter();
+  const [isNavigating, startTransition] = useTransition();
   const { data } = useMyStudiesQuery({ initialData });
 
-  const handleRowClick = (study: GetMyStudiesResponse) => {
-    router.push(`${PATH.STUDY.HOME}/${study.studyId}`);
+  const onClickRow = (study: GetMyStudiesResponse) => {
+    if (isNavigating) {
+      return;
+    }
+
+    startTransition(() => {
+      router.push(
+        buildUrlWithParams({
+          url: PATH.STUDY.MAIN,
+          pathParams: { id: study.studyId },
+        }),
+      );
+    });
   };
 
   return (
     <StudiesTable
       data={data ?? []}
       columns={studiesTableColumns}
-      onRowClick={handleRowClick}
+      onClickRow={onClickRow}
     />
   );
 };

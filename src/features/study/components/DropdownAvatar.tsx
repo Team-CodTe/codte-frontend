@@ -29,7 +29,7 @@ export const DropdownAvatar = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-44">
+      <DropdownMenuContent align="end" className="min-w-56">
         <DropdownMenuItem className="focus:bg-transparent">
           <div className="flex flex-col">
             <span className="font-medium">{user?.username}</span>

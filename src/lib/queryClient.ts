@@ -21,7 +21,7 @@ const DEFAULT_QUERY_OPTIONS: Options['queryOptions'] = {
   gcTime: DEFAULT_QUERY_GC_TIME,
   staleTime: DEFAULT_STALE_TIME,
   refetchOnWindowFocus: false,
-  throwOnError: true,
+  throwOnError: false,
 };
 
 const DEFAULT_MUTATION_OPTIONS: Options['mutationOptions'] = {
@@ -80,4 +80,7 @@ export type OmittedMutationOptions<
   TError = Error,
   TVariables = void,
   TContext = unknown,
-> = Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationFn'>;
+> = Omit<
+  UseMutationOptions<TData, TError, TVariables, TContext>,
+  'mutationKey' | 'mutationFn'
+>;

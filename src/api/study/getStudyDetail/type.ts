@@ -1,3 +1,5 @@
+import { type StudyRole } from '@/types/studyRole';
+
 export type GetStudyDetailResponse = {
   id: number;
   name: string;
@@ -8,5 +10,7 @@ export type GetStudyDetailResponse = {
   tierMax: number;
   minSolved: number | null;
   maxSolved: number | null;
+  templateContent: string;
   createdAt: string;
+  myRole: StudyRole;
 };

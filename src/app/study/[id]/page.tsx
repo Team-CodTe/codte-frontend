@@ -1,4 +1,17 @@
-const StudyMainPage = () => {
+import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
+
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+const StudyMainPage = async ({ params }: Props) => {
+  const { id } = await params;
+  const study = await getStudyDetail(id);
+
+  console.log(study);
+
   return (
     <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-8 p-5 lg:max-w-4/5 lg:grid-cols-2 lg:grid-rows-1 lg:py-6">
       <div className="flex min-h-0 flex-col gap-8 lg:h-full">
