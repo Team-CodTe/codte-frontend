@@ -76,11 +76,10 @@ export const useSignUpForm = () => {
 
           showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
 
-          resetUsernameValidation();
-          resetBojValidation();
-
           startTransition(() => {
             router.replace(PATH.STUDY.HOME);
+            resetUsernameValidation();
+            resetBojValidation();
           });
         } catch (error) {
           console.error('❌ 유저 세션 업데이트 실패:', error);
