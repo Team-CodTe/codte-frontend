@@ -101,12 +101,15 @@ const tokenRefresh = async (): Promise<void> => {
       (headers as Record<string, string>)['Cookie'] = cookieString;
     }
 
-    const response = await fetch(`${BASE_URL}${API_URLS.AUTH.REFRESH}`, {
-      method: 'POST',
-      headers,
-      credentials: 'include',
-      signal: controller.signal,
-    });
+    const response = await fetch(
+      new URL(API_URLS.AUTH.REFRESH, BASE_URL).href,
+      {
+        method: 'POST',
+        headers,
+        credentials: 'include',
+        signal: controller.signal,
+      },
+    );
 
     if (!response.ok) {
       throw new FetchError('토큰 갱신에 실패했습니다.', response.status, null);
@@ -161,7 +164,7 @@ const request = async <T>(
 
   try {
     const response = await fetchWithTimeout(
-      `${BASE_URL}${url}`,
+      new URL(url, BASE_URL).href,
       options,
       timeout,
     );
