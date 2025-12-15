@@ -5,6 +5,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -14,7 +15,6 @@ import { Button, buttonVariants } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { useExitStudy } from '@/features/study/hooks/useExitStudy';
 import { cn } from '@/lib/utils';
-import { AlertDialogDescription } from '@radix-ui/react-alert-dialog';
 
 type Props = {
   id: number;
@@ -23,10 +23,18 @@ type Props = {
 export const StudyLeaveDialog = ({ id }: Props) => {
   const { mutateLeaveStudy, isLeavingStudy } = useExitStudy({ id });
 
+  const handleLeave = () => {
+    if (!isLeavingStudy) {
+      mutateLeaveStudy();
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">스터디 탈퇴</Button>
+        <Button variant="destructive" className="w-full md:w-auto">
+          스터디 탈퇴
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -37,12 +45,13 @@ export const StudyLeaveDialog = ({ id }: Props) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLeavingStudy}>취소</AlertDialogCancel>
           <AlertDialogAction
             className={cn(buttonVariants({ variant: 'destructive' }))}
-            onClick={() => mutateLeaveStudy()}>
+            onClick={handleLeave}
+            disabled={isLeavingStudy}>
             {isLeavingStudy ? <Spinner /> : null}
-            {isLeavingStudy ? '탈퇴 중...' : '확인'}
+            {isLeavingStudy ? '탈퇴 중...' : '스터디 탈퇴'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

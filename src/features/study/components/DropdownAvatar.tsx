@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -29,7 +28,7 @@ export const DropdownAvatar = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-56">
+      <DropdownMenuContent align="end" className="min-w-48">
         <DropdownMenuItem className="focus:bg-transparent">
           <div className="flex flex-col">
             <span className="font-medium">{user?.username}</span>
@@ -37,21 +36,23 @@ export const DropdownAvatar = () => {
           </div>
         </DropdownMenuItem>
 
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <span>내 프로필</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="justify-between"
-            onSelect={(event) => {
-              event.preventDefault();
-              handleToggleTheme();
-            }}>
-            <span>테마 변경</span>
-            <ThemeIcon />
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        {/** @todo 내 프로필 설정 페이지 이동 기능 추가 */}
+        <DropdownMenuItem>
+          <span>내 프로필</span>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          className="justify-between"
+          onSelect={(event) => {
+            event.preventDefault();
+            handleToggleTheme();
+          }}>
+          <span>테마 변경</span>
+          <ThemeIcon />
+        </DropdownMenuItem>
+
         <DropdownMenuSeparator />
+
         <DropdownMenuItem
           className="justify-between"
           onClick={logout}

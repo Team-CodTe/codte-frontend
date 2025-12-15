@@ -280,21 +280,25 @@ export const CreateStudyForm = () => {
               }}
             </form.Subscribe>
           </div>
-        </FieldGroup>
 
-        <Field>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? <Spinner /> : null}
-            {isSubmitting ? '등록 중...' : '생성'}
-          </Button>
-          <Button
-            variant="outline"
-            type="button"
-            onClick={onQuit}
-            disabled={isSubmitting}>
-            뒤로
-          </Button>
-        </Field>
+          <Field orientation="responsive" className="justify-end">
+            <Button
+              variant="outline"
+              type="button"
+              className="order-2 @md/field-group:order-1"
+              onClick={onQuit}
+              disabled={isSubmitting}>
+              뒤로
+            </Button>
+            <Button
+              type="submit"
+              className="order-1 @md/field-group:order-2"
+              disabled={isSubmitting}>
+              {isSubmitting ? <Spinner /> : null}
+              {isSubmitting ? '생성 중...' : '스터디 생성'}
+            </Button>
+          </Field>
+        </FieldGroup>
       </FieldSet>
     </form>
   );

@@ -3,7 +3,6 @@
 import { useTransition } from 'react';
 
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
-import { HintTooltip } from '@/components/common/HintTooltip';
 import { AppLogo } from '@/components/logos/AppLogo';
 import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
@@ -43,16 +42,15 @@ export const StudyMainHeader = ({ study }: Props) => {
         <span className="hidden font-medium sm:block">{study.name}</span>
       </div>
 
-      <div className="flex gap-2">
-        <HintTooltip content="스터디 설정">
-          <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={onClickSetting}
-            disabled={isNavigating}>
-            <SettingsIcon />
-          </Button>
-        </HintTooltip>
+      <div className="flex flex-row items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onClickSetting}
+          disabled={isNavigating}>
+          <SettingsIcon />
+          <span className="hidden sm:inline">스터디 정보</span>
+        </Button>
 
         <DropdownAvatar />
       </div>

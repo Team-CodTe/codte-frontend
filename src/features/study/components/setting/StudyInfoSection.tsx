@@ -11,7 +11,7 @@ type Props = {
 
 export const StudyInfoSection = ({ study }: Props) => {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         <div className="flex flex-row items-end justify-between">
           <h2 className="text-xl font-bold">스터디 정보</h2>

@@ -292,27 +292,31 @@ export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
               </form.Subscribe>
             ) : null}
           </div>
-        </FieldGroup>
 
-        {isEditable ? (
-          <form.Subscribe selector={(state) => state.isDirty}>
-            {(isDirty) => (
-              <Field orientation="horizontal" className="flex justify-end">
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={onReset}
-                  disabled={isSubmitting || !isDirty}>
-                  초기화
-                </Button>
-                <Button type="submit" disabled={isSubmitting || !isDirty}>
-                  {isSubmitting ? <Spinner /> : null}
-                  {isSubmitting ? '저장 중...' : '저장'}
-                </Button>
-              </Field>
-            )}
-          </form.Subscribe>
-        ) : null}
+          {isEditable ? (
+            <form.Subscribe selector={(state) => state.isDirty}>
+              {(isDirty) => (
+                <Field orientation="responsive" className="justify-end">
+                  <Button
+                    type="submit"
+                    className="order-1 @md/field-group:order-2"
+                    disabled={isSubmitting || !isDirty}>
+                    {isSubmitting ? <Spinner /> : null}
+                    {isSubmitting ? '저장 중...' : '저장'}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="order-2 @md/field-group:order-1"
+                    onClick={onReset}
+                    disabled={isSubmitting || !isDirty}>
+                    초기화
+                  </Button>
+                </Field>
+              )}
+            </form.Subscribe>
+          ) : null}
+        </FieldGroup>
       </FieldSet>
     </form>
   );

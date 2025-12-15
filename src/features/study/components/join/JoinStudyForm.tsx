@@ -5,6 +5,7 @@ import {
   Field,
   FieldDescription,
   FieldError,
+  FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSet,
@@ -36,45 +37,51 @@ export const JoinStudyForm = () => {
           초대 코드를 입력하고 스터디에 가입해보세요.
         </FieldDescription>
 
-        <form.Field name="inviteCode">
-          {(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
+        <FieldGroup>
+          <form.Field name="inviteCode">
+            {(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
 
-            return (
-              <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>초대 코드</FieldLabel>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  type="text"
-                  inputMode="text"
-                  placeholder="XQ6A3CODTER8J4P"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  data-invalid={isInvalid}
-                  autoComplete="off"
-                />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            );
-          }}
-        </form.Field>
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>초대 코드</FieldLabel>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    type="text"
+                    inputMode="text"
+                    placeholder="XQ6A3CODTER8J4P"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    data-invalid={isInvalid}
+                    autoComplete="off"
+                  />
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              );
+            }}
+          </form.Field>
 
-        <Field>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? <Spinner /> : null}
-            {isSubmitting ? '가입 중...' : '가입'}
-          </Button>
-          <Button
-            variant="outline"
-            type="button"
-            onClick={onQuit}
-            disabled={isSubmitting}>
-            뒤로
-          </Button>
-        </Field>
+          <Field orientation="responsive" className="justify-end">
+            <Button
+              variant="outline"
+              type="button"
+              className="order-2 @md/field-group:order-1"
+              onClick={onQuit}
+              disabled={isSubmitting}>
+              뒤로
+            </Button>
+            <Button
+              type="submit"
+              className="order-1 @md/field-group:order-2"
+              disabled={isSubmitting}>
+              {isSubmitting ? <Spinner /> : null}
+              {isSubmitting ? '가입 중...' : '스터디 가입'}
+            </Button>
+          </Field>
+        </FieldGroup>
       </FieldSet>
     </form>
   );

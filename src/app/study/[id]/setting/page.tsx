@@ -14,7 +14,7 @@ const StudySettingPage = async ({ params }: Props) => {
 
   return (
     <main className="min-h-0 w-full flex-1 overflow-y-auto">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-18 p-5 md:p-10 md:px-0">
+      <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 p-5 md:gap-18 md:p-10 md:px-0">
         <StudyInfoSection study={study} />
         <DangerZoneSection study={study} />
       </div>
