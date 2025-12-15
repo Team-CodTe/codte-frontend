@@ -1,6 +1,6 @@
 import { StudiesSuspense } from '@/features/study/suspenses/StudiesSuspense';
 
-import { StudiesTableHeader } from './StudiesTableHeader';
+import { StudiesTableHeader } from './studies/StudiesTableHeader';
 
 export const StudiesSection = () => {
   return (

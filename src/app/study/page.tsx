@@ -1,4 +1,4 @@
-import { StudiesSection } from '@/features/study/components/home/section/studies/StudiesSection';
+import { StudiesSection } from '@/features/study/components/home/StudiesSection';
 import { StudyHomeHeader } from '@/features/study/components/home/StudyHomeHeader';
 import { StudyHomeTitle } from '@/features/study/components/home/StudyHomeTitle';
 import { auth } from '@/lib/auth';
@@ -12,7 +12,6 @@ const StudyHomePage = async () => {
 
       <main className="flex w-full flex-col items-start gap-18 p-5 md:max-w-2xl md:p-10 md:px-0">
         <StudyHomeTitle session={session} />
-
         <StudiesSection />
       </main>
     </div>

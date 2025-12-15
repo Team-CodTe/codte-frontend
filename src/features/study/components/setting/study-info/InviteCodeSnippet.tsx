@@ -16,6 +16,10 @@ export const InviteCodeSnippet = ({ inviteCode }: Props) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyInviteCode = async () => {
+    if (isCopied) {
+      return;
+    }
+
     await navigator.clipboard.writeText(inviteCode);
 
     setIsCopied(true);

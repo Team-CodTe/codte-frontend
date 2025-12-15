@@ -18,5 +18,7 @@ export const API_URLS = {
     JOIN: 'api/studies/join/',
     DETAIL: 'api/studies/{id}/',
     UPDATE: 'api/studies/{id}/',
+    REMOVE: 'api/studies/{id}/',
+    LEAVE: 'api/studies/{id}/leave/',
   },
 } as const;
