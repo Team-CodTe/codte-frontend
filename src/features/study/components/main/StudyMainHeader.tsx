@@ -1,7 +1,5 @@
 'use client';
 
-import { useTransition } from 'react';
-
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { AppLogo } from '@/components/logos/AppLogo';
 import { Button } from '@/components/ui/Button';
@@ -19,17 +17,14 @@ type Props = {
 
 export const StudyMainHeader = ({ study }: Props) => {
   const router = useRouter();
-  const [isNavigating, startTransition] = useTransition();
 
   const onClickSetting = () => {
-    startTransition(() => {
-      router.push(
-        buildUrlWithParams({
-          url: PATH.STUDY.SETTING,
-          pathParams: { id: study.id },
-        }),
-      );
-    });
+    router.push(
+      buildUrlWithParams({
+        url: PATH.STUDY.SETTING,
+        pathParams: { id: study.id },
+      }),
+    );
   };
 
   return (
@@ -43,11 +38,7 @@ export const StudyMainHeader = ({ study }: Props) => {
       </div>
 
       <div className="flex flex-row items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onClickSetting}
-          disabled={isNavigating}>
+        <Button variant="outline" size="sm" onClick={onClickSetting}>
           <SettingsIcon />
           <span className="hidden sm:inline">스터디 정보</span>
         </Button>
