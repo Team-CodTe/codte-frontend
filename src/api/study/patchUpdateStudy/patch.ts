@@ -8,7 +8,7 @@ import {
 } from './type';
 
 export const patchUpdateStudy = async (
-  id: string,
+  id: number,
   req: patchUpdateStudyRequest,
 ) => {
   const url = buildUrlWithParams({

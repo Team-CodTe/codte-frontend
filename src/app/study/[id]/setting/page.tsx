@@ -4,7 +4,7 @@ import { StudyInfoSection } from '@/features/study/components/setting/StudyInfoS
 
 type Props = {
   params: Promise<{
-    id: string;
+    id: number;
   }>;
 };
 

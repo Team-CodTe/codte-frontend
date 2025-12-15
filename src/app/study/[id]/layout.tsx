@@ -9,7 +9,7 @@ import { notFound, redirect } from 'next/navigation';
 
 type Props = {
   params: Promise<{
-    id: string;
+    id: number;
   }>;
 };
 

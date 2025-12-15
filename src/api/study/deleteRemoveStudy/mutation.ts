@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteRemoveStudy } from './delete';
 
 export const useRemoveStudy = (
-  id: string,
+  id: number,
   options?: OmittedMutationOptions<void>,
 ) => {
   return useMutation({

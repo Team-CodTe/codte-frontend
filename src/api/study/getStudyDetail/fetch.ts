@@ -6,7 +6,7 @@ import { customFetch } from '@/lib/fetchInstance';
 
 import { type GetStudyDetailResponse } from './type';
 
-export const getStudyDetail = cache(async (id: string) => {
+export const getStudyDetail = cache(async (id: number) => {
   const url = buildUrlWithParams({
     url: API_URLS.STUDY.DETAIL,
     pathParams: { id },

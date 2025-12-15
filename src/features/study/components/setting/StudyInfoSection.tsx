@@ -25,7 +25,7 @@ export const StudyInfoSection = ({ study }: Props) => {
       <div className="flex flex-col gap-6">
         <InviteCodeSnippet inviteCode={study.inviteCode} />
         <UpdateStudyForm
-          id={study.id.toString()}
+          id={study.id}
           initialData={study}
           role={study.myRole}
         />

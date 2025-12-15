@@ -46,7 +46,7 @@ export const useJoinStudyForm = () => {
             });
           } else {
             showToast({
-              message: '스터디 가입에 실패했습니다. 다시 시도해주세요.',
+              message: '유효하지 않은 초대 코드입니다.',
               type: 'error',
             });
           }

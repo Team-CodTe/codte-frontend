@@ -11,7 +11,7 @@ import {
 } from '../schemas/studyForm.schema';
 
 type Props = {
-  id: string;
+  id: number;
   initialData: StudyFormData;
 };
 

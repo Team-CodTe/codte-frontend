@@ -30,7 +30,7 @@ import { type StudyFormData } from '@/features/study/schemas/studyForm.schema';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
 type Props = {
-  id: string;
+  id: number;
   initialData: StudyFormData;
   role: StudyRole;
 };

@@ -8,7 +8,7 @@ import { getStudyDetail } from './fetch';
 import { type GetStudyDetailResponse } from './type';
 
 export const useStudyDetailQuery = (
-  id: string,
+  id: number,
   options?: OmittedQueryOptions<GetStudyDetailResponse>,
 ) => {
   return useQuery({
@@ -19,7 +19,7 @@ export const useStudyDetailQuery = (
 };
 
 export const useStudyDetailSuspenseQuery = (
-  id: string,
+  id: number,
   options?: OmittedSuspenseQueryOptions<GetStudyDetailResponse>,
 ) => {
   return useQuery({

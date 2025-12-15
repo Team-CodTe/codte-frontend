@@ -2,7 +2,7 @@ import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 
 type Props = {
   params: Promise<{
-    id: string;
+    id: number;
   }>;
 };
 

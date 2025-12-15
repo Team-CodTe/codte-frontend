@@ -8,7 +8,7 @@ import {
 } from './type';
 
 export const useUpdateStudyMutation = (
-  id: string,
+  id: number,
   options?: OmittedMutationOptions<
     patchUpdateStudyResponse,
     Error,
