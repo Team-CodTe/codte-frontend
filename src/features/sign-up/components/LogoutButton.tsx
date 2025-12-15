@@ -5,7 +5,7 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useAuth } from '@/hooks/useAuth';
 
 export const LogoutButton = () => {
-  const { logout, isLogoutPending } = useAuth();
+  const { logout, isLoggingOut } = useAuth();
 
   return (
     <Button
@@ -13,9 +13,9 @@ export const LogoutButton = () => {
       variant="outline"
       className="w-full"
       onClick={logout}
-      disabled={isLogoutPending}>
-      {isLogoutPending ? <Spinner /> : null}
-      {isLogoutPending ? '로그아웃 중...' : '로그아웃'}
+      disabled={isLoggingOut}>
+      {isLoggingOut ? <Spinner /> : null}
+      {isLoggingOut ? '로그아웃 중...' : '로그아웃'}
     </Button>
   );
 };
