@@ -5,18 +5,24 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
+import { showToast } from '@/lib/showToast';
 import { ClipboardCheckIcon, ClipboardIcon } from 'lucide-react';
 
 type Props = {
   inviteCode: string;
 };
 
-export const InviteCodeInput = ({ inviteCode }: Props) => {
+export const InviteCodeSnippet = ({ inviteCode }: Props) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyInviteCode = async () => {
     await navigator.clipboard.writeText(inviteCode);
+
     setIsCopied(true);
+
+    showToast({
+      message: '초대 코드가 복사되었습니다.',
+    });
 
     setTimeout(() => {
       setIsCopied(false);

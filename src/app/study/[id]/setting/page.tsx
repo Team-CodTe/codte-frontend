@@ -2,6 +2,7 @@ import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 import { Button } from '@/components/ui/Button';
 import { Label } from '@/components/ui/Label';
 import { Separator } from '@/components/ui/Separator';
+import { InviteCodeSnippet } from '@/features/study/components/setting/InviteCodeSnippet';
 import { UpdateStudyForm } from '@/features/study/components/setting/UpdateStudyForm';
 import { formatDate } from '@/lib/formatDate';
 import { STUDY_ROLE } from '@/types/studyRole';
@@ -31,13 +32,13 @@ const StudySettingPage = async ({ params }: Props) => {
             </div>
             <Separator />
           </div>
-          <UpdateStudyForm
-            id={id}
-            initialData={study}
-            role={study.myRole}
-            inviteCode={study.inviteCode}
-          />
+
+          <div className="flex flex-col gap-6">
+            <InviteCodeSnippet inviteCode={study.inviteCode} />
+            <UpdateStudyForm id={id} initialData={study} role={study.myRole} />
+          </div>
         </div>
+
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-3">
             <h2 className="text-xl font-bold">중요 설정</h2>

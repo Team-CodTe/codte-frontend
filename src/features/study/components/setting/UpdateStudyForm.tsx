@@ -29,27 +29,20 @@ import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
 import { useUpdateStudyForm } from '../../hooks/useUpdateStudyForm';
 import { type StudyFormData } from '../../schemas/studyForm.schema';
-import { InviteCodeInput } from './InviteCodeInput';
 
 type Props = {
   id: string;
   initialData: StudyFormData;
   role: StudyRole;
-  inviteCode: string;
 };
 
-export const UpdateStudyForm = ({
-  id,
-  initialData,
-  role,
-  inviteCode,
-}: Props) => {
+export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
   const { form, onReset, isSubmitting } = useUpdateStudyForm({
     id,
     initialData,
   });
 
-  const canEdit = role !== STUDY_ROLE.MEMBER;
+  const isEditable = role === STUDY_ROLE.OWNER;
 
   const handleNumberChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -67,7 +60,7 @@ export const UpdateStudyForm = ({
       onSubmit={(e) => {
         e.preventDefault();
 
-        if (canEdit) {
+        if (isEditable) {
           form.handleSubmit();
         }
       }}>
@@ -87,7 +80,7 @@ export const UpdateStudyForm = ({
                     type="text"
                     inputMode="text"
                     placeholder="코딩테스트를 스터디하는 사람들 모임"
-                    readOnly={!canEdit}
+                    readOnly={!isEditable}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
@@ -115,7 +108,7 @@ export const UpdateStudyForm = ({
                       name={field.name}
                       inputMode="text"
                       placeholder="저희는 매일 3문제씩 풀어요."
-                      readOnly={!canEdit}
+                      readOnly={!isEditable}
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
@@ -147,7 +140,7 @@ export const UpdateStudyForm = ({
                   <Select
                     name={field.name}
                     value={field.state.value.toString()}
-                    disabled={!canEdit}
+                    disabled={!isEditable}
                     onValueChange={(value) =>
                       field.handleChange(parseInt(value, 10))
                     }>
@@ -190,7 +183,7 @@ export const UpdateStudyForm = ({
                         min={0}
                         max={30}
                         step={1}
-                        disabled={!canEdit}
+                        disabled={!isEditable}
                         value={[tierMin, tierMax]}
                         onValueChange={(values) => {
                           tierMinField.handleChange(values[0]);
@@ -223,7 +216,7 @@ export const UpdateStudyForm = ({
                         inputMode="numeric"
                         placeholder="500"
                         min={0}
-                        readOnly={!canEdit}
+                        readOnly={!isEditable}
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
@@ -256,7 +249,7 @@ export const UpdateStudyForm = ({
                         inputMode="numeric"
                         placeholder="14000"
                         min={0}
-                        readOnly={!canEdit}
+                        readOnly={!isEditable}
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
@@ -273,7 +266,7 @@ export const UpdateStudyForm = ({
               </form.Field>
             </div>
 
-            {canEdit ? (
+            {isEditable ? (
               <form.Subscribe
                 selector={(state) => ({
                   min: state.values.minSolved,
@@ -300,11 +293,9 @@ export const UpdateStudyForm = ({
               </form.Subscribe>
             ) : null}
           </div>
-
-          <InviteCodeInput inviteCode={inviteCode} />
         </FieldGroup>
 
-        {canEdit ? (
+        {isEditable ? (
           <form.Subscribe selector={(state) => state.isDirty}>
             {(isDirty) => (
               <Field orientation="horizontal" className="flex justify-end">
