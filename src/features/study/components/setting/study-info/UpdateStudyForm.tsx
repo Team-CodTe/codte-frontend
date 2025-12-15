@@ -113,14 +113,16 @@ export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
                       onChange={(e) => field.handleChange(e.target.value)}
                       data-invalid={isInvalid}
                       rows={6}
-                      className="min-h-24 resize-none md:min-h-16"
+                      className="min-h-24 resize-none"
                       autoComplete="off"
                     />
-                    <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums">
-                        {field.state.value.length} / 200
-                      </InputGroupText>
-                    </InputGroupAddon>
+                    {isEditable ? (
+                      <InputGroupAddon align="block-end">
+                        <InputGroupText className="tabular-nums">
+                          {field.state.value.length} / 200
+                        </InputGroupText>
+                      </InputGroupAddon>
+                    ) : null}
                   </InputGroup>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -213,7 +215,7 @@ export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
                         name={field.name}
                         type="number"
                         inputMode="numeric"
-                        placeholder="500"
+                        placeholder={isEditable ? '500' : '제한 없음'}
                         min={0}
                         readOnly={!isEditable}
                         value={field.state.value ?? ''}
@@ -246,7 +248,7 @@ export const UpdateStudyForm = ({ id, initialData, role }: Props) => {
                         name={field.name}
                         type="number"
                         inputMode="numeric"
-                        placeholder="14000"
+                        placeholder={isEditable ? '14000' : '제한 없음'}
                         min={0}
                         readOnly={!isEditable}
                         value={field.state.value ?? ''}
