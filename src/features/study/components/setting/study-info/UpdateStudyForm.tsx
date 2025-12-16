@@ -106,9 +106,13 @@ export const UpdateStudyForm = ({ studyId, initialData, role }: Props) => {
                       id={field.name}
                       name={field.name}
                       inputMode="text"
-                      placeholder="저희는 매일 3문제씩 풀어요."
+                      placeholder={
+                        isEditable
+                          ? '저희는 매일 3문제씩 풀어요.'
+                          : '아직 스터디 소개가 등록되지 않았어요. 스터디장에게 스터디 소개를 요청해보세요!'
+                      }
                       readOnly={!isEditable}
-                      value={field.state.value}
+                      value={field.state.value ?? ''}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       data-invalid={isInvalid}
@@ -119,7 +123,7 @@ export const UpdateStudyForm = ({ studyId, initialData, role }: Props) => {
                     {isEditable ? (
                       <InputGroupAddon align="block-end">
                         <InputGroupText className="tabular-nums">
-                          {field.state.value.length} / 200
+                          {field.state.value?.length ?? 0} / 200
                         </InputGroupText>
                       </InputGroupAddon>
                     ) : null}

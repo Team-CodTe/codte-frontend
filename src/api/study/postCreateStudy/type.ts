@@ -1,6 +1,6 @@
 export type postCreateStudyRequest = {
   name: string;
-  description: string;
+  description?: string;
   dailyProblemCount: number;
   tierMin: number;
   tierMax: number;

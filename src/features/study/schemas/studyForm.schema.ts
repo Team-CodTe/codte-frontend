@@ -12,8 +12,9 @@ export const StudyFormSchema = z
       ),
     description: z
       .string()
-      .min(1, '스터디 설명을 입력해주세요.')
-      .max(200, '200글자 이하로 입력해주세요.'),
+      .max(200, '200글자 이하로 입력해주세요.')
+      .optional()
+      .or(z.literal('')),
     dailyProblemCount: z
       .number()
       .min(1, '오늘의 추천 문제는 최소 1개 이상이어야 해요.')
