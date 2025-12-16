@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button_temp';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { showToast } from '@/lib/showToast';

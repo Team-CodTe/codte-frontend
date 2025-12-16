@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button_temp';
 import {
   Field,
   FieldDescription,
@@ -11,7 +11,7 @@ import {
   FieldSet,
 } from '@/components/ui/Field';
 import { Input } from '@/components/ui/Input';
-import { Spinner } from '@/components/ui/Spinner';
+import { Spinner } from '@/components/ui/Spinner_temp';
 import { CheckCircle } from 'lucide-react';
 
 import { useSignUpForm } from '../hooks/useSignUpForm';

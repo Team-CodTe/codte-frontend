@@ -3,8 +3,8 @@
 import { BsGithub } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 
-import { Button } from '@/components/ui/Button';
-import { Spinner } from '@/components/ui/Spinner';
+import { Button } from '@/components/ui/Button_temp';
+import { Spinner } from '@/components/ui/Spinner_temp';
 import { useAuth } from '@/hooks/useAuth';
 import { SOCIAL_PROVIDER } from '@/types/socialProvider';
 import { Roboto } from 'next/font/google';

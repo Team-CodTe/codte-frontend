@@ -13,10 +13,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/AlertDialog';
-import { Button, buttonVariants } from '@/components/ui/Button';
+import { Button, buttonVariants } from '@/components/ui/Button_temp';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import { Spinner } from '@/components/ui/Spinner';
+import { Spinner } from '@/components/ui/Spinner_temp';
 import { cn } from '@/lib/utils';
 
 import { useExitStudy } from '../../../hooks/useExitStudy';

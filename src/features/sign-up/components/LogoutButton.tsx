@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
-import { Spinner } from '@/components/ui/Spinner';
+import { Button } from '@/components/ui/Button_temp';
+import { Spinner } from '@/components/ui/Spinner_temp';
 import { useAuth } from '@/hooks/useAuth';
 
 export const LogoutButton = ({ className }: { className?: string }) => {

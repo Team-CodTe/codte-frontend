@@ -1,7 +1,7 @@
 'use client';
 
 import { TierBadge } from '@/components/common/TierBadge';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button_temp';
 import {
   Field,
   FieldError,
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/Select';
 import { Slider } from '@/components/ui/Slider';
-import { Spinner } from '@/components/ui/Spinner';
+import { Spinner } from '@/components/ui/Spinner_temp';
 import { useUpdateStudyForm } from '@/features/study/hooks/useUpdateStudyForm';
 import { type StudyFormData } from '@/features/study/schemas/studyForm.schema';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
