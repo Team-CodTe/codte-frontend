@@ -50,31 +50,24 @@ const AuthCallbackPage = () => {
     onError: async (error) => {
       console.error('❌ 로그인 API 호출 실패', error);
 
-      if (error instanceof FetchError) {
-        const data = error.data as ApiErrorData | null;
-        const errorCode = data?.error?.code;
-        const errorMessage = data?.error?.message;
+      let toastMessage = '로그인에 실패했습니다. 다시 시도해주세요.';
+      let toastType: 'error' | 'info' = 'error';
 
-        if (errorCode === 'INVALID_ACCESS_TOKEN' && errorMessage) {
-          showToast({
-            message: errorMessage,
-            type: 'info',
-          });
-        } else {
-          showToast({
-            message: '로그인에 실패했습니다. 다시 시도해주세요.',
-            type: 'error',
-          });
+      if (error instanceof FetchError) {
+        const { errorCode, message } = (error.data as ApiErrorData) || {};
+
+        if (errorCode === 'INVALID_ACCESS_TOKEN' && message) {
+          toastMessage = message;
+          toastType = 'info';
         }
-      } else {
-        showToast({
-          message: '로그인에 실패했습니다. 다시 시도해주세요.',
-          type: 'error',
-        });
       }
 
-      await signOut({ redirect: false });
+      showToast({
+        message: toastMessage,
+        type: toastType,
+      });
 
+      await signOut({ redirect: false });
       router.replace(PATH.LOGIN);
     },
   });

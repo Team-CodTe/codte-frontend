@@ -1,6 +1,4 @@
 export type ApiErrorData = {
-  error: {
-    code: string;
-    message: string;
-  };
+  errorCode: string;
+  message: string;
 };

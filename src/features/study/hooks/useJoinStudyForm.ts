@@ -40,28 +40,24 @@ export const useJoinStudyForm = () => {
       onError: (error) => {
         console.error('❌ 스터디 가입 실패', error);
 
-        if (error instanceof FetchError) {
-          const data = error.data as ApiErrorData | null;
-          const errorCode = data?.error?.code;
-          const errorMessage = data?.error?.message;
+        let toastMessage = '스터디 가입에 실패했습니다. 다시 시도해주세요.';
+        let toastType: 'error' | 'info' = 'error';
 
-          if (errorCode === 'ALREADY_MEMBER' && errorMessage) {
-            showToast({
-              message: errorMessage,
-              type: 'info',
-            });
+        if (error instanceof FetchError) {
+          const { errorCode, message } = (error.data as ApiErrorData) || {};
+
+          if (errorCode === 'ALREADY_MEMBER' && message) {
+            toastMessage = message;
+            toastType = 'info';
           } else {
-            showToast({
-              message: '유효하지 않은 초대 코드입니다.',
-              type: 'error',
-            });
+            toastMessage = '유효하지 않은 초대 코드입니다.';
           }
-        } else {
-          showToast({
-            message: '스터디 가입에 실패했습니다. 다시 시도해주세요.',
-            type: 'error',
-          });
         }
+
+        showToast({
+          message: toastMessage,
+          type: toastType,
+        });
       },
     });
 

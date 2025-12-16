@@ -138,15 +138,7 @@ export const useSignUpForm = () => {
       });
     },
     onError: (error) => {
-      const errorMessage =
-        error instanceof FetchError
-          ? (error.data as ApiErrorData | null)?.error?.message
-          : undefined;
-
-      setUsernameApiError(
-        errorMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-      );
-
+      setUsernameApiError(getErrorMessage(error));
       setUsernameValidation((prev) => ({
         ...prev,
         status: 'invalid',
@@ -163,15 +155,7 @@ export const useSignUpForm = () => {
       });
     },
     onError: (error) => {
-      const errorMessage =
-        error instanceof FetchError
-          ? (error.data as ApiErrorData | null)?.error?.message
-          : undefined;
-
-      setBojApiError(
-        errorMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-      );
-
+      setBojApiError(getErrorMessage(error));
       setBojValidation((prev) => ({
         ...prev,
         status: 'invalid',
@@ -228,6 +212,14 @@ export const useSignUpForm = () => {
     setBojApiError(null);
     setBojValidation({ status: 'idle', validatedValue: '' });
   }, []);
+
+  const getErrorMessage = (error: unknown) => {
+    if (error instanceof FetchError && (error.data as ApiErrorData)?.message) {
+      return (error.data as ApiErrorData).message;
+    }
+
+    return '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+  };
 
   return {
     form,
