@@ -1,14 +1,12 @@
-'use client';
+import { useCallback, useState, useTransition } from 'react';
 
-import { useCallback, useState } from 'react';
-
-import { getMyProfile } from '@/api/user/getMyProfile/fetch';
+import { useUpdateProfileMutation } from '@/api/user/patchUpdateProfile/mutation';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
 import { useValidateUsernameMutation } from '@/api/user/postValidateUsername/mutation';
-import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutation';
 import { PATH } from '@/constants/path';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
+import { type ApiErrorData } from '@/types/apiErrorData';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
@@ -38,80 +36,73 @@ const SignUpFormSchema = z.object({
 
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
 
-type ApiErrorResponse = {
-  message: string;
-};
-
 export const useSignUpForm = () => {
   const router = useRouter();
-  const { update: updateSession } = useSession();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const { update } = useSession();
+  const [isNavigating, startTransition] = useTransition();
   const [usernameValidation, setUsernameValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
   }>({ status: 'idle', validatedValue: '' });
-
   const [bojValidation, setBojValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
   }>({ status: 'idle', validatedValue: '' });
-
   const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
   const [bojApiError, setBojApiError] = useState<string | null>(null);
 
-  const registerProfileMutation = useRegisterProfileMutation({
-    onSuccess: async () => {
-      try {
-        const profile = await getMyProfile();
+  const { mutate: mutateRegisterProfile, isPending: isRegisteringProfile } =
+    useUpdateProfileMutation({
+      onSuccess: async (data) => {
+        try {
+          await update({
+            user: {
+              ...data,
+            },
+          });
 
-        await updateSession({
-          user: {
-            id: String(profile.id),
-            provider: profile.provider,
-            email: profile.email,
-            username: profile.username,
-            bojUsername: profile.bojUsername,
-            profileImgUrl: profile.profileImgUrl,
-            createdAt: profile.createdAt,
-          },
-        });
+          showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
 
-        showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
+          startTransition(() => {
+            resetUsernameValidation();
+            resetBojValidation();
 
-        resetUsernameValidation();
-        resetBojValidation();
+            router.replace(PATH.STUDY.HOME);
+          });
+        } catch (error) {
+          console.error('❌ 유저 세션 업데이트 실패:', error);
 
-        router.replace(PATH.STUDY.HOME);
-      } catch (error) {
-        console.error('❌ 유저 세션 업데이트 실패:', error);
+          showToast({
+            message:
+              '회원 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
+            type: 'error',
+          });
+
+          startTransition(async () => {
+            await signOut({ redirect: false });
+
+            resetUsernameValidation();
+            resetBojValidation();
+
+            router.replace(PATH.LOGIN);
+          });
+        }
+      },
+      onError: (error) => {
+        console.error('❌ 회원가입 실패:', error);
 
         showToast({
-          message: '회원 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
+          message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
           type: 'error',
         });
-
-        signOut({ redirect: false });
-
-        router.replace(PATH.LOGIN);
-      }
-    },
-    onError: () => {
-      showToast({
-        message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-        type: 'error',
-      });
-
-      setIsSubmitting(false);
-    },
-  });
+      },
+    });
 
   const form = useForm({
     defaultValues: {
       username: '',
       bojUsername: '',
-    } satisfies SignUpFormData as SignUpFormData,
+    } satisfies SignUpFormData,
     validators: {
       onChange: SignUpFormSchema,
     },
@@ -127,9 +118,11 @@ export const useSignUpForm = () => {
         return;
       }
 
-      setIsSubmitting(true);
+      if (isRegisteringProfile) {
+        return;
+      }
 
-      registerProfileMutation.mutate({
+      mutateRegisterProfile({
         username: value.username,
         bojUsername: value.bojUsername,
       });
@@ -145,15 +138,7 @@ export const useSignUpForm = () => {
       });
     },
     onError: (error) => {
-      const errorMessage =
-        error instanceof FetchError
-          ? (error.data as ApiErrorResponse | null)?.message
-          : undefined;
-
-      setUsernameApiError(
-        errorMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-      );
-
+      setUsernameApiError(getErrorMessage(error));
       setUsernameValidation((prev) => ({
         ...prev,
         status: 'invalid',
@@ -170,15 +155,7 @@ export const useSignUpForm = () => {
       });
     },
     onError: (error) => {
-      const errorMessage =
-        error instanceof FetchError
-          ? (error.data as ApiErrorResponse | null)?.message
-          : undefined;
-
-      setBojApiError(
-        errorMessage || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-      );
-
+      setBojApiError(getErrorMessage(error));
       setBojValidation((prev) => ({
         ...prev,
         status: 'invalid',
@@ -236,6 +213,14 @@ export const useSignUpForm = () => {
     setBojValidation({ status: 'idle', validatedValue: '' });
   }, []);
 
+  const getErrorMessage = (error: unknown) => {
+    if (error instanceof FetchError && (error.data as ApiErrorData)?.message) {
+      return (error.data as ApiErrorData).message;
+    }
+
+    return '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+  };
+
   return {
     form,
     validateUsername,
@@ -246,6 +231,6 @@ export const useSignUpForm = () => {
     bojValidation,
     usernameApiError,
     bojApiError,
-    isSubmitting,
+    isSubmitting: isRegisteringProfile || isNavigating,
   };
 };

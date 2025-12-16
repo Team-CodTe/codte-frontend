@@ -12,7 +12,7 @@ const LoginPage = async ({ searchParams }: Props) => {
   const isExpired = expired === 'true';
 
   return (
-    <div className="bg-background flex min-h-screen w-screen flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <main className="bg-background flex min-h-screen w-screen flex-col items-center justify-center gap-6 p-6 md:p-10">
       <LoginSessionHandler isExpired={isExpired} />
 
       <div className="w-full max-w-sm">
@@ -27,7 +27,7 @@ const LoginPage = async ({ searchParams }: Props) => {
           <LoginFooter />
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -7,22 +7,22 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { getMyProfile } from './fetch';
 import { type GetMyProfileResponse } from './type';
 
-export const useGetMyProfileQuery = (
+export const useMyProfileQuery = (
   options?: OmittedQueryOptions<GetMyProfileResponse>,
 ) => {
   return useQuery({
     queryKey: ['user', 'my-profile'],
-    queryFn: () => getMyProfile(),
+    queryFn: getMyProfile,
     ...options,
   });
 };
 
-export const useGetMyProfileSuspenseQuery = (
+export const useMyProfileSuspenseQuery = (
   options?: OmittedSuspenseQueryOptions<GetMyProfileResponse>,
 ) => {
   return useSuspenseQuery({
     queryKey: ['user', 'my-profile'],
-    queryFn: () => getMyProfile(),
+    queryFn: getMyProfile,
     ...options,
   });
 };

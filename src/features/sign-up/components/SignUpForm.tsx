@@ -183,38 +183,38 @@ export const SignUpForm = () => {
               );
             }}
           </form.Field>
+
+          <Field orientation="responsive" className="justify-end">
+            <LogoutButton className="order-2 @md/field-group:order-1" />
+            <form.Subscribe
+              selector={(state) => ({
+                username: state.values.username,
+                bojUsername: state.values.bojUsername,
+                canSubmit: state.canSubmit,
+              })}>
+              {({ username, bojUsername, canSubmit }) => {
+                const isUsernameValidated =
+                  usernameValidation.status === 'valid' &&
+                  usernameValidation.validatedValue === username;
+                const isBojValidated =
+                  bojValidation.status === 'valid' &&
+                  bojValidation.validatedValue === bojUsername;
+                const isFormValid =
+                  canSubmit && isUsernameValidated && isBojValidated;
+
+                return (
+                  <Button
+                    type="submit"
+                    className="order-1 @md/field-group:order-2"
+                    disabled={!isFormValid || isSubmitting}>
+                    {isSubmitting ? <Spinner /> : null}
+                    {isSubmitting ? '등록 중...' : '회원가입'}
+                  </Button>
+                );
+              }}
+            </form.Subscribe>
+          </Field>
         </FieldGroup>
-
-        <Field>
-          <form.Subscribe
-            selector={(state) => ({
-              username: state.values.username,
-              bojUsername: state.values.bojUsername,
-              canSubmit: state.canSubmit,
-            })}>
-            {({ username, bojUsername, canSubmit }) => {
-              const isUsernameValidated =
-                usernameValidation.status === 'valid' &&
-                usernameValidation.validatedValue === username;
-              const isBojValidated =
-                bojValidation.status === 'valid' &&
-                bojValidation.validatedValue === bojUsername;
-              const isFormValid =
-                canSubmit && isUsernameValidated && isBojValidated;
-
-              return (
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={!isFormValid || isSubmitting}>
-                  {isSubmitting ? <Spinner /> : null}
-                  {isSubmitting ? '등록 중...' : '회원가입'}
-                </Button>
-              );
-            }}
-          </form.Subscribe>
-          <LogoutButton />
-        </Field>
       </FieldSet>
     </form>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/Skeleton';
 import {
   Table,
   TableBody,
@@ -15,9 +16,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export const StudyListTable = <TData, TValue>({
+export const StudiesTable = <TData, TValue>({
   data,
   columns,
+  isLoading = false,
+  onClickRow,
 }: TableProps<TData, TValue>) => {
   // eslint-disable-next-line
   const table = useReactTable({
@@ -29,7 +32,7 @@ export const StudyListTable = <TData, TValue>({
   return (
     <div className="max-h-64 min-h-0 overflow-auto rounded-md border">
       <Table noWrapper>
-        <TableHeader className="bg-muted sticky top-0 z-10">
+        <TableHeader className="bg-muted sticky top-0 z-1">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -50,11 +53,22 @@ export const StudyListTable = <TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                {columns.map((_, cellIndex) => (
+                  <TableCell key={cellIndex}>
+                    <Skeleton className="h-5 w-full" />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && 'selected'}>
+                data-state={row.getIsSelected() && 'selected'}
+                onClick={() => onClickRow?.(row.original)}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

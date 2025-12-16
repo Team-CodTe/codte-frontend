@@ -4,14 +4,14 @@ import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { useAuth } from '@/hooks/useAuth';
 
-export const LogoutButton = () => {
+export const LogoutButton = ({ className }: { className?: string }) => {
   const { logout, isLoggingOut } = useAuth();
 
   return (
     <Button
+      className={className}
       type="button"
       variant="outline"
-      className="w-full"
       onClick={logout}
       disabled={isLoggingOut}>
       {isLoggingOut ? <Spinner /> : null}

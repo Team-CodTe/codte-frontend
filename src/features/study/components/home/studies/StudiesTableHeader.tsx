@@ -1,5 +1,7 @@
 'use client';
 
+import { useTransition } from 'react';
+
 import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import {
@@ -9,15 +11,20 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export const StudyListTableHeader = () => {
+export const StudiesTableHeader = () => {
   const router = useRouter();
+  const [isNavigating, startTransition] = useTransition();
 
   const onClickCreate = () => {
-    router.push(PATH.STUDY.CREATE);
+    startTransition(() => {
+      router.push(PATH.STUDY.CREATE);
+    });
   };
 
   const onClickJoin = () => {
-    router.push(PATH.STUDY.JOIN);
+    startTransition(() => {
+      router.push(PATH.STUDY.JOIN);
+    });
   };
 
   return (
@@ -27,11 +34,19 @@ export const StudyListTableHeader = () => {
         <span>내 스터디</span>
       </div>
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={onClickCreate}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onClickCreate}
+          disabled={isNavigating}>
           <PlusIcon />
           <span className="hidden sm:inline">새로 만들기</span>
         </Button>
-        <Button variant="outline" size="sm" onClick={onClickJoin}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onClickJoin}
+          disabled={isNavigating}>
           <GitPullRequestArrowIcon />
           <span className="hidden sm:inline">들어가기</span>
         </Button>

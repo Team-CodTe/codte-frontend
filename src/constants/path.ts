@@ -7,5 +7,7 @@ export const PATH = {
     HOME: '/study',
     CREATE: '/study/create',
     JOIN: '/study/join',
+    MAIN: '/study/{studyId}',
+    SETTING: '/study/{studyId}/setting',
   },
 };

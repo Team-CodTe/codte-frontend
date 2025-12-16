@@ -1,11 +1,13 @@
+import { API_URLS } from '@/api/apiUrls';
 import { PATH } from '@/constants/path';
 import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
 const PUBLIC_PATHS = [PATH.LANDING, PATH.LOGIN];
-const GUEST_ONLY_PATHS = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
+const GUEST_PATHS = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const proxy = auth((req) => {
+export const proxy = auth(async (req) => {
   const { nextUrl } = req;
   const { pathname } = nextUrl;
 
@@ -14,42 +16,112 @@ export const proxy = auth((req) => {
     return NextResponse.next();
   }
 
-  const isLoggedIn = !!req.auth;
+  // 현재 토큰 상태 확인
+  const refreshToken = req.cookies.get('refresh_token');
+  const accessToken = req.cookies.get('access_token');
   const isRegistered = req.cookies.get('is_registered')?.value === 'true';
-  const hasRefreshToken = req.cookies.has('refresh_token');
+  const isLoggedIn = !!req.auth;
 
-  // 로그인 검증 (세션과 리프레시 토큰 둘 다 있어야 완전한 로그인으로 간주)
-  if (!isLoggedIn || !hasRefreshToken) {
+  // 토큰 갱신 로직 (Access Token 만료 & Refresh Token 존재 시)
+  let newCookies: string[] = [];
+  const updatedRequestHeaders = new Headers(req.headers);
+
+  if (refreshToken && !accessToken) {
+    try {
+      const refreshResponse = await fetch(
+        `${BASE_URL}${API_URLS.AUTH.REFRESH}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Cookie: `refresh_token=${refreshToken.value}`,
+          },
+        },
+      );
+
+      if (refreshResponse.ok) {
+        const setCookieHeader = refreshResponse.headers.getSetCookie();
+
+        if (setCookieHeader && setCookieHeader.length > 0) {
+          newCookies = setCookieHeader;
+
+          updatedRequestHeaders.set('Cookie', newCookies.join('; '));
+        }
+      } else {
+        // 갱신 실패 시(리프레시 토큰 만료 등), 로그아웃 처리 등을 위해 그대로 둠
+        console.warn('[ Proxy ]: 토큰 재발급 실패');
+      }
+    } catch (error) {
+      console.error('[ Proxy ]: 토큰 재발급 에러', error);
+    }
+  }
+
+  // 로그인 검증(세션과 리프레시 토큰 둘 다 있어야 함)
+  const hasValidTokenNow = !!accessToken || newCookies.length > 0;
+
+  if (!isLoggedIn || (!refreshToken && !hasValidTokenNow)) {
     if (PUBLIC_PATHS.includes(pathname)) {
-      return NextResponse.next();
+      return applyCookies(
+        NextResponse.next({
+          request: { headers: updatedRequestHeaders },
+        }),
+        newCookies,
+      );
     }
 
-    const isExpired = isLoggedIn !== hasRefreshToken;
+    const isExpired = isLoggedIn !== !!refreshToken;
     const redirectUrl = new URL(PATH.LOGIN, nextUrl);
 
     if (isExpired) {
       redirectUrl.searchParams.set('expired', 'true');
     }
 
-    return NextResponse.redirect(redirectUrl);
+    return applyCookies(NextResponse.redirect(redirectUrl), newCookies);
   }
 
   // 회원가입 미완료 유저 처리
   if (!isRegistered) {
     if (pathname === PATH.SIGN_UP) {
-      return NextResponse.next();
+      return applyCookies(
+        NextResponse.next({
+          request: { headers: updatedRequestHeaders },
+        }),
+        newCookies,
+      );
     }
 
-    return NextResponse.redirect(new URL(PATH.SIGN_UP, nextUrl));
+    return applyCookies(
+      NextResponse.redirect(new URL(PATH.SIGN_UP, nextUrl)),
+      newCookies,
+    );
   }
 
   // 회원가입 완료 유저 처리
-  if (GUEST_ONLY_PATHS.includes(pathname)) {
-    return NextResponse.redirect(new URL(PATH.STUDY.HOME, nextUrl));
+  if (GUEST_PATHS.includes(pathname)) {
+    return applyCookies(
+      NextResponse.redirect(new URL(PATH.STUDY.HOME, nextUrl)),
+      newCookies,
+    );
   }
 
-  return NextResponse.next();
+  return applyCookies(
+    NextResponse.next({
+      request: {
+        headers: updatedRequestHeaders,
+      },
+    }),
+    newCookies,
+  );
 });
+
+// 응답에 Set-Cookie 헤더를 적용하는 헬퍼 함수
+const applyCookies = (response: NextResponse, cookieStrings: string[]) => {
+  cookieStrings.forEach((cookieStr) => {
+    response.headers.append('Set-Cookie', cookieStr);
+  });
+
+  return response;
+};
 
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
