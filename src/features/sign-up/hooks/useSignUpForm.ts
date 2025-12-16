@@ -39,20 +39,16 @@ type SignUpFormData = z.infer<typeof SignUpFormSchema>;
 
 export const useSignUpForm = () => {
   const router = useRouter();
-  const { update: updateSession } = useSession();
-
+  const { update } = useSession();
   const [isNavigating, startTransition] = useTransition();
-
   const [usernameValidation, setUsernameValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
   }>({ status: 'idle', validatedValue: '' });
-
   const [bojValidation, setBojValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
   }>({ status: 'idle', validatedValue: '' });
-
   const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
   const [bojApiError, setBojApiError] = useState<string | null>(null);
 
@@ -62,24 +58,19 @@ export const useSignUpForm = () => {
         try {
           const profile = await getMyProfile();
 
-          await updateSession({
+          await update({
             user: {
-              id: String(profile.id),
-              provider: profile.provider,
-              email: profile.email,
-              username: profile.username,
-              bojUsername: profile.bojUsername,
-              profileImgUrl: profile.profileImgUrl,
-              createdAt: profile.createdAt,
+              ...profile,
             },
           });
 
           showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
 
           startTransition(() => {
-            router.replace(PATH.STUDY.HOME);
             resetUsernameValidation();
             resetBojValidation();
+
+            router.replace(PATH.STUDY.HOME);
           });
         } catch (error) {
           console.error('❌ 유저 세션 업데이트 실패:', error);
@@ -90,9 +81,12 @@ export const useSignUpForm = () => {
             type: 'error',
           });
 
-          signOut({ redirect: false });
+          startTransition(async () => {
+            await signOut({ redirect: false });
 
-          startTransition(() => {
+            resetUsernameValidation();
+            resetBojValidation();
+
             router.replace(PATH.LOGIN);
           });
         }
@@ -111,7 +105,7 @@ export const useSignUpForm = () => {
     defaultValues: {
       username: '',
       bojUsername: '',
-    } satisfies SignUpFormData as SignUpFormData,
+    } satisfies SignUpFormData,
     validators: {
       onChange: SignUpFormSchema,
     },

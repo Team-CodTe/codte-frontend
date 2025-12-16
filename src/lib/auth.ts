@@ -23,29 +23,33 @@ export const { handlers, auth } = NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    async jwt({ account, token, trigger, session }) {
-      if (account) {
+    async jwt({ account, token, trigger, session, user }) {
+      if (account && user) {
         token.provider = account.provider;
         token.accessToken = account.access_token;
+
+        token.id = user.id;
       }
 
       if (trigger === 'update' && session?.user) {
-        token.backendUser = session.user;
+        return { ...token, ...session.user };
       }
 
       return token;
     },
     async session({ token, session }) {
       if (token.provider && token.accessToken) {
-        session.provider = token.provider;
-        session.accessToken = token.accessToken;
+        session.provider = token.provider as string;
+        session.accessToken = token.accessToken as string;
       }
 
-      if (token.backendUser) {
-        session.user = {
-          ...session.user,
-          ...token.backendUser,
-        };
+      if (token.id) {
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        session.user.username = token.username as string;
+        session.user.bojUsername = token.bojUsername as string;
+        session.user.profileImgUrl = token.profileImgUrl as string;
+        session.user.createdAt = token.createdAt as string;
       }
 
       return session;

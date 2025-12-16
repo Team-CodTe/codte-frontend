@@ -13,27 +13,19 @@ import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
 const AuthCallbackPage = () => {
-  const { data: session, update: updateSession, status } = useSession();
+  const { data: session, update, status } = useSession();
   const router = useRouter();
   const hasCalledApi = useRef(false);
 
   const { mutate: mutateSocialLogin } = useSocialLoginMutation({
     onSuccess: async (data) => {
-      router.refresh();
-
       if (data.isRegistered) {
         try {
           const profile = await getMyProfile();
 
-          await updateSession({
+          await update({
             user: {
-              id: String(profile.id),
-              provider: profile.provider,
-              email: profile.email,
-              username: profile.username,
-              bojUsername: profile.bojUsername,
-              profileImgUrl: profile.profileImgUrl,
-              createdAt: profile.createdAt,
+              ...profile,
             },
           });
 

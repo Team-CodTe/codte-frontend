@@ -14,7 +14,7 @@ declare module 'next-auth' {
   interface Session {
     provider?: string;
     accessToken?: string;
-    user: User;
+    user: User & DefaultSession['user'];
   }
 }
 
@@ -22,6 +22,11 @@ declare module 'next-auth/jwt' {
   interface JWT {
     provider?: string;
     accessToken?: string;
-    backendUser?: User;
+    id: string;
+    email?: string;
+    username?: string;
+    bojUsername?: string;
+    profileImgUrl?: string;
+    createdAt?: string;
   }
 }
