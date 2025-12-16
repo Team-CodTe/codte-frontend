@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/Button_temp';
+import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import { useRouter } from 'next/navigation';
 

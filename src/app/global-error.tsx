@@ -5,8 +5,8 @@ import '../styles/globals.css';
 import { useState } from 'react';
 
 import { postLogout } from '@/api/auth/postLogout/post';
-import { Button } from '@/components/ui/Button_temp';
-import { Card, CardContent } from '@/components/ui/Card_temp';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent } from '@/components/ui/Card';
 import { PATH } from '@/constants/path';
 import { HomeIcon, RefreshCcwIcon, SirenIcon } from 'lucide-react';
 import { signOut } from 'next-auth/react';

@@ -11,8 +11,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/AlertDialog';
-import { Button, buttonVariants } from '@/components/ui/Button_temp';
-import { Spinner } from '@/components/ui/Spinner_temp';
+import { Button, buttonVariants } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/Spinner';
 import { useExitStudy } from '@/features/study/hooks/useExitStudy';
 import { cn } from '@/lib/utils';
 

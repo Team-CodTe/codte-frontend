@@ -2,7 +2,7 @@
 
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { AppLogo } from '@/components/logos/AppLogo';
-import { Button } from '@/components/ui/Button_temp';
+import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';

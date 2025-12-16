@@ -1,5 +1,5 @@
 import { HintTooltip } from '@/components/common/HintTooltip';
-import { Button } from '@/components/ui/Button_temp';
+import { Button } from '@/components/ui/Button';
 import { CodeXmlIcon, KeyboardIcon, PlusIcon } from 'lucide-react';
 
 import { TableLabel } from '../../TableLabel';

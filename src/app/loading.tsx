@@ -1,4 +1,4 @@
-import { Spinner } from '@/components/ui/Spinner_temp';
+import { Spinner } from '@/components/ui/Spinner';
 
 const Loading = () => {
   return (

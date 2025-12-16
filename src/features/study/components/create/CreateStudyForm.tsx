@@ -1,7 +1,7 @@
 'use client';
 
 import { TierBadge } from '@/components/common/TierBadge';
-import { Button } from '@/components/ui/Button_temp';
+import { Button } from '@/components/ui/Button';
 import {
   Field,
   FieldDescription,
@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/Select';
 import { Slider } from '@/components/ui/Slider';
-import { Spinner } from '@/components/ui/Spinner_temp';
+import { Spinner } from '@/components/ui/Spinner';
 
 import { useCreateStudyForm } from '../../hooks/useCreateStudyForm';
 

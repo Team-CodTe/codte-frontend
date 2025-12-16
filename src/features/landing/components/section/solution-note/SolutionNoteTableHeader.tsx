@@ -1,5 +1,5 @@
 import { HintTooltip } from '@/components/common/HintTooltip';
-import { Button } from '@/components/ui/Button_temp';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import {
   CircleXIcon,
