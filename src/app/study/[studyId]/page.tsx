@@ -2,13 +2,13 @@ import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 
 type Props = {
   params: Promise<{
-    id: number;
+    studyId: number;
   }>;
 };
 
 const StudyMainPage = async ({ params }: Props) => {
-  const { id } = await params;
-  const study = await getStudyDetail(id);
+  const { studyId } = await params;
+  const study = await getStudyDetail(studyId);
 
   console.log(study);
 

@@ -5,12 +5,12 @@ import { StudyLeaveDialog } from './StudyLeaveDialog';
 import { StudyRemoveDialog } from './StudyRemoveDialog';
 
 type Props = {
-  id: number;
+  studyId: number;
   studyName: string;
   role: StudyRole;
 };
 
-export const StudyExitButton = ({ id, studyName, role }: Props) => {
+export const StudyExitButton = ({ studyId, studyName, role }: Props) => {
   const isMember = role === STUDY_ROLE.MEMBER;
 
   return (
@@ -24,9 +24,9 @@ export const StudyExitButton = ({ id, studyName, role }: Props) => {
         </span>
       </div>
       {isMember ? (
-        <StudyLeaveDialog id={id} />
+        <StudyLeaveDialog studyId={studyId} />
       ) : (
-        <StudyRemoveDialog id={id} studyName={studyName} />
+        <StudyRemoveDialog studyId={studyId} studyName={studyName} />
       )}
     </div>
   );

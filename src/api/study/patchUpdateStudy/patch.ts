@@ -8,12 +8,12 @@ import {
 } from './type';
 
 export const patchUpdateStudy = async (
-  id: number,
+  studyId: number,
   req: patchUpdateStudyRequest,
 ) => {
   const url = buildUrlWithParams({
     url: API_URLS.STUDY.UPDATE,
-    pathParams: { id },
+    pathParams: { studyId },
   });
 
   return await customFetch.patch<patchUpdateStudyResponse>(url, req);

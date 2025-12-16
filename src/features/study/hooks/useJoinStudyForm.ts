@@ -2,6 +2,7 @@ import { useTransition } from 'react';
 
 import { useJoinStudyMutation } from '@/api/study/postJoinStudy/mutation';
 import { PATH } from '@/constants/path';
+import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
@@ -28,7 +29,12 @@ export const useJoinStudyForm = () => {
         showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
 
         startTransition(() => {
-          router.replace(`${PATH.STUDY.HOME}/${data.studyId}`);
+          router.replace(
+            buildUrlWithParams({
+              url: PATH.STUDY.MAIN,
+              pathParams: { studyId: data.id },
+            }),
+          );
         });
       },
       onError: (error) => {

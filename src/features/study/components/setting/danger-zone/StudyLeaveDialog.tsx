@@ -17,11 +17,11 @@ import { useExitStudy } from '@/features/study/hooks/useExitStudy';
 import { cn } from '@/lib/utils';
 
 type Props = {
-  id: number;
+  studyId: number;
 };
 
-export const StudyLeaveDialog = ({ id }: Props) => {
-  const { mutateLeaveStudy, isLeavingStudy } = useExitStudy({ id });
+export const StudyLeaveDialog = ({ studyId }: Props) => {
+  const { mutateLeaveStudy, isLeavingStudy } = useExitStudy({ studyId });
 
   const handleLeave = () => {
     if (!isLeavingStudy) {

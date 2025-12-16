@@ -11,15 +11,15 @@ import {
 } from '../schemas/studyForm.schema';
 
 type Props = {
-  id: number;
+  studyId: number;
   initialData: StudyFormData;
 };
 
-export const useUpdateStudyForm = ({ id, initialData }: Props) => {
+export const useUpdateStudyForm = ({ studyId, initialData }: Props) => {
   const router = useRouter();
 
   const { mutate: mutateUpdateStudy, isPending: isSubmitting } =
-    useUpdateStudyMutation(id, {
+    useUpdateStudyMutation(studyId, {
       onSuccess: () => {
         router.refresh();
 

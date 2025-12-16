@@ -1,22 +1,22 @@
 import { type OmittedMutationOptions } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
-import { putRegisterProfile } from './put';
+import { patchUpdateProfile } from './patch';
 import {
-  type PutRegisterProfileRequest,
-  type PutRegisterProfileResponse,
+  type PatchUpdateProfileRequest,
+  type PatchUpdateProfileResponse,
 } from './type';
 
-export const useRegisterProfileMutation = (
+export const useUpdateProfileMutation = (
   options?: OmittedMutationOptions<
-    PutRegisterProfileResponse,
+    PatchUpdateProfileResponse,
     Error,
-    PutRegisterProfileRequest
+    PatchUpdateProfileRequest
   >,
 ) => {
   return useMutation({
     mutationKey: ['register', 'profile'],
-    mutationFn: putRegisterProfile,
+    mutationFn: patchUpdateProfile,
     ...options,
   });
 };

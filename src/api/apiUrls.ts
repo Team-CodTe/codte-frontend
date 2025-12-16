@@ -6,7 +6,7 @@ export const API_URLS = {
   },
   USER: {
     ME: '/api/user/me/',
-    REGISTER: '/api/user/profile/',
+    UPDATE: '/api/user/profile/',
     VALIDATE: {
       USERNAME: '/api/user/validate/username/',
       BOJ: '/api/user/validate/boj/',
@@ -16,9 +16,9 @@ export const API_URLS = {
     MY_LIST: '/api/studies/me/',
     CREATE: '/api/studies/',
     JOIN: '/api/studies/join/',
-    DETAIL: '/api/studies/{id}/',
-    UPDATE: '/api/studies/{id}/',
-    REMOVE: '/api/studies/{id}/',
-    LEAVE: '/api/studies/{id}/leave/',
+    DETAIL: '/api/studies/{studyId}/',
+    UPDATE: '/api/studies/{studyId}/',
+    REMOVE: '/api/studies/{studyId}/',
+    LEAVE: '/api/studies/{studyId}/leave/',
   },
 } as const;

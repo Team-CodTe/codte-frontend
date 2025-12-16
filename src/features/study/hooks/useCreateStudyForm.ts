@@ -2,6 +2,7 @@ import { useTransition } from 'react';
 
 import { useCreateStudyMutation } from '@/api/study/postCreateStudy/mutation';
 import { PATH } from '@/constants/path';
+import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { showToast } from '@/lib/showToast';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
@@ -21,7 +22,12 @@ export const useCreateStudyForm = () => {
         showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
 
         startTransition(() => {
-          router.replace(`${PATH.STUDY.HOME}/${data.id}`);
+          router.replace(
+            buildUrlWithParams({
+              url: PATH.STUDY.MAIN,
+              pathParams: { studyId: data.id },
+            }),
+          );
         });
       },
       onError: (error) => {

@@ -16,7 +16,7 @@ export const DangerZoneSection = ({ study }: Props) => {
       </div>
 
       <StudyExitButton
-        id={study.id}
+        studyId={study.id}
         studyName={study.name}
         role={study.myRole}
       />

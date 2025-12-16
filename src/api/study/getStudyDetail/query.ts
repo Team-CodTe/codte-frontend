@@ -8,23 +8,23 @@ import { getStudyDetail } from './fetch';
 import { type GetStudyDetailResponse } from './type';
 
 export const useStudyDetailQuery = (
-  id: number,
+  studyId: number,
   options?: OmittedQueryOptions<GetStudyDetailResponse>,
 ) => {
   return useQuery({
-    queryKey: ['study', 'detail', id],
-    queryFn: () => getStudyDetail(id),
+    queryKey: ['study', 'detail', studyId],
+    queryFn: () => getStudyDetail(studyId),
     ...options,
   });
 };
 
 export const useStudyDetailSuspenseQuery = (
-  id: number,
+  studyId: number,
   options?: OmittedSuspenseQueryOptions<GetStudyDetailResponse>,
 ) => {
   return useQuery({
-    queryKey: ['study', 'detail', id],
-    queryFn: () => getStudyDetail(id),
+    queryKey: ['study', 'detail', studyId],
+    queryFn: () => getStudyDetail(studyId),
     ...options,
   });
 };

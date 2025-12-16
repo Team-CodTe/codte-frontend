@@ -4,12 +4,12 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteRemoveStudy } from './delete';
 
 export const useRemoveStudy = (
-  id: number,
+  studyId: number,
   options?: OmittedMutationOptions<void>,
 ) => {
   return useMutation({
-    mutationKey: ['study', 'remove', id],
-    mutationFn: () => deleteRemoveStudy(id),
+    mutationKey: ['study', 'remove', studyId],
+    mutationFn: () => deleteRemoveStudy(studyId),
     ...options,
   });
 };

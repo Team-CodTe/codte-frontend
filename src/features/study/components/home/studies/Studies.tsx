@@ -29,7 +29,7 @@ export const Studies = ({ initialData }: Props) => {
       router.push(
         buildUrlWithParams({
           url: PATH.STUDY.MAIN,
-          pathParams: { id: study.studyId },
+          pathParams: { studyId: study.studyId },
         }),
       );
     });

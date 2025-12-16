@@ -20,14 +20,14 @@ import { Spinner } from '@/components/ui/Spinner';
 import { cn } from '@/lib/utils';
 
 import { useExitStudy } from '../../../hooks/useExitStudy';
-import { useRemoveStudyForm } from '../../../hooks/useRemoveStudyForm';
+import { useRemoveConfirmation } from '../../../hooks/useRemoveStudyForm';
 
 type Props = {
-  id: number;
+  studyId: number;
   studyName: string;
 };
 
-export const StudyRemoveDialog = ({ id, studyName }: Props) => {
+export const StudyRemoveDialog = ({ studyId, studyName }: Props) => {
   const [open, setOpen] = useState(false);
   const {
     confirmText,
@@ -35,8 +35,8 @@ export const StudyRemoveDialog = ({ id, studyName }: Props) => {
     isConfirmValid,
     handleConfirmTextChange,
     resetForm,
-  } = useRemoveStudyForm({ studyName });
-  const { mutateRemoveStudy, isRemovingStudy } = useExitStudy({ id });
+  } = useRemoveConfirmation({ studyName });
+  const { mutateRemoveStudy, isRemovingStudy } = useExitStudy({ studyId });
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);

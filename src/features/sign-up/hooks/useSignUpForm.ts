@@ -1,9 +1,8 @@
 import { useCallback, useState, useTransition } from 'react';
 
-import { getMyProfile } from '@/api/user/getMyProfile/fetch';
+import { useUpdateProfileMutation } from '@/api/user/patchUpdateProfile/mutation';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
 import { useValidateUsernameMutation } from '@/api/user/postValidateUsername/mutation';
-import { useRegisterProfileMutation } from '@/api/user/putRegisterProfile/mutation';
 import { PATH } from '@/constants/path';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
@@ -53,14 +52,12 @@ export const useSignUpForm = () => {
   const [bojApiError, setBojApiError] = useState<string | null>(null);
 
   const { mutate: mutateRegisterProfile, isPending: isRegisteringProfile } =
-    useRegisterProfileMutation({
-      onSuccess: async () => {
+    useUpdateProfileMutation({
+      onSuccess: async (data) => {
         try {
-          const profile = await getMyProfile();
-
           await update({
             user: {
-              ...profile,
+              ...data,
             },
           });
 

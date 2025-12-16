@@ -3,6 +3,5 @@ export type PostJoinStudyRequest = {
 };
 
 export type PostJoinStudyResponse = {
-  message: string;
-  studyId: string;
+  id: number;
 };

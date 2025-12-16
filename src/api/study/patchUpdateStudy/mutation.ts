@@ -8,7 +8,7 @@ import {
 } from './type';
 
 export const useUpdateStudyMutation = (
-  id: number,
+  studyId: number,
   options?: OmittedMutationOptions<
     patchUpdateStudyResponse,
     Error,
@@ -16,8 +16,8 @@ export const useUpdateStudyMutation = (
   >,
 ) => {
   return useMutation({
-    mutationKey: ['study', 'update', id],
-    mutationFn: (req) => patchUpdateStudy(id, req),
+    mutationKey: ['study', 'update', studyId],
+    mutationFn: (req) => patchUpdateStudy(studyId, req),
     ...options,
   });
 };

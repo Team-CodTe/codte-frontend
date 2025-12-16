@@ -22,7 +22,7 @@ export const StudyMainHeader = ({ study }: Props) => {
     router.push(
       buildUrlWithParams({
         url: PATH.STUDY.SETTING,
-        pathParams: { id: study.id },
+        pathParams: { studyId: study.id },
       }),
     );
   };

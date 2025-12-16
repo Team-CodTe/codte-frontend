@@ -4,7 +4,7 @@ type Props = {
   studyName: string;
 };
 
-export const useRemoveStudyForm = ({ studyName }: Props) => {
+export const useRemoveConfirmation = ({ studyName }: Props) => {
   const [confirmText, setConfirmText] = useState('');
 
   const expectedText = `${studyName} 삭제`;

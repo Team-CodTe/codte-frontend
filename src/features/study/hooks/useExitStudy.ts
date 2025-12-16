@@ -7,23 +7,21 @@ import { showToast } from '@/lib/showToast';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  id: number;
+  studyId: number;
 };
 
-export const useExitStudy = ({ id }: Props) => {
+export const useExitStudy = ({ studyId }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
   const { mutate: mutateLeaveStudy, isPending: isLeavingStudy } = useLeaveStudy(
-    id,
+    studyId,
     {
       onSuccess: () => {
         showToast({
           message: '스터디를 탈퇴했습니다.',
           type: 'success',
         });
-
-        router.refresh();
 
         startTransition(() => {
           router.replace(PATH.STUDY.HOME);
@@ -41,14 +39,12 @@ export const useExitStudy = ({ id }: Props) => {
   );
 
   const { mutate: mutateRemoveStudy, isPending: isRemovingStudy } =
-    useRemoveStudy(id, {
+    useRemoveStudy(studyId, {
       onSuccess: () => {
         showToast({
           message: '스터디가 삭제되었습니다.',
           type: 'success',
         });
-
-        router.refresh();
 
         startTransition(() => {
           router.replace(PATH.STUDY.HOME);

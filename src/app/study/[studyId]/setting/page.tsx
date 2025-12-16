@@ -4,13 +4,13 @@ import { StudyInfoSection } from '@/features/study/components/setting/StudyInfoS
 
 type Props = {
   params: Promise<{
-    id: number;
+    studyId: number;
   }>;
 };
 
 const StudySettingPage = async ({ params }: Props) => {
-  const { id } = await params;
-  const study = await getStudyDetail(id);
+  const { studyId } = await params;
+  const study = await getStudyDetail(studyId);
 
   return (
     <main className="min-h-0 w-full flex-1 overflow-y-auto">

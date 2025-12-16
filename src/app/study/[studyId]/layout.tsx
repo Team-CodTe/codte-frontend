@@ -9,17 +9,17 @@ import { notFound, redirect } from 'next/navigation';
 
 type Props = {
   params: Promise<{
-    id: number;
+    studyId: number;
   }>;
 };
 
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const { id } = await params;
+  const { studyId } = await params;
 
   try {
-    const study = await getStudyDetail(id);
+    const study = await getStudyDetail(studyId);
 
     return {
       title: study.name,
@@ -46,11 +46,11 @@ const StudyMainLayout = async ({
   children,
   params,
 }: PropsWithChildren<Props>) => {
-  const { id } = await params;
+  const { studyId } = await params;
   let study;
 
   try {
-    study = await getStudyDetail(id);
+    study = await getStudyDetail(studyId);
   } catch (error) {
     if (error instanceof FetchError) {
       if (error.status === 401) {
