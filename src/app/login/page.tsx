@@ -12,16 +12,19 @@ const LoginPage = async ({ searchParams }: Props) => {
   const isExpired = expired === 'true';
 
   return (
-    <main className="bg-background flex min-h-screen w-screen flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <main className="bg-background flex min-h-screen w-screen flex-col items-center justify-center p-5 md:p-8">
       <LoginSessionHandler isExpired={isExpired} />
 
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center justify-center gap-8">
           <AppLogo className="h-10 w-auto" />
           <div className="flex w-full flex-col items-center gap-4">
-            <span className="text-muted-foreground text-center font-medium">
-              로그인할 계정을 선택해주세요
-            </span>
+            <div className="text-center leading-relaxed">
+              <h2 className="text-xl font-semibold">로그인</h2>
+              <span className="text-muted-foreground text-center font-medium">
+                로그인할 계정을 선택해주세요
+              </span>
+            </div>
             <LoginButtons />
           </div>
           <LoginFooter />

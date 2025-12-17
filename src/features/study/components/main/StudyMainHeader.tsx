@@ -28,7 +28,7 @@ export const StudyMainHeader = ({ study }: Props) => {
   };
 
   return (
-    <header className="bg-background sticky top-0 z-50 flex h-16 w-full items-center justify-between px-5 py-4 lg:px-6">
+    <header className="bg-background sticky top-0 z-50 flex h-16 w-full items-center justify-between px-5 lg:px-8">
       <Link href={PATH.STUDY.HOME} replace>
         <AppLogo className="h-8 w-auto" />
       </Link>

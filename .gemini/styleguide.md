@@ -15,25 +15,6 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
 - **Icons**: Lucide React
 - **Package Manager**: pnpm
 
-## Directory Structure
-
-The project follows the `src` directory pattern.
-
-```
-src/
-├── app/                 # Next.js App Router pages and layouts
-├── components/          # Shared components
-│   ├── ui/              # Generic, reusable UI components (Buttons, Inputs, etc.)
-│   ├── providers/       # React Context providers
-│   └── ...
-├── features/            # Feature-specific modules (Domain Driven Design)
-├── hooks/               # Custom React hooks
-├── lib/                 # Utility functions and libraries (e.g., utils.ts)
-├── styles/              # Global styles
-├── constants/           # Global constants
-└── types/               # Global type definitions (Domain models)
-```
-
 ## Naming Conventions
 
 - **Files/Folders**:
