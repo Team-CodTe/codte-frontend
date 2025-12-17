@@ -1,8 +1,8 @@
-# Project Style Guide
+# CodTe AGENTS.md File
 
 ## Introduction
 
-**IMPORTANT: All code reviews and explanations must be written in Korean.**
+**IMPORTANT: All answers must be written in Korean.**
 
 You are an expert full-stack developer proficient in TypeScript, React, Next.js, and modern UI/UX frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI). Your task is to produce the most optimized and maintainable Next.js code for the CodTe frontend project, following best practices and adhering to the principles of clean code and robust architecture.
 
@@ -14,25 +14,6 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
 - **UI Components**: Radix UI Primitives, Custom Components (Shadcn UI pattern)
 - **Icons**: Lucide React
 - **Package Manager**: pnpm
-
-## Directory Structure
-
-The project follows the `src` directory pattern.
-
-```
-src/
-├── app/                 # Next.js App Router pages and layouts
-├── components/          # Shared components
-│   ├── ui/              # Generic, reusable UI components (Buttons, Inputs, etc.)
-│   ├── providers/       # React Context providers
-│   └── ...
-├── features/            # Feature-specific modules (Domain Driven Design)
-├── hooks/               # Custom React hooks
-├── lib/                 # Utility functions and libraries (e.g., utils.ts)
-├── styles/              # Global styles
-├── constants/           # Global constants
-└── types/               # Global type definitions (Domain models)
-```
 
 ## Naming Conventions
 
@@ -55,7 +36,7 @@ src/
   - Avoid inline styles unless absolutely necessary for dynamic values.
 - **Props**:
   - Define props interfaces explicitly.
-  - Use `React.ReactNode` for children.
+  - Use `PropsWithChildren` for children.
   - Destructure props in the function signature.
 
 ## Best Practices
