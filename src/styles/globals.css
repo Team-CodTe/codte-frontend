@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -264,4 +265,63 @@ body {
     );
     --border-radius: var(--radius);
   }
+}
+
+@layer components {
+  .mdxeditor-theme {
+    /** base colors */
+    --baseBase: var(--background);
+    --baseBg: var(--background);
+    --baseBgSubtle: var(--muted);
+    --baseBgActive: var(--accent);
+    --baseBgHover: var(--accent);
+    --baseText: var(--foreground);
+    --baseTextContrast: var(--background);
+    --baseBorder: var(--border);
+    --baseBorderHover: var(--ring);
+    
+    /** accent colors */
+    --accentBase: var(--primary);
+    --accentBg: color-mix(in oklch, var(--primary) 10%, transparent);
+    --accentBgSubtle: color-mix(in oklch, var(--primary) 20%, transparent);
+    --accentBgActive: color-mix(in oklch, var(--primary) 30%, transparent);
+    --accentBgHover: color-mix(in oklch, var(--primary) 15%, transparent);
+    --accentSolid: var(--primary);
+    --accentSolidHover: color-mix(in oklch, var(--primary) 90%, var(--foreground));
+    --accentText: var(--primary);
+    --accentBorder: var(--primary);
+    
+    /** font settings */
+    font-family: var(--font-pretendard);
+    --font-mono: ui-monospace, monospace;
+
+    /** base page background */
+    color: var(--foreground);
+    
+    /** admonition backgrounds */
+    --admonitionTipBg: color-mix(in oklch, var(--success) 10%, var(--background));
+    --admonitionTipBorder: var(--success);
+    
+    --admonitionInfoBg: color-mix(in oklch, var(--primary) 10%, var(--background));
+    --admonitionInfoBorder: var(--primary);
+    
+    --admonitionCautionBg: color-mix(in oklch, var(--caution) 10%, var(--background));
+    --admonitionCautionBorder: var(--caution);
+    
+    --admonitionDangerBg: color-mix(in oklch, var(--destructive) 10%, var(--background));
+    --admonitionDangerBorder: var(--destructive);
+    
+    --admonitionNoteBg: var(--muted);
+    --admonitionNoteBorder: var(--border);
+  }
+
+  .mdxeditor-theme .mdxeditor-root-contenteditable {
+    line-height: 1.5;
+    font-family: var(--font-pretendard);
+  }
+  
+  .mdxeditor-theme .mdxeditor-rich-text-editor {
+    gap: 4px;
+  }
+  
 }
