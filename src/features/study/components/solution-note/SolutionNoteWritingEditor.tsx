@@ -1,12 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
-import { Spinner } from '@/components/ui/Spinner';
 import { useDebounce } from '@/hooks/useDebounce';
 import { showToast } from '@/lib/showToast';
-import { type MDXEditorMethods } from '@mdxeditor/editor';
 
 import { BaseEditor } from './BaseEditor';
 
@@ -19,11 +17,11 @@ export const StudyTemplateUpdateEditor = ({
   studyId,
   initialTemplate,
 }: Props) => {
-  const ref = useRef<MDXEditorMethods>(null);
-  const [content, setContent] = useState<string>(initialTemplate);
+  const [content, setContent] = useState(initialTemplate);
 
-  const { mutate: mutateUpdateStudyTemplate, isPending: isSubmitting } =
-    useUpdateStudyMutation(studyId, {
+  const { mutate: mutateUpdateStudyTemplate } = useUpdateStudyMutation(
+    studyId,
+    {
       onError: (error) => {
         console.error('❌ 스터디 템플릿 수정 실패', error);
 
@@ -32,7 +30,8 @@ export const StudyTemplateUpdateEditor = ({
           type: 'error',
         });
       },
-    });
+    },
+  );
 
   const debouncedTemplate = useDebounce(content, 1000);
 
@@ -45,20 +44,6 @@ export const StudyTemplateUpdateEditor = ({
   }, [debouncedTemplate, initialTemplate, mutateUpdateStudyTemplate]);
 
   return (
-    <div className="relative flex w-full flex-col items-end">
-      <BaseEditor
-        markdown={initialTemplate}
-        editorRef={ref}
-        onChange={(newContent) => {
-          setContent(newContent);
-        }}
-      />
-
-      {isSubmitting && (
-        <span className="text-muted-foreground animate-fade-in absolute right-8 z-10 hidden text-sm transition-transform duration-200 ease-in-out md:block">
-          <Spinner />
-        </span>
-      )}
-    </div>
+    <BaseEditor value={content} onChange={(val) => setContent(val || '')} />
   );
 };
