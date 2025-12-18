@@ -1,5 +1,5 @@
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
-import { StudyTemplateUpdateEditor } from '@/features/study/components/solution-note/SolutionNoteWritingEditor';
+import { StudyTemplateUpdateEditor } from '@/features/study/components/solution-note/StudyTemplateUpdateEditor';
 
 type Props = {
   params: Promise<{

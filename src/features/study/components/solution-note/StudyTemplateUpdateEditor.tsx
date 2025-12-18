@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
+import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 import { useDebounce } from '@/hooks/useDebounce';
 import { showToast } from '@/lib/showToast';
-
-import { BaseEditor } from './BaseEditor';
 
 type Props = {
   studyId: number;
@@ -22,6 +21,12 @@ export const StudyTemplateUpdateEditor = ({
   const { mutate: mutateUpdateStudyTemplate } = useUpdateStudyMutation(
     studyId,
     {
+      onSuccess: () => {
+        showToast({
+          message: '저장되었습니다.',
+          type: 'success',
+        });
+      },
       onError: (error) => {
         console.error('❌ 스터디 템플릿 수정 실패', error);
 
@@ -44,6 +49,10 @@ export const StudyTemplateUpdateEditor = ({
   }, [debouncedTemplate, initialTemplate, mutateUpdateStudyTemplate]);
 
   return (
-    <BaseEditor value={content} onChange={(val) => setContent(val || '')} />
+    <DynamicMarkdownEditor
+      value={content}
+      onChange={(val) => setContent(val || '')}
+      placeholder="스터디 풀이 노트 템플릿을 작성해보세요."
+    />
   );
 };

@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/Skeleton';
 import MDEditor, {
   commands,
   type ICommand,
@@ -21,6 +22,7 @@ import {
   Strikethrough,
   Table,
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
 
 const ICON_SIZE = 'size-6';
@@ -71,12 +73,43 @@ const customCommands = {
   ),
 };
 
+const EDITOR_COMMANDS = [
+  customCommands.heading1,
+  customCommands.heading2,
+  customCommands.heading3,
+  customCommands.heading4,
+  commands.divider,
+
+  customCommands.bold,
+  customCommands.italic,
+  customCommands.strikethrough,
+  commands.divider,
+
+  customCommands.code,
+  customCommands.codeBlock,
+  commands.divider,
+
+  customCommands.unorderedListCommand,
+  customCommands.orderedListCommand,
+  commands.divider,
+
+  customCommands.quote,
+  customCommands.link,
+  customCommands.table,
+];
+
 type Props = {
   value: string;
   onChange: (value?: string) => void;
+  placeholder?: string;
 } & Omit<MDEditorProps, 'value' | 'onChange'>;
 
-export const MarkdownEditor = ({ value, onChange, ...props }: Props) => {
+export const MarkdownEditor = ({
+  value,
+  onChange,
+  placeholder = '마크다운으로 내용을 작성해보세요.',
+  ...props
+}: Props) => {
   const { resolvedTheme } = useTheme();
 
   const colorMode = resolvedTheme === 'dark' ? 'dark' : 'light';
@@ -92,35 +125,9 @@ export const MarkdownEditor = ({ value, onChange, ...props }: Props) => {
           onChange={onChange}
           preview="edit"
           visibleDragbar={false}
-          commands={[
-            customCommands.heading1,
-            customCommands.heading2,
-            customCommands.heading3,
-            customCommands.heading4,
-            commands.divider,
-
-            customCommands.bold,
-            customCommands.italic,
-            customCommands.strikethrough,
-            commands.divider,
-
-            customCommands.code,
-            customCommands.codeBlock,
-            commands.divider,
-
-            customCommands.unorderedListCommand,
-            customCommands.orderedListCommand,
-            commands.divider,
-
-            customCommands.quote,
-            customCommands.link,
-            customCommands.table,
-          ]}
+          commands={EDITOR_COMMANDS}
           extraCommands={[]}
-          textareaProps={{
-            placeholder:
-              '어떻게 문제를 풀었는지 스터디 멤버들에게 공유해보세요!',
-          }}
+          textareaProps={{ placeholder }}
           {...props}
         />
       </div>
@@ -130,3 +137,14 @@ export const MarkdownEditor = ({ value, onChange, ...props }: Props) => {
     </div>
   );
 };
+
+export const DynamicMarkdownEditor = dynamic(
+  () =>
+    import('@/components/common/MarkdownEditor').then(
+      (mod) => mod.MarkdownEditor,
+    ),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-full w-full" />,
+  },
+);
