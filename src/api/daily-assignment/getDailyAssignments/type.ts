@@ -1,4 +1,4 @@
-export type Assignment = {
+export type DailyAssignment = {
   id: number;
   bojNumber: number;
   title: string;
@@ -9,7 +9,7 @@ export type Assignment = {
 };
 
 export type GetDailyAssignmentsResponse = {
-  assignments: Assignment[];
+  assignments: DailyAssignment[];
   canRefresh: boolean;
   refreshCooldownSeconds: number;
 };
