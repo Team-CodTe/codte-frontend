@@ -7,5 +7,9 @@ import { useRouter } from 'next/navigation';
 export const ToLoginPageButton = () => {
   const router = useRouter();
 
-  return <Button onClick={() => router.push(PATH.LOGIN)}>로그인</Button>;
+  return (
+    <Button size="sm" onClick={() => router.push(PATH.LOGIN)}>
+      로그인
+    </Button>
+  );
 };

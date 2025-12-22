@@ -8,7 +8,7 @@ const LandingPage = () => {
     <div className="bg-background flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
       <LandingHeader />
 
-      <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-10 px-5 py-4 lg:grid-cols-2 lg:grid-rows-1 lg:gap-8 lg:px-8 lg:py-4">
+      <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-10 p-5 pt-4 lg:grid-cols-2 lg:grid-rows-1 lg:gap-8 lg:p-8 lg:pt-4">
         <div className="flex min-h-0 flex-col gap-8 lg:h-full">
           <DailyAssignmentSection />
           <MemberSection />
