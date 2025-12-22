@@ -24,6 +24,7 @@
   color: var(--foreground) !important;
   box-shadow: none !important;
   border-radius: var(--radius) !important;
+  height: full !important;
   --md-editor-font-family: var(--font-pretendard) !important;
 }
 
@@ -76,6 +77,10 @@
   min-height: 100% !important;
 }
 
+.w-md-editor-text-input {
+  overflow-y: auto !important;
+}
+
 .w-md-editor-text-input,
 .w-md-editor-text-pre .code-line {
   font-size: 1rem !important;
@@ -119,4 +124,12 @@
 
 .wmde-markdown pre {
   background-color: var(--card) !important;
+}
+
+h1 > a[aria-hidden="true"],
+h2 > a[aria-hidden="true"],
+h3 > a[aria-hidden="true"],
+h4 > a[aria-hidden="true"],
+.anchor {
+  display: none !important;
 }

@@ -123,8 +123,8 @@ export const MarkdownEditor = ({
 }: Props) => {
   return (
     <div className="flex h-full w-full flex-col gap-4 md:grid md:grid-cols-2">
-      <div className="flex flex-col items-end gap-4">
-        <div className="border-border h-full w-full flex-1 overflow-hidden rounded-md border">
+      <div className="flex min-h-0 flex-1 flex-col items-end gap-4">
+        <div className="border-border min-h-0 w-full flex-1 overflow-hidden rounded-md border">
           <MDEditor
             value={value}
             height="100%"

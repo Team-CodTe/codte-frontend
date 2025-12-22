@@ -12,7 +12,7 @@ const SolutionNoteTemplatePage = async ({ params }: Props) => {
   const study = await getStudyDetail(studyId);
 
   return (
-    <main className="w-full flex-1 overflow-hidden p-5 pt-0 lg:p-8 lg:pt-0">
+    <main className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
       <StudyTemplateUpdateEditor
         studyId={studyId}
         initialTemplate={study.templateContent ?? ''}

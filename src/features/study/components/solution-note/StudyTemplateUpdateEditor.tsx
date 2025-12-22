@@ -17,7 +17,7 @@ export const StudyTemplateUpdateEditor = ({
     useUpdateStudyTemplate({ studyId, initialTemplate });
 
   return (
-    <div className="h-[calc(100dvh-5.25rem)] w-full overflow-hidden lg:h-[calc(100dvh-6rem)]">
+    <div className="h-[calc(100dvh-6.25rem)] w-full overflow-hidden lg:h-[calc(100dvh-7rem)]">
       <DynamicMarkdownEditor
         value={content}
         onChange={onChange}
