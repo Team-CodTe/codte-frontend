@@ -12,8 +12,8 @@ type ToastType = {
  */
 export const showToast = ({ message, type }: ToastType) => {
   if (type && toast[type]) {
-    toast[type](message);
+    toast[type](message, { closeButton: true });
   } else {
-    toast(message);
+    toast(message, { closeButton: true });
   }
 };
