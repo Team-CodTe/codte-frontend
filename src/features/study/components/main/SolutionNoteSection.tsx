@@ -8,7 +8,7 @@ type Props = {
 
 export const SolutionNoteSection = ({ study }: Props) => {
   return (
-    <div className="flex h-full flex-col space-y-3">
+    <div className="flex h-full flex-col gap-3">
       <SolutionNoteTableHeader studyId={study.id} role={study.myRole} />
     </div>
   );
