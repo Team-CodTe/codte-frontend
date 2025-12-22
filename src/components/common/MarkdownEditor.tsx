@@ -23,7 +23,10 @@ import {
   Table,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useTheme } from 'next-themes';
+
+import { Button } from '../ui/Button';
+import { Field, FieldGroup } from '../ui/Field';
+import { Spinner } from '../ui/Spinner';
 
 const ICON_SIZE = 'size-6';
 
@@ -101,36 +104,61 @@ const EDITOR_COMMANDS = [
 type Props = {
   value: string;
   onChange: (value?: string) => void;
+  onSubmit?: () => void;
+  onReset?: () => void;
+  isDirty?: boolean;
+  isSubmitting?: boolean;
   placeholder?: string;
 } & Omit<MDEditorProps, 'value' | 'onChange'>;
 
 export const MarkdownEditor = ({
   value,
   onChange,
-  placeholder = '마크다운으로 내용을 작성해보세요.',
+  onSubmit,
+  onReset,
+  isDirty = false,
+  isSubmitting = false,
+  placeholder = '내용을 자유롭게 작성해보세요.',
   ...props
 }: Props) => {
-  const { resolvedTheme } = useTheme();
-
-  const colorMode = resolvedTheme === 'dark' ? 'dark' : 'light';
-
   return (
-    <div
-      className="h-full w-full gap-4 md:grid md:grid-cols-2"
-      data-color-mode={colorMode}>
-      <div className="border-border h-full w-full overflow-y-auto rounded-md border">
-        <MDEditor
-          value={value}
-          height="100%"
-          onChange={onChange}
-          preview="edit"
-          visibleDragbar={false}
-          commands={EDITOR_COMMANDS}
-          extraCommands={[]}
-          textareaProps={{ placeholder }}
-          {...props}
-        />
+    <div className="flex h-full w-full flex-col gap-4 md:grid md:grid-cols-2">
+      <div className="flex flex-col items-end gap-4">
+        <div className="border-border h-full w-full flex-1 overflow-hidden rounded-md border">
+          <MDEditor
+            value={value}
+            height="100%"
+            onChange={onChange}
+            preview="edit"
+            visibleDragbar={false}
+            commands={EDITOR_COMMANDS}
+            extraCommands={[]}
+            textareaProps={{ placeholder }}
+            {...props}
+          />
+        </div>
+
+        <FieldGroup>
+          <Field orientation="responsive" className="justify-end">
+            <Button
+              onClick={onSubmit}
+              className="order-1 @md/field-group:order-2"
+              disabled={isSubmitting || !isDirty}>
+              {isSubmitting ? <Spinner /> : null}
+              {isSubmitting ? '저장 중...' : '저장'}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={onReset}
+              className="order-2 @md/field-group:order-1"
+              disabled={isSubmitting || !isDirty}>
+              초기화
+            </Button>
+          </Field>
+        </FieldGroup>
       </div>
+
+      {/* 프리뷰 영역*/}
       <div className="border-border hidden h-full w-full overflow-y-auto rounded-md border px-8 py-7 md:block">
         <MDEditor.Markdown source={value} />
       </div>

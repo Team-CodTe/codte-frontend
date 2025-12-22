@@ -12,7 +12,7 @@ type Props = {
   inviteCode: string;
 };
 
-export const InviteCodeSnippet = ({ inviteCode }: Props) => {
+export const InviteCodeRow = ({ inviteCode }: Props) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyInviteCode = async () => {
