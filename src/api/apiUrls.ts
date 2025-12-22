@@ -21,4 +21,8 @@ export const API_URLS = {
     REMOVE: '/api/studies/{studyId}/',
     LEAVE: '/api/studies/{studyId}/leave/',
   },
+  DAILY_ASSIGNMENT: {
+    LIST: '/api/studies/{studyId}/daily-assignments/',
+    REFRESH: '/api/studies/{studyId}/daily-assignments/',
+  },
 } as const;
