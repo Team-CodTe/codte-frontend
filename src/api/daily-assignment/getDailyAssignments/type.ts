@@ -10,6 +10,7 @@ export type DailyAssignment = {
 
 export type GetDailyAssignmentsResponse = {
   assignments: DailyAssignment[];
+  refreshedAt: string;
+  nextRefreshAvailableAt: string;
   canRefresh: boolean;
-  refreshCooldownSeconds: number;
 };

@@ -17,6 +17,7 @@ const StudyMainPage = async ({ params }: Props) => {
       <div className="flex min-h-0 flex-col gap-8 lg:h-full">
         {/** 오늘의 추천 문제 리스트 섹션 */}
         <DailyAssignmentsSection study={study} />
+
         {/** 스터디 회원 목록 섹션 */}
       </div>
 
