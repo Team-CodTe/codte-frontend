@@ -9,7 +9,7 @@ type Props = {
 
 export const DailyAssignmentsSection = ({ study }: Props) => {
   return (
-    <div className="flex h-full flex-col gap-3">
+    <div className="flex flex-col gap-3 md:flex-1">
       <DailyAssignmentsTableHeader studyId={study.id} role={study.myRole} />
       <DailyAssignmentSuspense studyId={study.id} />
     </div>

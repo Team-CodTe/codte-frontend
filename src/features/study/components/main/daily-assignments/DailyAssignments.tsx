@@ -19,7 +19,7 @@ export const DailyAssignments = ({ studyId, initialData }: Props) => {
   });
 
   return (
-    <div className="flex min-h-0 flex-col gap-3 md:flex-1">
+    <div className="flex flex-col gap-3">
       <DailyAssignmentsTable
         data={data?.assignments ?? []}
         columns={DailyAssignmentsTableColumns}

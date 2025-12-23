@@ -24,5 +24,6 @@ export const API_URLS = {
   DAILY_ASSIGNMENT: {
     LIST: '/api/studies/{studyId}/daily-assignments/',
     REFRESH: '/api/studies/{studyId}/daily-assignments/',
+    ADD: '/api/studies/{studyId}/daily-assignments/custom/',
   },
 } as const;

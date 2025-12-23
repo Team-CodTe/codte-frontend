@@ -12,7 +12,7 @@ export const useDailyAssignmentsQuery = (
   options?: OmittedQueryOptions<GetDailyAssignmentsResponse>,
 ) => {
   return useQuery({
-    queryKey: ['daily-assignments', studyId],
+    queryKey: ['study', 'daily-assignments', studyId],
     queryFn: () => getDailyAssignments(studyId),
     ...options,
   });
@@ -23,7 +23,7 @@ export const useDailyAssignmentSuspenseQuery = (
   options?: OmittedSuspenseQueryOptions<GetDailyAssignmentsResponse>,
 ) => {
   return useSuspenseQuery({
-    queryKey: ['daily-assignments', studyId],
+    queryKey: ['study', 'daily-assignments', studyId],
     queryFn: () => getDailyAssignments(studyId),
     ...options,
   });

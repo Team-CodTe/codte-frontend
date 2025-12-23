@@ -8,7 +8,7 @@ export const useRefreshDailyAssignmentsMutation = (
   options?: OmittedMutationOptions<void>,
 ) => {
   return useMutation({
-    mutationKey: ['daily-assignments', studyId],
+    mutationKey: ['study', 'daily-assignments', studyId],
     mutationFn: () => postRefreshDailyAssignments(studyId),
     ...options,
   });

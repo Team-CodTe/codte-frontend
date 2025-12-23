@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { deleteRemoveStudy } from './delete';
 
-export const useRemoveStudy = (
+export const useRemoveStudyMutation = (
   studyId: number,
   options?: OmittedMutationOptions<void>,
 ) => {
