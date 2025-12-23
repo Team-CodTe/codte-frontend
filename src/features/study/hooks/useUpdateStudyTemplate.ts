@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useTransition } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
