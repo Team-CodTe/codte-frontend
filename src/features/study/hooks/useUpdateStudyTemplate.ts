@@ -12,20 +12,18 @@ type Props = {
 export const useUpdateStudyTemplate = ({ studyId, initialTemplate }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
-  const [content, setContent] = useState(initialTemplate);
+  const [templateContent, setContent] = useState(initialTemplate);
 
   const { mutate: mutateUpdateStudyTemplate, isPending: isUpdating } =
     useUpdateStudyMutation(studyId, {
       onSuccess: () => {
-        showToast({ message: '템플릿이 저장되었습니다.', type: 'success' });
-
         startTransition(() => {
           router.back();
         });
-      },
-      onError: (error) => {
-        console.error('❌ 템플릿 수정 실패', error);
 
+        showToast({ message: '템플릿이 저장되었습니다.', type: 'success' });
+      },
+      onError: () => {
         showToast({
           message: '템플릿 수정에 실패했습니다. 다시 시도해주세요.',
           type: 'error',
@@ -38,7 +36,7 @@ export const useUpdateStudyTemplate = ({ studyId, initialTemplate }: Props) => {
   };
 
   const onSubmit = () => {
-    mutateUpdateStudyTemplate({ templateContent: content });
+    mutateUpdateStudyTemplate({ templateContent });
   };
 
   const onReset = () => {
@@ -47,11 +45,10 @@ export const useUpdateStudyTemplate = ({ studyId, initialTemplate }: Props) => {
     }
   };
 
-  const isDirty = content.trim().length > 0 && content !== initialTemplate;
-
   return {
-    content,
-    isDirty,
+    templateContent,
+    isDirty:
+      templateContent.trim().length > 0 && templateContent !== initialTemplate,
     isSubmitting: isUpdating || isNavigating,
     onChange,
     onSubmit,

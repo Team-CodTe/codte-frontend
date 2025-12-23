@@ -26,8 +26,6 @@ export const useJoinStudyForm = () => {
   const { mutate: mutateJoinStudy, isPending: isJoiningStudy } =
     useJoinStudyMutation({
       onSuccess: (data) => {
-        showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
-
         startTransition(() => {
           router.replace(
             buildUrlWithParams({
@@ -36,6 +34,8 @@ export const useJoinStudyForm = () => {
             }),
           );
         });
+
+        showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
       },
       onError: (error) => {
         console.error('❌ 스터디 가입 실패', error);

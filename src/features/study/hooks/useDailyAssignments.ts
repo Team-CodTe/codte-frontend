@@ -1,3 +1,5 @@
+import { useTransition } from 'react';
+
 import { useDailyAssignmentsQuery } from '@/api/daily-assignment/getDailyAssignments/query';
 import { type GetDailyAssignmentsResponse } from '@/api/daily-assignment/getDailyAssignments/type';
 import { useRefreshDailyAssignmentsMutation } from '@/api/daily-assignment/postRefreshDailyAssignments/mutation';
@@ -11,11 +13,15 @@ type Props = {
 
 export const useDailyAssignments = ({ studyId, initialData }: Props) => {
   const { data, refetch } = useDailyAssignmentsQuery(studyId, { initialData });
+  const [isRefetching, startTransition] = useTransition();
 
-  const { mutate: mutateRefreshDailyAssignments, isPending: isRefreshing } =
+  const { mutate: mutateRefreshDailyAssignments, isPending } =
     useRefreshDailyAssignmentsMutation(studyId, {
       onSuccess: () => {
-        refetch();
+        startTransition(() => {
+          refetch();
+        });
+
         showToast({
           message: '오늘의 추천 문제가 갱신되었습니다.',
           type: 'success',
@@ -30,7 +36,7 @@ export const useDailyAssignments = ({ studyId, initialData }: Props) => {
     });
 
   const onRefresh = () => {
-    if (isRefreshing) {
+    if (isPending) {
       return;
     }
 
@@ -55,7 +61,7 @@ export const useDailyAssignments = ({ studyId, initialData }: Props) => {
 
   return {
     data,
-    isRefreshing,
+    isRefreshing: isPending || isRefetching,
     onRefresh,
   };
 };

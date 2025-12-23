@@ -14,21 +14,16 @@ export const useExitStudy = ({ studyId }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
-  const { mutate: mutateLeaveStudy, isPending: isLeavingStudy } =
+  const { mutate: mutateLeaveStudy, isPending: isLeaving } =
     useLeaveStudyMutation(studyId, {
       onSuccess: () => {
-        showToast({
-          message: '스터디를 탈퇴했습니다.',
-          type: 'success',
-        });
-
         startTransition(() => {
           router.replace(PATH.STUDY.HOME);
         });
-      },
-      onError: (error) => {
-        console.log('❌ 스터디 탈퇴 실패', error);
 
+        showToast({ message: '스터디를 탈퇴했습니다.', type: 'success' });
+      },
+      onError: () => {
         showToast({
           message: '스터디 탈퇴에 실패했습니다. 다시 시도해주세요.',
           type: 'error',
@@ -36,21 +31,16 @@ export const useExitStudy = ({ studyId }: Props) => {
       },
     });
 
-  const { mutate: mutateRemoveStudy, isPending: isRemovingStudy } =
+  const { mutate: mutateRemoveStudy, isPending: isRemoving } =
     useRemoveStudyMutation(studyId, {
       onSuccess: () => {
-        showToast({
-          message: '스터디가 삭제되었습니다.',
-          type: 'success',
-        });
-
         startTransition(() => {
           router.replace(PATH.STUDY.HOME);
         });
-      },
-      onError: (error) => {
-        console.log('❌ 스터디 삭제 실패', error);
 
+        showToast({ message: '스터디가 삭제되었습니다.', type: 'success' });
+      },
+      onError: () => {
         showToast({
           message: '스터디 삭제에 실패했습니다. 다시 시도해주세요.',
           type: 'error',
@@ -61,7 +51,7 @@ export const useExitStudy = ({ studyId }: Props) => {
   return {
     mutateLeaveStudy,
     mutateRemoveStudy,
-    isLeavingStudy: isLeavingStudy || isNavigating,
-    isRemovingStudy: isRemovingStudy || isNavigating,
+    isLeavingStudy: isLeaving || isNavigating,
+    isRemovingStudy: isRemoving || isNavigating,
   };
 };
