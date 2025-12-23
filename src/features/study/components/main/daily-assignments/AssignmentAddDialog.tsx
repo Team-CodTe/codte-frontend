@@ -46,7 +46,7 @@ export const AssignmentAddDialog = ({ studyId }: Props) => {
           <DialogTitle>문제 직접 추가</DialogTitle>
           <DialogDescription>
             백준 문제 번호를 입력해서 오늘의 추천 문제 리스트에 직접 추가할 수
-            있어요.
+            있어요. 추가된 문제는 강제 갱신해도 사라지지 않습니다.
           </DialogDescription>
         </DialogHeader>
 
@@ -64,11 +64,13 @@ export const AssignmentAddDialog = ({ studyId }: Props) => {
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">취소</Button>
+            <Button variant="outline" disabled={isAdding}>
+              취소
+            </Button>
           </DialogClose>
           <Button
             type="submit"
-            disabled={!canSubmit && isAdding}
+            disabled={!canSubmit || isAdding}
             onClick={onSubmit}>
             {isAdding ? <Spinner /> : null}
             {isAdding ? '추가 중...' : '추가'}

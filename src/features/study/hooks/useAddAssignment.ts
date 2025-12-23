@@ -75,7 +75,7 @@ export const useAddAssignment = ({ studyId }: Props) => {
     setOpen,
     handleOpenChange,
     onSubmit,
-    canSubmit: !bojNumber.trim(),
+    canSubmit: bojNumber.trim(),
     isAdding,
   };
 };
