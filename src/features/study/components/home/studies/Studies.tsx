@@ -9,7 +9,7 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
 
 import { StudiesTable } from './StudiesTable';
-import { studiesTableColumns } from './StudiesTableColumns';
+import { STUDIES_TABLE_COLUMNS } from './StudiesTableColumns';
 
 type Props = {
   initialData: GetMyStudiesResponse[];
@@ -38,7 +38,7 @@ export const Studies = ({ initialData }: Props) => {
   return (
     <StudiesTable
       data={data ?? []}
-      columns={studiesTableColumns}
+      columns={STUDIES_TABLE_COLUMNS}
       onClickRow={onClickRow}
     />
   );

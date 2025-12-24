@@ -2,28 +2,38 @@
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 
-import { useUpdateStudyTemplate } from '../../hooks/useUpdateStudyTemplate';
+import { useUpdateNoteTemplate } from '../../hooks/useUpdateNoteTemplate';
 
 type Props = {
   studyId: number;
   initialTemplate: string;
 };
 
-export const StudyTemplateUpdateEditor = ({
+export const NoteTemplateUpdateEditor = ({
   studyId,
   initialTemplate,
 }: Props) => {
-  const { content, isDirty, isSubmitting, onChange, onSubmit, onReset } =
-    useUpdateStudyTemplate({ studyId, initialTemplate });
+  const {
+    templateContent,
+    isDirty,
+    isSubmitting,
+    onChange,
+    onSubmit,
+    onReset,
+  } = useUpdateNoteTemplate({ studyId, initialTemplate });
 
   return (
     <div className="h-[calc(100dvh-6.25rem)] w-full overflow-hidden lg:h-[calc(100dvh-7rem)]">
       <DynamicMarkdownEditor
-        value={content}
+        value={templateContent}
         onChange={onChange}
         placeholder="풀이 노트 템플릿을 작성해보세요."
         onSubmit={onSubmit}
-        onReset={onReset}
+        onReset={() =>
+          confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')
+            ? onReset()
+            : null
+        }
         isSubmitting={isSubmitting}
         isDirty={isDirty}
       />

@@ -16,11 +16,9 @@ export const useCreateStudyForm = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
-  const { mutate: mutateCreateStudy, isPending: isCreatingStudy } =
+  const { mutate: mutateCreateStudy, isPending: isCreating } =
     useCreateStudyMutation({
       onSuccess: (data) => {
-        showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
-
         startTransition(() => {
           router.replace(
             buildUrlWithParams({
@@ -29,10 +27,10 @@ export const useCreateStudyForm = () => {
             }),
           );
         });
-      },
-      onError: (error) => {
-        console.error('❌ 스터디 생성 실패', error);
 
+        showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
+      },
+      onError: () => {
         showToast({
           message: '스터디 생성에 실패했습니다. 다시 시도해주세요.',
           type: 'error',
@@ -54,7 +52,7 @@ export const useCreateStudyForm = () => {
       onSubmit: StudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      if (isCreatingStudy) {
+      if (isCreating) {
         return;
       }
 
@@ -70,6 +68,6 @@ export const useCreateStudyForm = () => {
   return {
     form,
     onQuit,
-    isSubmitting: isCreatingStudy || isNavigating,
+    isSubmitting: isCreating || isNavigating,
   };
 };

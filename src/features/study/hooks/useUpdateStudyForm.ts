@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useTransition } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
 import { showToast } from '@/lib/showToast';
@@ -17,20 +17,21 @@ type Props = {
 
 export const useUpdateStudyForm = ({ studyId, initialData }: Props) => {
   const router = useRouter();
+  const [isRefreshing, startTransition] = useTransition();
 
-  const { mutate: mutateUpdateStudy, isPending: isSubmitting } =
+  const { mutate: mutateUpdateStudy, isPending: isUpdating } =
     useUpdateStudyMutation(studyId, {
       onSuccess: () => {
-        router.refresh();
+        startTransition(() => {
+          router.refresh();
+        });
 
         showToast({
           message: '스터디 정보가 수정되었습니다.',
           type: 'success',
         });
       },
-      onError: (error) => {
-        console.error('❌ 스터디 정보 수정 실패', error);
-
+      onError: () => {
         showToast({
           message: '스터디 정보 수정에 실패했습니다. 다시 시도해주세요.',
           type: 'error',
@@ -44,7 +45,7 @@ export const useUpdateStudyForm = ({ studyId, initialData }: Props) => {
       onSubmit: StudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      if (isSubmitting) {
+      if (isUpdating) {
         return;
       }
 
@@ -52,19 +53,13 @@ export const useUpdateStudyForm = ({ studyId, initialData }: Props) => {
     },
   });
 
-  useEffect(() => {
-    form.reset(initialData);
-  }, [initialData, form]);
-
   const onReset = () => {
-    if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {
-      form.reset(initialData);
-    }
+    form.reset(initialData);
   };
 
   return {
     form,
-    isSubmitting,
+    isSubmitting: isUpdating || isRefreshing,
     onReset,
   };
 };

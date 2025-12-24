@@ -306,7 +306,7 @@ export const UpdateStudyForm = ({ studyId, initialData, role }: Props) => {
                   <Button
                     type="submit"
                     className="order-1 @md/field-group:order-2"
-                    disabled={isSubmitting || !isDirty}>
+                    disabled={!isDirty || isSubmitting}>
                     {isSubmitting ? <Spinner /> : null}
                     {isSubmitting ? '저장 중...' : '저장'}
                   </Button>
@@ -314,8 +314,14 @@ export const UpdateStudyForm = ({ studyId, initialData, role }: Props) => {
                     variant="outline"
                     type="button"
                     className="order-2 @md/field-group:order-1"
-                    onClick={onReset}
-                    disabled={isSubmitting || !isDirty}>
+                    onClick={() =>
+                      confirm(
+                        '작성 중인 내용이 초기화됩니다. 계속하시겠습니까?',
+                      )
+                        ? onReset()
+                        : null
+                    }
+                    disabled={!isDirty || isSubmitting}>
                     초기화
                   </Button>
                 </Field>

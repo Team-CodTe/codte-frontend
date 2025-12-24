@@ -1,6 +1,6 @@
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
-import { AccessDeniedRedirect } from '@/features/study/components/solution-note/AccessDeniedRedirect';
-import { StudyTemplateUpdateEditor } from '@/features/study/components/solution-note/StudyTemplateUpdateEditor';
+import { AccessDeniedRedirect } from '@/features/study/components/note/AccessDeniedRedirect';
+import { NoteTemplateUpdateEditor } from '@/features/study/components/note/NoteTemplateUpdateEditor';
 import { STUDY_ROLE } from '@/types/studyRole';
 
 type Props = {
@@ -21,7 +21,7 @@ const SolutionNoteTemplatePage = async ({ params }: Props) => {
 
   return (
     <main className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
-      <StudyTemplateUpdateEditor
+      <NoteTemplateUpdateEditor
         studyId={studyId}
         initialTemplate={study.templateContent ?? ''}
       />

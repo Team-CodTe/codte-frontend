@@ -61,14 +61,14 @@ export const useSignUpForm = () => {
             },
           });
 
-          showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
-
           startTransition(() => {
             resetUsernameValidation();
             resetBojValidation();
 
             router.replace(PATH.STUDY.HOME);
           });
+
+          showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
         } catch (error) {
           console.error('❌ 유저 세션 업데이트 실패:', error);
 
@@ -88,9 +88,7 @@ export const useSignUpForm = () => {
           });
         }
       },
-      onError: (error) => {
-        console.error('❌ 회원가입 실패:', error);
-
+      onError: () => {
         showToast({
           message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
           type: 'error',

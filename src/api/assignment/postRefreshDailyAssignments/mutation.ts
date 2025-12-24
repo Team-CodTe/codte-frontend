@@ -1,15 +1,15 @@
 import { type OmittedMutationOptions } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
-import { deleteRemoveStudy } from './delete';
+import { postRefreshDailyAssignments } from './post';
 
-export const useRemoveStudyMutation = (
+export const useRefreshDailyAssignmentsMutation = (
   studyId: number,
   options?: OmittedMutationOptions<void>,
 ) => {
   return useMutation({
-    mutationKey: ['study', 'remove', studyId],
-    mutationFn: () => deleteRemoveStudy(studyId),
+    mutationKey: ['study', 'daily-assignments', studyId],
+    mutationFn: () => postRefreshDailyAssignments(studyId),
     ...options,
   });
 };
