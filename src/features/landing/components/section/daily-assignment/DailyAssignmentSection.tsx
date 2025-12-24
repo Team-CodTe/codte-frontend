@@ -17,7 +17,7 @@ export const DailyAssignmentSection = () => {
   }, []);
 
   return (
-    <div className="flex min-h-0 flex-col space-y-3 md:flex-1">
+    <div className="flex min-h-0 flex-col gap-3 md:flex-1">
       <DailyAssignmentTableHeader />
       <DailyAssignmentTable data={data} columns={problemTableColumns} />
       <DailyAssignmentTableFooter />

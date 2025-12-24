@@ -43,7 +43,7 @@ export const SolutionNoteSection = () => {
   }, [debouncedSearchKeyword]);
 
   return (
-    <div className="flex h-full flex-col space-y-3 lg:pb-12">
+    <div className="flex h-full flex-col gap-3">
       <SolutionNoteTableHeader
         searchKeyword={searchKeyword}
         setSearchKeyword={setSearchKeyword}

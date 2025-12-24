@@ -1,13 +1,17 @@
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { Separator } from '@/components/ui/Separator';
+import { STUDY_ROLE } from '@/types/studyRole';
 
-import { StudyExitButton } from './danger-zone/StudyExitButton';
+import { StudyLeaveRow } from './danger-zone/StudyLeaveRow';
+import { StudyRemoveRow } from './danger-zone/StudyRemoveRow';
 
 type Props = {
   study: GetStudyDetailResponse;
 };
 
 export const DangerZoneSection = ({ study }: Props) => {
+  const isMember = study.myRole === STUDY_ROLE.MEMBER;
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
@@ -15,11 +19,11 @@ export const DangerZoneSection = ({ study }: Props) => {
         <Separator />
       </div>
 
-      <StudyExitButton
-        studyId={study.id}
-        studyName={study.name}
-        role={study.myRole}
-      />
+      {isMember ? (
+        <StudyLeaveRow studyId={study.id} />
+      ) : (
+        <StudyRemoveRow studyId={study.id} studyName={study.name} />
+      )}
     </div>
   );
 };

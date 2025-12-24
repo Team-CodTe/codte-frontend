@@ -2,7 +2,7 @@ import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { Separator } from '@/components/ui/Separator';
 import { formatDate } from '@/lib/formatDate';
 
-import { InviteCodeSnippet } from './study-info/InviteCodeSnippet';
+import { InviteCodeRow } from './study-info/InviteCodeRow';
 import { UpdateStudyForm } from './study-info/UpdateStudyForm';
 
 type Props = {
@@ -23,7 +23,7 @@ export const StudyInfoSection = ({ study }: Props) => {
       </div>
 
       <div className="flex flex-col gap-6">
-        <InviteCodeSnippet inviteCode={study.inviteCode} />
+        <InviteCodeRow inviteCode={study.inviteCode} />
         <UpdateStudyForm
           studyId={study.id}
           initialData={study}

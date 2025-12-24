@@ -1,0 +1,135 @@
+/* 에디터가 시스템 테마 변수를 따르도록 오버라이딩 */
+[data-color-mode*='dark'],
+[data-color-mode*='light'] {
+  /* 배경색 */
+  --color-canvas-default: var(--background);
+  --color-canvas-subtle: var(--muted);
+
+  /* 텍스트 색상 */
+  --color-fg-default: var(--foreground);
+  --color-fg-muted: var(--muted-foreground);
+
+  /* 보더 색상 */
+  --color-border-default: var(--border);
+  --color-border-muted: var(--border);
+
+  /* 인용구, 코드 블록 등 */
+  --color-accent-fg: var(--primary);
+  --color-accent-emphasis: var(--primary);
+}
+
+/* 에디터 내부의 툴바 및 영역 스타일 조정 */
+.w-md-editor {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  box-shadow: none !important;
+  border-radius: var(--radius) !important;
+  height: full !important;
+  --md-editor-font-family: var(--font-pretendard) !important;
+}
+
+.w-md-editor-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  background-color: var(--background) !important;
+  border-color: var(--border) !important;
+  border-top-left-radius: var(--radius) !important;
+  border-top-right-radius: var(--radius) !important;
+  min-height: 3rem !important;
+  height: 3rem !important;
+  max-height: 3rem !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.w-md-editor-toolbar ul {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.w-md-editor-toolbar li > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--muted-foreground) !important;
+  height: 2.5rem !important;
+  width: 2.5rem !important;
+  border-radius: var(--border-radius);
+}
+
+.w-md-editor-toolbar li > button:hover {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+  border-radius: var(--border-radius);
+}
+
+.w-md-editor-toolbar li.w-md-editor-toolbar-divider {
+  color: var(--border) !important;
+  height: 1.25rem !important;
+  margin-left: 0.75rem !important;
+  margin-right: 0.75rem !important;
+}
+
+.w-md-editor-text {
+  padding: 1rem !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+  min-height: 100% !important;
+}
+
+.w-md-editor-text-input {
+  overflow-y: auto !important;
+}
+
+.w-md-editor-text-input,
+.w-md-editor-text-pre .code-line {
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+}
+
+.w-md-editor-text-pre .code-line {
+  display: block;
+}
+
+/* 프리뷰 영역 (우측) 스타일 */
+.wmde-markdown {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  font-family: var(--font-pretendard) !important;
+  border-radius: var(--radius);
+}
+
+.wmde-markdown ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+}
+
+.wmde-markdown ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+}
+
+.wmde-markdown ul ul {
+  list-style-type: circle !important;
+}
+
+.wmde-markdown ul ul ul {
+  list-style-type: square !important;
+}
+
+/* 코드 블록 배경 */
+.wmde-markdown code {
+  background-color: var(--muted) !important;
+}
+
+.wmde-markdown pre {
+  background-color: var(--card) !important;
+}
+
+h1 > a[aria-hidden="true"],
+h2 > a[aria-hidden="true"],
+h3 > a[aria-hidden="true"],
+h4 > a[aria-hidden="true"],
+.anchor {
+  display: none !important;
+}

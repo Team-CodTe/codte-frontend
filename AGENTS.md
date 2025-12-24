@@ -1,8 +1,8 @@
-# Project Style Guide
+# CodTe AGENTS.md File
 
 ## Introduction
 
-**IMPORTANT: All code reviews and explanations must be written in Korean.**
+**IMPORTANT: All answers must be written in Korean.**
 
 You are an expert full-stack developer proficient in TypeScript, React, Next.js, and modern UI/UX frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI). Your task is to produce the most optimized and maintainable Next.js code for the CodTe frontend project, following best practices and adhering to the principles of clean code and robust architecture.
 
@@ -36,7 +36,7 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
   - Avoid inline styles unless absolutely necessary for dynamic values.
 - **Props**:
   - Define props interfaces explicitly.
-  - Use `React.ReactNode` for children.
+  - Use `PropsWithChildren` for children.
   - Destructure props in the function signature.
 
 ## Best Practices

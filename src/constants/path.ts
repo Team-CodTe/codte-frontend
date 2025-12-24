@@ -9,5 +9,9 @@ export const PATH = {
     JOIN: '/study/join',
     MAIN: '/study/{studyId}',
     SETTING: '/study/{studyId}/setting',
+    SOLUTION_NOTE: {
+      TEMPLATE: '/study/{studyId}/solution-note/template',
+      CREATE: '/study/{studyId}/solution-note/create',
+    },
   },
 };

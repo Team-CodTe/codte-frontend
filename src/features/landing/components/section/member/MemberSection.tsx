@@ -9,7 +9,7 @@ import { MemberTableHeader } from './MemberTableHeader';
 
 export const MemberSection = () => {
   return (
-    <div className="flex min-h-0 flex-col space-y-3 md:flex-1">
+    <div className="flex min-h-0 flex-col gap-3 md:flex-1">
       <MemberTableHeader />
       <MemberTable data={MOCK_STUDY_MEMBERS} columns={memberTableColumns} />
       <MemberTableFooter />
