@@ -314,7 +314,13 @@ export const UpdateStudyForm = ({ studyId, initialData, role }: Props) => {
                     variant="outline"
                     type="button"
                     className="order-2 @md/field-group:order-1"
-                    onClick={onReset}
+                    onClick={() =>
+                      confirm(
+                        '작성 중인 내용이 초기화됩니다. 계속하시겠습니까?',
+                      )
+                        ? onReset()
+                        : null
+                    }
                     disabled={!isDirty || isSubmitting}>
                     초기화
                   </Button>

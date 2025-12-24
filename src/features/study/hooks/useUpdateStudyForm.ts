@@ -54,9 +54,7 @@ export const useUpdateStudyForm = ({ studyId, initialData }: Props) => {
   });
 
   const onReset = () => {
-    if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {
-      form.reset(initialData);
-    }
+    form.reset(initialData);
   };
 
   return {

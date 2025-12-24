@@ -12,7 +12,7 @@ export const DailyAssignmentsTableHeader = ({ studyId, role }: Props) => {
   const isEditable = role === STUDY_ROLE.OWNER;
 
   return (
-    <div className="flex flex-row items-center justify-between gap-3">
+    <div className="flex min-h-8 flex-row items-center justify-between gap-3">
       <div className="text-muted-foreground flex shrink-0 items-center gap-2 text-sm font-semibold whitespace-nowrap">
         <CodeXmlIcon className="size-3.5" />
         <span>오늘의 추천 문제</span>

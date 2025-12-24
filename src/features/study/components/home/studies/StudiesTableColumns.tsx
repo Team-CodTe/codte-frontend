@@ -9,7 +9,7 @@ const ROLE_LABEL: Record<StudyRole, string> = {
   [STUDY_ROLE.MEMBER]: '멤버',
 };
 
-export const StudiesTableColumns: ColumnDef<GetMyStudiesResponse>[] = [
+export const STUDIES_TABLE_COLUMNS: ColumnDef<GetMyStudiesResponse>[] = [
   {
     accessorKey: 'studyName',
     header: '스터디 이름',
@@ -36,10 +36,9 @@ export const StudiesTableColumns: ColumnDef<GetMyStudiesResponse>[] = [
     meta: { className: 'w-[20%]' },
     cell: ({ row }) => {
       const role = row.original.role;
-      const isOwner = role === STUDY_ROLE.MEMBER;
 
       return (
-        <Badge variant={isOwner ? 'default' : 'secondary'}>
+        <Badge variant={role === STUDY_ROLE.OWNER ? 'default' : 'secondary'}>
           {ROLE_LABEL[role]}
         </Badge>
       );

@@ -3,7 +3,7 @@ import { TierBadge } from '@/components/common/TierBadge';
 import { Badge } from '@/components/ui/Badge';
 import { type ColumnDef } from '@tanstack/react-table';
 
-export const DailyAssignmentsTableColumns: ColumnDef<DailyAssignment>[] = [
+export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
   {
     accessorKey: 'problemId',
     header: '문제 번호',

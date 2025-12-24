@@ -33,7 +33,7 @@ export const SolutionNotesTableHeader = ({ studyId, role }: Props) => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-between gap-3">
+    <div className="flex min-h-8 flex-row items-center justify-between gap-3">
       <div className="text-muted-foreground flex shrink-0 items-center gap-2 text-sm font-semibold whitespace-nowrap">
         <LibraryIcon className="size-3.5" />
         <span>문제 풀이 글</span>

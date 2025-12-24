@@ -29,7 +29,11 @@ export const StudyTemplateUpdateEditor = ({
         onChange={onChange}
         placeholder="풀이 노트 템플릿을 작성해보세요."
         onSubmit={onSubmit}
-        onReset={onReset}
+        onReset={() =>
+          confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')
+            ? onReset()
+            : null
+        }
         isSubmitting={isSubmitting}
         isDirty={isDirty}
       />
