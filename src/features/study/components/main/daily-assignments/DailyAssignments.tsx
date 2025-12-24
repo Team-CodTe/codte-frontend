@@ -2,6 +2,7 @@
 
 import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssignments/type';
 import { useDailyAssignments } from '@/features/study/hooks/useDailyAssignments';
+import type { StudyRole } from '@/types/studyRole';
 
 import { DAILY_ASSIGNMENTS_TABLE_COLUMNS } from './DailyAssignmentsColumns';
 import { DailyAssignmentsTable } from './DailyAssignmentsTable';
@@ -10,9 +11,10 @@ import { DailyAssignmentsTableFooter } from './DailyAssignmentsTableFooter';
 type Props = {
   studyId: number;
   initialData: GetDailyAssignmentsResponse;
+  role: StudyRole;
 };
 
-export const DailyAssignments = ({ studyId, initialData }: Props) => {
+export const DailyAssignments = ({ studyId, initialData, role }: Props) => {
   const { data, isRefreshing, onRefresh } = useDailyAssignments({
     studyId,
     initialData,
@@ -29,6 +31,7 @@ export const DailyAssignments = ({ studyId, initialData }: Props) => {
         refreshedAt={data?.refreshedAt ?? ''}
         isRefreshing={isRefreshing}
         onRefresh={onRefresh}
+        role={role}
       />
     </div>
   );

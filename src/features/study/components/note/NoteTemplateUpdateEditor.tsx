@@ -2,14 +2,14 @@
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 
-import { useUpdateStudyTemplate } from '../../hooks/useUpdateStudyTemplate';
+import { useUpdateNoteTemplate } from '../../hooks/useUpdateNoteTemplate';
 
 type Props = {
   studyId: number;
   initialTemplate: string;
 };
 
-export const StudyTemplateUpdateEditor = ({
+export const NoteTemplateUpdateEditor = ({
   studyId,
   initialTemplate,
 }: Props) => {
@@ -20,7 +20,7 @@ export const StudyTemplateUpdateEditor = ({
     onChange,
     onSubmit,
     onReset,
-  } = useUpdateStudyTemplate({ studyId, initialTemplate });
+  } = useUpdateNoteTemplate({ studyId, initialTemplate });
 
   return (
     <div className="h-[calc(100dvh-6.25rem)] w-full overflow-hidden lg:h-[calc(100dvh-7rem)]">

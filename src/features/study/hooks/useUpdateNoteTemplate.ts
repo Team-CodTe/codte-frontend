@@ -9,12 +9,12 @@ type Props = {
   initialTemplate: string;
 };
 
-export const useUpdateStudyTemplate = ({ studyId, initialTemplate }: Props) => {
+export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const [templateContent, setContent] = useState(initialTemplate);
 
-  const { mutate: mutateUpdateStudyTemplate, isPending: isUpdating } =
+  const { mutate: mutateUpdateNoteTemplate, isPending: isUpdating } =
     useUpdateStudyMutation(studyId, {
       onSuccess: () => {
         startTransition(() => {
@@ -36,7 +36,7 @@ export const useUpdateStudyTemplate = ({ studyId, initialTemplate }: Props) => {
   };
 
   const onSubmit = () => {
-    mutateUpdateStudyTemplate({ templateContent });
+    mutateUpdateNoteTemplate({ templateContent });
   };
 
   const onReset = () => {
