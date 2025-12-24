@@ -26,7 +26,7 @@ export const SolutionNotesTableHeader = ({ studyId, role }: Props) => {
   const onClickTemplate = () => {
     router.push(
       buildUrlWithParams({
-        url: PATH.STUDY.SOLUTION_NOTE.TEMPLATE,
+        url: PATH.STUDY.NOTE.TEMPLATE,
         pathParams: { studyId },
       }),
     );

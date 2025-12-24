@@ -1,4 +1,4 @@
-import { type DailyAssignment } from '@/api/daily-assignment/getDailyAssignments/type';
+import { type DailyAssignment } from '@/api/assignment/getDailyAssignments/type';
 import { TierBadge } from '@/components/common/TierBadge';
 import { Badge } from '@/components/ui/Badge';
 import { type ColumnDef } from '@tanstack/react-table';

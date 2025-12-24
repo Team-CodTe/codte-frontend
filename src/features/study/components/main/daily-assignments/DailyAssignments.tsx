@@ -1,6 +1,6 @@
 'use client';
 
-import { type GetDailyAssignmentsResponse } from '@/api/daily-assignment/getDailyAssignments/type';
+import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssignments/type';
 import { useDailyAssignments } from '@/features/study/hooks/useDailyAssignments';
 
 import { DailyAssignmentsTableColumns } from './DailyAssignmentsColumns';

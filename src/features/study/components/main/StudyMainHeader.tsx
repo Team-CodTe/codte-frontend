@@ -24,8 +24,8 @@ import { DropdownAvatar } from '../DropdownAvatar';
 const BREADCRUMB_MAP: Record<string, string> = {
   setting: '스터디 설정',
   /** @todo 문제 풀이 글 목록 화면 같은거 만들어야 할 듯 함*/
-  'solution-note': '문제 풀이 글',
-  template: '템플릿 수정',
+  note: '문제 풀이 글',
+  template: '템플릿',
 };
 
 type Props = {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useAddAssignmentMutation } from '@/api/daily-assignment/postAddAssignment/mutation';
+import { useAddAssignmentMutation } from '@/api/assignment/postAddAssignment/mutation';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';

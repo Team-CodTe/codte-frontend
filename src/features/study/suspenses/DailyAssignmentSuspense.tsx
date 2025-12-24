@@ -1,4 +1,4 @@
-import { getDailyAssignments } from '@/api/daily-assignment/getDailyAssignments/fetch';
+import { getDailyAssignments } from '@/api/assignment/getDailyAssignments/fetch';
 import { withSuspense } from '@/hoc/withSuspense';
 
 import { DailyAssignments } from '../components/main/daily-assignments/DailyAssignments';

@@ -1,8 +1,8 @@
 import { useTransition } from 'react';
 
-import { useDailyAssignmentsQuery } from '@/api/daily-assignment/getDailyAssignments/query';
-import { type GetDailyAssignmentsResponse } from '@/api/daily-assignment/getDailyAssignments/type';
-import { useRefreshDailyAssignmentsMutation } from '@/api/daily-assignment/postRefreshDailyAssignments/mutation';
+import { useDailyAssignmentsQuery } from '@/api/assignment/getDailyAssignments/query';
+import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssignments/type';
+import { useRefreshDailyAssignmentsMutation } from '@/api/assignment/postRefreshDailyAssignments/mutation';
 import { formatRemainingTime } from '@/lib/formatRemainingTime';
 import { showToast } from '@/lib/showToast';
 

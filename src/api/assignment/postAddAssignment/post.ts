@@ -9,7 +9,7 @@ export const postAddAssignment = async (
   req: PostAddAssignmentRequest,
 ) => {
   const url = buildUrlWithParams({
-    url: API_URLS.DAILY_ASSIGNMENT.ADD,
+    url: API_URLS.ASSIGNMENT.ADD,
     pathParams: { studyId },
   });
 

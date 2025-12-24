@@ -2,13 +2,11 @@ import { API_URLS } from '@/api/apiUrls';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { customFetch } from '@/lib/fetchInstance';
 
-import { type GetDailyAssignmentsResponse } from './type';
-
-export const getDailyAssignments = async (studyId: number) => {
+export const postRefreshDailyAssignments = async (studyId: number) => {
   const url = buildUrlWithParams({
-    url: API_URLS.DAILY_ASSIGNMENT.LIST,
+    url: API_URLS.ASSIGNMENT.REFRESH,
     pathParams: { studyId },
   });
 
-  return await customFetch.get<GetDailyAssignmentsResponse>(url);
+  return await customFetch.post<void>(url);
 };
