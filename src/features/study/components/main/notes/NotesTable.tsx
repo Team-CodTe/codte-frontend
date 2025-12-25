@@ -16,7 +16,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export const DailyAssignmentsTable = <TData, TValue>({
+export const NotesTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
@@ -29,31 +29,29 @@ export const DailyAssignmentsTable = <TData, TValue>({
   });
 
   return (
-    <div className="relative max-h-64 min-h-0 overflow-auto rounded-md border lg:max-h-none">
-      <Table noWrapper>
+    <div className="relative max-h-96 min-h-0 overflow-auto rounded-md border lg:h-auto lg:max-h-none">
+      <Table noWrapper className="h-full">
         <TableHeader className="bg-muted sticky top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    key={header.id}
-                    className={`min-w-24 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                );
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className={`min-w-24 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
         <TableBody>
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, index) => (
+            Array.from({ length: 20 }).map((_, index) => (
               <TableRow key={index}>
                 {columns.map((_, cellIndex) => (
                   <TableCell key={cellIndex}>
@@ -79,7 +77,7 @@ export const DailyAssignmentsTable = <TData, TValue>({
               <TableCell
                 colSpan={columns.length}
                 className="text-muted-foreground text-center">
-                문제를 찾을 수 없습니다
+                글을 찾을 수 없습니다
               </TableCell>
             </TableRow>
           )}

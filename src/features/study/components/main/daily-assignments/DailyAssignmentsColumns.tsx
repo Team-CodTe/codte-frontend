@@ -5,7 +5,7 @@ import { type ColumnDef } from '@tanstack/react-table';
 
 export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
   {
-    accessorKey: 'problemId',
+    accessorKey: 'bojNumber',
     header: '문제 번호',
     meta: {
       className: 'w-[20%]',
@@ -16,7 +16,11 @@ export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
       return (
         <div className="flex items-center gap-2">
           <TierBadge level={assignment.tier} />
-          <a href={assignment.link} target="_blank" rel="noreferrer">
+          <a
+            id={assignment.bojNumber.toString()}
+            href={assignment.link}
+            target="_blank"
+            rel="noreferrer">
             {assignment.bojNumber}
           </a>
         </div>
@@ -35,7 +39,11 @@ export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
 
       return (
         <div className="flex flex-row items-center gap-2">
-          <a href={assignment.link} target="_blank" rel="noreferrer">
+          <a
+            id={assignment.bojNumber.toString()}
+            href={assignment.link}
+            target="_blank"
+            rel="noreferrer">
             {assignment.title}
           </a>
           {isCustom && <Badge variant="secondary">추가됨</Badge>}

@@ -26,4 +26,11 @@ export const API_URLS = {
     REFRESH: '/api/studies/{studyId}/assignments/',
     ADD: '/api/studies/{studyId}/assignments/custom/',
   },
+  NOTE: {
+    LIST: '/api/studies/{studyId}/notes/',
+    ADD: '/api/studies/{studyId}/notes/',
+    DETAIL: '/api/notes/{noteId}/',
+    UPDATE: '/api/notes/{noteId}/',
+    DELETE: '/api/notes/{noteId}/',
+  },
 } as const;

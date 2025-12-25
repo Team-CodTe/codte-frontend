@@ -18,7 +18,7 @@ type Props = {
   role: StudyRole;
 };
 
-export const SolutionNotesTableHeader = ({ studyId, role }: Props) => {
+export const NotesTableHeader = ({ studyId, role }: Props) => {
   const router = useRouter();
 
   const isEditable = role === STUDY_ROLE.OWNER;

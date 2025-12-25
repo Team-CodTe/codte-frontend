@@ -1,6 +1,6 @@
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 import { DailyAssignmentsSection } from '@/features/study/components/main/DailyAssignmentsSection';
-import { SolutionNotesSection } from '@/features/study/components/main/SolutionNotesSection';
+import { NotesSection } from '@/features/study/components/main/NotesSection';
 
 type Props = {
   params: Promise<{
@@ -23,7 +23,7 @@ const StudyMainPage = async ({ params }: Props) => {
 
       <div className="h-full min-h-0">
         {/** 풀이 노트 목록 섹션 */}
-        <SolutionNotesSection study={study} />
+        <NotesSection study={study} />
       </div>
     </main>
   );
