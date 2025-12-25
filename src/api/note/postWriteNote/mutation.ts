@@ -1,23 +1,20 @@
 import { type OmittedMutationOptions } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
-import { postCreateNote } from './post';
-import {
-  type PostCreateNoteRequest,
-  type PostCreateNoteResponse,
-} from './type';
+import { postWriteNote } from './post';
+import { type PostWriteNoteRequest, type PostWriteNoteResponse } from './type';
 
-export const useCreateNoteMutation = (
+export const useWriteNoteMutation = (
   studyId: number,
   options?: OmittedMutationOptions<
-    PostCreateNoteResponse,
+    PostWriteNoteResponse,
     Error,
-    PostCreateNoteRequest
+    PostWriteNoteRequest
   >,
 ) => {
   return useMutation({
     mutationKey: ['study', 'note', studyId],
-    mutationFn: (req) => postCreateNote(studyId, req),
+    mutationFn: (req) => postWriteNote(studyId, req),
     ...options,
   });
 };

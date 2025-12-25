@@ -1,9 +1,9 @@
-import { type Notes } from '@/api/note/getNotes/type';
+import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { TierBadge } from '@/components/common/TierBadge';
 import { formatDate } from '@/lib/formatDate';
 import { type ColumnDef } from '@tanstack/react-table';
 
-export const NOTES_TABLE_COLUMNS: ColumnDef<Notes>[] = [
+export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
   {
     accessorKey: 'assignedDate',
     header: '문제 추천 날짜',

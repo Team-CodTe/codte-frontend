@@ -20,6 +20,7 @@ export const NotesTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
+  onClickRow,
 }: TableProps<TData, TValue>) => {
   // eslint-disable-next-line
   const table = useReactTable({
@@ -64,7 +65,8 @@ export const NotesTable = <TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && 'selected'}>
+                data-state={row.getIsSelected() && 'selected'}
+                onClick={() => onClickRow?.(row.original)}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

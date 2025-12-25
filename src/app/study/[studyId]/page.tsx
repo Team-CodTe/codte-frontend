@@ -4,13 +4,14 @@ import { NotesSection } from '@/features/study/components/main/NotesSection';
 
 type Props = {
   params: Promise<{
-    studyId: number;
+    studyId: string;
   }>;
 };
 
 const StudyMainPage = async ({ params }: Props) => {
   const { studyId } = await params;
-  const study = await getStudyDetail(studyId);
+  const studyIdNum = parseInt(studyId, 10);
+  const study = await getStudyDetail(studyIdNum);
 
   return (
     <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-10 p-5 pt-4 lg:grid-cols-2 lg:grid-rows-1 lg:gap-8 lg:p-8 lg:pt-4">

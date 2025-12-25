@@ -5,28 +5,32 @@ import { STUDY_ROLE } from '@/types/studyRole';
 
 type Props = {
   params: Promise<{
-    studyId: number;
+    studyId: string;
   }>;
 };
 
-const SolutionNoteTemplatePage = async ({ params }: Props) => {
+const NoteTemplatePage = async ({ params }: Props) => {
   const { studyId } = await params;
-  const study = await getStudyDetail(studyId);
+  const studyIdNum = parseInt(studyId, 10);
+  const study = await getStudyDetail(studyIdNum);
 
   if (study.myRole !== STUDY_ROLE.OWNER) {
     return (
-      <AccessDeniedRedirect studyId={studyId} message="접근 권한이 없습니다." />
+      <AccessDeniedRedirect
+        studyId={studyIdNum}
+        message="접근 권한이 없습니다."
+      />
     );
   }
 
   return (
     <main className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
       <NoteTemplateUpdateEditor
-        studyId={studyId}
+        studyId={studyIdNum}
         initialTemplate={study.templateContent ?? ''}
       />
     </main>
   );
 };
 
-export default SolutionNoteTemplatePage;
+export default NoteTemplatePage;

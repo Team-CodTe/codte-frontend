@@ -1,9 +1,18 @@
 import { type DailyAssignment } from '@/api/assignment/getDailyAssignments/type';
 import { TierBadge } from '@/components/common/TierBadge';
 import { Badge } from '@/components/ui/Badge';
+import { PATH } from '@/constants/path';
+import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { type ColumnDef } from '@tanstack/react-table';
+import Link from 'next/link';
 
-export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
+type Props = {
+  studyId?: number | undefined;
+};
+
+export const dailyAssignmentsTableColumns = ({
+  studyId,
+}: Props): ColumnDef<DailyAssignment>[] => [
   {
     accessorKey: 'bojNumber',
     header: '문제 번호',
@@ -16,13 +25,15 @@ export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
       return (
         <div className="flex items-center gap-2">
           <TierBadge level={assignment.tier} />
-          <a
+          <Link
             id={assignment.bojNumber.toString()}
+            aria-label={`문제 ${assignment.bojNumber}로 이동`}
             href={assignment.link}
             target="_blank"
-            rel="noreferrer">
+            rel="noreferrer"
+            className="hover:underline">
             {assignment.bojNumber}
-          </a>
+          </Link>
         </div>
       );
     },
@@ -39,13 +50,15 @@ export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
 
       return (
         <div className="flex flex-row items-center gap-2">
-          <a
+          <Link
             id={assignment.bojNumber.toString()}
+            aria-label={`문제 ${assignment.bojNumber}로 이동`}
             href={assignment.link}
             target="_blank"
-            rel="noreferrer">
+            rel="noreferrer"
+            className="hover:underline">
             {assignment.title}
-          </a>
+          </Link>
           {isCustom && <Badge variant="secondary">추가됨</Badge>}
         </div>
       );
@@ -57,9 +70,28 @@ export const DAILY_ASSIGNMENTS_TABLE_COLUMNS: ColumnDef<DailyAssignment>[] = [
     meta: {
       className: 'w-[20%]',
     },
-    cell: () => {
-      /** @todo 아직 작성하지 않은 문제에 대해서 작성하기 API 구현 */
-      return <button>작성하기</button>;
+    cell: ({ row }) => {
+      if (studyId === undefined) {
+        return <span>작성하기</span>;
+      }
+
+      const problemId = row.original.problemId;
+
+      const noteWriteUrl = buildUrlWithParams({
+        url: PATH.STUDY.NOTE.WRITE,
+        pathParams: { studyId },
+        queryParams: { problemId },
+      });
+
+      return (
+        <Link
+          id={`note-write-${problemId}`}
+          aria-label={`${problemId} 문제 풀이 글 작성`}
+          href={noteWriteUrl}
+          className="hover:pointer-cursor">
+          작성하기
+        </Link>
+      );
     },
   },
 ];

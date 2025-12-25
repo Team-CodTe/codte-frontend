@@ -11,7 +11,8 @@ export const PATH = {
     SETTING: '/study/{studyId}/setting',
     NOTE: {
       TEMPLATE: '/study/{studyId}/note/template',
-      CREATE: '/study/{studyId}/note/create',
+      WRITE: '/study/{studyId}/note/write',
+      DETAIL: '/study/{studyId}/note/{noteId}',
     },
   },
 };

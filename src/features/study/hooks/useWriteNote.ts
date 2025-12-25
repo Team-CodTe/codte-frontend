@@ -1,0 +1,92 @@
+import { useState, useTransition } from 'react';
+
+import { useWriteNoteMutation } from '@/api/note/postWriteNote/mutation';
+import { PATH } from '@/constants/path';
+import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
+import { FetchError } from '@/lib/fetchInstance';
+import { showToast } from '@/lib/showToast';
+import { type ApiErrorData } from '@/types/apiErrorData';
+import { useRouter } from 'next/navigation';
+
+type Props = {
+  studyId: number;
+  problemId: number | null;
+  initialContent: string;
+};
+
+export const useWriteNote = ({ studyId, problemId, initialContent }: Props) => {
+  const router = useRouter();
+  const [isNavigating, startTransition] = useTransition();
+  const [content, setContent] = useState(initialContent);
+
+  const { mutate: mutateWriteNote, isPending: isWriting } =
+    useWriteNoteMutation(studyId, {
+      onSuccess: (data) => {
+        startTransition(() => {
+          router.replace(
+            buildUrlWithParams({
+              url: PATH.STUDY.NOTE.DETAIL,
+              pathParams: {
+                studyId,
+                noteId: data.id,
+              },
+            }),
+          );
+        });
+
+        showToast({
+          message: '문제 풀이 글이 추가되었습니다.',
+          type: 'success',
+        });
+      },
+      onError: (error) => {
+        let toastMessage =
+          '문제 풀이 글 작성에 실패했습니다. 다시 시도해주세요.';
+        let toastType: 'error' | 'info' = 'error';
+
+        if (error instanceof FetchError) {
+          const { errorCode, message } = (error.data as ApiErrorData) || {};
+
+          if (errorCode === 'INVALID_REQUEST' && message) {
+            toastMessage = message;
+            toastType = 'error';
+          }
+        }
+
+        showToast({
+          message: toastMessage,
+          type: toastType,
+        });
+      },
+    });
+
+  const onChange = (value?: string) => {
+    setContent(value || '');
+  };
+
+  const onSubmit = () => {
+    if (!problemId) {
+      showToast({
+        message: '문제를 선택해주세요',
+        type: 'warning',
+      });
+
+      return;
+    }
+
+    mutateWriteNote({ problemId, content });
+  };
+
+  const onReset = () => {
+    setContent(initialContent);
+  };
+
+  return {
+    content,
+    isDirty: content.trim().length > 0 && content !== initialContent,
+    isSubmitting: isWriting || isNavigating,
+    onChange,
+    onSubmit,
+    onReset,
+  };
+};

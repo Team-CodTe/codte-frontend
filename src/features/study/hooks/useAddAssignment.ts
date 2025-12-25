@@ -59,9 +59,11 @@ export const useAddAssignment = ({ studyId }: Props) => {
   };
 
   const onSubmit = () => {
-    if (bojNumber.trim()) {
-      mutateAddAssignment({ bojNumber: parseInt(bojNumber, 10) });
+    if (isAdding || !bojNumber.trim()) {
+      return;
     }
+
+    mutateAddAssignment({ bojNumber: parseInt(bojNumber, 10) });
   };
 
   const onReset = () => {
@@ -75,7 +77,7 @@ export const useAddAssignment = ({ studyId }: Props) => {
     setOpen,
     handleOpenChange,
     onSubmit,
-    canSubmit: bojNumber.trim(),
+    canSubmit: !isAdding && bojNumber.trim(),
     isAdding,
   };
 };

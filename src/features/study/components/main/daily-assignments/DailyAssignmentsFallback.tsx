@@ -2,7 +2,7 @@
 
 import { Skeleton } from '@/components/ui/Skeleton';
 
-import { DAILY_ASSIGNMENTS_TABLE_COLUMNS } from './DailyAssignmentsColumns';
+import { dailyAssignmentsTableColumns } from './DailyAssignmentsColumns';
 import { DailyAssignmentsTable } from './DailyAssignmentsTable';
 
 export const DailyAssignmentsFallback = () => {
@@ -10,7 +10,7 @@ export const DailyAssignmentsFallback = () => {
     <div className="flex min-h-0 flex-col gap-3 lg:h-full">
       <DailyAssignmentsTable
         data={[]}
-        columns={DAILY_ASSIGNMENTS_TABLE_COLUMNS}
+        columns={dailyAssignmentsTableColumns({ studyId: undefined })}
         isLoading={true}
       />
 

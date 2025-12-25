@@ -2,19 +2,16 @@ import { API_URLS } from '@/api/apiUrls';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { customFetch } from '@/lib/fetchInstance';
 
-import {
-  type PostCreateNoteRequest,
-  type PostCreateNoteResponse,
-} from './type';
+import { type PostWriteNoteRequest, type PostWriteNoteResponse } from './type';
 
-export const postCreateNote = async (
+export const postWriteNote = async (
   studyId: number,
-  req: PostCreateNoteRequest,
+  req: PostWriteNoteRequest,
 ) => {
   const url = buildUrlWithParams({
     url: API_URLS.NOTE.CREATE,
     pathParams: { studyId },
   });
 
-  return await customFetch.post<PostCreateNoteResponse>(url, req);
+  return await customFetch.post<PostWriteNoteResponse>(url, req);
 };

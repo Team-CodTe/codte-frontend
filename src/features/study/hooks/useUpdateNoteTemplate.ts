@@ -12,7 +12,7 @@ type Props = {
 export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
-  const [templateContent, setContent] = useState(initialTemplate);
+  const [templateContent, setTemplateContent] = useState(initialTemplate);
 
   const { mutate: mutateUpdateNoteTemplate, isPending: isUpdating } =
     useUpdateStudyMutation(studyId, {
@@ -32,15 +32,19 @@ export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
     });
 
   const onChange = (value?: string) => {
-    setContent(value || '');
+    setTemplateContent(value || '');
   };
 
   const onSubmit = () => {
+    if (isUpdating) {
+      return;
+    }
+
     mutateUpdateNoteTemplate({ templateContent });
   };
 
   const onReset = () => {
-    setContent(initialTemplate);
+    setTemplateContent(initialTemplate);
   };
 
   return {
