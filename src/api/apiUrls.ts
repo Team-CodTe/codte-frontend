@@ -24,13 +24,14 @@ export const API_URLS = {
   ASSIGNMENT: {
     LIST: '/api/studies/{studyId}/assignments/',
     REFRESH: '/api/studies/{studyId}/assignments/',
-    ADD: '/api/studies/{studyId}/assignments/custom/',
+    CUSTOM: '/api/studies/{studyId}/assignments/custom/',
   },
   NOTE: {
+    TEMPLATE: '/api/studies/{studyId}/template/',
     LIST: '/api/studies/{studyId}/notes/',
-    ADD: '/api/studies/{studyId}/notes/',
+    CREATE: '/api/studies/{studyId}/notes/',
     DETAIL: '/api/notes/{noteId}/',
     UPDATE: '/api/notes/{noteId}/',
-    DELETE: '/api/notes/{noteId}/',
+    REMOVE: '/api/notes/{noteId}/',
   },
 } as const;

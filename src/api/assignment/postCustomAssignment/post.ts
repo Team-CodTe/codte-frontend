@@ -2,14 +2,14 @@ import { API_URLS } from '@/api/apiUrls';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { customFetch } from '@/lib/fetchInstance';
 
-import { type PostAddAssignmentRequest } from './type';
+import { type PostCustomAssignmentRequest } from './type';
 
-export const postAddAssignment = async (
+export const postCustomAssignment = async (
   studyId: number,
-  req: PostAddAssignmentRequest,
+  req: PostCustomAssignmentRequest,
 ) => {
   const url = buildUrlWithParams({
-    url: API_URLS.ASSIGNMENT.ADD,
+    url: API_URLS.ASSIGNMENT.CUSTOM,
     pathParams: { studyId },
   });
 

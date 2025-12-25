@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useAddAssignmentMutation } from '@/api/assignment/postAddAssignment/mutation';
+import { useCustomAssignmentMutation } from '@/api/assignment/postCustomAssignment/mutation';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
@@ -16,7 +16,7 @@ export const useAddAssignment = ({ studyId }: Props) => {
   const [open, setOpen] = useState(false);
 
   const { mutate: mutateAddAssignment, isPending: isAdding } =
-    useAddAssignmentMutation(studyId, {
+    useCustomAssignmentMutation(studyId, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['study', 'daily-assignments', studyId],
