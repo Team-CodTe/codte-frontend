@@ -1,6 +1,7 @@
 import { type DailyAssignment } from '@/api/assignment/getDailyAssignments/type';
 import { TierBadge } from '@/components/common/TierBadge';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { type ColumnDef } from '@tanstack/react-table';
@@ -17,7 +18,7 @@ export const dailyAssignmentsTableColumns = ({
     accessorKey: 'bojNumber',
     header: '문제 번호',
     meta: {
-      className: 'w-[20%]',
+      className: 'w-[25%]',
     },
     cell: ({ row }) => {
       const assignment = row.original;
@@ -42,7 +43,7 @@ export const dailyAssignmentsTableColumns = ({
     accessorKey: 'problemTitle',
     header: '제목',
     meta: {
-      className: 'w-[40%]',
+      className: 'w-[50%]',
     },
     cell: ({ row }) => {
       const assignment = row.original;
@@ -56,7 +57,7 @@ export const dailyAssignmentsTableColumns = ({
             href={assignment.link}
             target="_blank"
             rel="noreferrer"
-            className="hover:underline">
+            className="inline-block max-w-lg truncate hover:underline">
             {assignment.title}
           </Link>
           {isCustom && <Badge variant="secondary">추가됨</Badge>}
@@ -68,7 +69,7 @@ export const dailyAssignmentsTableColumns = ({
     id: 'actions',
     header: '문제 풀이 글',
     meta: {
-      className: 'w-[20%]',
+      className: 'w-[25%]',
     },
     cell: ({ row }) => {
       if (studyId === undefined) {
@@ -84,13 +85,14 @@ export const dailyAssignmentsTableColumns = ({
       });
 
       return (
-        <Link
-          id={`note-write-${problemId}`}
-          aria-label={`${problemId} 문제 풀이 글 작성`}
-          href={noteWriteUrl}
-          className="hover:pointer-cursor">
-          작성하기
-        </Link>
+        <Button asChild variant="ghost" size="sm">
+          <Link
+            id={`note-write-${problemId}`}
+            aria-label={`${problemId} 문제 풀이 글 작성`}
+            href={noteWriteUrl}>
+            작성하기
+          </Link>
+        </Button>
       );
     },
   },

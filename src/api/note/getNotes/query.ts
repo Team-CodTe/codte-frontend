@@ -19,7 +19,7 @@ export const useNotesQuery = (
   options?: OmittedQueryOptions<GetNotesResponse>,
 ) => {
   return useQuery({
-    queryKey: ['study', 'notes', studyId, problemId, page],
+    queryKey: ['study', 'notes', studyId],
     queryFn: () => getNotes({ studyId, problemId, page, pageSize }),
     ...options,
   });
@@ -30,7 +30,7 @@ export const useNotesSuspenseQuery = (
   options?: OmittedSuspenseQueryOptions<GetNotesResponse>,
 ) => {
   return useSuspenseQuery({
-    queryKey: ['study', 'notes', studyId, problemId, page],
+    queryKey: ['study', 'notes', studyId],
     queryFn: () => getNotes({ studyId, problemId, page, pageSize }),
     ...options,
   });

@@ -6,6 +6,7 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -18,11 +19,16 @@ export const useWriteNote = ({ studyId, problemId, initialContent }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const [content, setContent] = useState(initialContent);
+  const queryClient = useQueryClient();
 
   const { mutate: mutateWriteNote, isPending: isWriting } =
     useWriteNoteMutation(studyId, {
       onSuccess: (data) => {
         startTransition(() => {
+          queryClient.invalidateQueries({
+            queryKey: ['study', 'notes', studyId],
+          });
+
           router.replace(
             buildUrlWithParams({
               url: PATH.STUDY.NOTE.DETAIL,

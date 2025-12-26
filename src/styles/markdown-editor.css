@@ -96,6 +96,7 @@
   background-color: var(--background) !important;
   color: var(--foreground) !important;
   font-family: var(--font-pretendard) !important;
+  font-weight: 500 !important;
   border-radius: var(--radius);
 }
 

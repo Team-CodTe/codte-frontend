@@ -26,6 +26,7 @@ const BREADCRUMB_MAP: Record<string, string> = {
   /** @todo 문제 풀이 글 목록 화면 같은거 만들어야 할 듯 함*/
   note: '문제 풀이 글',
   template: '템플릿',
+  write: '글 작성',
 };
 
 type Props = {
