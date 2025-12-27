@@ -1,6 +1,7 @@
 import { type PropsWithChildren } from 'react';
 
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
+import { getMyProfile } from '@/api/user/getMyProfile/fetch';
 import { PATH } from '@/constants/path';
 import { StudyMainHeader } from '@/features/study/components/main/StudyMainHeader';
 import { FetchError } from '@/lib/fetchInstance';
@@ -20,9 +21,13 @@ const StudyMainLayout = async ({
   const studyIdNum = parseInt(studyId, 10);
 
   let study;
+  let user;
 
   try {
-    study = await getStudyDetail(studyIdNum);
+    [study, user] = await Promise.all([
+      getStudyDetail(studyIdNum),
+      getMyProfile(),
+    ]);
   } catch (error) {
     if (error instanceof FetchError) {
       if (error.status === 401) {
@@ -30,7 +35,6 @@ const StudyMainLayout = async ({
       }
 
       if (error.status === 403 || error.status === 404) {
-        // 가입되지 않은 스터디나 없는 스터디
         notFound();
       }
     }
@@ -40,7 +44,7 @@ const StudyMainLayout = async ({
 
   return (
     <div className="flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
-      <StudyMainHeader study={study} />
+      <StudyMainHeader study={study} user={user} />
       {children}
     </div>
   );

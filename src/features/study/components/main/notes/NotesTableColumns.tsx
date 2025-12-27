@@ -57,7 +57,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
           href={row.original.problemLink}
           target="_blank"
           rel="noreferrer"
-          className="inline-block max-w-md truncate hover:underline"
+          className="hover:underline"
           onClick={(e) => e.stopPropagation()}>
           {row.original.problemTitle}
         </Link>
@@ -75,13 +75,13 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     },
   },
   {
-    accessorKey: 'createdAt',
+    accessorKey: 'updatedAt',
     header: '작성일',
     meta: {
       className: 'w-[20%]',
     },
     cell: ({ row }) => {
-      return <span>{formatDate(row.original.createdAt)}</span>;
+      return <span>{formatDate(row.original.updatedAt)}</span>;
     },
   },
 ];

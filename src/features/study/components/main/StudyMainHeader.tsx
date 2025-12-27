@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
+import { type GetMyProfileResponse } from '@/api/user/getMyProfile/type';
 import { AppLogo } from '@/components/logos/AppLogo';
 import {
   Breadcrumb,
@@ -31,9 +32,10 @@ const BREADCRUMB_MAP: Record<string, string> = {
 
 type Props = {
   study: GetStudyDetailResponse;
+  user: GetMyProfileResponse;
 };
 
-export const StudyMainHeader = ({ study }: Props) => {
+export const StudyMainHeader = ({ study, user }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -121,7 +123,7 @@ export const StudyMainHeader = ({ study }: Props) => {
           <SettingsIcon />
         </Button>
 
-        <DropdownAvatar />
+        <DropdownAvatar user={user} />
       </div>
     </header>
   );

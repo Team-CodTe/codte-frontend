@@ -1,15 +1,15 @@
-import { type Session } from 'next-auth';
+import { type GetMyProfileResponse } from '@/api/user/getMyProfile/type';
 
 type Props = {
-  session: Session | null;
+  user: GetMyProfileResponse;
 };
 
-export const StudyHomeTitle = ({ session }: Props) => {
+export const StudyHomeTitle = ({ user }: Props) => {
   return (
     <div className="leading-relaxed">
       <div className="flex items-center gap-1 text-xl">
         <h2 className="font-bold">
-          {session?.user?.username ?? '사용자'}님, 안녕하세요
+          {user?.username ?? '사용자'}님, 안녕하세요
         </h2>
         <span className="font-toss-face">🙌🏻</span>
       </div>

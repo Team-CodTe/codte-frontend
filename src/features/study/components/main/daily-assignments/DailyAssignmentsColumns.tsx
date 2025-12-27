@@ -57,7 +57,7 @@ export const dailyAssignmentsTableColumns = ({
             href={assignment.link}
             target="_blank"
             rel="noreferrer"
-            className="inline-block max-w-lg truncate hover:underline">
+            className="hover:underline">
             {assignment.title}
           </Link>
           {isCustom && <Badge variant="secondary">추가됨</Badge>}

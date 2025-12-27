@@ -10,4 +10,5 @@ export type GetNoteDetailResponse = {
   content: string;
   createdAt: string;
   updatedAt: string;
+  isUpdated: boolean;
 };
