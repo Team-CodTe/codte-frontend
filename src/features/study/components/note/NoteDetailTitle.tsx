@@ -35,11 +35,11 @@ export const NoteDetailTitle = ({ studyId, username, note }: Props) => {
   const isWriter = username === note.username;
 
   return (
-    <div className="flex flex-col items-start gap-6 leading-relaxed">
+    <div className="flex flex-col items-start gap-4 leading-relaxed">
       <div className="flex w-full flex-col gap-2">
         <h1 className="text-4xl font-bold">{note.problemTitle}</h1>
-        <div className="flex flex-row items-center justify-between">
-          <div className="text-muted-foreground flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="text-muted-foreground flex flex-wrap gap-1">
             <span>{note.username}</span>
             <span>•</span>
             <span>{formatDate(note.updatedAt)}</span>
@@ -90,16 +90,16 @@ export const NoteDetailTitle = ({ studyId, username, note }: Props) => {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Badge size="lg" variant="outline">
+        <Badge size="lg" variant="secondary">
           <span>
             {formatDate(note.assignedDate, { includeTime: false })} 추천 문제
           </span>
         </Badge>
         <Button
           asChild
-          variant="outline"
+          variant="secondary"
           size="sm"
-          className="gap-2 rounded-full px-3 py-1 text-sm [&>svg]:size-4">
+          className="gap-2 rounded-lg px-3 py-0.5 text-sm [&>svg]:size-4">
           <Link
             href={note.problemLink}
             target="_blank"

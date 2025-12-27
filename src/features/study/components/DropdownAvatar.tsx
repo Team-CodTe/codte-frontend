@@ -1,6 +1,6 @@
 'use client';
 
-import { type GetMyProfileResponse } from '@/api/user/getMyProfile/type';
+import { useMyProfileQuery } from '@/api/user/getMyProfile/query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
@@ -13,13 +13,11 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useAuth } from '@/hooks/useAuth';
 import { useThemeAction } from '@/hooks/useThemeAction';
 
-type Props = {
-  user: GetMyProfileResponse;
-};
-
-export const DropdownAvatar = ({ user }: Props) => {
+export const DropdownAvatar = () => {
   const { logout, isLoggingOut } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
+
+  const { data: user } = useMyProfileQuery();
 
   return (
     <DropdownMenu>
