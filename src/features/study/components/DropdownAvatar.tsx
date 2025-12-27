@@ -1,5 +1,6 @@
 'use client';
 
+import { useMyProfileQuery } from '@/api/user/getMyProfile/query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
@@ -8,23 +9,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { Spinner } from '@/components/ui/Spinner';
 import { useAuth } from '@/hooks/useAuth';
 import { useThemeAction } from '@/hooks/useThemeAction';
 
 export const DropdownAvatar = () => {
-  const { session, logout, isLoggingOut } = useAuth();
+  const { logout, isLoggingOut } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
-
-  const user = session?.user;
+  const { data: user, isLoading } = useMyProfileQuery();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={user?.profileImgUrl} alt={user?.id} />
-          <AvatarFallback>
-            {user?.username?.charAt(0).toUpperCase()}
+          <AvatarImage src={user?.profileImgUrl} alt={String(user?.id)} />
+          <AvatarFallback aria-label="프로필 사진 없음">
+            {isLoading ? (
+              <Skeleton />
+            ) : user?.username ? (
+              user.username.charAt(0).toUpperCase()
+            ) : undefined}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

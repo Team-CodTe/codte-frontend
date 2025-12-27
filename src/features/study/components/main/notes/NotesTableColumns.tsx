@@ -47,7 +47,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     accessorKey: 'problemTitle',
     header: '제목',
     meta: {
-      className: 'w-[35%]',
+      className: 'w-[30%]',
     },
     cell: ({ row }) => {
       return (
@@ -68,7 +68,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     accessorKey: 'username',
     header: '작성자',
     meta: {
-      className: 'w-[10%]',
+      className: 'w-[15%]',
     },
     cell: ({ row }) => {
       return <span>{row.original.username}</span>;

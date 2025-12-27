@@ -9,7 +9,6 @@ import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
 import { z } from 'zod';
 
 import { type ValidationStatus } from '../types/validationStatus';
@@ -38,7 +37,6 @@ type SignUpFormData = z.infer<typeof SignUpFormSchema>;
 
 export const useSignUpForm = () => {
   const router = useRouter();
-  const { update } = useSession();
   const [isNavigating, startTransition] = useTransition();
   const [usernameValidation, setUsernameValidation] = useState<{
     status: ValidationStatus;
@@ -51,42 +49,17 @@ export const useSignUpForm = () => {
   const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
   const [bojApiError, setBojApiError] = useState<string | null>(null);
 
-  const { mutate: mutateRegisterProfile, isPending: isRegisteringProfile } =
+  const { mutate: mutateRegisterProfile, isPending: isRegistering } =
     useUpdateProfileMutation({
-      onSuccess: async (data) => {
-        try {
-          await update({
-            user: {
-              ...data,
-            },
-          });
+      onSuccess: () => {
+        startTransition(() => {
+          resetUsernameValidation();
+          resetBojValidation();
 
-          startTransition(() => {
-            resetUsernameValidation();
-            resetBojValidation();
+          router.replace(PATH.STUDY.HOME);
+        });
 
-            router.replace(PATH.STUDY.HOME);
-          });
-
-          showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
-        } catch (error) {
-          console.error('❌ 유저 세션 업데이트 실패:', error);
-
-          showToast({
-            message:
-              '회원 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
-            type: 'error',
-          });
-
-          startTransition(async () => {
-            await signOut({ redirect: false });
-
-            resetUsernameValidation();
-            resetBojValidation();
-
-            router.replace(PATH.LOGIN);
-          });
-        }
+        showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
       },
       onError: () => {
         showToast({
@@ -116,7 +89,7 @@ export const useSignUpForm = () => {
         return;
       }
 
-      if (isRegisteringProfile) {
+      if (isRegistering) {
         return;
       }
 
@@ -229,6 +202,6 @@ export const useSignUpForm = () => {
     bojValidation,
     usernameApiError,
     bojApiError,
-    isSubmitting: isRegisteringProfile || isNavigating,
+    isSubmitting: isRegistering || isNavigating,
   };
 };
