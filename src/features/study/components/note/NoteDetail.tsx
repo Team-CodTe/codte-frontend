@@ -42,7 +42,9 @@ export const NoteDetail = ({ studyId, initialUser, initialNote }: Props) => {
             <div className="text-muted-foreground flex flex-wrap gap-1">
               <span>{note.username}</span>
               <span>•</span>
-              <span>{formatDate(note.updatedAt)}</span>
+              <span>
+                {formatDate(note.updatedAt)} {note.isUpdated ? ' (수정됨)' : ''}
+              </span>
             </div>
 
             {isWriter && (

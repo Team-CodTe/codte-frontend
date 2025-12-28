@@ -1,16 +1,14 @@
 import { useState } from 'react';
 
 import { useCustomAssignmentMutation } from '@/api/assignment/postCustomAssignment/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
 import { useQueryClient } from '@tanstack/react-query';
 
-type Props = {
-  studyId: number;
-};
-
-export const useAddAssignment = ({ studyId }: Props) => {
+export const useAddAssignment = () => {
+  const studyId = useParamInt('studyId');
   const queryClient = useQueryClient();
   const [bojNumber, setBojNumber] = useState('');
   const [open, setOpen] = useState(false);

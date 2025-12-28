@@ -1,15 +1,16 @@
 import { useState, useTransition } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { showToast } from '@/lib/showToast';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  studyId: number;
   initialTemplate: string;
 };
 
-export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
+export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
+  const studyId = useParamInt('studyId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const [templateContent, setTemplateContent] = useState(initialTemplate);

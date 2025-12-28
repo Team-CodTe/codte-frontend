@@ -76,7 +76,7 @@ export const CreateStudyForm = () => {
                     type="text"
                     inputMode="text"
                     placeholder="코딩테스트를 스터디하는 사람들 모임"
-                    value={field.state.value}
+                    value={field.state.value ?? ''}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     data-invalid={isInvalid}
@@ -102,7 +102,7 @@ export const CreateStudyForm = () => {
                       name={field.name}
                       inputMode="text"
                       placeholder="저희는 매일 3문제씩 풀어요."
-                      value={field.state.value}
+                      value={field.state.value ?? ''}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       data-invalid={isInvalid}
@@ -112,7 +112,7 @@ export const CreateStudyForm = () => {
                     />
                     <InputGroupAddon align="block-end">
                       <InputGroupText className="tabular-nums">
-                        {field.state.value.length} / 200
+                        {field.state.value?.length ?? 0} / 200
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -132,7 +132,7 @@ export const CreateStudyForm = () => {
                   <FieldLabel htmlFor={field.name}>추천 문제 개수</FieldLabel>
                   <Select
                     name={field.name}
-                    value={field.state.value.toString()}
+                    value={field.state.value?.toString() ?? ''}
                     onValueChange={(value) =>
                       field.handleChange(parseInt(value, 10))
                     }>

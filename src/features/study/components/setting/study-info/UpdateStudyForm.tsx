@@ -30,14 +30,12 @@ import { type StudyFormData } from '@/features/study/schemas/studyForm.schema';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
 type Props = {
-  studyId: number;
   initialData: StudyFormData;
   role: StudyRole;
 };
 
-export const UpdateStudyForm = ({ studyId, initialData, role }: Props) => {
+export const UpdateStudyForm = ({ initialData, role }: Props) => {
   const { form, onReset, isSubmitting } = useUpdateStudyForm({
-    studyId,
     initialData,
   });
 

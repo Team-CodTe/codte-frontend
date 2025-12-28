@@ -25,11 +25,7 @@ type Props = {
 
 export const NoteActionButtons = ({ studyId, noteId }: Props) => {
   const router = useRouter();
-
-  const { handleRemove, isRemoving } = useRemoveNote({
-    studyId,
-    noteId,
-  });
+  const { handleRemove, isRemoving } = useRemoveNote();
 
   const handleUpdate = () => {
     router.push(

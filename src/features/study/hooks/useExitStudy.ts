@@ -3,14 +3,12 @@ import { useTransition } from 'react';
 import { useLeaveStudyMutation } from '@/api/study/deleteLeaveStudy/mutation';
 import { useRemoveStudyMutation } from '@/api/study/deleteRemoveStudy/mutation';
 import { PATH } from '@/constants/path';
+import { useParamInt } from '@/hooks/useParamInt';
 import { showToast } from '@/lib/showToast';
 import { useRouter } from 'next/navigation';
 
-type Props = {
-  studyId: number;
-};
-
-export const useExitStudy = ({ studyId }: Props) => {
+export const useExitStudy = () => {
+  const studyId = useParamInt('studyId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 

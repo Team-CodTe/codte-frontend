@@ -26,7 +26,6 @@ export const StudyInfoSection = ({ study }: Props) => {
         <InviteCodeRow inviteCode={study.inviteCode} />
         <UpdateStudyForm
           key={JSON.stringify(study)}
-          studyId={study.id}
           initialData={study}
           role={study.myRole}
         />

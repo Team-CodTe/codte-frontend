@@ -5,13 +5,12 @@ import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 import { useUpdateNote } from '../../hooks/useEditNote';
 
 type Props = {
-  noteId: number;
   initialContent: string;
 };
 
-export const NoteUpdateEditor = ({ noteId, initialContent }: Props) => {
+export const NoteUpdateEditor = ({ initialContent }: Props) => {
   const { content, isDirty, isSubmitting, onChange, onSubmit, onReset } =
-    useUpdateNote({ noteId, initialContent });
+    useUpdateNote({ initialContent });
 
   const onClickReset = () => {
     if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {

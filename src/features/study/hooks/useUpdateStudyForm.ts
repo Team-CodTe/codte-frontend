@@ -1,6 +1,7 @@
 import { useTransition } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { showToast } from '@/lib/showToast';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
@@ -11,11 +12,11 @@ import {
 } from '../schemas/studyForm.schema';
 
 type Props = {
-  studyId: number;
   initialData: StudyFormData;
 };
 
-export const useUpdateStudyForm = ({ studyId, initialData }: Props) => {
+export const useUpdateStudyForm = ({ initialData }: Props) => {
+  const studyId = useParamInt('studyId');
   const router = useRouter();
   const [isRefreshing, startTransition] = useTransition();
 

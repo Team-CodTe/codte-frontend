@@ -24,11 +24,10 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useRemoveConfirmation } from '@/features/study/hooks/useRemoveConfirmation';
 
 type Props = {
-  studyId: number;
   studyName: string;
 };
 
-export const StudyRemoveRow = ({ studyId, studyName }: Props) => {
+export const StudyRemoveRow = ({ studyName }: Props) => {
   const expectedText = `${studyName} 삭제`;
 
   const {
@@ -39,7 +38,7 @@ export const StudyRemoveRow = ({ studyId, studyName }: Props) => {
     open,
     onSubmit,
     isRemovingStudy,
-  } = useRemoveConfirmation({ studyId, expectedText });
+  } = useRemoveConfirmation({ expectedText });
 
   return (
     <FieldGroup>

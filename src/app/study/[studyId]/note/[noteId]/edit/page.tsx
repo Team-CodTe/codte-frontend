@@ -1,5 +1,6 @@
 import { getNoteDetail } from '@/api/note/getNoteDetail/fetch';
 import { NoteUpdateEditor } from '@/features/study/components/note/NoteUpdateEditor';
+import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {
   params: Promise<{
@@ -8,16 +9,12 @@ type Props = {
 };
 
 const EditNotePage = async ({ params }: Props) => {
-  const { noteId } = await params;
-  const noteIdNum = parseInt(noteId, 10);
-  const note = await getNoteDetail(noteIdNum);
+  const noteId = safeParseInt((await params).noteId);
+  const note = await getNoteDetail(noteId);
 
   return (
     <main className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
-      <NoteUpdateEditor
-        noteId={noteIdNum}
-        initialContent={note.content || ''}
-      />
+      <NoteUpdateEditor initialContent={note.content || ''} />
     </main>
   );
 };

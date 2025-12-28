@@ -4,11 +4,10 @@ import { CodeXmlIcon } from 'lucide-react';
 import { AssignmentAddDialog } from './AssignmentAddDialog';
 
 type Props = {
-  studyId: number;
   role: StudyRole;
 };
 
-export const DailyAssignmentsTableHeader = ({ studyId, role }: Props) => {
+export const DailyAssignmentsTableHeader = ({ role }: Props) => {
   const isEditable = role === STUDY_ROLE.OWNER;
 
   return (
@@ -17,9 +16,7 @@ export const DailyAssignmentsTableHeader = ({ studyId, role }: Props) => {
         <CodeXmlIcon className="size-3.5" />
         <span>오늘의 추천 문제</span>
       </div>
-      <div className="flex gap-2">
-        {isEditable && <AssignmentAddDialog studyId={studyId} />}
-      </div>
+      <div className="flex gap-2">{isEditable && <AssignmentAddDialog />}</div>
     </div>
   );
 };

@@ -16,7 +16,6 @@ type Props = {
 
 export const DailyAssignments = ({ studyId, initialData, role }: Props) => {
   const { data, isRefreshing, onRefresh } = useDailyAssignments({
-    studyId,
     initialData,
   });
 

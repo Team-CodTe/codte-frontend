@@ -5,14 +5,10 @@ import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 import { useUpdateNoteTemplate } from '../../hooks/useUpdateNoteTemplate';
 
 type Props = {
-  studyId: number;
   initialTemplate: string;
 };
 
-export const NoteTemplateUpdateEditor = ({
-  studyId,
-  initialTemplate,
-}: Props) => {
+export const NoteTemplateUpdateEditor = ({ initialTemplate }: Props) => {
   const {
     templateContent,
     isDirty,
@@ -20,7 +16,7 @@ export const NoteTemplateUpdateEditor = ({
     onChange,
     onSubmit,
     onReset,
-  } = useUpdateNoteTemplate({ studyId, initialTemplate });
+  } = useUpdateNoteTemplate({ initialTemplate });
 
   const onClickReset = () => {
     if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {

@@ -3,14 +3,13 @@ import { useState } from 'react';
 import { useExitStudy } from './useExitStudy';
 
 type Props = {
-  studyId: number;
   expectedText: string;
 };
 
-export const useRemoveConfirmation = ({ studyId, expectedText }: Props) => {
+export const useRemoveConfirmation = ({ expectedText }: Props) => {
   const [open, setOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
-  const { mutateRemoveStudy, isRemovingStudy } = useExitStudy({ studyId });
+  const { mutateRemoveStudy, isRemovingStudy } = useExitStudy();
 
   const isConfirmValid = confirmText === expectedText;
 

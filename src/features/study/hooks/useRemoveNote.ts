@@ -2,6 +2,7 @@ import { useTransition } from 'react';
 
 import { useRemoveNoteMutation } from '@/api/note/deleteRemoveNote/mutation';
 import { PATH } from '@/constants/path';
+import { useParamInt } from '@/hooks/useParamInt';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
@@ -9,12 +10,9 @@ import { type ApiErrorData } from '@/types/apiErrorData';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-type Props = {
-  studyId: number;
-  noteId: number;
-};
-
-export const useRemoveNote = ({ studyId, noteId }: Props) => {
+export const useRemoveNote = () => {
+  const studyId = useParamInt('studyId');
+  const noteId = useParamInt('noteId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const queryClient = useQueryClient();

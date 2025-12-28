@@ -81,7 +81,12 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
       className: 'w-[20%]',
     },
     cell: ({ row }) => {
-      return <span>{formatDate(row.original.updatedAt)}</span>;
+      return (
+        <span>
+          {formatDate(row.original.updatedAt)}
+          {row.original.isUpdated ? ' (수정됨)' : ''}
+        </span>
+      );
     },
   },
 ];

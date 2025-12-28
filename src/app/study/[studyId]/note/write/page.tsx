@@ -20,7 +20,6 @@ const NoteWritePage = async ({ params, searchParams }: Props) => {
   return (
     <main className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
       <NoteWriteEditor
-        studyId={studyIdNum}
         problemId={problemIdNum}
         initialContent={noteTemplate.templateContent}
       />

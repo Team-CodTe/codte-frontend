@@ -1,6 +1,7 @@
 import { useState, useTransition } from 'react';
 
 import { useEditNoteMutation } from '@/api/note/patchEditNote/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
@@ -8,11 +9,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  noteId: number;
   initialContent: string;
 };
 
-export const useUpdateNote = ({ noteId, initialContent }: Props) => {
+export const useUpdateNote = ({ initialContent }: Props) => {
+  const studyId = useParamInt('studyId');
+  const noteId = useParamInt('noteId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const [content, setContent] = useState(initialContent);
@@ -23,6 +25,10 @@ export const useUpdateNote = ({ noteId, initialContent }: Props) => {
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: ['note', 'detail', noteId],
+        });
+
+        await queryClient.invalidateQueries({
+          queryKey: ['study', 'notes', studyId],
         });
 
         startTransition(() => {

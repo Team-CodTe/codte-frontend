@@ -2,6 +2,7 @@ import { useState, useTransition } from 'react';
 
 import { useWriteNoteMutation } from '@/api/note/postWriteNote/mutation';
 import { PATH } from '@/constants/path';
+import { useParamInt } from '@/hooks/useParamInt';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
@@ -10,12 +11,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  studyId: number;
   problemId: number | null;
   initialContent: string;
 };
 
-export const useWriteNote = ({ studyId, problemId, initialContent }: Props) => {
+export const useWriteNote = ({ problemId, initialContent }: Props) => {
+  const studyId = useParamInt('studyId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const [content, setContent] = useState(initialContent);

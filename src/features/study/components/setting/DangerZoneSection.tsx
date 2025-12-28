@@ -19,11 +19,7 @@ export const DangerZoneSection = ({ study }: Props) => {
         <Separator />
       </div>
 
-      {isMember ? (
-        <StudyLeaveRow studyId={study.id} />
-      ) : (
-        <StudyRemoveRow studyId={study.id} studyName={study.name} />
-      )}
+      {isMember ? <StudyLeaveRow /> : <StudyRemoveRow studyName={study.name} />}
     </div>
   );
 };
