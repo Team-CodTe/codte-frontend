@@ -5,12 +5,7 @@ import { Input } from '@/components/ui/Input';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
-import {
-  CircleXIcon,
-  FileCog2Icon,
-  LibraryIcon,
-  SquarePenIcon,
-} from 'lucide-react';
+import { CircleXIcon, FileCog2Icon, LibraryIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -64,10 +59,6 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
             <span className="hidden sm:inline">템플릿 관리</span>
           </Button>
         )}
-        <Button variant="secondary" size="sm">
-          <SquarePenIcon />
-          <span className="hidden sm:inline">글 작성</span>
-        </Button>
       </div>
     </div>
   );

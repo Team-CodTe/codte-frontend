@@ -1,7 +1,5 @@
 'use client';
 
-import { useTransition } from 'react';
-
 import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import {
@@ -13,18 +11,13 @@ import { useRouter } from 'next/navigation';
 
 export const StudiesTableHeader = () => {
   const router = useRouter();
-  const [isNavigating, startTransition] = useTransition();
 
   const onClickCreate = () => {
-    startTransition(() => {
-      router.push(PATH.STUDY.CREATE);
-    });
+    router.push(PATH.STUDY.CREATE);
   };
 
   const onClickJoin = () => {
-    startTransition(() => {
-      router.push(PATH.STUDY.JOIN);
-    });
+    router.push(PATH.STUDY.JOIN);
   };
 
   return (
@@ -34,19 +27,11 @@ export const StudiesTableHeader = () => {
         <span>내 스터디</span>
       </div>
       <div className="flex gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onClickCreate}
-          disabled={isNavigating}>
+        <Button variant="secondary" size="sm" onClick={onClickCreate}>
           <PlusIcon />
           <span className="hidden sm:inline">새로 만들기</span>
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onClickJoin}
-          disabled={isNavigating}>
+        <Button variant="secondary" size="sm" onClick={onClickJoin}>
           <GitPullRequestArrowIcon />
           <span className="hidden sm:inline">들어가기</span>
         </Button>
