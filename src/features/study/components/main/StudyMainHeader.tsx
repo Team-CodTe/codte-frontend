@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useStudyDetailQuery } from '@/api/study/getStudyDetail/query';
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { AppLogo } from '@/components/logos/AppLogo';
 import {
@@ -30,12 +31,21 @@ const BREADCRUMB_MAP: Record<string, string> = {
 };
 
 type Props = {
-  study: GetStudyDetailResponse;
+  studyId: number;
+  initialData: GetStudyDetailResponse;
 };
 
-export const StudyMainHeader = ({ study }: Props) => {
+export const StudyMainHeader = ({ studyId, initialData }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { data: study } = useStudyDetailQuery(studyId, {
+    initialData,
+  });
+
+  if (!study) {
+    return null;
+  }
 
   const pathSegments = pathname.split('/').filter((segment) => segment);
 

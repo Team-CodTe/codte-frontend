@@ -8,12 +8,19 @@ import { postLogout } from '@/api/auth/postLogout/post';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { PATH } from '@/constants/path';
-import { HomeIcon, RefreshCcwIcon, SirenIcon } from 'lucide-react';
+import {
+  ArrowLeftIcon,
+  HomeIcon,
+  RefreshCcwIcon,
+  SirenIcon,
+} from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
 const SUPPORT_MAIL = 'kdw34441360@gmail.com';
 
 const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -42,7 +49,7 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
             문제가 발생했습니다
           </p>
           <p className="text-muted-foreground text-center text-sm leading-relaxed">
-            페이지를 새로고침 하거나 다시 로그인해주세요.
+            아래 버튼을 이용해 주세요.
           </p>
           <div className="flex w-full max-w-sm flex-col gap-3">
             <Button
@@ -51,9 +58,18 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
               className="w-full"
               onClick={() => {
                 window.location.reload();
+                router.refresh();
               }}>
               <RefreshCcwIcon />
-              새로고침
+              새로고침하기
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full"
+              onClick={() => router.back()}>
+              <ArrowLeftIcon />
+              뒤로가기
             </Button>
             <Button
               variant="outline"
@@ -62,7 +78,9 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
               onClick={handleLogout}
               disabled={isLoading}>
               <HomeIcon />
-              {isLoading ? '홈으로 이동 중...' : '홈으로'}
+              {isLoading
+                ? '로그인 페이지로 이동 중...'
+                : '로그인 페이지로 이동하기'}
             </Button>
           </div>
           <div className="flex flex-col justify-center">
