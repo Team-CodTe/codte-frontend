@@ -21,7 +21,7 @@ export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
           router.back();
         });
 
-        showToast({ message: '템플릿이 저장되었습니다.', type: 'success' });
+        showToast({ message: '템플릿이 변경되었습니다.', type: 'success' });
       },
       onError: () => {
         showToast({

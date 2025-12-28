@@ -13,6 +13,7 @@ export const PATH = {
       TEMPLATE: '/study/{studyId}/note/template',
       WRITE: '/study/{studyId}/note/write',
       DETAIL: '/study/{studyId}/note/{noteId}',
+      EDIT: '/study/{studyId}/note/{noteId}/edit',
     },
   },
 };
