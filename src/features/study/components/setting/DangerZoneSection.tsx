@@ -15,7 +15,7 @@ export const DangerZoneSection = ({ study }: Props) => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
-        <h2 className="text-xl font-bold">중요 설정</h2>
+        <h2 className="text-2xl font-bold">중요 설정</h2>
         <Separator />
       </div>
 

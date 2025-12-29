@@ -27,11 +27,17 @@ export const StudiesTableHeader = () => {
         <span>내 스터디</span>
       </div>
       <div className="flex gap-2">
-        <Button variant="secondary" size="sm" onClick={onClickCreate}>
+        <Button
+          variant="secondary"
+          size="icon-sm-responsive"
+          onClick={onClickCreate}>
           <PlusIcon />
           <span className="hidden sm:inline">새로 만들기</span>
         </Button>
-        <Button variant="secondary" size="sm" onClick={onClickJoin}>
+        <Button
+          variant="secondary"
+          size="icon-sm-responsive"
+          onClick={onClickJoin}>
           <GitPullRequestArrowIcon />
           <span className="hidden sm:inline">들어가기</span>
         </Button>

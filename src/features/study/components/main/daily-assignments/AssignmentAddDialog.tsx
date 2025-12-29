@@ -32,7 +32,7 @@ export const AssignmentAddDialog = () => {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary" size="sm">
+        <Button variant="secondary" size="icon-sm-responsive">
           <PlusIcon />
           <span className="hidden sm:inline">문제 직접 추가</span>
         </Button>

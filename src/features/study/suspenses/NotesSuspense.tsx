@@ -13,7 +13,12 @@ type Props = {
 
 export const NotesSuspense = withSuspense(
   async ({ studyId, problemId, page, pageSize }: Props) => {
-    const data = await getNotes({ studyId, problemId, page, pageSize });
+    const data = await getNotes({
+      studyId,
+      problemId,
+      page,
+      pageSize,
+    });
 
     return (
       <Notes

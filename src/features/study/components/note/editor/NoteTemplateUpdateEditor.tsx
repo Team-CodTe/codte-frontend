@@ -1,8 +1,7 @@
 'use client';
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
-
-import { useUpdateNoteTemplate } from '../../hooks/useUpdateNoteTemplate';
+import { useUpdateNoteTemplate } from '@/features/study/hooks/useUpdateNoteTemplate';
 
 type Props = {
   initialTemplate: string;

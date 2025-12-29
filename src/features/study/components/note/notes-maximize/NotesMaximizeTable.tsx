@@ -16,7 +16,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export const NotesTable = <TData, TValue>({
+export const NotesMaximizeTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
@@ -30,9 +30,9 @@ export const NotesTable = <TData, TValue>({
   });
 
   return (
-    <div className="relative max-h-96 min-h-0 overflow-auto rounded-md border lg:h-auto lg:max-h-none">
-      <Table noWrapper className="h-full">
-        <TableHeader className="bg-muted sticky top-0 z-10">
+    <div className="h-full min-h-0">
+      <Table>
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

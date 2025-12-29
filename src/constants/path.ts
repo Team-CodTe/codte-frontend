@@ -10,6 +10,7 @@ export const PATH = {
     MAIN: '/study/{studyId}',
     SETTING: '/study/{studyId}/setting',
     NOTE: {
+      LIST: '/study/{studyId}/note',
       TEMPLATE: '/study/{studyId}/note/template',
       WRITE: '/study/{studyId}/note/write',
       DETAIL: '/study/{studyId}/note/{noteId}',

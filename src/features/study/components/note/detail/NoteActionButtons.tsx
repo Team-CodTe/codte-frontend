@@ -13,10 +13,9 @@ import {
 } from '@/components/ui/Dialog';
 import { Spinner } from '@/components/ui/Spinner';
 import { PATH } from '@/constants/path';
+import { useRemoveNote } from '@/features/study/hooks/useRemoveNote';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
-
-import { useRemoveNote } from '../../hooks/useRemoveNote';
 
 type Props = {
   studyId: number;

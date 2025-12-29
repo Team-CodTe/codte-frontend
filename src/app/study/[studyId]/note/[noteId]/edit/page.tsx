@@ -1,5 +1,5 @@
 import { getNoteDetail } from '@/api/note/getNoteDetail/fetch';
-import { NoteUpdateEditor } from '@/features/study/components/note/NoteUpdateEditor';
+import { NoteUpdateEditor } from '@/features/study/components/note/editor/NoteUpdateEditor';
 import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {

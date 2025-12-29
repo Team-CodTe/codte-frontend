@@ -9,6 +9,11 @@ type Params = {
   problemId?: number;
   page?: number;
   pageSize?: number;
+  assignedDate?: string;
+  bojNumber?: number;
+  problemTitle?: string;
+  updatedDate?: string;
+  writer?: string;
 };
 
 export const getNotes = async ({
@@ -16,11 +21,25 @@ export const getNotes = async ({
   problemId,
   page,
   pageSize,
+  assignedDate,
+  bojNumber,
+  problemTitle,
+  updatedDate,
+  writer,
 }: Params) => {
   const url = buildUrlWithParams({
     url: API_URLS.NOTE.LIST,
     pathParams: { studyId },
-    queryParams: { problemId, page, pageSize },
+    queryParams: {
+      problemId,
+      page,
+      pageSize,
+      assignedDate,
+      bojNumber,
+      problemTitle,
+      updatedDate,
+      writer,
+    },
   });
 
   return await customFetch.get<GetNotesResponse>(url);

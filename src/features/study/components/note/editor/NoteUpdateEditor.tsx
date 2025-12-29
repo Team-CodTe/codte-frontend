@@ -2,16 +2,15 @@
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 
-import { useWriteNote } from '../../hooks/useWriteNote';
+import { useUpdateNote } from '../../../hooks/useEditNote';
 
 type Props = {
-  problemId: number | null;
   initialContent: string;
 };
 
-export const NoteWriteEditor = ({ problemId, initialContent }: Props) => {
+export const NoteUpdateEditor = ({ initialContent }: Props) => {
   const { content, isDirty, isSubmitting, onChange, onSubmit, onReset } =
-    useWriteNote({ problemId, initialContent });
+    useUpdateNote({ initialContent });
 
   const onClickReset = () => {
     if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {
@@ -24,7 +23,7 @@ export const NoteWriteEditor = ({ problemId, initialContent }: Props) => {
       <DynamicMarkdownEditor
         value={content}
         onChange={onChange}
-        placeholder="어떻게 문제를 풀었는지 기록해보세요."
+        placeholder="풀이 노트를 수정하세요."
         onSubmit={onSubmit}
         onReset={onClickReset}
         isSubmitting={isSubmitting}
