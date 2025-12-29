@@ -66,6 +66,11 @@ export const Notes = ({
         columns={NOTES_TABLE_COLUMNS}
         onClickRow={onClickRow}
       />
+
+      <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
+        <span>전체 풀이 글 개수: {data?.count?.toLocaleString()}개</span>
+        <span>최근 등록된 30개의 풀이 글만 표시됩니다.</span>
+      </div>
     </div>
   );
 };

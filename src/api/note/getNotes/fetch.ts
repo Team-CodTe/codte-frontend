@@ -20,7 +20,7 @@ export const getNotes = async ({
   studyId,
   problemId,
   page,
-  pageSize,
+  pageSize: page_size,
   assignedDate,
   bojNumber,
   problemTitle,
@@ -33,7 +33,7 @@ export const getNotes = async ({
     queryParams: {
       problemId,
       page,
-      pageSize,
+      page_size,
       assignedDate,
       bojNumber,
       problemTitle,

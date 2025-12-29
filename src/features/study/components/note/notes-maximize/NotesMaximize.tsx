@@ -119,7 +119,13 @@ export const NotesMaximize = ({
     <div className="flex h-full min-h-0 flex-col gap-3">
       <div className="flex flex-col gap-3">
         <div className="flex flex-row items-center justify-between gap-3">
-          <h2 className="text-2xl font-bold">문제 풀이 글</h2>
+          <div className="flex flex-row items-end gap-3">
+            <h2 className="text-2xl font-bold">문제 풀이 글</h2>
+            <span className="text-muted-foreground font-medium">
+              {data?.count}
+            </span>
+          </div>
+
           {isEditable && (
             <Button
               variant="secondary"
