@@ -1,8 +1,14 @@
 import {
+  type OmittedInfiniteQueryOptions,
   type OmittedQueryOptions,
   type OmittedSuspenseQueryOptions,
 } from '@/lib/queryClient';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 
 import { getNotes } from './fetch';
 import { type GetNotesResponse } from './type';
@@ -10,7 +16,6 @@ import { type GetNotesResponse } from './type';
 type Params = {
   studyId: number;
   problemId?: number;
-  page?: number;
   pageSize?: number;
   assignedDate?: string;
   bojNumber?: number;
@@ -23,7 +28,6 @@ export const useNotesQuery = (
   {
     studyId,
     problemId,
-    page,
     pageSize,
     assignedDate,
     bojNumber,
@@ -39,7 +43,6 @@ export const useNotesQuery = (
       getNotes({
         studyId,
         problemId,
-        page,
         pageSize,
         assignedDate,
         bojNumber,
@@ -55,7 +58,6 @@ export const useNotesSuspenseQuery = (
   {
     studyId,
     problemId,
-    page,
     pageSize,
     assignedDate,
     bojNumber,
@@ -71,7 +73,6 @@ export const useNotesSuspenseQuery = (
       getNotes({
         studyId,
         problemId,
-        page,
         pageSize,
         assignedDate,
         bojNumber,
@@ -79,6 +80,46 @@ export const useNotesSuspenseQuery = (
         updatedDate,
         writer,
       }),
+    ...options,
+  });
+};
+
+export const useNotesInfiniteQuery = (
+  {
+    studyId,
+    problemId,
+    pageSize,
+    assignedDate,
+    bojNumber,
+    problemTitle,
+    updatedDate,
+    writer,
+  }: Params,
+  options?: OmittedInfiniteQueryOptions<
+    GetNotesResponse,
+    Error,
+    InfiniteData<GetNotesResponse>,
+    number
+  >,
+) => {
+  return useInfiniteQuery({
+    queryKey: ['study', 'notes', 'maximize', studyId],
+    queryFn: ({ pageParam }) =>
+      getNotes({
+        studyId,
+        problemId,
+        page: pageParam,
+        pageSize,
+        assignedDate,
+        bojNumber,
+        problemTitle,
+        updatedDate,
+        writer,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, _, lastPageParam) => {
+      return lastPage.next ? lastPageParam + 1 : undefined;
+    },
     ...options,
   });
 };

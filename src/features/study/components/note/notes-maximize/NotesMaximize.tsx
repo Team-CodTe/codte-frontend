@@ -3,8 +3,7 @@
 import { useTransition } from 'react';
 
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
-import { useNotesQuery } from '@/api/note/getNotes/query';
-import { type GetNotesResponse } from '@/api/note/getNotes/type';
+import { useNotesInfiniteQuery } from '@/api/note/getNotes/query';
 import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';
 import { Input } from '@/components/ui/Input';
@@ -16,6 +15,7 @@ import {
 import { Separator } from '@/components/ui/Separator';
 import { PATH } from '@/constants/path';
 import { useSelectDate } from '@/features/study/hooks/useSelectDate';
+import { useScrollRestoration } from '@/hooks/useScrollRestoration';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { formatDate } from '@/lib/formatDate';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
@@ -34,47 +34,38 @@ type Props = {
   studyId: number;
   role: StudyRole;
   problemId?: number;
-  page?: number;
   pageSize?: number;
   assignedDate?: string;
   bojNumber?: number;
   problemTitle?: string;
   updatedDate?: string;
   writer?: string;
-  initialData: GetNotesResponse;
 };
 
 export const NotesMaximize = ({
   studyId,
   role,
   problemId,
-  page,
   pageSize,
   assignedDate,
   bojNumber,
   problemTitle,
   updatedDate,
   writer,
-  initialData,
 }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
-  const { data } = useNotesQuery(
-    {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useNotesInfiniteQuery({
       studyId,
       problemId,
-      page,
       pageSize,
       assignedDate,
       bojNumber,
       problemTitle,
       updatedDate,
       writer,
-    },
-    {
-      initialData,
-    },
-  );
+    });
   const {
     openAssignedDate,
     setOpenAssignedDate,
@@ -85,6 +76,8 @@ export const NotesMaximize = ({
     handleAssignedDateChange,
     handleUpdatedDateChange,
   } = useSelectDate();
+
+  useScrollRestoration(`study-${studyId}-notes-maximize`, data);
 
   const isEditable = role === STUDY_ROLE.OWNER;
 
@@ -138,7 +131,7 @@ export const NotesMaximize = ({
 
         <div className="mt-3 flex flex-row items-center justify-between gap-4">
           <span className="text-muted-foreground shrink-0 font-medium whitespace-nowrap">
-            {data?.count}개의 글
+            전체 {data?.pages[0]?.count ?? 0}개의 글
           </span>
 
           <div className="flex gap-2">
@@ -159,7 +152,9 @@ export const NotesMaximize = ({
                   </span>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto overflow-hidden p-0">
+              <PopoverContent
+                className="w-auto overflow-hidden p-0"
+                align="end">
                 <Calendar
                   mode="single"
                   selected={selectedAssignedDate}
@@ -185,7 +180,9 @@ export const NotesMaximize = ({
                   </span>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto overflow-hidden p-0">
+              <PopoverContent
+                className="w-auto overflow-hidden p-0"
+                align="start">
                 <Calendar
                   mode="single"
                   selected={selectedUpdatedDate}
@@ -218,9 +215,12 @@ export const NotesMaximize = ({
       </div>
 
       <NotesMaximizeTable
-        data={data?.results ?? []}
+        data={data?.pages.flatMap((page) => page.results) ?? []}
         columns={NOTES_TABLE_COLUMNS}
         onClickRow={onClickRow}
+        onLoadMore={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
     </div>
   );

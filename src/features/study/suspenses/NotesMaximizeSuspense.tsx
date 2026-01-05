@@ -1,4 +1,3 @@
-import { getNotes } from '@/api/note/getNotes/fetch';
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { withSuspense } from '@/hoc/withSuspense';
 
@@ -8,7 +7,6 @@ import { NotesMaximizeFallback } from '../components/note/notes-maximize/NotesMa
 type Props = {
   study: GetStudyDetailResponse;
   problemId?: number;
-  page?: number;
   pageSize?: number;
   assignedDate?: string;
   bojNumber?: number;
@@ -18,10 +16,9 @@ type Props = {
 };
 
 export const NotesMaximizeSuspense = withSuspense(
-  async ({
+  ({
     study,
     problemId,
-    page,
     pageSize,
     assignedDate,
     bojNumber,
@@ -29,26 +26,17 @@ export const NotesMaximizeSuspense = withSuspense(
     updatedDate,
     writer,
   }: Props) => {
-    const data = await getNotes({
-      studyId: study.id,
-      problemId,
-      page,
-      pageSize,
-      assignedDate,
-      bojNumber,
-      problemTitle,
-      updatedDate,
-      writer,
-    });
-
     return (
       <NotesMaximize
         studyId={study.id}
         role={study.myRole}
         problemId={problemId}
-        page={page}
         pageSize={pageSize}
-        initialData={data}
+        assignedDate={assignedDate}
+        bojNumber={bojNumber}
+        problemTitle={problemTitle}
+        updatedDate={updatedDate}
+        writer={writer}
       />
     );
   },

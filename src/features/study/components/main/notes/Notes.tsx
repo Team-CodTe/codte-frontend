@@ -15,25 +15,17 @@ import { NOTES_TABLE_COLUMNS } from './NotesTableColumns';
 type Props = {
   studyId: number;
   problemId?: number;
-  page?: number;
   pageSize?: number;
   initialData: GetNotesResponse;
 };
 
-export const Notes = ({
-  studyId,
-  problemId,
-  page,
-  pageSize,
-  initialData,
-}: Props) => {
+export const Notes = ({ studyId, problemId, pageSize, initialData }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const { data } = useNotesQuery(
     {
       studyId,
       problemId,
-      page,
       pageSize,
     },
     {
@@ -68,8 +60,8 @@ export const Notes = ({
       />
 
       <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
-        <span>전체 풀이 글 개수: {data?.count?.toLocaleString()}개</span>
         <span>최근 등록된 30개의 풀이 글만 표시됩니다.</span>
+        <span>전체 풀이 글 개수: {data?.count?.toLocaleString()}개</span>
       </div>
     </div>
   );

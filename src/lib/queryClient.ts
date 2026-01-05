@@ -2,6 +2,7 @@ import {
   type MutationObserverOptions,
   QueryClient,
   type QueryObserverOptions,
+  type UseInfiniteQueryOptions,
   type UseMutationOptions,
   type UseQueryOptions,
   type UseSuspenseQueryOptions,
@@ -83,4 +84,21 @@ export type OmittedMutationOptions<
 > = Omit<
   UseMutationOptions<TData, TError, TVariables, TContext>,
   'mutationKey' | 'mutationFn'
+>;
+
+/**
+ * API 무한 쿼리 옵션을 간소화하기 위한 타입
+ * @TQueryFnData API 성공 응답 타입
+ * @TError 에러 타입
+ * @TData 최종 변환 타입 (select 후)
+ * @TPageParam 페이지 파라미터 타입
+ */
+export type OmittedInfiniteQueryOptions<
+  TQueryFnData = unknown,
+  TError = Error,
+  TData = TQueryFnData,
+  TPageParam = unknown,
+> = Omit<
+  UseInfiniteQueryOptions<TQueryFnData, TError, TData, unknown[], TPageParam>,
+  'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
 >;

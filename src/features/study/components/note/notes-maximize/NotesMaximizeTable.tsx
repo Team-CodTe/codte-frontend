@@ -1,6 +1,9 @@
 'use client';
 
+import { useCallback, useEffect, useRef } from 'react';
+
 import { Skeleton } from '@/components/ui/Skeleton';
+import { Spinner } from '@/components/ui/Spinner';
 import {
   Table,
   TableBody,
@@ -9,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import { type TableProps } from '@/types/tableProps';
+import { type TablePropsWithInfiniteScroll } from '@/types/tableProps';
 import {
   flexRender,
   getCoreRowModel,
@@ -21,7 +24,41 @@ export const NotesMaximizeTable = <TData, TValue>({
   columns,
   isLoading = false,
   onClickRow,
-}: TableProps<TData, TValue>) => {
+  onLoadMore,
+  hasNextPage,
+  isFetchingNextPage,
+}: TablePropsWithInfiniteScroll<TData, TValue>) => {
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLTableRowElement | null>(null);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
+
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        onLoadMore?.();
+      }
+    },
+    [hasNextPage, isFetchingNextPage, onLoadMore],
+  );
+
+  useEffect(() => {
+    const element = loadMoreRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    observerRef.current = new IntersectionObserver(handleObserver, {
+      threshold: 0.1,
+    });
+    observerRef.current.observe(element);
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [handleObserver]);
+
   // eslint-disable-next-line
   const table = useReactTable({
     data,
@@ -38,7 +75,7 @@ export const NotesMaximizeTable = <TData, TValue>({
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
-                  className={`min-w-24 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
+                  className={`min-w-24 px-0 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -55,7 +92,7 @@ export const NotesMaximizeTable = <TData, TValue>({
             Array.from({ length: 30 }).map((_, index) => (
               <TableRow key={index}>
                 {columns.map((_, cellIndex) => (
-                  <TableCell key={cellIndex}>
+                  <TableCell key={cellIndex} className="px-0">
                     <Skeleton className="h-5 w-full" />
                   </TableCell>
                 ))}
@@ -68,7 +105,7 @@ export const NotesMaximizeTable = <TData, TValue>({
                 data-state={row.getIsSelected() && 'selected'}
                 onClick={() => onClickRow?.(row.original)}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="px-0">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -80,6 +117,15 @@ export const NotesMaximizeTable = <TData, TValue>({
                 colSpan={columns.length}
                 className="text-muted-foreground text-center">
                 글을 찾을 수 없습니다
+              </TableCell>
+            </TableRow>
+          )}
+          {hasNextPage && (
+            <TableRow ref={loadMoreRef}>
+              <TableCell colSpan={columns.length} className="text-center">
+                {isFetchingNextPage && (
+                  <Spinner className="text-muted-foreground" />
+                )}
               </TableCell>
             </TableRow>
           )}

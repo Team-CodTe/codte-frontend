@@ -7,16 +7,14 @@ import { NotesFallback } from '../components/main/notes/NotesFallback';
 type Props = {
   studyId: number;
   problemId?: number;
-  page?: number;
   pageSize?: number;
 };
 
 export const NotesSuspense = withSuspense(
-  async ({ studyId, problemId, page, pageSize }: Props) => {
+  async ({ studyId, problemId, pageSize }: Props) => {
     const data = await getNotes({
       studyId,
       problemId,
-      page,
       pageSize,
     });
 
@@ -24,7 +22,6 @@ export const NotesSuspense = withSuspense(
       <Notes
         studyId={studyId}
         problemId={problemId}
-        page={page}
         pageSize={pageSize}
         initialData={data}
       />
