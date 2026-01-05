@@ -31,6 +31,10 @@ export const useUpdateNote = ({ initialContent }: Props) => {
           queryKey: ['study', 'notes', studyId],
         });
 
+        await queryClient.invalidateQueries({
+          queryKey: ['study', 'notes', 'maximize', studyId],
+        });
+
         startTransition(() => {
           router.back();
         });

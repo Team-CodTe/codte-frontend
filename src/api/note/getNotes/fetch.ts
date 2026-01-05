@@ -7,25 +7,21 @@ import { type GetNotesResponse } from './type';
 type Params = {
   studyId: number;
   problemId?: number;
-  page?: number;
+  pageParam?: number;
   pageSize?: number;
   assignedDate?: string;
-  bojNumber?: number;
-  problemTitle?: string;
   updatedDate?: string;
-  writer?: string;
+  query?: string;
 };
 
 export const getNotes = async ({
   studyId,
   problemId,
-  page,
-  pageSize: page_size,
+  pageParam: page,
+  pageSize,
   assignedDate,
-  bojNumber,
-  problemTitle,
   updatedDate,
-  writer,
+  query,
 }: Params) => {
   const url = buildUrlWithParams({
     url: API_URLS.NOTE.LIST,
@@ -33,12 +29,10 @@ export const getNotes = async ({
     queryParams: {
       problemId,
       page,
-      page_size,
+      pageSize,
       assignedDate,
-      bojNumber,
-      problemTitle,
       updatedDate,
-      writer,
+      query,
     },
   });
 

@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 export const useSelectDate = () => {
   const [openAssignedDate, setOpenAssignedDate] = useState(false);
   const [openUpdatedDate, setOpenUpdatedDate] = useState(false);
+
   const [selectedAssignedDate, setSelectedAssignedDate] = useState<
     Date | undefined
   >(undefined);
@@ -14,27 +15,21 @@ export const useSelectDate = () => {
 
   const handleAssignedDateChange = (date: Date | undefined) => {
     setSelectedAssignedDate(date);
-
-    if (date) {
-      const formattedDate = format(date, 'yyyy-MM-dd');
-
-      console.log(formattedDate);
-    }
-
     setOpenAssignedDate(false);
   };
 
   const handleUpdatedDateChange = (date: Date | undefined) => {
     setSelectedUpdatedDate(date);
-
-    if (date) {
-      const formattedDate = format(date, 'yyyy-MM-dd');
-
-      console.log(formattedDate);
-    }
-
-    setOpenAssignedDate(false);
+    setOpenUpdatedDate(false);
   };
+
+  const formattedAssignedDate = selectedAssignedDate
+    ? format(selectedAssignedDate, 'yyyy-MM-dd')
+    : undefined;
+
+  const formattedUpdatedDate = selectedUpdatedDate
+    ? format(selectedUpdatedDate, 'yyyy-MM-dd')
+    : undefined;
 
   return {
     openAssignedDate,
@@ -45,5 +40,7 @@ export const useSelectDate = () => {
     selectedUpdatedDate,
     handleAssignedDateChange,
     handleUpdatedDateChange,
+    formattedAssignedDate,
+    formattedUpdatedDate,
   };
 };

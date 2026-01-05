@@ -21,14 +21,22 @@ export const useRemoveNote = () => {
     noteId,
     {
       onSuccess: async () => {
+        queryClient.removeQueries({
+          queryKey: ['note', 'detail', noteId],
+        });
+
         await queryClient.invalidateQueries({
           queryKey: ['study', 'notes', studyId],
+        });
+
+        await queryClient.invalidateQueries({
+          queryKey: ['study', 'notes', 'maximize', studyId],
         });
 
         startTransition(() => {
           router.replace(
             buildUrlWithParams({
-              url: PATH.STUDY.MAIN,
+              url: PATH.STUDY.NOTE.LIST,
               pathParams: { studyId },
             }),
           );

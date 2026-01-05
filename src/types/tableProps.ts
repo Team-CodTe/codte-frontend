@@ -11,6 +11,7 @@ export type TablePropsWithInfiniteScroll<TData, TValue> = {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
   isLoading?: boolean;
+  isFiltered?: boolean;
   onClickRow?: (data: TData) => void;
   onLoadMore?: () => void;
   hasNextPage?: boolean;

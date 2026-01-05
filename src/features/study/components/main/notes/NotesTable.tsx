@@ -79,7 +79,7 @@ export const NotesTable = <TData, TValue>({
               <TableCell
                 colSpan={columns.length}
                 className="text-muted-foreground text-center">
-                글을 찾을 수 없습니다
+                아직 작성된 글이 없습니다
               </TableCell>
             </TableRow>
           )}

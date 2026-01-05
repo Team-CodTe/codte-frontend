@@ -23,6 +23,7 @@ export const NotesMaximizeTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
+  isFiltered = false,
   onClickRow,
   onLoadMore,
   hasNextPage,
@@ -75,7 +76,7 @@ export const NotesMaximizeTable = <TData, TValue>({
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
-                  className={`min-w-24 px-0 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
+                  className={`min-w-24 pl-0 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -89,10 +90,10 @@ export const NotesMaximizeTable = <TData, TValue>({
         </TableHeader>
         <TableBody>
           {isLoading ? (
-            Array.from({ length: 30 }).map((_, index) => (
+            Array.from({ length: isFiltered ? 1 : 30 }).map((_, index) => (
               <TableRow key={index}>
                 {columns.map((_, cellIndex) => (
-                  <TableCell key={cellIndex} className="px-0">
+                  <TableCell key={cellIndex} className="pl-0">
                     <Skeleton className="h-5 w-full" />
                   </TableCell>
                 ))}
@@ -105,7 +106,7 @@ export const NotesMaximizeTable = <TData, TValue>({
                 data-state={row.getIsSelected() && 'selected'}
                 onClick={() => onClickRow?.(row.original)}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="px-0">
+                  <TableCell key={cell.id} className="pl-0">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -116,7 +117,9 @@ export const NotesMaximizeTable = <TData, TValue>({
               <TableCell
                 colSpan={columns.length}
                 className="text-muted-foreground text-center">
-                글을 찾을 수 없습니다
+                {isFiltered
+                  ? '검색 결과가 없습니다'
+                  : '아직 작성된 글이 없습니다'}
               </TableCell>
             </TableRow>
           )}

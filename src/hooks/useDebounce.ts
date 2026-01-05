@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
  * @param delay 디바운스 지연 시간 (밀리초), 기본값 500ms
  * @returns 디바운스된 값
  */
-export const useDebounce = <T>(value: T, delay: number = 500): T => {
+export const useDebounce = <T>(value: T, delay: number): T => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {

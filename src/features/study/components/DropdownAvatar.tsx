@@ -1,6 +1,6 @@
 'use client';
 
-import { useMyProfileQuery } from '@/api/user/getMyProfile/query';
+import { useMyProfileSuspenseQuery } from '@/api/user/getMyProfile/query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
@@ -17,7 +17,7 @@ export const DropdownAvatar = () => {
   const { logout, isLoggingOut } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
 
-  const { data: user } = useMyProfileQuery();
+  const { data: user } = useMyProfileSuspenseQuery();
 
   return (
     <DropdownMenu>

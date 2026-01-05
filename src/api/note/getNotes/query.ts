@@ -18,23 +18,12 @@ type Params = {
   problemId?: number;
   pageSize?: number;
   assignedDate?: string;
-  bojNumber?: number;
-  problemTitle?: string;
   updatedDate?: string;
-  writer?: string;
+  query?: string;
 };
 
 export const useNotesQuery = (
-  {
-    studyId,
-    problemId,
-    pageSize,
-    assignedDate,
-    bojNumber,
-    problemTitle,
-    updatedDate,
-    writer,
-  }: Params,
+  { studyId, problemId, pageSize, assignedDate, updatedDate, query }: Params,
   options?: OmittedQueryOptions<GetNotesResponse>,
 ) => {
   return useQuery({
@@ -45,26 +34,15 @@ export const useNotesQuery = (
         problemId,
         pageSize,
         assignedDate,
-        bojNumber,
-        problemTitle,
         updatedDate,
-        writer,
+        query,
       }),
     ...options,
   });
 };
 
 export const useNotesSuspenseQuery = (
-  {
-    studyId,
-    problemId,
-    pageSize,
-    assignedDate,
-    bojNumber,
-    problemTitle,
-    updatedDate,
-    writer,
-  }: Params,
+  { studyId, problemId, pageSize, assignedDate, updatedDate, query }: Params,
   options?: OmittedSuspenseQueryOptions<GetNotesResponse>,
 ) => {
   return useSuspenseQuery({
@@ -75,26 +53,15 @@ export const useNotesSuspenseQuery = (
         problemId,
         pageSize,
         assignedDate,
-        bojNumber,
-        problemTitle,
         updatedDate,
-        writer,
+        query,
       }),
     ...options,
   });
 };
 
 export const useNotesInfiniteQuery = (
-  {
-    studyId,
-    problemId,
-    pageSize,
-    assignedDate,
-    bojNumber,
-    problemTitle,
-    updatedDate,
-    writer,
-  }: Params,
+  { studyId, problemId, pageSize, assignedDate, updatedDate, query }: Params,
   options?: OmittedInfiniteQueryOptions<
     GetNotesResponse,
     Error,
@@ -103,18 +70,26 @@ export const useNotesInfiniteQuery = (
   >,
 ) => {
   return useInfiniteQuery({
-    queryKey: ['study', 'notes', 'maximize', studyId],
+    queryKey: [
+      'study',
+      'notes',
+      'maximize',
+      studyId,
+      {
+        assignedDate,
+        updatedDate,
+        query,
+      },
+    ],
     queryFn: ({ pageParam }) =>
       getNotes({
         studyId,
         problemId,
-        page: pageParam,
+        pageParam,
         pageSize,
         assignedDate,
-        bojNumber,
-        problemTitle,
         updatedDate,
-        writer,
+        query,
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, _, lastPageParam) => {
