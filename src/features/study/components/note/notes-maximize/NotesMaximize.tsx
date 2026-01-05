@@ -118,12 +118,9 @@ export const NotesMaximize = ({
   return (
     <div className="flex h-full min-h-0 flex-col gap-3">
       <div className="flex flex-col gap-3">
-        <div className="flex flex-row items-center justify-between gap-3">
+        <div className="flex h-9 flex-row items-center justify-between gap-3">
           <div className="flex flex-row items-end gap-3">
             <h2 className="text-2xl font-bold">문제 풀이 글</h2>
-            <span className="text-muted-foreground font-medium">
-              {data?.count}
-            </span>
           </div>
 
           {isEditable && (
@@ -139,7 +136,11 @@ export const NotesMaximize = ({
 
         <Separator />
 
-        <div className="mt-3 flex flex-row items-center justify-end">
+        <div className="mt-3 flex flex-row items-center justify-between gap-4">
+          <span className="text-muted-foreground shrink-0 font-medium whitespace-nowrap">
+            {data?.count}개의 글
+          </span>
+
           <div className="flex gap-2">
             <Popover open={openAssignedDate} onOpenChange={setOpenAssignedDate}>
               <PopoverTrigger asChild>
