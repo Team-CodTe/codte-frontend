@@ -5,6 +5,7 @@ import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { showToast } from '@/lib/showToast';
 import { useForm } from '@tanstack/react-form';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import {
@@ -15,10 +16,15 @@ import {
 export const useCreateStudyForm = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
+  const queryClient = useQueryClient();
 
   const { mutate: mutateCreateStudy, isPending: isCreating } =
     useCreateStudyMutation({
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
+        await queryClient.invalidateQueries({
+          queryKey: ['study', 'my-studies'],
+        });
+
         startTransition(() => {
           router.replace(
             buildUrlWithParams({
