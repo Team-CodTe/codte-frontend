@@ -27,7 +27,7 @@ export const dailyAssignmentsTableColumns = ({
         <div className="flex items-center gap-2">
           <TierBadge level={assignment.tier} />
           <Link
-            id={assignment.bojNumber.toString()}
+            id={`assignment-number-link-${assignment.bojNumber}`}
             aria-label={`문제 ${assignment.bojNumber}로 이동`}
             href={assignment.link}
             target="_blank"
@@ -52,8 +52,8 @@ export const dailyAssignmentsTableColumns = ({
       return (
         <div className="flex flex-row items-center gap-2">
           <Link
-            id={assignment.bojNumber.toString()}
-            aria-label={`문제 ${assignment.bojNumber}로 이동`}
+            id={`assignment-title-link-${assignment.title}`}
+            aria-label={`문제 ${assignment.title}로 이동`}
             href={assignment.link}
             target="_blank"
             rel="noreferrer"

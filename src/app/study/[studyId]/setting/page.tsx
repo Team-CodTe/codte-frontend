@@ -1,6 +1,7 @@
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 import { DangerZoneSection } from '@/features/study/components/setting/DangerZoneSection';
 import { StudyInfoSection } from '@/features/study/components/setting/StudyInfoSection';
+import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {
   params: Promise<{
@@ -9,9 +10,8 @@ type Props = {
 };
 
 const StudySettingPage = async ({ params }: Props) => {
-  const { studyId } = await params;
-  const studyIdNum = parseInt(studyId, 10);
-  const study = await getStudyDetail(studyIdNum);
+  const studyId = safeParseInt((await params).studyId);
+  const study = await getStudyDetail(studyId);
 
   return (
     <main className="min-h-0 w-full flex-1 overflow-y-auto">

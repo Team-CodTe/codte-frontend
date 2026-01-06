@@ -72,6 +72,10 @@ export const useWriteNote = ({ problemId, initialContent }: Props) => {
   };
 
   const onSubmit = () => {
+    if (isWriting) {
+      return;
+    }
+
     if (!problemId) {
       showToast({
         message: '문제를 선택해주세요',

@@ -30,7 +30,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
         <div className="flex items-center gap-2">
           <TierBadge level={row.original.problemBojTier} />
           <Link
-            id={row.original.problemBojNumber.toString()}
+            id={`note-assignment-number-link-${row.original.problemBojNumber}`}
             aria-label={`${row.original.problemBojNumber} 문제로 이동`}
             href={row.original.problemLink}
             target="_blank"
@@ -52,7 +52,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     cell: ({ row }) => {
       return (
         <Link
-          id={row.original.problemBojNumber.toString()}
+          id={`note-assignment-title-link-${row.original.problemBojNumber}`}
           aria-label={`문제 ${row.original.problemBojNumber}로 이동`}
           href={row.original.problemLink}
           target="_blank"
