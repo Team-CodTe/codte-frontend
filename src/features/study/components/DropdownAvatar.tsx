@@ -1,5 +1,6 @@
 'use client';
 
+import { useMyProfileSuspenseQuery } from '@/api/user/getMyProfile/query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import {
   DropdownMenu,
@@ -13,18 +14,18 @@ import { useAuth } from '@/hooks/useAuth';
 import { useThemeAction } from '@/hooks/useThemeAction';
 
 export const DropdownAvatar = () => {
-  const { session, logout, isLoggingOut } = useAuth();
+  const { logout, isLoggingOut } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
 
-  const user = session?.user;
+  const { data: user } = useMyProfileSuspenseQuery();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={user?.profileImgUrl} alt={user?.id} />
-          <AvatarFallback>
-            {user?.username?.charAt(0).toUpperCase()}
+          <AvatarImage src={user?.profileImgUrl} alt={String(user?.id)} />
+          <AvatarFallback aria-label="프로필 사진 없음">
+            {user?.username ? user.username.charAt(0).toUpperCase() : undefined}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

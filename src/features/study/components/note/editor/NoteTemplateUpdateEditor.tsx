@@ -1,18 +1,13 @@
 'use client';
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
-
-import { useUpdateNoteTemplate } from '../../hooks/useUpdateNoteTemplate';
+import { useUpdateNoteTemplate } from '@/features/study/hooks/useUpdateNoteTemplate';
 
 type Props = {
-  studyId: number;
   initialTemplate: string;
 };
 
-export const NoteTemplateUpdateEditor = ({
-  studyId,
-  initialTemplate,
-}: Props) => {
+export const NoteTemplateUpdateEditor = ({ initialTemplate }: Props) => {
   const {
     templateContent,
     isDirty,
@@ -20,7 +15,13 @@ export const NoteTemplateUpdateEditor = ({
     onChange,
     onSubmit,
     onReset,
-  } = useUpdateNoteTemplate({ studyId, initialTemplate });
+  } = useUpdateNoteTemplate({ initialTemplate });
+
+  const onClickReset = () => {
+    if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {
+      onReset();
+    }
+  };
 
   return (
     <div className="h-[calc(100dvh-6.25rem)] w-full overflow-hidden lg:h-[calc(100dvh-7rem)]">
@@ -29,11 +30,7 @@ export const NoteTemplateUpdateEditor = ({
         onChange={onChange}
         placeholder="풀이 노트 템플릿을 작성해보세요."
         onSubmit={onSubmit}
-        onReset={() =>
-          confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')
-            ? onReset()
-            : null
-        }
+        onReset={onClickReset}
         isSubmitting={isSubmitting}
         isDirty={isDirty}
       />

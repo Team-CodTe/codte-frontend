@@ -1,15 +1,16 @@
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
 import { DailyAssignmentsSection } from '@/features/study/components/main/DailyAssignmentsSection';
-import { SolutionNotesSection } from '@/features/study/components/main/SolutionNotesSection';
+import { NotesSection } from '@/features/study/components/main/NotesSection';
+import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {
   params: Promise<{
-    studyId: number;
+    studyId: string;
   }>;
 };
 
 const StudyMainPage = async ({ params }: Props) => {
-  const { studyId } = await params;
+  const studyId = safeParseInt((await params).studyId);
   const study = await getStudyDetail(studyId);
 
   return (
@@ -23,7 +24,7 @@ const StudyMainPage = async ({ params }: Props) => {
 
       <div className="h-full min-h-0">
         {/** 풀이 노트 목록 섹션 */}
-        <SolutionNotesSection study={study} />
+        <NotesSection study={study} />
       </div>
     </main>
   );

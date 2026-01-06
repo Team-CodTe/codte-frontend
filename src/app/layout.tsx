@@ -8,10 +8,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
 export const metadata: Metadata = {
-  title: {
-    template: 'CodTe - %s',
-    default: 'CodTe',
-  },
+  title: 'CodTe',
   description:
     '매일 랜덤으로 주어지는 코딩 테스트 문제를 함께 풀고 쉽게 공유할 수 있는 스터디 플랫폼입니다.',
 };

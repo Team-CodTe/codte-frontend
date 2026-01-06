@@ -18,11 +18,7 @@ import { PlusIcon } from 'lucide-react';
 
 import { useAddAssignment } from '../../../hooks/useAddAssignment';
 
-type Props = {
-  studyId: number;
-};
-
-export const AssignmentAddDialog = ({ studyId }: Props) => {
+export const AssignmentAddDialog = () => {
   const {
     bojNumber,
     setBojNumber,
@@ -31,12 +27,12 @@ export const AssignmentAddDialog = ({ studyId }: Props) => {
     onSubmit,
     canSubmit,
     isAdding,
-  } = useAddAssignment({ studyId });
+  } = useAddAssignment();
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary" size="sm">
+        <Button variant="secondary" size="icon-sm-responsive">
           <PlusIcon />
           <span className="hidden sm:inline">문제 직접 추가</span>
         </Button>

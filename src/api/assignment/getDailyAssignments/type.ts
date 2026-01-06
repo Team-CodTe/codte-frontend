@@ -1,5 +1,6 @@
 export type DailyAssignment = {
   id: number;
+  problemId: number;
   bojNumber: number;
   title: string;
   tier: number;

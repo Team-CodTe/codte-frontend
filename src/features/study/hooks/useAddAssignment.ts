@@ -1,22 +1,20 @@
 import { useState } from 'react';
 
-import { useAddAssignmentMutation } from '@/api/assignment/postAddAssignment/mutation';
+import { useCustomAssignmentMutation } from '@/api/assignment/postCustomAssignment/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { FetchError } from '@/lib/fetchInstance';
 import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
 import { useQueryClient } from '@tanstack/react-query';
 
-type Props = {
-  studyId: number;
-};
-
-export const useAddAssignment = ({ studyId }: Props) => {
+export const useAddAssignment = () => {
+  const studyId = useParamInt('studyId');
   const queryClient = useQueryClient();
   const [bojNumber, setBojNumber] = useState('');
   const [open, setOpen] = useState(false);
 
   const { mutate: mutateAddAssignment, isPending: isAdding } =
-    useAddAssignmentMutation(studyId, {
+    useCustomAssignmentMutation(studyId, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['study', 'daily-assignments', studyId],
@@ -59,9 +57,11 @@ export const useAddAssignment = ({ studyId }: Props) => {
   };
 
   const onSubmit = () => {
-    if (bojNumber.trim()) {
-      mutateAddAssignment({ bojNumber: parseInt(bojNumber, 10) });
+    if (isAdding || !bojNumber.trim()) {
+      return;
     }
+
+    mutateAddAssignment({ bojNumber: parseInt(bojNumber, 10) });
   };
 
   const onReset = () => {
@@ -75,7 +75,7 @@ export const useAddAssignment = ({ studyId }: Props) => {
     setOpen,
     handleOpenChange,
     onSubmit,
-    canSubmit: bojNumber.trim(),
+    canSubmit: !isAdding && bojNumber.trim(),
     isAdding,
   };
 };

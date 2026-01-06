@@ -1,17 +1,14 @@
 import { StudiesSection } from '@/features/study/components/home/StudiesSection';
 import { StudyHomeHeader } from '@/features/study/components/home/StudyHomeHeader';
-import { StudyHomeTitle } from '@/features/study/components/home/StudyHomeTitle';
-import { auth } from '@/lib/auth';
+import { StudyHomeTitleSuspense } from '@/features/study/suspenses/StudyHomeTitleSuspense';
 
-const StudyHomePage = async () => {
-  const session = await auth();
-
+const StudyHomePage = () => {
   return (
     <div className="flex w-screen flex-col items-center">
       <StudyHomeHeader />
 
-      <main className="flex w-full flex-col items-start gap-10 p-5 md:max-w-2xl md:gap-16 md:p-8 md:px-0">
-        <StudyHomeTitle session={session} />
+      <main className="flex w-full flex-col items-start gap-8 p-5 pt-4 pb-8 md:max-w-2xl md:gap-16 md:px-0 md:pt-4 md:pb-16">
+        <StudyHomeTitleSuspense />
         <StudiesSection />
       </main>
     </div>

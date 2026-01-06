@@ -1,6 +1,5 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/Skeleton';
 import MDEditor, {
   commands,
   type ICommand,
@@ -27,6 +26,7 @@ import dynamic from 'next/dynamic';
 import { Button } from '../ui/Button';
 import { Field, FieldGroup } from '../ui/Field';
 import { Spinner } from '../ui/Spinner';
+import { MarkdownEditorFallback } from './MarkdownEditorFallback';
 
 const ICON_SIZE = 'size-6';
 
@@ -173,6 +173,6 @@ export const DynamicMarkdownEditor = dynamic(
     ),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-full w-full" />,
+    loading: () => <MarkdownEditorFallback />,
   },
 );

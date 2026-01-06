@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { useStudyDetailQuery } from '@/api/study/getStudyDetail/query';
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { AppLogo } from '@/components/logos/AppLogo';
 import {
@@ -25,16 +26,27 @@ const BREADCRUMB_MAP: Record<string, string> = {
   setting: '스터디 설정',
   /** @todo 문제 풀이 글 목록 화면 같은거 만들어야 할 듯 함*/
   note: '문제 풀이 글',
-  template: '템플릿',
+  template: '템플릿 수정',
+  write: '작성',
+  edit: '수정',
 };
 
 type Props = {
-  study: GetStudyDetailResponse;
+  studyId: number;
+  initialData: GetStudyDetailResponse;
 };
 
-export const StudyMainHeader = ({ study }: Props) => {
+export const StudyMainHeader = ({ studyId, initialData }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { data: study } = useStudyDetailQuery(studyId, {
+    initialData,
+  });
+
+  if (!study) {
+    return null;
+  }
 
   const pathSegments = pathname.split('/').filter((segment) => segment);
 

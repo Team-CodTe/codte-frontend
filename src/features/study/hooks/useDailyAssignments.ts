@@ -3,15 +3,16 @@ import { useTransition } from 'react';
 import { useDailyAssignmentsQuery } from '@/api/assignment/getDailyAssignments/query';
 import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssignments/type';
 import { useRefreshDailyAssignmentsMutation } from '@/api/assignment/postRefreshDailyAssignments/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { formatRemainingTime } from '@/lib/formatRemainingTime';
 import { showToast } from '@/lib/showToast';
 
 type Props = {
-  studyId: number;
   initialData: GetDailyAssignmentsResponse;
 };
 
-export const useDailyAssignments = ({ studyId, initialData }: Props) => {
+export const useDailyAssignments = ({ initialData }: Props) => {
+  const studyId = useParamInt('studyId');
   const { data, refetch } = useDailyAssignmentsQuery(studyId, { initialData });
   const [isRefetching, startTransition] = useTransition();
 

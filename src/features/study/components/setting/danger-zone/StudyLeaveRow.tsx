@@ -21,12 +21,8 @@ import {
 import { Spinner } from '@/components/ui/Spinner';
 import { useExitStudy } from '@/features/study/hooks/useExitStudy';
 
-type Props = {
-  studyId: number;
-};
-
-export const StudyLeaveRow = ({ studyId }: Props) => {
-  const { mutateLeaveStudy, isLeavingStudy } = useExitStudy({ studyId });
+export const StudyLeaveRow = () => {
+  const { mutateLeaveStudy, isLeavingStudy } = useExitStudy();
 
   const onClick = () => {
     if (!isLeavingStudy) {

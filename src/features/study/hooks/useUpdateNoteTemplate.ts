@@ -1,18 +1,19 @@
 import { useState, useTransition } from 'react';
 
 import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
 import { showToast } from '@/lib/showToast';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  studyId: number;
   initialTemplate: string;
 };
 
-export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
+export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
+  const studyId = useParamInt('studyId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
-  const [templateContent, setContent] = useState(initialTemplate);
+  const [templateContent, setTemplateContent] = useState(initialTemplate);
 
   const { mutate: mutateUpdateNoteTemplate, isPending: isUpdating } =
     useUpdateStudyMutation(studyId, {
@@ -21,7 +22,7 @@ export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
           router.back();
         });
 
-        showToast({ message: '템플릿이 저장되었습니다.', type: 'success' });
+        showToast({ message: '템플릿이 변경되었습니다.', type: 'success' });
       },
       onError: () => {
         showToast({
@@ -32,15 +33,19 @@ export const useUpdateNoteTemplate = ({ studyId, initialTemplate }: Props) => {
     });
 
   const onChange = (value?: string) => {
-    setContent(value || '');
+    setTemplateContent(value || '');
   };
 
   const onSubmit = () => {
+    if (isUpdating) {
+      return;
+    }
+
     mutateUpdateNoteTemplate({ templateContent });
   };
 
   const onReset = () => {
-    setContent(initialTemplate);
+    setTemplateContent(initialTemplate);
   };
 
   return {

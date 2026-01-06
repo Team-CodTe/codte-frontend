@@ -23,7 +23,7 @@ export const useJoinStudyForm = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
-  const { mutate: mutateJoinStudy, isPending: isJoiningStudy } =
+  const { mutate: mutateJoinStudy, isPending: isJoining } =
     useJoinStudyMutation({
       onSuccess: (data) => {
         startTransition(() => {
@@ -38,8 +38,6 @@ export const useJoinStudyForm = () => {
         showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
       },
       onError: (error) => {
-        console.error('❌ 스터디 가입 실패', error);
-
         let toastMessage = '스터디 가입에 실패했습니다. 다시 시도해주세요.';
         let toastType: 'error' | 'info' = 'error';
 
@@ -69,7 +67,7 @@ export const useJoinStudyForm = () => {
       onSubmit: JoinStudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      if (isJoiningStudy) {
+      if (isJoining) {
         return;
       }
 
@@ -85,6 +83,6 @@ export const useJoinStudyForm = () => {
   return {
     form,
     onQuit,
-    isSubmitting: isJoiningStudy || isNavigating,
+    isSubmitting: isJoining || isNavigating,
   };
 };

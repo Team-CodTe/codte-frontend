@@ -53,7 +53,7 @@ export const DailyAssignmentsTable = <TData, TValue>({
         </TableHeader>
         <TableBody>
           {isLoading ? (
-            Array.from({ length: 5 }).map((_, index) => (
+            Array.from({ length: 3 }).map((_, index) => (
               <TableRow key={index}>
                 {columns.map((_, cellIndex) => (
                   <TableCell key={cellIndex}>
@@ -75,10 +75,10 @@ export const DailyAssignmentsTable = <TData, TValue>({
               </TableRow>
             ))
           ) : (
-            <TableRow>
+            <TableRow className="h-full min-h-11">
               <TableCell
                 colSpan={columns.length}
-                className="text-muted-foreground h-24 text-center">
+                className="text-muted-foreground text-center">
                 문제를 찾을 수 없습니다
               </TableCell>
             </TableRow>
