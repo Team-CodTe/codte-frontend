@@ -17,7 +17,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
-const SUPPORT_MAIL = 'kdw34441360@gmail.com';
+const SUPPORT_MAIL = 'team.codte@gmail.com';
 
 const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
   const router = useRouter();
@@ -27,19 +27,16 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
     setIsLoading(true);
 
     try {
-      // 백엔드 로그아웃 API 호출
       await postLogout();
     } catch (error) {
       console.error('❌ 로그아웃 처리 중 오류 발생', error);
     } finally {
-      // 로그아웃 API 호출 성공 여부에 상관없이 NextAuth 세션 로그아웃
       await signOut({ callbackUrl: PATH.LANDING });
       setIsLoading(false);
     }
   };
 
   return (
-    // NOTE: global-error must include html and body tags
     <html lang="ko">
       <body className="bg-background flex min-h-screen w-screen flex-col items-center justify-center gap-6 p-6">
         <div className="flex max-w-lg flex-col items-center justify-center gap-6">
@@ -94,7 +91,7 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
           </div>
         </div>
 
-        {/* Error Details (Development only) */}
+        {/* Development only */}
         {process.env.NODE_ENV === 'development' && error.message && (
           <Card className="bg-muted max-w-2/3 text-left">
             <CardContent>
