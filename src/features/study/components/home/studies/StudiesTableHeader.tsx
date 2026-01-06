@@ -12,11 +12,11 @@ import { useRouter } from 'next/navigation';
 export const StudiesTableHeader = () => {
   const router = useRouter();
 
-  const onClickCreate = () => {
+  const moveToCreateStudy = () => {
     router.push(PATH.STUDY.CREATE);
   };
 
-  const onClickJoin = () => {
+  const moveToJoinStudy = () => {
     router.push(PATH.STUDY.JOIN);
   };
 
@@ -30,14 +30,14 @@ export const StudiesTableHeader = () => {
         <Button
           variant="secondary"
           size="icon-sm-responsive"
-          onClick={onClickCreate}>
+          onClick={moveToCreateStudy}>
           <PlusIcon />
           <span className="hidden sm:inline">새로 만들기</span>
         </Button>
         <Button
           variant="secondary"
           size="icon-sm-responsive"
-          onClick={onClickJoin}>
+          onClick={moveToJoinStudy}>
           <GitPullRequestArrowIcon />
           <span className="hidden sm:inline">들어가기</span>
         </Button>

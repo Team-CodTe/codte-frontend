@@ -24,7 +24,6 @@ import { DropdownAvatar } from '../DropdownAvatar';
 
 const BREADCRUMB_MAP: Record<string, string> = {
   setting: '스터디 설정',
-  /** @todo 문제 풀이 글 목록 화면 같은거 만들어야 할 듯 함*/
   note: '문제 풀이 글',
   template: '템플릿 수정',
   write: '작성',
@@ -67,7 +66,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
     pathParams: { studyId: study.id },
   });
 
-  const onClickSetting = () => {
+  const moveToSetting = () => {
     router.push(settingPageUrl);
   };
 
@@ -128,7 +127,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
       </Breadcrumb>
 
       <div className="flex flex-row items-center gap-2">
-        <Button variant="outline" size="icon-sm" onClick={onClickSetting}>
+        <Button variant="outline" size="icon-sm" onClick={moveToSetting}>
           <SettingsIcon />
         </Button>
 

@@ -33,7 +33,7 @@ export const Notes = ({ studyId, problemId, pageSize, initialData }: Props) => {
     },
   );
 
-  const handleRowClick = (note: GetNoteDetailResponse) => {
+  const moveToNoteDetail = (note: GetNoteDetailResponse) => {
     if (isNavigating) {
       return;
     }
@@ -56,7 +56,7 @@ export const Notes = ({ studyId, problemId, pageSize, initialData }: Props) => {
       <NotesTable
         data={data?.results ?? []}
         columns={NOTES_TABLE_COLUMNS}
-        onClickRow={handleRowClick}
+        onClickRow={moveToNoteDetail}
       />
 
       <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">

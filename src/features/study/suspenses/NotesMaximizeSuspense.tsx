@@ -8,35 +8,16 @@ type Props = {
   study: GetStudyDetailResponse;
   problemId?: number;
   pageSize?: number;
-  assignedDate?: string;
-  bojNumber?: number;
-  problemTitle?: string;
-  updatedDate?: string;
-  writer?: string;
 };
 
 export const NotesMaximizeSuspense = withSuspense(
-  ({
-    study,
-    problemId,
-    pageSize,
-    assignedDate,
-    bojNumber,
-    problemTitle,
-    updatedDate,
-    writer,
-  }: Props) => {
+  ({ study, problemId, pageSize }: Props) => {
     return (
       <NotesMaximize
         studyId={study.id}
         role={study.myRole}
         problemId={problemId}
         pageSize={pageSize}
-        assignedDate={assignedDate}
-        bojNumber={bojNumber}
-        problemTitle={problemTitle}
-        updatedDate={updatedDate}
-        writer={writer}
       />
     );
   },

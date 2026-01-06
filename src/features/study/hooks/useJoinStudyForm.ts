@@ -75,14 +75,14 @@ export const useJoinStudyForm = () => {
     },
   });
 
-  const onQuit = async () => {
+  const handleQuit = () => {
     form.reset();
     router.back();
   };
 
   return {
     form,
-    onQuit,
+    handleQuit,
     isSubmitting: isJoining || isNavigating,
   };
 };

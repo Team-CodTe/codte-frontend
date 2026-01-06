@@ -52,20 +52,16 @@ export const useAddAssignment = () => {
     setOpen(isOpen);
 
     if (!isOpen) {
-      onReset();
+      setBojNumber('');
     }
   };
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     if (isAdding || !bojNumber.trim()) {
       return;
     }
 
     mutateAddAssignment({ bojNumber: parseInt(bojNumber, 10) });
-  };
-
-  const onReset = () => {
-    setBojNumber('');
   };
 
   return {
@@ -74,7 +70,7 @@ export const useAddAssignment = () => {
     open,
     setOpen,
     handleOpenChange,
-    onSubmit,
+    handleSubmit,
     canSubmit: !isAdding && bojNumber.trim(),
     isAdding,
   };

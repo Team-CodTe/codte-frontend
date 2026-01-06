@@ -17,7 +17,7 @@ export const useRemoveConfirmation = ({ expectedText }: Props) => {
     setOpen(isOpen);
 
     if (!isOpen) {
-      onReset();
+      setConfirmText('');
     }
   };
 
@@ -25,14 +25,10 @@ export const useRemoveConfirmation = ({ expectedText }: Props) => {
     setConfirmText(value);
   };
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     if (isConfirmValid) {
       mutateRemoveStudy();
     }
-  };
-
-  const onReset = () => {
-    setConfirmText('');
   };
 
   return {
@@ -40,8 +36,7 @@ export const useRemoveConfirmation = ({ expectedText }: Props) => {
     isConfirmValid,
     handleOpenChange,
     handleConfirmTextChange,
-    onSubmit,
-    onReset,
+    handleSubmit,
     open,
     isRemovingStudy,
   };

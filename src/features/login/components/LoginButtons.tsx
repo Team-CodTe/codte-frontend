@@ -14,7 +14,7 @@ const robotoMedium = Roboto({
 });
 
 export const LoginButtons = () => {
-  const { login, loadingProvider } = useAuth();
+  const { handleLogin, loadingProvider } = useAuth();
 
   const isGithubLoading = loadingProvider === SOCIAL_PROVIDER.GITHUB;
   const isGoogleLoading = loadingProvider === SOCIAL_PROVIDER.GOOGLE;
@@ -26,7 +26,7 @@ export const LoginButtons = () => {
       <Button
         variant="outline"
         size="lg"
-        onClick={() => login(SOCIAL_PROVIDER.GITHUB)}
+        onClick={() => handleLogin(SOCIAL_PROVIDER.GITHUB)}
         disabled={isAnyLoading}>
         {isGithubLoading ? <Spinner /> : <BsGithub />}
         {isGithubLoading ? 'GitHub 로그인 중...' : 'GitHub'}
@@ -35,7 +35,7 @@ export const LoginButtons = () => {
         variant="outline"
         size="lg"
         className={robotoMedium.className}
-        onClick={() => login(SOCIAL_PROVIDER.GOOGLE)}
+        onClick={() => handleLogin(SOCIAL_PROVIDER.GOOGLE)}
         disabled={isAnyLoading}>
         {isGoogleLoading ? <Spinner /> : <FcGoogle />}
         {isGoogleLoading ? 'Google 로그인 중...' : 'Google'}

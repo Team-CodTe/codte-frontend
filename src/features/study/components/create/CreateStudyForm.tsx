@@ -31,9 +31,9 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useCreateStudyForm } from '../../hooks/useCreateStudyForm';
 
 export const CreateStudyForm = () => {
-  const { form, onQuit, isSubmitting } = useCreateStudyForm();
+  const { form, handleQuit, isSubmitting } = useCreateStudyForm();
 
-  const handleNumberChange = (
+  const handleChangeNumber = (
     e: React.ChangeEvent<HTMLInputElement>,
     onChange: (value: number | null) => void,
   ) => {
@@ -211,7 +211,7 @@ export const CreateStudyForm = () => {
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleNumberChange(e, field.handleChange)
+                          handleChangeNumber(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
                       />
@@ -243,7 +243,7 @@ export const CreateStudyForm = () => {
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleNumberChange(e, field.handleChange)
+                          handleChangeNumber(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
                       />
@@ -286,7 +286,7 @@ export const CreateStudyForm = () => {
               variant="outline"
               type="button"
               className="order-2 @md/field-group:order-1"
-              onClick={onQuit}
+              onClick={handleQuit}
               disabled={isSubmitting}>
               뒤로
             </Button>

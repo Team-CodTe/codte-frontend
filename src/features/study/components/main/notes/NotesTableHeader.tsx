@@ -17,7 +17,7 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
 
   const isEditable = role === STUDY_ROLE.OWNER;
 
-  const handleClickTemplate = () => {
+  const moveToManageTemplate = () => {
     router.push(
       buildUrlWithParams({
         url: PATH.STUDY.NOTE.TEMPLATE,
@@ -26,7 +26,7 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
     );
   };
 
-  const handleClickMaximize = () => {
+  const moveToMaximize = () => {
     router.push(
       buildUrlWithParams({
         url: PATH.STUDY.NOTE.LIST,
@@ -46,7 +46,7 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
           <Button
             variant="secondary"
             size="icon-sm-responsive"
-            onClick={handleClickTemplate}>
+            onClick={moveToManageTemplate}>
             <FileCog2Icon />
             <span className="hidden sm:inline">템플릿 관리</span>
           </Button>
@@ -55,7 +55,7 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
         <Button
           variant="secondary"
           size="icon-sm-responsive"
-          onClick={handleClickMaximize}>
+          onClick={moveToMaximize}>
           <Maximize2Icon />
           <span className="hidden sm:inline">전체 페이지로 보기</span>
         </Button>

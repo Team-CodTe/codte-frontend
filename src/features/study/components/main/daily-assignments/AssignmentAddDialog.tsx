@@ -24,7 +24,7 @@ export const AssignmentAddDialog = () => {
     setBojNumber,
     open,
     handleOpenChange,
-    onSubmit,
+    handleSubmit,
     canSubmit,
     isAdding,
   } = useAddAssignment();
@@ -67,7 +67,7 @@ export const AssignmentAddDialog = () => {
           <Button
             type="submit"
             disabled={!canSubmit || isAdding}
-            onClick={onSubmit}>
+            onClick={handleSubmit}>
             {isAdding ? <Spinner /> : null}
             {isAdding ? '추가 중...' : '추가'}
           </Button>

@@ -32,11 +32,11 @@ export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
       },
     });
 
-  const onChange = (value?: string) => {
+  const handleChange = (value?: string) => {
     setTemplateContent(value || '');
   };
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     if (isUpdating) {
       return;
     }
@@ -44,7 +44,7 @@ export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
     mutateUpdateNoteTemplate({ templateContent });
   };
 
-  const onReset = () => {
+  const resetForm = () => {
     setTemplateContent(initialTemplate);
   };
 
@@ -53,8 +53,8 @@ export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
     isDirty:
       templateContent.trim().length > 0 && templateContent !== initialTemplate,
     isSubmitting: isUpdating || isNavigating,
-    onChange,
-    onSubmit,
-    onReset,
+    handleChange,
+    handleSubmit,
+    resetForm,
   };
 };

@@ -24,7 +24,7 @@ import { useExitStudy } from '@/features/study/hooks/useExitStudy';
 export const StudyLeaveRow = () => {
   const { mutateLeaveStudy, isLeavingStudy } = useExitStudy();
 
-  const onClick = () => {
+  const handleLeaveStudy = () => {
     if (!isLeavingStudy) {
       mutateLeaveStudy();
     }
@@ -62,7 +62,7 @@ export const StudyLeaveRow = () => {
               </DialogClose>
               <Button
                 variant="destructive"
-                onClick={onClick}
+                onClick={handleLeaveStudy}
                 disabled={isLeavingStudy}>
                 {isLeavingStudy ? <Spinner /> : null}
                 {isLeavingStudy ? '탈퇴 중...' : '스터디 탈퇴'}

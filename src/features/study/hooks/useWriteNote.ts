@@ -67,11 +67,11 @@ export const useWriteNote = ({ problemId, initialContent }: Props) => {
       },
     });
 
-  const onChange = (value?: string) => {
+  const handleChange = (value?: string) => {
     setContent(value || '');
   };
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     if (isWriting) {
       return;
     }
@@ -88,7 +88,7 @@ export const useWriteNote = ({ problemId, initialContent }: Props) => {
     mutateWriteNote({ problemId, content });
   };
 
-  const onReset = () => {
+  const resetForm = () => {
     setContent(initialContent);
   };
 
@@ -96,8 +96,8 @@ export const useWriteNote = ({ problemId, initialContent }: Props) => {
     content,
     isDirty: content.trim().length > 0 && content !== initialContent,
     isSubmitting: isWriting || isNavigating,
-    onChange,
-    onSubmit,
-    onReset,
+    handleChange,
+    handleSubmit,
+    resetForm,
   };
 };

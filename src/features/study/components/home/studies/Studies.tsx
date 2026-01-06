@@ -20,7 +20,7 @@ export const Studies = ({ initialData }: Props) => {
   const [isNavigating, startTransition] = useTransition();
   const { data } = useMyStudiesQuery({ initialData });
 
-  const onClickRow = (study: GetMyStudiesResponse) => {
+  const moveToStudyMain = (study: GetMyStudiesResponse) => {
     if (isNavigating) {
       return;
     }
@@ -39,7 +39,7 @@ export const Studies = ({ initialData }: Props) => {
     <StudiesTable
       data={data ?? []}
       columns={STUDIES_TABLE_COLUMNS}
-      onClickRow={onClickRow}
+      onClickRow={moveToStudyMain}
     />
   );
 };

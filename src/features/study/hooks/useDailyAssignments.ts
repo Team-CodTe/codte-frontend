@@ -36,7 +36,7 @@ export const useDailyAssignments = ({ initialData }: Props) => {
       },
     });
 
-  const onRefresh = () => {
+  const handleRefresh = () => {
     if (isPending) {
       return;
     }
@@ -63,6 +63,6 @@ export const useDailyAssignments = ({ initialData }: Props) => {
   return {
     data,
     isRefreshing: isPending || isRefetching,
-    onRefresh,
+    handleRefresh,
   };
 };
