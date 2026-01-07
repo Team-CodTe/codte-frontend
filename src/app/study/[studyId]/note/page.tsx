@@ -14,7 +14,7 @@ const NotesPage = async ({ params }: Props) => {
 
   return (
     <main className="min-h-0 w-full flex-1 overflow-y-auto">
-      <div className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
+      <div className="w-full flex-1 p-5 pt-4 lg:p-8 lg:pt-4">
         <NotesMaximizeSuspense study={study} />
       </div>
     </main>

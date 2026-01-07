@@ -16,7 +16,7 @@ const StudyMainLayout = async ({
   const studyId = safeParseInt((await params).studyId);
 
   return (
-    <div className="flex min-h-screen flex-col items-center lg:h-screen lg:overflow-hidden">
+    <div className="flex flex-col items-center">
       <StudyMainHeaderSuspense studyId={studyId} />
       {children}
     </div>
