@@ -66,14 +66,14 @@ export const useCreateStudyForm = () => {
     },
   });
 
-  const onQuit = async () => {
+  const handleQuit = () => {
     form.reset();
     router.back();
   };
 
   return {
     form,
-    onQuit,
+    handleQuit,
     isSubmitting: isCreating || isNavigating,
   };
 };

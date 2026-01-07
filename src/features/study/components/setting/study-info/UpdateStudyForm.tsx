@@ -35,13 +35,13 @@ type Props = {
 };
 
 export const UpdateStudyForm = ({ initialData, role }: Props) => {
-  const { form, onReset, isSubmitting } = useUpdateStudyForm({
+  const { form, resetForm, isSubmitting } = useUpdateStudyForm({
     initialData,
   });
 
   const isEditable = role === STUDY_ROLE.OWNER;
 
-  const handleNumberChange = (
+  const handleChangeNumber = (
     e: React.ChangeEvent<HTMLInputElement>,
     onChange: (value: number | null) => void,
   ) => {
@@ -223,7 +223,7 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleNumberChange(e, field.handleChange)
+                          handleChangeNumber(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
                       />
@@ -256,7 +256,7 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
                         value={field.state.value ?? ''}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleNumberChange(e, field.handleChange)
+                          handleChangeNumber(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
                       />
@@ -316,7 +316,7 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
                       confirm(
                         '작성 중인 내용이 초기화됩니다. 계속하시겠습니까?',
                       )
-                        ? onReset()
+                        ? resetForm()
                         : null
                     }
                     disabled={!isDirty || isSubmitting}>

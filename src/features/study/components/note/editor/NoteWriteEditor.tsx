@@ -10,12 +10,18 @@ type Props = {
 };
 
 export const NoteWriteEditor = ({ problemId, initialContent }: Props) => {
-  const { content, isDirty, isSubmitting, onChange, onSubmit, onReset } =
-    useWriteNote({ problemId, initialContent });
+  const {
+    content,
+    isDirty,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useWriteNote({ problemId, initialContent });
 
-  const onClickReset = () => {
+  const handleReset = () => {
     if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {
-      onReset();
+      resetForm();
     }
   };
 
@@ -23,10 +29,10 @@ export const NoteWriteEditor = ({ problemId, initialContent }: Props) => {
     <div className="h-[calc(100dvh-6.25rem)] w-full overflow-hidden lg:h-[calc(100dvh-7rem)]">
       <DynamicMarkdownEditor
         value={content}
-        onChange={onChange}
+        onChange={handleChange}
         placeholder="어떻게 문제를 풀었는지 기록해보세요."
-        onSubmit={onSubmit}
-        onReset={onClickReset}
+        onSubmit={handleSubmit}
+        onReset={handleReset}
         isSubmitting={isSubmitting}
         isDirty={isDirty}
       />

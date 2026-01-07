@@ -16,7 +16,7 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useJoinStudyForm } from '../../hooks/useJoinStudyForm';
 
 export const JoinStudyForm = () => {
-  const { form, onQuit, isSubmitting } = useJoinStudyForm();
+  const { form, handleQuit, isSubmitting } = useJoinStudyForm();
 
   return (
     <form
@@ -69,7 +69,7 @@ export const JoinStudyForm = () => {
               variant="outline"
               type="button"
               className="order-2 @md/field-group:order-1"
-              onClick={onQuit}
+              onClick={handleQuit}
               disabled={isSubmitting}>
               뒤로
             </Button>

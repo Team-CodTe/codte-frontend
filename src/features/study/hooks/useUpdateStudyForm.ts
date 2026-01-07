@@ -54,13 +54,13 @@ export const useUpdateStudyForm = ({ initialData }: Props) => {
     },
   });
 
-  const onReset = () => {
+  const resetForm = () => {
     form.reset(initialData);
   };
 
   return {
     form,
     isSubmitting: isUpdating || isRefreshing,
-    onReset,
+    resetForm,
   };
 };

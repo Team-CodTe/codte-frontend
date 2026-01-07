@@ -26,7 +26,7 @@ export const NoteActionButtons = ({ studyId, noteId }: Props) => {
   const router = useRouter();
   const { handleRemove, isRemoving } = useRemoveNote();
 
-  const handleUpdate = () => {
+  const moveToEditNote = () => {
     router.push(
       buildUrlWithParams({
         url: PATH.STUDY.NOTE.EDIT,
@@ -40,7 +40,7 @@ export const NoteActionButtons = ({ studyId, noteId }: Props) => {
       <button
         type="button"
         className="text-muted-foreground hover:text-foreground transition-colors hover:cursor-pointer hover:font-medium"
-        onClick={handleUpdate}>
+        onClick={moveToEditNote}>
         수정
       </button>
 

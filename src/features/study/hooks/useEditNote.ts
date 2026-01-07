@@ -12,7 +12,7 @@ type Props = {
   initialContent: string;
 };
 
-export const useUpdateNote = ({ initialContent }: Props) => {
+export const useEditNote = ({ initialContent }: Props) => {
   const studyId = useParamInt('studyId');
   const noteId = useParamInt('noteId');
   const router = useRouter();
@@ -65,11 +65,11 @@ export const useUpdateNote = ({ initialContent }: Props) => {
       },
     });
 
-  const onChange = (value?: string) => {
+  const handleChange = (value?: string) => {
     setContent(value || '');
   };
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     if (isUpdating) {
       return;
     }
@@ -77,7 +77,7 @@ export const useUpdateNote = ({ initialContent }: Props) => {
     mutateUpdateNote({ content });
   };
 
-  const onReset = () => {
+  const resetForm = () => {
     setContent(initialContent);
   };
 
@@ -85,8 +85,8 @@ export const useUpdateNote = ({ initialContent }: Props) => {
     content,
     isDirty: content.trim().length > 0 && content !== initialContent,
     isSubmitting: isUpdating || isNavigating,
-    onChange,
-    onSubmit,
-    onReset,
+    handleChange,
+    handleSubmit,
+    resetForm,
   };
 };

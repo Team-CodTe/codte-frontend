@@ -15,7 +15,7 @@ export const NotesMaximizeTableHeader = ({ studyId, role }: Props) => {
 
   const isEditable = role === STUDY_ROLE.OWNER;
 
-  const handleTemplateManageClick = () => {
+  const moveToManageTemplate = () => {
     router.push(
       buildUrlWithParams({
         url: PATH.STUDY.NOTE.TEMPLATE,
@@ -34,7 +34,7 @@ export const NotesMaximizeTableHeader = ({ studyId, role }: Props) => {
         <Button
           variant="secondary"
           size="icon-responsive"
-          onClick={handleTemplateManageClick}>
+          onClick={moveToManageTemplate}>
           <FileCog2Icon />
           <span className="hidden sm:inline">템플릿 관리</span>
         </Button>

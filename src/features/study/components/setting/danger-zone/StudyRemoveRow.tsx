@@ -36,7 +36,7 @@ export const StudyRemoveRow = ({ studyName }: Props) => {
     handleConfirmTextChange,
     handleOpenChange,
     open,
-    onSubmit,
+    handleSubmit,
     isRemovingStudy,
   } = useRemoveConfirmation({ expectedText });
 
@@ -82,7 +82,7 @@ export const StudyRemoveRow = ({ studyName }: Props) => {
               <Button
                 variant="destructive"
                 disabled={!isConfirmValid || isRemovingStudy}
-                onClick={onSubmit}>
+                onClick={handleSubmit}>
                 {isRemovingStudy ? <Spinner /> : null}
                 {isRemovingStudy ? '삭제 중...' : '스터디 삭제'}
               </Button>

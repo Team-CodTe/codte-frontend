@@ -55,8 +55,10 @@ export const NotesMaximize = ({
   const isFiltered =
     !!debouncedQuery || !!formattedAssignedDate || !!formattedUpdatedDate;
 
-  const handleRowClick = (note: GetNoteDetailResponse) => {
-    if (isNavigating) return;
+  const moveToNoteDetail = (note: GetNoteDetailResponse) => {
+    if (isNavigating) {
+      return;
+    }
 
     startTransition(() => {
       router.push(
@@ -88,7 +90,7 @@ export const NotesMaximize = ({
         columns={NOTES_TABLE_COLUMNS}
         isLoading={isLoading}
         isFiltered={isFiltered}
-        onClickRow={handleRowClick}
+        onClickRow={moveToNoteDetail}
         onLoadMore={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}

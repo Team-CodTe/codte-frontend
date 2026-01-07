@@ -12,7 +12,7 @@ export const useAuth = () => {
     null,
   );
 
-  const login = useCallback(async (provider: SocialProvider) => {
+  const handleLogin = useCallback(async (provider: SocialProvider) => {
     try {
       setLoadingProvider(provider);
 
@@ -43,7 +43,7 @@ export const useAuth = () => {
     },
   });
 
-  const logout = useCallback(async () => {
+  const handleLogout = useCallback(async () => {
     if (isLoggingOut) {
       return;
     }
@@ -55,8 +55,8 @@ export const useAuth = () => {
     session,
     loadingProvider,
     isLoggingOut,
-    login,
-    logout,
+    handleLogin,
+    handleLogout,
     updateSession,
   };
 };
