@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -80,11 +80,13 @@ export const NotesMaximizeTable = <TData, TValue>({
     useFlushSync: false,
   });
 
-  useEffect(() => {
-    if (scrollRef && tableContainer) {
-      scrollRef(tableContainer);
-    }
-  }, [scrollRef, tableContainer]);
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      setTableContainer(node); // 내부 State 업데이트 -> 리렌더링 발생
+      scrollRef?.(node); // 부모(useScrollRestoration)의 Ref 실행
+    },
+    [scrollRef],
+  );
 
   if (isLoading) {
     return (
@@ -127,7 +129,7 @@ export const NotesMaximizeTable = <TData, TValue>({
   return (
     <div>
       <div
-        ref={setTableContainer}
+        ref={setRefs}
         className="relative max-h-[calc(100dvh-14.5rem)] overflow-auto">
         <Table noWrapper style={{ display: 'grid' }}>
           <TableHeader

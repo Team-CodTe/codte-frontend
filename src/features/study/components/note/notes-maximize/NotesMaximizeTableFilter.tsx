@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';
 import { Input } from '@/components/ui/Input';
@@ -19,6 +17,10 @@ import {
 } from 'lucide-react';
 
 type DateFilterProps = {
+  openAssignedDate: boolean;
+  openUpdatedDate: boolean;
+  setOpenAssignedDate: (open: boolean) => void;
+  setOpenUpdatedDate: (open: boolean) => void;
   selectedAssignedDate: Date | undefined;
   selectedUpdatedDate: Date | undefined;
   handleAssignedDateChange: (date: Date | undefined) => void;
@@ -43,13 +45,15 @@ export const NotesMaximizeTableFilter = ({
   isFiltered,
 }: Props) => {
   const {
+    openAssignedDate,
+    openUpdatedDate,
+    setOpenAssignedDate,
+    setOpenUpdatedDate,
     selectedAssignedDate,
-    handleAssignedDateChange,
     selectedUpdatedDate,
+    handleAssignedDateChange,
     handleUpdatedDateChange,
   } = dateFilter;
-  const [openAssignedDate, setOpenAssignedDate] = useState(false);
-  const [openUpdatedDate, setOpenUpdatedDate] = useState(false);
 
   return (
     <div className="mt-3 flex flex-row items-center justify-between gap-4">

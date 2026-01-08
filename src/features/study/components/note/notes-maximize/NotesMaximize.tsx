@@ -13,8 +13,8 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { type StudyRole } from '@/types/studyRole';
 import { useRouter } from 'next/navigation';
 
-import { NOTES_TABLE_COLUMNS } from '../../main/notes/NotesTableColumns';
 import { NotesMaximizeTable } from './NotesMaximizeTable';
+import { NOTES_MAXIMIZE_TABLE_COLUMNS } from './NotesMaximizeTableColumns';
 import { NotesMaximizeTableFilter } from './NotesMaximizeTableFilter';
 import { NotesMaximizeTableHeader } from './NotesMaximizeTableHeader';
 
@@ -50,23 +50,32 @@ export const NotesMaximize = ({
       query: debouncedQuery,
     });
 
-  const { scrollRef, scrollElement } = useScrollRestoration(
+  const { scrollRef, scrollToTop } = useScrollRestoration(
     `study-${studyId}-notes-maximize`,
     data,
-    { useCustomElement: true },
   );
 
   const isFiltered =
     !!debouncedQuery || !!formattedAssignedDate || !!formattedUpdatedDate;
 
+  const handleAssignedDateChangeWithScroll = (date: Date | undefined) => {
+    dateFilter.handleAssignedDateChange(date);
+    scrollToTop();
+  };
+
+  const handleUpdatedDateChangeWithScroll = (date: Date | undefined) => {
+    dateFilter.handleUpdatedDateChange(date);
+    scrollToTop();
+  };
+
   const handleKeywordChange = (value: string) => {
     setKeyword(value);
-    scrollElement?.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleFiltersResetWithScroll = () => {
     handleFiltersReset();
-    scrollElement?.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const moveToNoteDetail = (note: GetNoteDetailResponse) => {
@@ -91,7 +100,11 @@ export const NotesMaximize = ({
           totalCount={data?.pages[0]?.count ?? 0}
           keyword={keyword}
           setKeyword={handleKeywordChange}
-          dateFilter={dateFilter}
+          dateFilter={{
+            ...dateFilter,
+            handleAssignedDateChange: handleAssignedDateChangeWithScroll,
+            handleUpdatedDateChange: handleUpdatedDateChangeWithScroll,
+          }}
           onResetFilters={handleFiltersResetWithScroll}
           isFiltered={isFiltered}
         />
@@ -99,7 +112,7 @@ export const NotesMaximize = ({
       <div className="min-h-0 flex-1">
         <NotesMaximizeTable
           data={data?.pages.flatMap((page) => page.results) ?? []}
-          columns={NOTES_TABLE_COLUMNS}
+          columns={NOTES_MAXIMIZE_TABLE_COLUMNS}
           isLoading={isLoading}
           isFiltered={isFiltered}
           onClickRow={moveToNoteDetail}

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { format, isValid, parse } from 'date-fns';
 import { parseAsString, useQueryState } from 'nuqs';
 
@@ -10,7 +12,9 @@ const QUERY_KEYS = {
 } as const;
 
 const parseDateFromUrl = (dateStr: string | null) => {
-  if (!dateStr) return undefined;
+  if (!dateStr) {
+    return undefined;
+  }
 
   const parsed = parse(dateStr, DATE_FORMAT, new Date());
 
@@ -18,6 +22,8 @@ const parseDateFromUrl = (dateStr: string | null) => {
 };
 
 export const useNotesFilterParams = () => {
+  const [openAssignedDate, setOpenAssignedDate] = useState(false);
+  const [openUpdatedDate, setOpenUpdatedDate] = useState(false);
   const [keyword, setKeyword] = useQueryState(
     QUERY_KEYS.KEYWORD,
     parseAsString.withDefault('').withOptions({
@@ -39,10 +45,12 @@ export const useNotesFilterParams = () => {
 
   const handleAssignedDateChange = (date: Date | undefined) => {
     setAssignedDateStr(date ? format(date, DATE_FORMAT) : null);
+    setOpenAssignedDate(false);
   };
 
   const handleUpdatedDateChange = (date: Date | undefined) => {
     setUpdatedDateStr(date ? format(date, DATE_FORMAT) : null);
+    setOpenUpdatedDate(false);
   };
 
   const handleFiltersReset = () => {
@@ -55,6 +63,10 @@ export const useNotesFilterParams = () => {
     keyword,
     setKeyword,
     dateFilter: {
+      openAssignedDate,
+      openUpdatedDate,
+      setOpenAssignedDate,
+      setOpenUpdatedDate,
       selectedAssignedDate,
       selectedUpdatedDate,
       handleAssignedDateChange,
