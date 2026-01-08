@@ -40,17 +40,19 @@ export const NotesMaximize = ({
   const dateFilter = useSelectDate();
   const { formattedAssignedDate, formattedUpdatedDate } = dateFilter;
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useNotesInfiniteQuery({
-      studyId,
-      problemId,
-      pageSize,
-      assignedDate: formattedAssignedDate,
-      updatedDate: formattedUpdatedDate,
-      query: debouncedQuery,
-    });
+  const { data, fetchNextPage, isFetching, isLoading } = useNotesInfiniteQuery({
+    studyId,
+    problemId,
+    pageSize,
+    assignedDate: formattedAssignedDate,
+    updatedDate: formattedUpdatedDate,
+    query: debouncedQuery,
+  });
 
-  useScrollRestoration(`study-${studyId}-notes-maximize`, data);
+  const { scrollRef } = useScrollRestoration(
+    `study-${studyId}-notes-maximize`,
+    data,
+  );
 
   const isFiltered =
     !!debouncedQuery || !!formattedAssignedDate || !!formattedUpdatedDate;
@@ -85,16 +87,19 @@ export const NotesMaximize = ({
           dateFilter={dateFilter}
         />
       </div>
-      <NotesMaximizeTable
-        data={data?.pages.flatMap((page) => page.results) ?? []}
-        columns={NOTES_TABLE_COLUMNS}
-        isLoading={isLoading}
-        isFiltered={isFiltered}
-        onClickRow={moveToNoteDetail}
-        onLoadMore={fetchNextPage}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
-      />
+      <div className="min-h-0 flex-1">
+        <NotesMaximizeTable
+          data={data?.pages.flatMap((page) => page.results) ?? []}
+          columns={NOTES_TABLE_COLUMNS}
+          isLoading={isLoading}
+          isFiltered={isFiltered}
+          onClickRow={moveToNoteDetail}
+          fetchNextPage={fetchNextPage}
+          isFetching={isFetching}
+          totalRowCount={data?.pages[0]?.count ?? 0}
+          scrollRef={scrollRef}
+        />
+      </div>
     </div>
   );
 };

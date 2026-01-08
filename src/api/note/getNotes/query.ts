@@ -5,6 +5,7 @@ import {
 } from '@/lib/queryClient';
 import {
   type InfiniteData,
+  keepPreviousData,
   useInfiniteQuery,
   useQuery,
   useSuspenseQuery,
@@ -92,6 +93,7 @@ export const useNotesInfiniteQuery = (
         query,
       }),
     initialPageParam: 1,
+    placeholderData: keepPreviousData,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       return lastPage.next ? lastPageParam + 1 : undefined;
     },
