@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Spinner } from '@/components/ui/Spinner';
@@ -30,19 +31,21 @@ export const NotesMaximizeTable = <TData, TValue>({
   isFiltered = false,
   onClickRow,
   fetchNextPage,
-  isFetching,
-  totalRowCount = 0,
+  hasNextPage,
+  isFetchingNextPage,
   scrollRef,
 }: TablePropsWithInfiniteScroll<TData, TValue>) => {
-  const tableContainerRef = useRef<HTMLDivElement | null>(null);
-
-  const combinedRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      tableContainerRef.current = node;
-      scrollRef?.(node);
-    },
-    [scrollRef],
+  const [tableContainer, setTableContainer] = useState<HTMLDivElement | null>(
+    null,
   );
+
+  const isFetchingRef = useRef(false);
+
+  const { ref: loadMoreRef, inView } = useInView({
+    threshold: 0.1,
+    root: tableContainer,
+    skip: !tableContainer,
+  });
 
   // eslint-disable-next-line
   const table = useReactTable({
@@ -53,33 +56,35 @@ export const NotesMaximizeTable = <TData, TValue>({
 
   const { rows } = table.getRowModel();
 
-  const fetchMoreOnBottomReached = useCallback(
-    (containerRefElement?: HTMLDivElement | null) => {
-      if (containerRefElement) {
-        const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
-        const hasMoreData = data.length < totalRowCount;
-        const isNearBottom =
-          scrollHeight - scrollTop - clientHeight < TABLE_ROW_HEIGHT;
+  useEffect(() => {
+    isFetchingRef.current = isFetchingNextPage ?? false;
+  }, [isFetchingNextPage]);
 
-        if (isNearBottom && !isFetching && hasMoreData) {
-          fetchNextPage?.();
-        }
-      }
-    },
-    [fetchNextPage, isFetching, data.length, totalRowCount],
-  );
+  useEffect(() => {
+    if (inView && !isFetchingRef.current && hasNextPage) {
+      isFetchingRef.current = true;
+      fetchNextPage?.();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     estimateSize: () => TABLE_ROW_HEIGHT,
-    getScrollElement: () => tableContainerRef.current,
+    getScrollElement: () => tableContainer,
     measureElement:
       typeof window !== 'undefined' &&
       navigator.userAgent.indexOf('Firefox') === -1
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
     overscan: 5,
+    useFlushSync: false,
   });
+
+  useEffect(() => {
+    if (scrollRef && tableContainer) {
+      scrollRef(tableContainer);
+    }
+  }, [scrollRef, tableContainer]);
 
   if (isLoading) {
     return (
@@ -122,8 +127,7 @@ export const NotesMaximizeTable = <TData, TValue>({
   return (
     <div>
       <div
-        ref={combinedRef}
-        onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
+        ref={setTableContainer}
         className="relative max-h-[calc(100dvh-14.5rem)] overflow-auto">
         <Table noWrapper style={{ display: 'grid' }}>
           <TableHeader
@@ -213,12 +217,13 @@ export const NotesMaximizeTable = <TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
-      {isFetching && (
-        <div className="text-muted-foreground flex justify-center py-1">
-          <Spinner />
+
+        <div
+          ref={loadMoreRef}
+          className="flex h-11 w-full items-center justify-center">
+          {isFetchingNextPage && <Spinner className="text-muted-foreground" />}
         </div>
-      )}
+      </div>
     </div>
   );
 };

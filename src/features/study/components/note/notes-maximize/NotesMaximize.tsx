@@ -40,14 +40,15 @@ export const NotesMaximize = ({
   const dateFilter = useSelectDate();
   const { formattedAssignedDate, formattedUpdatedDate } = dateFilter;
 
-  const { data, fetchNextPage, isFetching, isLoading } = useNotesInfiniteQuery({
-    studyId,
-    problemId,
-    pageSize,
-    assignedDate: formattedAssignedDate,
-    updatedDate: formattedUpdatedDate,
-    query: debouncedQuery,
-  });
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
+    useNotesInfiniteQuery({
+      studyId,
+      problemId,
+      pageSize,
+      assignedDate: formattedAssignedDate,
+      updatedDate: formattedUpdatedDate,
+      query: debouncedQuery,
+    });
 
   const { scrollRef } = useScrollRestoration(
     `study-${studyId}-notes-maximize`,
@@ -94,8 +95,9 @@ export const NotesMaximize = ({
           isLoading={isLoading}
           isFiltered={isFiltered}
           onClickRow={moveToNoteDetail}
+          hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
-          isFetching={isFetching}
+          isFetchingNextPage={isFetchingNextPage}
           totalRowCount={data?.pages[0]?.count ?? 0}
           scrollRef={scrollRef}
         />
