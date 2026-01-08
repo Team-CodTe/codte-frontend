@@ -1,6 +1,6 @@
 'use client';
 
-import { type Dispatch, type SetStateAction } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';
@@ -15,13 +15,10 @@ import {
   CalendarCheck2Icon,
   CalendarSearchIcon,
   CircleXIcon,
+  RotateCwIcon,
 } from 'lucide-react';
 
 type DateFilterProps = {
-  openAssignedDate: boolean;
-  openUpdatedDate: boolean;
-  setOpenAssignedDate: (open: boolean) => void;
-  setOpenUpdatedDate: (open: boolean) => void;
   selectedAssignedDate: Date | undefined;
   selectedUpdatedDate: Date | undefined;
   handleAssignedDateChange: (date: Date | undefined) => void;
@@ -30,27 +27,29 @@ type DateFilterProps = {
 
 type Props = {
   totalCount: number;
-  keyword: string;
-  setKeyword: Dispatch<SetStateAction<string>>;
   dateFilter: DateFilterProps;
+  keyword: string;
+  setKeyword: (value: string) => void;
+  onResetFilters: () => void;
+  isFiltered: boolean;
 };
 
 export const NotesMaximizeTableFilter = ({
   totalCount,
+  dateFilter,
   keyword,
   setKeyword,
-  dateFilter,
+  onResetFilters,
+  isFiltered,
 }: Props) => {
   const {
-    openAssignedDate,
-    setOpenAssignedDate,
     selectedAssignedDate,
     handleAssignedDateChange,
-    openUpdatedDate,
-    setOpenUpdatedDate,
     selectedUpdatedDate,
     handleUpdatedDateChange,
   } = dateFilter;
+  const [openAssignedDate, setOpenAssignedDate] = useState(false);
+  const [openUpdatedDate, setOpenUpdatedDate] = useState(false);
 
   return (
     <div className="mt-3 flex flex-row items-center justify-between gap-4">
@@ -59,6 +58,11 @@ export const NotesMaximizeTableFilter = ({
       </span>
 
       <div className="flex gap-2">
+        {isFiltered && (
+          <Button variant="ghost" size="icon" onClick={onResetFilters}>
+            <RotateCwIcon />
+          </Button>
+        )}
         <Popover open={openAssignedDate} onOpenChange={setOpenAssignedDate}>
           <PopoverTrigger asChild>
             <Button variant="outline" size="icon-responsive">

@@ -30,8 +30,8 @@ export const NotesMaximizeTable = <TData, TValue>({
   isLoading = false,
   isFiltered = false,
   onClickRow,
-  fetchNextPage,
   hasNextPage,
+  fetchNextPage,
   isFetchingNextPage,
   scrollRef,
 }: TablePropsWithInfiniteScroll<TData, TValue>) => {

@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { useNotesInfiniteQuery } from '@/api/note/getNotes/query';
 import { Separator } from '@/components/ui/Separator';
 import { PATH } from '@/constants/path';
-import { useSelectDate } from '@/features/study/hooks/useSelectDate';
+import { useNotesFilterParams } from '@/features/study/hooks/useNotesFilterParams';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useScrollRestoration } from '@/hooks/useScrollRestoration';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
@@ -34,11 +34,11 @@ export const NotesMaximize = ({
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
-  const [keyword, setKeyword] = useState('');
-  const debouncedQuery = useDebounce(keyword, 300);
+  const { keyword, setKeyword, dateFilter, handleFiltersReset } =
+    useNotesFilterParams();
 
-  const dateFilter = useSelectDate();
   const { formattedAssignedDate, formattedUpdatedDate } = dateFilter;
+  const debouncedQuery = useDebounce(keyword, 300);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
     useNotesInfiniteQuery({
@@ -50,27 +50,33 @@ export const NotesMaximize = ({
       query: debouncedQuery,
     });
 
-  const { scrollRef } = useScrollRestoration(
+  const { scrollRef, scrollElement } = useScrollRestoration(
     `study-${studyId}-notes-maximize`,
     data,
+    { useCustomElement: true },
   );
 
   const isFiltered =
     !!debouncedQuery || !!formattedAssignedDate || !!formattedUpdatedDate;
 
+  const handleKeywordChange = (value: string) => {
+    setKeyword(value);
+    scrollElement?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleFiltersResetWithScroll = () => {
+    handleFiltersReset();
+    scrollElement?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const moveToNoteDetail = (note: GetNoteDetailResponse) => {
-    if (isNavigating) {
-      return;
-    }
+    if (isNavigating) return;
 
     startTransition(() => {
       router.push(
         buildUrlWithParams({
           url: PATH.STUDY.NOTE.DETAIL,
-          pathParams: {
-            studyId,
-            noteId: note.id,
-          },
+          pathParams: { studyId, noteId: note.id },
         }),
       );
     });
@@ -84,8 +90,10 @@ export const NotesMaximize = ({
         <NotesMaximizeTableFilter
           totalCount={data?.pages[0]?.count ?? 0}
           keyword={keyword}
-          setKeyword={setKeyword}
+          setKeyword={handleKeywordChange}
           dateFilter={dateFilter}
+          onResetFilters={handleFiltersResetWithScroll}
+          isFiltered={isFiltered}
         />
       </div>
       <div className="min-h-0 flex-1">
@@ -98,7 +106,6 @@ export const NotesMaximize = ({
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          totalRowCount={data?.pages[0]?.count ?? 0}
           scrollRef={scrollRef}
         />
       </div>

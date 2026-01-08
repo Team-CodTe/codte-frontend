@@ -20,7 +20,6 @@ const StudyMainPage = async ({ params }: Props) => {
         <DailyAssignmentsSection study={study} />
 
         {/** 스터디 회원 목록 섹션 */}
-        <DailyAssignmentsSection study={study} />
       </div>
 
       <div className="h-full min-h-0">
