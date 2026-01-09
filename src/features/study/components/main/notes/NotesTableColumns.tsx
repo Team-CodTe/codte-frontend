@@ -61,7 +61,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     },
   },
   {
-    accessorKey: 'updatedAt',
+    accessorKey: 'createdAt',
     header: '작성일',
     meta: {
       className: 'w-[25%]',
@@ -69,7 +69,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     cell: ({ row }) => {
       return (
         <span>
-          {formatDate(row.original.updatedAt)}
+          {formatDate(row.original.createdAt)}
           {row.original.isUpdated ? ' (수정됨)' : ''}
         </span>
       );

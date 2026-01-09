@@ -8,7 +8,7 @@ const DATE_FORMAT = 'yyyy-MM-dd';
 const QUERY_KEYS = {
   KEYWORD: 'q',
   ASSIGNED_DATE: 'assignedDate',
-  UPDATED_DATE: 'updatedDate',
+  CREATED_DATE: 'createdDate',
 } as const;
 
 const parseDateFromUrl = (dateStr: string | null) => {
@@ -23,7 +23,7 @@ const parseDateFromUrl = (dateStr: string | null) => {
 
 export const useNotesFilterParams = () => {
   const [openAssignedDate, setOpenAssignedDate] = useState(false);
-  const [openUpdatedDate, setOpenUpdatedDate] = useState(false);
+  const [openCreatedDate, setOpenCreatedDate] = useState(false);
   const [keyword, setKeyword] = useQueryState(
     QUERY_KEYS.KEYWORD,
     parseAsString.withDefault('').withOptions({
@@ -35,28 +35,28 @@ export const useNotesFilterParams = () => {
     QUERY_KEYS.ASSIGNED_DATE,
     parseAsString,
   );
-  const [updatedDateStr, setUpdatedDateStr] = useQueryState(
-    QUERY_KEYS.UPDATED_DATE,
+  const [createdDateStr, setCreatedDateStr] = useQueryState(
+    QUERY_KEYS.CREATED_DATE,
     parseAsString,
   );
 
   const selectedAssignedDate = parseDateFromUrl(assignedDateStr);
-  const selectedUpdatedDate = parseDateFromUrl(updatedDateStr);
+  const selectedCreatedDate = parseDateFromUrl(createdDateStr);
 
   const handleAssignedDateChange = (date: Date | undefined) => {
     setAssignedDateStr(date ? format(date, DATE_FORMAT) : null);
     setOpenAssignedDate(false);
   };
 
-  const handleUpdatedDateChange = (date: Date | undefined) => {
-    setUpdatedDateStr(date ? format(date, DATE_FORMAT) : null);
-    setOpenUpdatedDate(false);
+  const handleCreatedDateChange = (date: Date | undefined) => {
+    setCreatedDateStr(date ? format(date, DATE_FORMAT) : null);
+    setOpenCreatedDate(false);
   };
 
   const handleFiltersReset = () => {
     setKeyword('');
     setAssignedDateStr(null);
-    setUpdatedDateStr(null);
+    setCreatedDateStr(null);
   };
 
   return {
@@ -64,15 +64,15 @@ export const useNotesFilterParams = () => {
     setKeyword,
     dateFilter: {
       openAssignedDate,
-      openUpdatedDate,
+      openCreatedDate,
       setOpenAssignedDate,
-      setOpenUpdatedDate,
+      setOpenCreatedDate,
       selectedAssignedDate,
-      selectedUpdatedDate,
+      selectedCreatedDate,
       handleAssignedDateChange,
-      handleUpdatedDateChange,
+      handleCreatedDateChange,
       formattedAssignedDate: assignedDateStr ?? undefined,
-      formattedUpdatedDate: updatedDateStr ?? undefined,
+      formattedCreatedDate: createdDateStr ?? undefined,
     },
     handleFiltersReset,
   };

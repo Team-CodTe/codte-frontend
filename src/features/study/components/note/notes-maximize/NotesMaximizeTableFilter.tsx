@@ -19,13 +19,13 @@ import {
 
 type DateFilterProps = {
   openAssignedDate: boolean;
-  openUpdatedDate: boolean;
+  openCreatedDate: boolean;
   setOpenAssignedDate: (open: boolean) => void;
-  setOpenUpdatedDate: (open: boolean) => void;
+  setOpenCreatedDate: (open: boolean) => void;
   selectedAssignedDate: Date | undefined;
-  selectedUpdatedDate: Date | undefined;
+  selectedCreatedDate: Date | undefined;
   handleAssignedDateChange: (date: Date | undefined) => void;
-  handleUpdatedDateChange: (date: Date | undefined) => void;
+  handleCreatedDateChange: (date: Date | undefined) => void;
 };
 
 type Props = {
@@ -47,13 +47,13 @@ export const NotesMaximizeTableFilter = ({
 }: Props) => {
   const {
     openAssignedDate,
-    openUpdatedDate,
+    openCreatedDate,
     setOpenAssignedDate,
-    setOpenUpdatedDate,
+    setOpenCreatedDate,
     selectedAssignedDate,
-    selectedUpdatedDate,
+    selectedCreatedDate,
     handleAssignedDateChange,
-    handleUpdatedDateChange,
+    handleCreatedDateChange,
   } = dateFilter;
 
   return (
@@ -83,20 +83,20 @@ export const NotesMaximizeTableFilter = ({
           </PopoverContent>
         </Popover>
 
-        <Popover open={openUpdatedDate} onOpenChange={setOpenUpdatedDate}>
+        <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
           <PopoverTrigger asChild>
             <Button variant="outline">
               <CalendarCheck2Icon />
-              {selectedUpdatedDate
-                ? formatDate(selectedUpdatedDate, { includeTime: false })
+              {selectedCreatedDate
+                ? formatDate(selectedCreatedDate, { includeTime: false })
                 : '작성일'}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="end">
             <Calendar
               mode="single"
-              selected={selectedUpdatedDate}
-              onSelect={handleUpdatedDateChange}
+              selected={selectedCreatedDate}
+              onSelect={handleCreatedDateChange}
             />
           </PopoverContent>
         </Popover>

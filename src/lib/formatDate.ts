@@ -20,7 +20,7 @@ export const formatDate = (
     return '잘못된 날짜';
   }
 
-  const dateFormat = 'yyyy.M.d.';
+  const dateFormat = 'yyyy. M. d.';
   const timeFormat = options.includeTime ? ' HH:mm' : '';
 
   return format(date, `${dateFormat}${timeFormat}`);

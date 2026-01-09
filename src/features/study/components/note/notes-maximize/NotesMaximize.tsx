@@ -37,7 +37,7 @@ export const NotesMaximize = ({
   const { keyword, setKeyword, dateFilter, handleFiltersReset } =
     useNotesFilterParams();
 
-  const { formattedAssignedDate, formattedUpdatedDate } = dateFilter;
+  const { formattedAssignedDate, formattedCreatedDate } = dateFilter;
   const debouncedQuery = useDebounce(keyword, 300);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
@@ -46,7 +46,7 @@ export const NotesMaximize = ({
       problemId,
       pageSize,
       assignedDate: formattedAssignedDate,
-      updatedDate: formattedUpdatedDate,
+      createdDate: formattedCreatedDate,
       query: debouncedQuery,
     });
 
@@ -56,15 +56,15 @@ export const NotesMaximize = ({
   );
 
   const isFiltered =
-    !!debouncedQuery || !!formattedAssignedDate || !!formattedUpdatedDate;
+    !!debouncedQuery || !!formattedAssignedDate || !!formattedCreatedDate;
 
   const handleAssignedDateChangeWithScroll = (date: Date | undefined) => {
     dateFilter.handleAssignedDateChange(date);
     scrollToTop();
   };
 
-  const handleUpdatedDateChangeWithScroll = (date: Date | undefined) => {
-    dateFilter.handleUpdatedDateChange(date);
+  const handleCreatedDateChangeWithScroll = (date: Date | undefined) => {
+    dateFilter.handleCreatedDateChange(date);
     scrollToTop();
   };
 
@@ -103,7 +103,7 @@ export const NotesMaximize = ({
           dateFilter={{
             ...dateFilter,
             handleAssignedDateChange: handleAssignedDateChangeWithScroll,
-            handleUpdatedDateChange: handleUpdatedDateChangeWithScroll,
+            handleCreatedDateChange: handleCreatedDateChangeWithScroll,
           }}
           onResetFilters={handleFiltersResetWithScroll}
           isFiltered={isFiltered}

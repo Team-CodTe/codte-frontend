@@ -10,7 +10,7 @@ type Params = {
   pageParam?: number;
   pageSize?: number;
   assignedDate?: string;
-  updatedDate?: string;
+  createdDate?: string;
   query?: string;
 };
 
@@ -20,7 +20,7 @@ export const getNotes = async ({
   pageParam: page,
   pageSize,
   assignedDate,
-  updatedDate,
+  createdDate,
   query,
 }: Params) => {
   const url = buildUrlWithParams({
@@ -31,7 +31,7 @@ export const getNotes = async ({
       page,
       pageSize,
       assignedDate,
-      updatedDate,
+      createdDate,
       query,
     },
   });
