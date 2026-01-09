@@ -204,7 +204,7 @@
   --shadow-2xl: var(--shadow-2xl);
 
   /* Breakpoints */
-  --breakpoint-xs: 28rem;
+  --breakpoint-xs: 32rem;
 }
 
 body {

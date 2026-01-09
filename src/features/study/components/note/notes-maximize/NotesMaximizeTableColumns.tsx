@@ -7,20 +7,6 @@ import Link from 'next/link';
 export const NOTES_MAXIMIZE_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] =
   [
     {
-      accessorKey: 'assignedDate',
-      header: '문제 추천 날짜',
-      meta: {
-        className: 'w-[20%]',
-      },
-      cell: ({ row }) => {
-        return (
-          <span>
-            {formatDate(row.original.assignedDate, { includeTime: false })}
-          </span>
-        );
-      },
-    },
-    {
       accessorKey: 'problemBojNumber',
       header: '문제 번호',
       meta: {
@@ -73,6 +59,20 @@ export const NOTES_MAXIMIZE_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] =
       },
       cell: ({ row }) => {
         return <span>{row.original.username}</span>;
+      },
+    },
+    {
+      accessorKey: 'assignedDate',
+      header: '문제 추천 날짜',
+      meta: {
+        className: 'w-[20%]',
+      },
+      cell: ({ row }) => {
+        return (
+          <span>
+            {formatDate(row.original.assignedDate, { includeTime: false })}
+          </span>
+        );
       },
     },
     {

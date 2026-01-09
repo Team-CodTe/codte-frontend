@@ -33,7 +33,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     accessorKey: 'problemTitle',
     header: '제목',
     meta: {
-      className: 'w-[40%]',
+      className: 'w-[35%]',
     },
     cell: ({ row }) => {
       return (
@@ -64,7 +64,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     accessorKey: 'updatedAt',
     header: '작성일',
     meta: {
-      className: 'w-[20%]',
+      className: 'w-[25%]',
     },
     cell: ({ row }) => {
       return (

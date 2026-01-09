@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 type FormatOptions = {
   includeTime?: boolean;
 };
@@ -15,20 +17,11 @@ export const formatDate = (
   const date = new Date(dateInput);
 
   if (isNaN(date.getTime())) {
-    return 'Invalid Date';
+    return '잘못된 날짜';
   }
 
-  const formatOptions: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
+  const dateFormat = 'yyyy.M.d.';
+  const timeFormat = options.includeTime ? ' HH:mm' : '';
 
-  if (options.includeTime) {
-    formatOptions.hour = '2-digit';
-    formatOptions.minute = '2-digit';
-    formatOptions.hour12 = false;
-  }
-
-  return date.toLocaleString('ko-KR', formatOptions);
+  return format(date, `${dateFormat}${timeFormat}`);
 };
