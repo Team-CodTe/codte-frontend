@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 import { throttle } from 'es-toolkit';
 import { usePathname } from 'next/navigation';
@@ -11,10 +11,9 @@ export const useScrollRestoration = <T>(key: string, dependency: T) => {
   const isRestoredRef = useRef(false);
 
   const storageKey = `scroll_pos_${key}_${pathname}`;
-
   const throttledSaveScrollRef = useRef<(() => void) | null>(null);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     if (!throttledSaveScrollRef.current) {
       throttledSaveScrollRef.current = throttle(() => {
         if (scrollElementRef.current) {
@@ -27,34 +26,31 @@ export const useScrollRestoration = <T>(key: string, dependency: T) => {
     }
 
     throttledSaveScrollRef.current();
-  }, [storageKey]);
+  };
 
-  const scrollToTop = useCallback(() => {
+  const scrollToTop = () => {
     if (scrollElementRef.current) {
       scrollElementRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, []);
+  };
 
-  const scrollRef = useCallback(
-    (node: HTMLElement | null) => {
-      if (node) {
-        scrollElementRef.current = node;
-        node.addEventListener('scroll', handleScroll);
+  const scrollRef = (node: HTMLElement | null) => {
+    if (node) {
+      scrollElementRef.current = node;
+      node.addEventListener('scroll', handleScroll);
 
-        const savedPosition = sessionStorage.getItem(storageKey);
+      const savedPosition = sessionStorage.getItem(storageKey);
 
-        if (savedPosition) {
-          requestAnimationFrame(() => {
-            node.scrollTo(0, parseInt(savedPosition, 10));
-          });
-        }
-      } else {
-        scrollElementRef.current?.removeEventListener('scroll', handleScroll);
-        scrollElementRef.current = null;
+      if (savedPosition) {
+        requestAnimationFrame(() => {
+          node.scrollTo(0, parseInt(savedPosition, 10));
+        });
       }
-    },
-    [handleScroll, storageKey],
-  );
+    } else {
+      scrollElementRef.current?.removeEventListener('scroll', handleScroll);
+      scrollElementRef.current = null;
+    }
+  };
 
   useLayoutEffect(() => {
     if (!scrollElementRef.current) return;

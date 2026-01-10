@@ -2,9 +2,8 @@ import { useState } from 'react';
 
 import { useCustomAssignmentMutation } from '@/api/assignment/postCustomAssignment/mutation';
 import { useParamInt } from '@/hooks/useParamInt';
-import { FetchError } from '@/lib/fetchInstance';
+import { handleApiError } from '@/lib/handleApiError';
 import { showToast } from '@/lib/showToast';
-import { type ApiErrorData } from '@/types/apiErrorData';
 import { useQueryClient } from '@tanstack/react-query';
 
 export const useAddAssignment = () => {
@@ -29,21 +28,13 @@ export const useAddAssignment = () => {
         setOpen(false);
       },
       onError: (error) => {
-        let toastMessage = '오류가 발생했습니다. 다시 시도해주세요.';
-
-        if (error instanceof FetchError) {
-          const { errorCode, message } = (error.data as ApiErrorData) || {};
-
-          if (errorCode === 'ALREADY_ASSIGNED') {
-            toastMessage = message;
-          } else if (errorCode === 'PROBLEM_NOT_FOUND') {
-            toastMessage = message;
-          }
-        }
-
-        showToast({
-          message: toastMessage,
-          type: 'error',
+        handleApiError({
+          error,
+          defaultMessage: '오류가 발생했습니다. 다시 시도해주세요.',
+          errorMapping: {
+            ALREADY_ASSIGNED: (message) => ({ message }),
+            PROBLEM_NOT_FOUND: (message) => ({ message }),
+          },
         });
       },
     });
