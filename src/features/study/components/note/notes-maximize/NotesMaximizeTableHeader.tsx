@@ -3,7 +3,9 @@ import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 import { FileCog2Icon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+import { SelectAssignmentDropdownButton } from '../write/SelectAssignmentDropdownButton';
 
 type Props = {
   studyId: number;
@@ -11,18 +13,12 @@ type Props = {
 };
 
 export const NotesMaximizeTableHeader = ({ studyId, role }: Props) => {
-  const router = useRouter();
-
   const isEditable = role === STUDY_ROLE.OWNER;
 
-  const moveToManageTemplate = () => {
-    router.push(
-      buildUrlWithParams({
-        url: PATH.STUDY.NOTE.TEMPLATE,
-        pathParams: { studyId },
-      }),
-    );
-  };
+  const templateManagePageUrl = buildUrlWithParams({
+    url: PATH.STUDY.NOTE.TEMPLATE,
+    pathParams: { studyId },
+  });
 
   return (
     <div className="flex h-9 flex-row items-center justify-between gap-3">
@@ -30,15 +26,21 @@ export const NotesMaximizeTableHeader = ({ studyId, role }: Props) => {
         <h2 className="text-2xl font-bold">문제 풀이 글</h2>
       </div>
 
-      {isEditable && (
-        <Button
-          variant="secondary"
-          size="icon-responsive"
-          onClick={moveToManageTemplate}>
-          <FileCog2Icon />
-          <span className="hidden sm:inline">템플릿 관리</span>
-        </Button>
-      )}
+      <div className="flex gap-2">
+        {isEditable && (
+          <Button variant="secondary" size="icon-responsive" asChild>
+            <Link
+              id="manage-template-link"
+              aria-label="템플릿 관리 페이지로 이동"
+              href={templateManagePageUrl}>
+              <FileCog2Icon />
+              <span className="hidden sm:inline">템플릿 관리</span>
+            </Link>
+          </Button>
+        )}
+
+        <SelectAssignmentDropdownButton studyId={studyId} />
+      </div>
     </div>
   );
 };

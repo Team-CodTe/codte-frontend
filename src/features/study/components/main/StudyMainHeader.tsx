@@ -15,20 +15,13 @@ import {
 } from '@/components/ui/Breadcrumb';
 import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
+import { useStudyBreadcrumbs } from '@/features/study/hooks/useStudyBreadcrumbs';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
 
 import { DropdownAvatar } from '../DropdownAvatar';
-
-const BREADCRUMB_MAP: Record<string, string> = {
-  setting: '스터디 설정',
-  note: '문제 풀이 글',
-  template: '템플릿 수정',
-  write: '작성',
-  edit: '수정',
-};
+import { SelectAssignmentBreadcrumbItem } from '../note/write/SelectAssignmentBreadcrumbItem';
 
 type Props = {
   studyId: number;
@@ -36,25 +29,15 @@ type Props = {
 };
 
 export const StudyMainHeader = ({ studyId, initialData }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
-
   const { data: study } = useStudyDetailQuery(studyId, {
     initialData,
   });
 
+  const breadcrumbItems = useStudyBreadcrumbs({ studyId: study?.id });
+
   if (!study) {
     return null;
   }
-
-  const pathSegments = pathname.split('/').filter((segment) => segment);
-
-  const studyIdIndex = pathSegments.findIndex(
-    (segment) => segment === String(study.id),
-  );
-
-  const subPaths =
-    studyIdIndex !== -1 ? pathSegments.slice(studyIdIndex + 1) : [];
 
   const mainPageUrl = buildUrlWithParams({
     url: PATH.STUDY.MAIN,
@@ -65,10 +48,6 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
     url: PATH.STUDY.SETTING,
     pathParams: { studyId: study.id },
   });
-
-  const moveToSetting = () => {
-    router.push(settingPageUrl);
-  };
 
   return (
     <header className="bg-background sticky top-0 z-50 flex h-16 w-full items-center justify-between gap-4 px-5 lg:px-8">
@@ -85,9 +64,9 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
           <BreadcrumbSeparator />
 
           <BreadcrumbItem className="min-w-0">
-            {subPaths.length > 0 ? (
-              <BreadcrumbLink href={mainPageUrl} className="block truncate">
-                {study.name}
+            {breadcrumbItems.length > 0 ? (
+              <BreadcrumbLink asChild className="block truncate">
+                <Link href={mainPageUrl}>{study.name}</Link>
               </BreadcrumbLink>
             ) : (
               <BreadcrumbPage className="block truncate">
@@ -96,27 +75,22 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
             )}
           </BreadcrumbItem>
 
-          {subPaths.map((segment, index) => {
-            const currentPath = `/${pathSegments
-              .slice(0, studyIdIndex + 1 + index + 1)
-              .join('/')}`;
-
-            const isLast = index === subPaths.length - 1;
-            const displayName = BREADCRUMB_MAP[segment] || segment;
+          {breadcrumbItems.map((item) => {
+            const isWriteSegment = item.href.endsWith('/write');
 
             return (
-              <React.Fragment key={currentPath}>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem className="hidden md:block">
-                  {isLast ? (
+              <React.Fragment key={item.key}>
+                <BreadcrumbSeparator className="xs:block hidden" />
+                <BreadcrumbItem className="xs:block hidden min-w-0">
+                  {isWriteSegment ? (
+                    <SelectAssignmentBreadcrumbItem studyId={studyId} />
+                  ) : item.isLast ? (
                     <BreadcrumbPage className="block truncate">
-                      {displayName}
+                      {item.label}
                     </BreadcrumbPage>
                   ) : (
-                    <BreadcrumbLink
-                      href={currentPath}
-                      className="block truncate">
-                      {displayName}
+                    <BreadcrumbLink asChild className="block truncate">
+                      <Link href={item.href}>{item.label}</Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
@@ -127,8 +101,13 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
       </Breadcrumb>
 
       <div className="flex flex-row items-center gap-2">
-        <Button variant="outline" size="icon-sm" onClick={moveToSetting}>
-          <SettingsIcon />
+        <Button variant="outline" size="icon-sm" asChild>
+          <Link
+            id="study-setting-link"
+            aria-label="스터디 설정"
+            href={settingPageUrl}>
+            <SettingsIcon className="h-4 w-4" />
+          </Link>
         </Button>
 
         <DropdownAvatar />

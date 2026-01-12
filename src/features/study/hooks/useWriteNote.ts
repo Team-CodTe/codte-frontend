@@ -9,18 +9,21 @@ import { showToast } from '@/lib/showToast';
 import { type ApiErrorData } from '@/types/apiErrorData';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { parseAsInteger, useQueryState } from 'nuqs';
 
 type Props = {
-  problemId: number | null;
   initialContent: string;
 };
 
-export const useWriteNote = ({ problemId, initialContent }: Props) => {
+export const useWriteNote = ({ initialContent }: Props) => {
   const studyId = useParamInt('studyId');
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
   const [content, setContent] = useState(initialContent);
   const queryClient = useQueryClient();
+  const [urlProblemId] = useQueryState('problemId', parseAsInteger);
+
+  const selectedProblemId = urlProblemId ?? null;
 
   const { mutate: mutateWriteNote, isPending: isWriting } =
     useWriteNoteMutation(studyId, {
@@ -76,7 +79,7 @@ export const useWriteNote = ({ problemId, initialContent }: Props) => {
       return;
     }
 
-    if (!problemId) {
+    if (!selectedProblemId) {
       showToast({
         message: '문제를 선택해주세요',
         type: 'warning',
@@ -85,7 +88,7 @@ export const useWriteNote = ({ problemId, initialContent }: Props) => {
       return;
     }
 
-    mutateWriteNote({ problemId, content });
+    mutateWriteNote({ problemId: selectedProblemId, content });
   };
 
   const resetForm = () => {
