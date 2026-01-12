@@ -2,7 +2,7 @@
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 
-import { useEditNote } from '../../../hooks/useEditNote';
+import { useEditNote } from '../../../hooks/note/useEditNote';
 
 type Props = {
   initialContent: string;

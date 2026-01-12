@@ -2,8 +2,8 @@ import { getDailyAssignments } from '@/api/assignment/getDailyAssignments/fetch'
 import { withSuspense } from '@/hoc/withSuspense';
 import type { StudyRole } from '@/types/studyRole';
 
-import { DailyAssignments } from '../components/main/daily-assignments/DailyAssignments';
-import { DailyAssignmentsFallback } from '../components/main/daily-assignments/DailyAssignmentsFallback';
+import { DailyAssignments } from '../../components/main/daily-assignments/DailyAssignments';
+import { DailyAssignmentsFallback } from '../../components/main/daily-assignments/DailyAssignmentsFallback';
 
 type Props = {
   studyId: number;

@@ -1,6 +1,6 @@
 import type { GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 
-import { NotesSuspense } from '../../suspenses/NotesSuspense';
+import { NotesSuspense } from '../../suspenses/note/NotesSuspense';
 import { NotesTableHeader } from './notes/NotesTableHeader';
 
 type Props = {

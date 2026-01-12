@@ -28,7 +28,7 @@ import {
 import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
 
-import { useCreateStudyForm } from '../../hooks/useCreateStudyForm';
+import { useCreateStudyForm } from '../../hooks/form/useCreateStudyForm';
 
 export const CreateStudyForm = () => {
   const { form, handleQuit, isSubmitting } = useCreateStudyForm();

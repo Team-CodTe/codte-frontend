@@ -6,7 +6,7 @@ import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { useNotesInfiniteQuery } from '@/api/note/getNotes/query';
 import { Separator } from '@/components/ui/Separator';
 import { PATH } from '@/constants/path';
-import { useNotesFilterParams } from '@/features/study/hooks/useNotesFilterParams';
+import { useNotesFilterParams } from '@/features/study/hooks/note/useNotesFilterParams';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useScrollRestoration } from '@/hooks/useScrollRestoration';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';

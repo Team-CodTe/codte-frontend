@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import {
   type StudyFormData,
   StudyFormSchema,
-} from '../schemas/studyForm.schema';
+} from '../../schemas/studyForm.schema';
 
 export const useCreateStudyForm = () => {
   const router = useRouter();

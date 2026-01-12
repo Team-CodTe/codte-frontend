@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/Dialog';
 import { Spinner } from '@/components/ui/Spinner';
 import { PATH } from '@/constants/path';
-import { useRemoveNote } from '@/features/study/hooks/useRemoveNote';
+import { useRemoveNote } from '@/features/study/hooks/note/useRemoveNote';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
 

@@ -2,7 +2,7 @@
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 
-import { useWriteNote } from '../../../hooks/useWriteNote';
+import { useWriteNote } from '../../../hooks/note/useWriteNote';
 
 type Props = {
   initialContent: string;

@@ -127,10 +127,10 @@
   background-color: var(--card) !important;
 }
 
-h1 > a[aria-hidden="true"],
-h2 > a[aria-hidden="true"],
-h3 > a[aria-hidden="true"],
-h4 > a[aria-hidden="true"],
+h1 > a[aria-hidden='true'],
+h2 > a[aria-hidden='true'],
+h3 > a[aria-hidden='true'],
+h4 > a[aria-hidden='true'],
 .anchor {
   display: none !important;
 }

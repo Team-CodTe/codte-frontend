@@ -19,7 +19,7 @@ import {
   FieldLabel,
 } from '@/components/ui/Field';
 import { Spinner } from '@/components/ui/Spinner';
-import { useExitStudy } from '@/features/study/hooks/useExitStudy';
+import { useExitStudy } from '@/features/study/hooks/study/useExitStudy';
 
 export const StudyLeaveRow = () => {
   const { mutateLeaveStudy, isLeavingStudy } = useExitStudy();

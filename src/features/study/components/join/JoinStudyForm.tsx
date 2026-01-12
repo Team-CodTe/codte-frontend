@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Spinner } from '@/components/ui/Spinner';
 
-import { useJoinStudyForm } from '../../hooks/useJoinStudyForm';
+import { useJoinStudyForm } from '../../hooks/form/useJoinStudyForm';
 
 export const JoinStudyForm = () => {
   const { form, handleQuit, isSubmitting } = useJoinStudyForm();

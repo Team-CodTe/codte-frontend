@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import {
   type StudyFormData,
   StudyFormSchema,
-} from '../schemas/studyForm.schema';
+} from '../../schemas/studyForm.schema';
 
 type Props = {
   initialData: StudyFormData;

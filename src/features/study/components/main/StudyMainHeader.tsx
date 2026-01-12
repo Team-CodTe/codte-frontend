@@ -16,13 +16,13 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { PATH } from '@/constants/path';
-import { useStudyBreadcrumbs } from '@/features/study/hooks/useStudyBreadcrumbs';
+import { useStudyBreadcrumbs } from '@/features/study/hooks/common/useStudyBreadcrumbs';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import { useCurrentNoteDetail } from '../../hooks/useCurrentNoteDetail';
-import { DropdownAvatar } from '../DropdownAvatar';
+import { useCurrentNoteDetail } from '../../hooks/note/useCurrentNoteDetail';
+import { DropdownAvatar } from '../common/DropdownAvatar';
 import { SelectAssignmentBreadcrumbItem } from '../note/write/SelectAssignmentBreadcrumbItem';
 
 type Props = {

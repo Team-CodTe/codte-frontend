@@ -4,8 +4,8 @@ import { withSuspense } from '@/hoc/withSuspense';
 import { FetchError } from '@/lib/fetchInstance';
 import { notFound, redirect } from 'next/navigation';
 
-import { StudyMainHeader } from '../components/main/StudyMainHeader';
-import { StudyMainHeaderFallback } from '../components/main/StudyMainHeaderFallback';
+import { StudyMainHeader } from '../../components/main/StudyMainHeader';
+import { StudyMainHeaderFallback } from '../../components/main/StudyMainHeaderFallback';
 
 type Props = {
   studyId: number;
