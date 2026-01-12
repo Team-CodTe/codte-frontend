@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { useNotesInfiniteQuery } from '@/api/note/getNotes/query';
 import { Separator } from '@/components/ui/Separator';
 import { PATH } from '@/constants/path';
-import { useSelectDate } from '@/features/study/hooks/useSelectDate';
+import { useNotesFilterParams } from '@/features/study/hooks/useNotesFilterParams';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useScrollRestoration } from '@/hooks/useScrollRestoration';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { type StudyRole } from '@/types/studyRole';
 import { useRouter } from 'next/navigation';
 
-import { NOTES_TABLE_COLUMNS } from '../../main/notes/NotesTableColumns';
 import { NotesMaximizeTable } from './NotesMaximizeTable';
+import { NOTES_MAXIMIZE_TABLE_COLUMNS } from './NotesMaximizeTableColumns';
 import { NotesMaximizeTableFilter } from './NotesMaximizeTableFilter';
 import { NotesMaximizeTableHeader } from './NotesMaximizeTableHeader';
 
@@ -34,40 +34,58 @@ export const NotesMaximize = ({
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
-  const [keyword, setKeyword] = useState('');
+  const { keyword, setKeyword, dateFilter, handleFiltersReset } =
+    useNotesFilterParams();
+
+  const { formattedAssignedDate, formattedCreatedDate } = dateFilter;
   const debouncedQuery = useDebounce(keyword, 300);
 
-  const dateFilter = useSelectDate();
-  const { formattedAssignedDate, formattedUpdatedDate } = dateFilter;
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
     useNotesInfiniteQuery({
       studyId,
       problemId,
       pageSize,
       assignedDate: formattedAssignedDate,
-      updatedDate: formattedUpdatedDate,
+      createdDate: formattedCreatedDate,
       query: debouncedQuery,
     });
 
-  useScrollRestoration(`study-${studyId}-notes-maximize`, data);
+  const { scrollRef, scrollToTop } = useScrollRestoration(
+    `study-${studyId}-notes-maximize`,
+    data,
+  );
 
   const isFiltered =
-    !!debouncedQuery || !!formattedAssignedDate || !!formattedUpdatedDate;
+    !!debouncedQuery || !!formattedAssignedDate || !!formattedCreatedDate;
+
+  const handleAssignedDateChangeWithScroll = (date: Date | undefined) => {
+    dateFilter.handleAssignedDateChange(date);
+    scrollToTop();
+  };
+
+  const handleCreatedDateChangeWithScroll = (date: Date | undefined) => {
+    dateFilter.handleCreatedDateChange(date);
+    scrollToTop();
+  };
+
+  const handleKeywordChange = (value: string) => {
+    setKeyword(value);
+    scrollToTop();
+  };
+
+  const handleFiltersResetWithScroll = () => {
+    handleFiltersReset();
+    scrollToTop();
+  };
 
   const moveToNoteDetail = (note: GetNoteDetailResponse) => {
-    if (isNavigating) {
-      return;
-    }
+    if (isNavigating) return;
 
     startTransition(() => {
       router.push(
         buildUrlWithParams({
           url: PATH.STUDY.NOTE.DETAIL,
-          pathParams: {
-            studyId,
-            noteId: note.id,
-          },
+          pathParams: { studyId, noteId: note.id },
         }),
       );
     });
@@ -81,20 +99,29 @@ export const NotesMaximize = ({
         <NotesMaximizeTableFilter
           totalCount={data?.pages[0]?.count ?? 0}
           keyword={keyword}
-          setKeyword={setKeyword}
-          dateFilter={dateFilter}
+          setKeyword={handleKeywordChange}
+          dateFilter={{
+            ...dateFilter,
+            handleAssignedDateChange: handleAssignedDateChangeWithScroll,
+            handleCreatedDateChange: handleCreatedDateChangeWithScroll,
+          }}
+          onResetFilters={handleFiltersResetWithScroll}
+          isFiltered={isFiltered}
         />
       </div>
-      <NotesMaximizeTable
-        data={data?.pages.flatMap((page) => page.results) ?? []}
-        columns={NOTES_TABLE_COLUMNS}
-        isLoading={isLoading}
-        isFiltered={isFiltered}
-        onClickRow={moveToNoteDetail}
-        onLoadMore={fetchNextPage}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
-      />
+      <div className="min-h-0 flex-1">
+        <NotesMaximizeTable
+          data={data?.pages.flatMap((page) => page.results) ?? []}
+          columns={NOTES_MAXIMIZE_TABLE_COLUMNS}
+          isLoading={isLoading}
+          isFiltered={isFiltered}
+          onClickRow={moveToNoteDetail}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          scrollRef={scrollRef}
+        />
+      </div>
     </div>
   );
 };

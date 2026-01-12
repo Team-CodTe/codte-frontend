@@ -1,8 +1,10 @@
 import { toast } from 'sonner';
 
-type ToastType = {
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
+
+type ToastOptions = {
   message: string;
-  type?: 'success' | 'error' | 'warning' | 'info';
+  type?: ToastType;
 };
 
 /**
@@ -10,7 +12,7 @@ type ToastType = {
  * @param message
  * @param type
  */
-export const showToast = ({ message, type }: ToastType) => {
+export const showToast = ({ message, type }: ToastOptions) => {
   if (type && toast[type]) {
     toast[type](message, { closeButton: true });
   } else {

@@ -17,7 +17,7 @@ export const NotesMaximizeFallback = () => {
         <Separator className="text-accent" />
 
         <div className="mt-3 flex flex-row items-center justify-between gap-4">
-          <Skeleton className="h-6 w-20" />
+          <Skeleton className="h-6 w-32" />
 
           <div className="flex gap-2">
             <Skeleton className="size-9 h-9 sm:w-24" />

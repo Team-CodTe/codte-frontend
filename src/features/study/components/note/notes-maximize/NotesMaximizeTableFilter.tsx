@@ -1,7 +1,5 @@
 'use client';
 
-import { type Dispatch, type SetStateAction } from 'react';
-
 import { Button } from '@/components/ui/Button';
 import { Calendar } from '@/components/ui/Calendar';
 import { Input } from '@/components/ui/Input';
@@ -15,68 +13,68 @@ import {
   CalendarCheck2Icon,
   CalendarSearchIcon,
   CircleXIcon,
+  RotateCwIcon,
+  SearchIcon,
 } from 'lucide-react';
 
 type DateFilterProps = {
   openAssignedDate: boolean;
-  openUpdatedDate: boolean;
+  openCreatedDate: boolean;
   setOpenAssignedDate: (open: boolean) => void;
-  setOpenUpdatedDate: (open: boolean) => void;
+  setOpenCreatedDate: (open: boolean) => void;
   selectedAssignedDate: Date | undefined;
-  selectedUpdatedDate: Date | undefined;
+  selectedCreatedDate: Date | undefined;
   handleAssignedDateChange: (date: Date | undefined) => void;
-  handleUpdatedDateChange: (date: Date | undefined) => void;
+  handleCreatedDateChange: (date: Date | undefined) => void;
 };
 
 type Props = {
   totalCount: number;
-  keyword: string;
-  setKeyword: Dispatch<SetStateAction<string>>;
   dateFilter: DateFilterProps;
+  keyword: string;
+  setKeyword: (value: string) => void;
+  onResetFilters: () => void;
+  isFiltered: boolean;
 };
 
 export const NotesMaximizeTableFilter = ({
   totalCount,
+  dateFilter,
   keyword,
   setKeyword,
-  dateFilter,
+  onResetFilters,
+  isFiltered,
 }: Props) => {
   const {
     openAssignedDate,
+    openCreatedDate,
     setOpenAssignedDate,
+    setOpenCreatedDate,
     selectedAssignedDate,
+    selectedCreatedDate,
     handleAssignedDateChange,
-    openUpdatedDate,
-    setOpenUpdatedDate,
-    selectedUpdatedDate,
-    handleUpdatedDateChange,
+    handleCreatedDateChange,
   } = dateFilter;
 
   return (
-    <div className="mt-3 flex flex-row items-center justify-between gap-4">
-      <span className="text-muted-foreground shrink-0 font-medium whitespace-nowrap">
-        {totalCount}개 풀이 글 조회됨
-      </span>
+    <div className="mt-3 flex flex-wrap items-center gap-2">
+      <div className="xs:order-2 order-1 ml-auto flex items-center gap-2">
+        {isFiltered && (
+          <Button variant="ghost" size="icon" onClick={onResetFilters}>
+            <RotateCwIcon />
+          </Button>
+        )}
 
-      <div className="flex gap-2">
         <Popover open={openAssignedDate} onOpenChange={setOpenAssignedDate}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="icon-responsive">
+            <Button variant="outline">
               <CalendarSearchIcon />
-              <span className="hidden sm:inline">
-                {selectedAssignedDate ? (
-                  <span className="hidden sm:inline">
-                    {formatDate(selectedAssignedDate, {
-                      includeTime: false,
-                    })}
-                  </span>
-                ) : (
-                  '추천 날짜'
-                )}
-              </span>
+              {selectedAssignedDate
+                ? formatDate(selectedAssignedDate, { includeTime: false })
+                : '문제 추천 날짜'}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="end">
+          <PopoverContent className="w-auto p-0" align="end">
             <Calendar
               mode="single"
               selected={selectedAssignedDate}
@@ -85,53 +83,55 @@ export const NotesMaximizeTableFilter = ({
           </PopoverContent>
         </Popover>
 
-        <Popover open={openUpdatedDate} onOpenChange={setOpenUpdatedDate}>
+        <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="icon-responsive">
+            <Button variant="outline">
               <CalendarCheck2Icon />
-              <span className="hidden sm:inline">
-                {selectedUpdatedDate ? (
-                  <span className="hidden sm:inline">
-                    {formatDate(selectedUpdatedDate, {
-                      includeTime: false,
-                    })}
-                  </span>
-                ) : (
-                  '작성일'
-                )}
-              </span>
+              {selectedCreatedDate
+                ? formatDate(selectedCreatedDate, { includeTime: false })
+                : '작성일'}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <PopoverContent className="w-auto p-0" align="end">
             <Calendar
               mode="single"
-              selected={selectedUpdatedDate}
-              onSelect={handleUpdatedDateChange}
+              selected={selectedCreatedDate}
+              onSelect={handleCreatedDateChange}
             />
           </PopoverContent>
         </Popover>
+      </div>
 
-        <div className="relative w-full">
-          <Input
-            id="search"
-            type="text"
-            inputMode="search"
-            placeholder="검색..."
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            className="h-9 pr-9"
-          />
-          {keyword && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setKeyword('')}
-              className="text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 h-9 rounded-l-none hover:bg-transparent">
-              <CircleXIcon />
-              <span className="sr-only">검색어 초기화</span>
-            </Button>
-          )}
+      <div className="xs:order-3 xs:w-80 relative order-2 ml-auto w-full">
+        <div className="text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50">
+          <SearchIcon className="size-4" />
+          <span className="sr-only">검색 아이콘</span>
         </div>
+        <Input
+          id="search"
+          type="text"
+          inputMode="search"
+          placeholder="문제 번호, 제목, 작성자로 검색..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          className="px-9"
+        />
+        {keyword && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setKeyword('')}
+            className="text-muted-foreground absolute inset-y-0 right-0 hover:bg-transparent">
+            <CircleXIcon />
+            <span className="sr-only">검색어 초기화</span>
+          </Button>
+        )}
+      </div>
+
+      <div className="xs:order-1 xs:text-start order-3 min-w-fit flex-1 text-end">
+        <span className="text-muted-foreground text-sm font-medium whitespace-nowrap">
+          {totalCount}개 풀이 글 조회됨
+        </span>
       </div>
     </div>
   );

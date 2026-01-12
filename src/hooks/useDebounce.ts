@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 /**
  * 검색할 때 디바운스된 값을 반환하는 훅
  * @param value 디바운스할 값
- * @param delay 디바운스 지연 시간 (밀리초), 기본값 500ms
+ * @param delay 디바운스 지연 시간 (밀리초)
  * @returns 디바운스된 값
  */
 export const useDebounce = <T>(value: T, delay: number): T => {

@@ -5,6 +5,7 @@ import {
 } from '@/lib/queryClient';
 import {
   type InfiniteData,
+  keepPreviousData,
   useInfiniteQuery,
   useQuery,
   useSuspenseQuery,
@@ -18,12 +19,12 @@ type Params = {
   problemId?: number;
   pageSize?: number;
   assignedDate?: string;
-  updatedDate?: string;
+  createdDate?: string;
   query?: string;
 };
 
 export const useNotesQuery = (
-  { studyId, problemId, pageSize, assignedDate, updatedDate, query }: Params,
+  { studyId, problemId, pageSize, assignedDate, createdDate, query }: Params,
   options?: OmittedQueryOptions<GetNotesResponse>,
 ) => {
   return useQuery({
@@ -34,7 +35,7 @@ export const useNotesQuery = (
         problemId,
         pageSize,
         assignedDate,
-        updatedDate,
+        createdDate,
         query,
       }),
     ...options,
@@ -42,7 +43,7 @@ export const useNotesQuery = (
 };
 
 export const useNotesSuspenseQuery = (
-  { studyId, problemId, pageSize, assignedDate, updatedDate, query }: Params,
+  { studyId, problemId, pageSize, assignedDate, createdDate, query }: Params,
   options?: OmittedSuspenseQueryOptions<GetNotesResponse>,
 ) => {
   return useSuspenseQuery({
@@ -53,7 +54,7 @@ export const useNotesSuspenseQuery = (
         problemId,
         pageSize,
         assignedDate,
-        updatedDate,
+        createdDate,
         query,
       }),
     ...options,
@@ -61,7 +62,7 @@ export const useNotesSuspenseQuery = (
 };
 
 export const useNotesInfiniteQuery = (
-  { studyId, problemId, pageSize, assignedDate, updatedDate, query }: Params,
+  { studyId, problemId, pageSize, assignedDate, createdDate, query }: Params,
   options?: OmittedInfiniteQueryOptions<
     GetNotesResponse,
     Error,
@@ -77,7 +78,7 @@ export const useNotesInfiniteQuery = (
       studyId,
       {
         assignedDate,
-        updatedDate,
+        createdDate,
         query,
       },
     ],
@@ -88,10 +89,11 @@ export const useNotesInfiniteQuery = (
         pageParam,
         pageSize,
         assignedDate,
-        updatedDate,
+        createdDate,
         query,
       }),
     initialPageParam: 1,
+    placeholderData: keepPreviousData,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       return lastPage.next ? lastPageParam + 1 : undefined;
     },

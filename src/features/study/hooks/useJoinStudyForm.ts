@@ -3,9 +3,8 @@ import { useTransition } from 'react';
 import { useJoinStudyMutation } from '@/api/study/postJoinStudy/mutation';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
-import { FetchError } from '@/lib/fetchInstance';
+import { handleApiError } from '@/lib/handleApiError';
 import { showToast } from '@/lib/showToast';
-import { type ApiErrorData } from '@/types/apiErrorData';
 import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
 import z from 'zod';
@@ -38,23 +37,12 @@ export const useJoinStudyForm = () => {
         showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
       },
       onError: (error) => {
-        let toastMessage = '스터디 가입에 실패했습니다. 다시 시도해주세요.';
-        let toastType: 'error' | 'info' = 'error';
-
-        if (error instanceof FetchError) {
-          const { errorCode, message } = (error.data as ApiErrorData) || {};
-
-          if (errorCode === 'ALREADY_MEMBER' && message) {
-            toastMessage = message;
-            toastType = 'info';
-          } else {
-            toastMessage = '유효하지 않은 초대 코드입니다.';
-          }
-        }
-
-        showToast({
-          message: toastMessage,
-          type: toastType,
+        handleApiError({
+          error,
+          defaultMessage: '유효하지 않은 초대 코드입니다.',
+          errorMapping: {
+            ALREADY_MEMBER: (message) => ({ message, type: 'info' }),
+          },
         });
       },
     });

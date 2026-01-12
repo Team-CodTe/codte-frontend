@@ -1,4 +1,6 @@
-import { useCallback, useState, useTransition } from 'react';
+'use client';
+
+import { useState, useTransition } from 'react';
 
 import { useUpdateProfileMutation } from '@/api/user/patchUpdateProfile/mutation';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
@@ -35,19 +37,39 @@ const SignUpFormSchema = z.object({
 
 type SignUpFormData = z.infer<typeof SignUpFormSchema>;
 
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof FetchError && (error.data as ApiErrorData)?.message) {
+    return (error.data as ApiErrorData).message;
+  }
+
+  return '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+};
+
 export const useSignUpForm = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
+
+  const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
   const [usernameValidation, setUsernameValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
   }>({ status: 'idle', validatedValue: '' });
+
+  const [bojApiError, setBojApiError] = useState<string | null>(null);
   const [bojValidation, setBojValidation] = useState<{
     status: ValidationStatus;
     validatedValue: string;
   }>({ status: 'idle', validatedValue: '' });
-  const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
-  const [bojApiError, setBojApiError] = useState<string | null>(null);
+
+  const resetUsernameValidation = () => {
+    setUsernameApiError(null);
+    setUsernameValidation({ status: 'idle', validatedValue: '' });
+  };
+
+  const resetBojValidation = () => {
+    setBojApiError(null);
+    setBojValidation({ status: 'idle', validatedValue: '' });
+  };
 
   const { mutate: mutateRegisterProfile, isPending: isRegistering } =
     useUpdateProfileMutation({
@@ -55,10 +77,8 @@ export const useSignUpForm = () => {
         startTransition(() => {
           resetUsernameValidation();
           resetBojValidation();
-
           router.replace(PATH.STUDY.HOME);
         });
-
         showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
       },
       onError: () => {
@@ -85,13 +105,9 @@ export const useSignUpForm = () => {
         bojValidation.status === 'valid' &&
         bojValidation.validatedValue === value.bojUsername;
 
-      if (!isUsernameValid || !isBojValid) {
-        return;
-      }
+      if (!isUsernameValid || !isBojValid) return;
 
-      if (isRegistering) {
-        return;
-      }
+      if (isRegistering) return;
 
       mutateRegisterProfile({
         username: value.username,
@@ -134,9 +150,8 @@ export const useSignUpForm = () => {
     },
   });
 
-  const validateUsername = useCallback(() => {
+  const validateUsername = () => {
     const username = form.getFieldValue('username');
-
     const result = UsernameSchema.safeParse(username);
 
     if (!result.success) {
@@ -150,13 +165,11 @@ export const useSignUpForm = () => {
 
     setUsernameApiError(null);
     setUsernameValidation({ status: 'validating', validatedValue: '' });
-
     validateUsernameMutation.mutate({ username });
-  }, [form, validateUsernameMutation]);
+  };
 
-  const validateBojUsername = useCallback(() => {
+  const validateBojUsername = () => {
     const bojUsername = form.getFieldValue('bojUsername');
-
     const result = BojUsernameSchema.safeParse(bojUsername);
 
     if (!result.success) {
@@ -170,26 +183,7 @@ export const useSignUpForm = () => {
 
     setBojApiError(null);
     setBojValidation({ status: 'validating', validatedValue: '' });
-
     validateBojMutation.mutate({ bojUsername });
-  }, [form, validateBojMutation]);
-
-  const resetUsernameValidation = useCallback(() => {
-    setUsernameApiError(null);
-    setUsernameValidation({ status: 'idle', validatedValue: '' });
-  }, []);
-
-  const resetBojValidation = useCallback(() => {
-    setBojApiError(null);
-    setBojValidation({ status: 'idle', validatedValue: '' });
-  }, []);
-
-  const getErrorMessage = (error: unknown) => {
-    if (error instanceof FetchError && (error.data as ApiErrorData)?.message) {
-      return (error.data as ApiErrorData).message;
-    }
-
-    return '오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
   };
 
   return {

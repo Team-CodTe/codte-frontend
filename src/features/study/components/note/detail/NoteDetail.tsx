@@ -43,7 +43,8 @@ export const NoteDetail = ({ studyId, initialUser, initialNote }: Props) => {
               <span>{note.username}</span>
               <span>•</span>
               <span>
-                {formatDate(note.updatedAt)} {note.isUpdated ? ' (수정됨)' : ''}
+                {formatDate(note.createdAt)}
+                {note.isUpdated ? ` (${formatDate(note.updatedAt)} 수정)` : ''}
               </span>
             </div>
 

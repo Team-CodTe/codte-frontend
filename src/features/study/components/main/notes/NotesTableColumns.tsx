@@ -6,24 +6,10 @@ import Link from 'next/link';
 
 export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
   {
-    accessorKey: 'assignedDate',
-    header: '문제 추천 날짜',
-    meta: {
-      className: 'w-[20%]',
-    },
-    cell: ({ row }) => {
-      return (
-        <span>
-          {formatDate(row.original.assignedDate, { includeTime: false })}
-        </span>
-      );
-    },
-  },
-  {
     accessorKey: 'problemBojNumber',
     header: '문제 번호',
     meta: {
-      className: 'w-[15%]',
+      className: 'w-[20%]',
     },
     cell: ({ row }) => {
       return (
@@ -47,7 +33,7 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     accessorKey: 'problemTitle',
     header: '제목',
     meta: {
-      className: 'w-[30%]',
+      className: 'w-[35%]',
     },
     cell: ({ row }) => {
       return (
@@ -68,22 +54,22 @@ export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
     accessorKey: 'username',
     header: '작성자',
     meta: {
-      className: 'w-[15%]',
+      className: 'w-[20%]',
     },
     cell: ({ row }) => {
       return <span>{row.original.username}</span>;
     },
   },
   {
-    accessorKey: 'updatedAt',
+    accessorKey: 'createdAt',
     header: '작성일',
     meta: {
-      className: 'w-[20%]',
+      className: 'w-[25%]',
     },
     cell: ({ row }) => {
       return (
         <span>
-          {formatDate(row.original.updatedAt)}
+          {formatDate(row.original.createdAt)}
           {row.original.isUpdated ? ' (수정됨)' : ''}
         </span>
       );

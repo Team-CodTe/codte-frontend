@@ -13,8 +13,8 @@ const NotesPage = async ({ params }: Props) => {
   const study = await getStudyDetail(studyId);
 
   return (
-    <main className="min-h-0 w-full flex-1 overflow-y-auto">
-      <div className="w-full flex-1 overflow-hidden p-5 pt-4 lg:p-8 lg:pt-4">
+    <main className="h-screen max-h-[calc(100dvh-4rem)] min-h-0 w-full flex-1 overflow-hidden">
+      <div className="h-full w-full p-5 pt-4 lg:p-8 lg:pt-4">
         <NotesMaximizeSuspense study={study} />
       </div>
     </main>

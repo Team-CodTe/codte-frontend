@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Spinner } from '@/components/ui/Spinner';
@@ -16,8 +17,13 @@ import { type TablePropsWithInfiniteScroll } from '@/types/tableProps';
 import {
   flexRender,
   getCoreRowModel,
+  type Row,
   useReactTable,
 } from '@tanstack/react-table';
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+const TABLE_ROW_HEIGHT = 45; // 행 자체 높이 44px + 보더 1px
+const NON_TABLE_AREA_HEIGHT = '14.5rem';
 
 export const NotesMaximizeTable = <TData, TValue>({
   data,
@@ -25,40 +31,22 @@ export const NotesMaximizeTable = <TData, TValue>({
   isLoading = false,
   isFiltered = false,
   onClickRow,
-  onLoadMore,
   hasNextPage,
+  fetchNextPage,
   isFetchingNextPage,
+  scrollRef,
 }: TablePropsWithInfiniteScroll<TData, TValue>) => {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLTableRowElement | null>(null);
-
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const [entry] = entries;
-
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        onLoadMore?.();
-      }
-    },
-    [hasNextPage, isFetchingNextPage, onLoadMore],
+  const [tableContainer, setTableContainer] = useState<HTMLDivElement | null>(
+    null,
   );
 
-  useEffect(() => {
-    const element = loadMoreRef.current;
+  const isFetchingRef = useRef(false);
 
-    if (!element) {
-      return;
-    }
-
-    observerRef.current = new IntersectionObserver(handleObserver, {
-      threshold: 0.1,
-    });
-    observerRef.current.observe(element);
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
-  }, [handleObserver]);
+  const { ref: loadMoreRef, inView } = useInView({
+    threshold: 0.1,
+    root: tableContainer,
+    skip: !tableContainer,
+  });
 
   // eslint-disable-next-line
   const table = useReactTable({
@@ -67,30 +55,65 @@ export const NotesMaximizeTable = <TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return (
-    <div className="h-full min-h-0">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className={`min-w-24 pl-0 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {isLoading ? (
-            Array.from({ length: isFiltered ? 1 : 30 }).map((_, index) => (
+  const { rows } = table.getRowModel();
+
+  useEffect(() => {
+    isFetchingRef.current = isFetchingNextPage ?? false;
+  }, [isFetchingNextPage]);
+
+  useEffect(() => {
+    if (inView && !isFetchingRef.current && hasNextPage) {
+      isFetchingRef.current = true;
+      fetchNextPage?.();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    estimateSize: () => TABLE_ROW_HEIGHT,
+    getScrollElement: () => tableContainer,
+    // Firefox에서는 테이블 테두리 높이를 잘못 측정하므로, Firefox를 제외한 환경에서만 동적 행 높이를 측정
+    measureElement:
+      typeof window !== 'undefined' &&
+      navigator.userAgent.indexOf('Firefox') === -1
+        ? (element) => element?.getBoundingClientRect().height
+        : undefined,
+    overscan: 5,
+    useFlushSync: false,
+  });
+
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      setTableContainer(node);
+      scrollRef?.(node);
+    },
+    [scrollRef],
+  );
+
+  if (isLoading) {
+    return (
+      <div className="h-full min-h-0 overflow-auto">
+        <Table noWrapper>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className={`min-w-24 pl-0 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: isFiltered ? 1 : 30 }).map((_, index) => (
               <TableRow key={index}>
                 {columns.map((_, cellIndex) => (
                   <TableCell key={cellIndex} className="pl-0">
@@ -98,42 +121,113 @@ export const NotesMaximizeTable = <TData, TValue>({
                   </TableCell>
                 ))}
               </TableRow>
-            ))
-          ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div
+        ref={setRefs}
+        className={`relative max-h-[calc(100dvh-${NON_TABLE_AREA_HEIGHT})] overflow-auto`}>
+        <Table noWrapper style={{ display: 'grid' }}>
+          <TableHeader
+            style={{
+              display: 'grid',
+              position: 'sticky',
+              top: 0,
+              zIndex: 10,
+            }}
+            className="bg-background">
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-                onClick={() => onClickRow?.(row.original)}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="pl-0">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                key={headerGroup.id}
+                style={{ display: 'flex', width: '100%' }}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    style={{
+                      display: 'flex',
+                      width: header.getSize(),
+                      flex: '1 1 0%',
+                    }}
+                    className={`flex min-w-24 items-center pl-0 ${(header.column.columnDef.meta as { className?: string })?.className ?? ''}`}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow className="h-full min-h-11">
-              <TableCell
-                colSpan={columns.length}
-                className="text-muted-foreground text-center">
-                {isFiltered
-                  ? '검색 결과가 없습니다'
-                  : '아직 작성된 글이 없습니다'}
-              </TableCell>
-            </TableRow>
-          )}
-          {hasNextPage && (
-            <TableRow ref={loadMoreRef}>
-              <TableCell colSpan={columns.length} className="text-center">
-                {isFetchingNextPage && (
-                  <Spinner className="text-muted-foreground" />
-                )}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody
+            style={{
+              display: 'grid',
+              height: `${rowVirtualizer.getTotalSize()}px`,
+              position: 'relative',
+            }}>
+            {rows.length === 0 ? (
+              <TableRow className="h-full min-h-11">
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-muted-foreground flex h-full items-center justify-center">
+                  {isFiltered
+                    ? '검색 결과가 없습니다'
+                    : '아직 작성된 글이 없습니다'}
+                </TableCell>
+              </TableRow>
+            ) : (
+              rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const row = rows[virtualRow.index] as Row<TData>;
+
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-index={virtualRow.index}
+                    ref={rowVirtualizer.measureElement}
+                    data-state={row.getIsSelected() && 'selected'}
+                    onClick={() => onClickRow?.(row.original)}
+                    style={{
+                      display: 'flex',
+                      position: 'absolute',
+                      transform: `translateY(${virtualRow.start}px)`,
+                      width: '100%',
+                    }}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          width: cell.column.getSize(),
+                          flex: '1 1 0%',
+                        }}
+                        className="pl-0">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
+            )}
+          </TableBody>
+        </Table>
+
+        <div
+          ref={loadMoreRef}
+          className="flex h-11 w-full items-center justify-center">
+          {isFetchingNextPage && <Spinner className="text-muted-foreground" />}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,41 +1,75 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
+import { throttle } from 'es-toolkit';
 import { usePathname } from 'next/navigation';
 
-/**
- * @param key 스토리지 저장 키
- * @param dependency 데이터 객체(이 값이 변경될 때마다 스크롤 복원 시도)
- */
 export const useScrollRestoration = <T>(key: string, dependency: T) => {
   const pathname = usePathname();
+  const scrollElementRef = useRef<HTMLElement | null>(null);
+  const isRestoredRef = useRef(false);
+
   const storageKey = `scroll_pos_${key}_${pathname}`;
-  const isRestored = useRef(false);
+  const throttledSaveScrollRef = useRef<(() => void) | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      sessionStorage.setItem(storageKey, window.scrollY.toString());
-    };
+  const handleScroll = () => {
+    if (!throttledSaveScrollRef.current) {
+      throttledSaveScrollRef.current = throttle(() => {
+        if (scrollElementRef.current) {
+          sessionStorage.setItem(
+            storageKey,
+            scrollElementRef.current.scrollTop.toString(),
+          );
+        }
+      }, 100);
+    }
 
-    window.addEventListener('scroll', handleScroll);
+    throttledSaveScrollRef.current();
+  };
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [storageKey]);
+  const scrollToTop = () => {
+    if (scrollElementRef.current) {
+      scrollElementRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
-  useEffect(() => {
+  const scrollRef = (node: HTMLElement | null) => {
+    if (node) {
+      scrollElementRef.current = node;
+      node.addEventListener('scroll', handleScroll);
+
+      const savedPosition = sessionStorage.getItem(storageKey);
+
+      if (savedPosition) {
+        requestAnimationFrame(() => {
+          node.scrollTo(0, parseInt(savedPosition, 10));
+        });
+      }
+    } else {
+      scrollElementRef.current?.removeEventListener('scroll', handleScroll);
+      scrollElementRef.current = null;
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (!scrollElementRef.current) return;
+
     const savedPosition = sessionStorage.getItem(storageKey);
     const positionNum = savedPosition ? parseInt(savedPosition, 10) : 0;
 
-    if (dependency && savedPosition && !isRestored.current) {
-      const docHeight = document.documentElement.scrollHeight;
+    if (positionNum > 0 && !isRestoredRef.current) {
+      const element = scrollElementRef.current;
 
-      if (docHeight >= positionNum) {
-        window.scrollTo(0, positionNum);
-        isRestored.current = true;
+      if (element.scrollHeight >= positionNum) {
+        element.scrollTo(0, positionNum);
+
+        if (Math.abs(element.scrollTop - positionNum) < 10) {
+          isRestoredRef.current = true;
+        }
       }
     }
-  }, [storageKey, dependency]);
+  }, [dependency, storageKey]);
+
+  return { scrollRef, scrollToTop };
 };

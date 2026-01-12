@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { useLogoutMutation } from '@/api/auth/postLogout/mutation';
 import { PATH } from '@/constants/path';
@@ -12,7 +12,7 @@ export const useAuth = () => {
     null,
   );
 
-  const handleLogin = useCallback(async (provider: SocialProvider) => {
+  const handleLogin = async (provider: SocialProvider) => {
     try {
       setLoadingProvider(provider);
 
@@ -27,7 +27,7 @@ export const useAuth = () => {
 
       setLoadingProvider(null);
     }
-  }, []);
+  };
 
   const { mutate: mutateLogout, isPending: isLoggingOut } = useLogoutMutation({
     onSuccess: async () => {
@@ -43,13 +43,13 @@ export const useAuth = () => {
     },
   });
 
-  const handleLogout = useCallback(async () => {
+  const handleLogout = async () => {
     if (isLoggingOut) {
       return;
     }
 
     mutateLogout();
-  }, [mutateLogout, isLoggingOut]);
+  };
 
   return {
     session,
