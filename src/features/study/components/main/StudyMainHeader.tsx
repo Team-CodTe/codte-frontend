@@ -81,7 +81,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
           {breadcrumbItems.map((item) => {
             const isWriteSegment = item.href.endsWith('/write');
             const isNoteIdSegment =
-              noteId !== undefined && item.href.includes(`/note/${noteId}`);
+              noteId !== undefined && item.href.endsWith(`/note/${noteId}`);
 
             let displayLabel: React.ReactNode = item.label;
 
