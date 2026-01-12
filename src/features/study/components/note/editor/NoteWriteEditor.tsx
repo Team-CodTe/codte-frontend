@@ -2,14 +2,13 @@
 
 import { DynamicMarkdownEditor } from '@/components/common/MarkdownEditor';
 
-import { useWriteNote } from '../../../hooks/useWriteNote';
+import { useWriteNote } from '../../../hooks/note/useWriteNote';
 
 type Props = {
-  problemId: number | null;
   initialContent: string;
 };
 
-export const NoteWriteEditor = ({ problemId, initialContent }: Props) => {
+export const NoteWriteEditor = ({ initialContent }: Props) => {
   const {
     content,
     isDirty,
@@ -17,7 +16,7 @@ export const NoteWriteEditor = ({ problemId, initialContent }: Props) => {
     handleChange,
     handleSubmit,
     resetForm,
-  } = useWriteNote({ problemId, initialContent });
+  } = useWriteNote({ initialContent });
 
   const handleReset = () => {
     if (confirm('작성 중인 내용이 초기화됩니다. 계속하시겠습니까?')) {

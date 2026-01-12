@@ -1,5 +1,5 @@
 import { getStudyDetail } from '@/api/study/getStudyDetail/fetch';
-import { NotesMaximizeSuspense } from '@/features/study/suspenses/NotesMaximizeSuspense';
+import { NotesMaximizeSuspense } from '@/features/study/suspenses/note/NotesMaximizeSuspense';
 import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {

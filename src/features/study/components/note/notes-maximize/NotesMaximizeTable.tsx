@@ -23,7 +23,6 @@ import {
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 const TABLE_ROW_HEIGHT = 45; // 행 자체 높이 44px + 보더 1px
-const NON_TABLE_AREA_HEIGHT = '14.5rem';
 
 export const NotesMaximizeTable = <TData, TValue>({
   data,
@@ -132,7 +131,7 @@ export const NotesMaximizeTable = <TData, TValue>({
     <div>
       <div
         ref={setRefs}
-        className={`relative max-h-[calc(100dvh-${NON_TABLE_AREA_HEIGHT})] overflow-auto`}>
+        className={`relative max-h-[calc(100dvh-14.5rem)] overflow-auto`}>
         <Table noWrapper style={{ display: 'grid' }}>
           <TableHeader
             style={{

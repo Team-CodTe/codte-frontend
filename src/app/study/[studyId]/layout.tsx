@@ -1,6 +1,6 @@
 import { type PropsWithChildren } from 'react';
 
-import { StudyMainHeaderSuspense } from '@/features/study/suspenses/StudyMainHeaderSuspense';
+import { StudyMainHeaderSuspense } from '@/features/study/suspenses/common/StudyMainHeaderSuspense';
 import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {

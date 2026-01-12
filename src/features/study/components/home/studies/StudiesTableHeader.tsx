@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import {
@@ -7,19 +5,9 @@ import {
   NotebookPenIcon,
   PlusIcon,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export const StudiesTableHeader = () => {
-  const router = useRouter();
-
-  const moveToCreateStudy = () => {
-    router.push(PATH.STUDY.CREATE);
-  };
-
-  const moveToJoinStudy = () => {
-    router.push(PATH.STUDY.JOIN);
-  };
-
   return (
     <div className="flex w-full flex-row items-center justify-between gap-3">
       <div className="text-muted-foreground flex shrink-0 items-center gap-2 text-sm font-semibold whitespace-nowrap">
@@ -27,19 +15,23 @@ export const StudiesTableHeader = () => {
         <span>내 스터디</span>
       </div>
       <div className="flex gap-2">
-        <Button
-          variant="secondary"
-          size="icon-sm-responsive"
-          onClick={moveToCreateStudy}>
-          <PlusIcon />
-          <span className="hidden sm:inline">새로 만들기</span>
+        <Button variant="secondary" size="icon-sm-responsive" asChild>
+          <Link
+            id="study-create-link"
+            aria-label="스터디 생성 페이지로 이동"
+            href={PATH.STUDY.CREATE}>
+            <PlusIcon />
+            <span className="hidden sm:inline">새로 만들기</span>
+          </Link>
         </Button>
-        <Button
-          variant="secondary"
-          size="icon-sm-responsive"
-          onClick={moveToJoinStudy}>
-          <GitPullRequestArrowIcon />
-          <span className="hidden sm:inline">들어가기</span>
+        <Button variant="secondary" size="icon-sm-responsive" asChild>
+          <Link
+            id="study-join-link"
+            aria-label="스터디 참여 페이지로 이동"
+            href={PATH.STUDY.JOIN}>
+            <GitPullRequestArrowIcon />
+            <span className="hidden sm:inline">들어가기</span>
+          </Link>
         </Button>
       </div>
     </div>

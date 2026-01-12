@@ -1,6 +1,6 @@
 import { StudiesSection } from '@/features/study/components/home/StudiesSection';
 import { StudyHomeHeader } from '@/features/study/components/home/StudyHomeHeader';
-import { StudyHomeTitleSuspense } from '@/features/study/suspenses/StudyHomeTitleSuspense';
+import { StudyHomeTitleSuspense } from '@/features/study/suspenses/common/StudyHomeTitleSuspense';
 
 const StudyHomePage = () => {
   return (

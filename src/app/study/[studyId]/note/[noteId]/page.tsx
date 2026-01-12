@@ -1,4 +1,4 @@
-import { NoteSuspense } from '@/features/study/suspenses/NoteSuspense';
+import { NoteSuspense } from '@/features/study/suspenses/note/NoteSuspense';
 import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {

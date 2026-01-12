@@ -1,8 +1,8 @@
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { withSuspense } from '@/hoc/withSuspense';
 
-import { NotesMaximize } from '../components/note/notes-maximize/NotesMaximize';
-import { NotesMaximizeFallback } from '../components/note/notes-maximize/NotesMaximizeFallback';
+import { NotesMaximize } from '../../components/note/notes-maximize/NotesMaximize';
+import { NotesMaximizeFallback } from '../../components/note/notes-maximize/NotesMaximizeFallback';
 
 type Props = {
   study: GetStudyDetailResponse;

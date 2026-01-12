@@ -21,7 +21,7 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Spinner } from '@/components/ui/Spinner';
-import { useRemoveConfirmation } from '@/features/study/hooks/useRemoveConfirmation';
+import { useRemoveConfirmation } from '@/features/study/hooks/study/useRemoveConfirmation';
 
 type Props = {
   studyName: string;

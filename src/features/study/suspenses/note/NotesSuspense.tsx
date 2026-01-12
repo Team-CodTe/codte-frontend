@@ -1,8 +1,8 @@
 import { getNotes } from '@/api/note/getNotes/fetch';
 import { withSuspense } from '@/hoc/withSuspense';
 
-import { Notes } from '../components/main/notes/Notes';
-import { NotesFallback } from '../components/main/notes/NotesFallback';
+import { Notes } from '../../components/main/notes/Notes';
+import { NotesFallback } from '../../components/main/notes/NotesFallback';
 
 type Props = {
   studyId: number;

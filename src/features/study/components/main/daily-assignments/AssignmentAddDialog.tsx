@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/Label';
 import { Spinner } from '@/components/ui/Spinner';
 import { PlusIcon } from 'lucide-react';
 
-import { useAddAssignment } from '../../../hooks/useAddAssignment';
+import { useAddAssignment } from '../../../hooks/assignment/useAddAssignment';
 
 export const AssignmentAddDialog = () => {
   const {

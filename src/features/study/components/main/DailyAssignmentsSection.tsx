@@ -1,6 +1,6 @@
 import type { GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 
-import { DailyAssignmentSuspense } from '../../suspenses/DailyAssignmentSuspense';
+import { DailyAssignmentSuspense } from '../../suspenses/assignment/DailyAssignmentSuspense';
 import { DailyAssignmentsTableHeader } from './daily-assignments/DailyAssignmentsTableHeader';
 
 type Props = {

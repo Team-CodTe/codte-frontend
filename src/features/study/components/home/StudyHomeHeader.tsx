@@ -1,6 +1,6 @@
 import { AppLogo } from '@/components/logos/AppLogo';
 
-import { DropdownAvatar } from '../DropdownAvatar';
+import { DropdownAvatar } from '../common/DropdownAvatar';
 
 export const StudyHomeHeader = () => {
   return (

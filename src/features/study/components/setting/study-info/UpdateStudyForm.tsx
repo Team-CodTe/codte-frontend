@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/Select';
 import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
-import { useUpdateStudyForm } from '@/features/study/hooks/useUpdateStudyForm';
+import { useUpdateStudyForm } from '@/features/study/hooks/form/useUpdateStudyForm';
 import { type StudyFormData } from '@/features/study/schemas/studyForm.schema';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
