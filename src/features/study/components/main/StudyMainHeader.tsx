@@ -14,12 +14,14 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/Breadcrumb';
 import { Button } from '@/components/ui/Button';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { PATH } from '@/constants/path';
 import { useStudyBreadcrumbs } from '@/features/study/hooks/useStudyBreadcrumbs';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 
+import { useCurrentNoteDetail } from '../../hooks/useCurrentNoteDetail';
 import { DropdownAvatar } from '../DropdownAvatar';
 import { SelectAssignmentBreadcrumbItem } from '../note/write/SelectAssignmentBreadcrumbItem';
 
@@ -34,6 +36,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
   });
 
   const breadcrumbItems = useStudyBreadcrumbs({ studyId: study?.id });
+  const { noteId, note, isLoading } = useCurrentNoteDetail();
 
   if (!study) {
     return null;
@@ -77,6 +80,18 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
 
           {breadcrumbItems.map((item) => {
             const isWriteSegment = item.href.endsWith('/write');
+            const isNoteIdSegment =
+              noteId !== undefined && item.href.includes(`/note/${noteId}`);
+
+            let displayLabel: React.ReactNode = item.label;
+
+            if (isNoteIdSegment) {
+              if (isLoading) {
+                displayLabel = <Skeleton className="h-5 w-24" />;
+              } else if (note) {
+                displayLabel = note.problemTitle;
+              }
+            }
 
             return (
               <React.Fragment key={item.key}>
@@ -86,11 +101,11 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
                     <SelectAssignmentBreadcrumbItem studyId={studyId} />
                   ) : item.isLast ? (
                     <BreadcrumbPage className="block truncate">
-                      {item.label}
+                      {displayLabel}
                     </BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild className="block truncate">
-                      <Link href={item.href}>{item.label}</Link>
+                      <Link href={item.href}>{displayLabel}</Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
