@@ -1,8 +1,9 @@
+import { useParamInt } from '@/hooks/useParamInt';
 import { usePathname } from 'next/navigation';
 
 const BREADCRUMB_MAP = {
   setting: '스터디 설정',
-  note: '문제 풀이 글',
+  notes: '문제 풀이 글',
   template: '템플릿 수정',
   edit: '수정',
 } as const;
@@ -16,11 +17,8 @@ type BreadcrumbItem = {
   isLast: boolean;
 };
 
-type Props = {
-  studyId?: number;
-};
-
-export const useStudyBreadcrumbs = ({ studyId }: Props) => {
+export const useStudyBreadcrumbs = () => {
+  const studyId = useParamInt('studyId');
   const pathname = usePathname();
 
   if (!studyId) {
@@ -36,20 +34,26 @@ export const useStudyBreadcrumbs = ({ studyId }: Props) => {
     return [];
   }
 
+  const basePath = '/' + pathSegments.slice(0, studyIdIndex + 1).join('/');
+
   const subPaths = pathSegments.slice(studyIdIndex + 1);
 
-  const breadcrumbs: BreadcrumbItem[] = subPaths.map((segment, index) => {
-    const href = `/${pathSegments
-      .slice(0, studyIdIndex + 1 + index + 1)
-      .join('/')}`;
+  const breadcrumbs = subPaths.reduce<BreadcrumbItem[]>(
+    (acc, segment, index) => {
+      const prevHref = acc.length > 0 ? acc[acc.length - 1].href : basePath;
+      const currentHref = `${prevHref}/${segment}`;
 
-    return {
-      key: href,
-      href,
-      label: BREADCRUMB_MAP[segment as BreadcrumbKey] || segment,
-      isLast: index === subPaths.length - 1,
-    };
-  });
+      acc.push({
+        key: currentHref,
+        href: currentHref,
+        label: BREADCRUMB_MAP[segment as BreadcrumbKey] || segment,
+        isLast: index === subPaths.length - 1,
+      });
+
+      return acc;
+    },
+    [],
+  );
 
   return breadcrumbs;
 };

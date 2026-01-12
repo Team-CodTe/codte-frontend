@@ -2,7 +2,7 @@ import { StudiesSection } from '@/features/study/components/home/StudiesSection'
 import { StudyHomeHeader } from '@/features/study/components/home/StudyHomeHeader';
 import { StudyHomeTitleSuspense } from '@/features/study/suspenses/common/StudyHomeTitleSuspense';
 
-const StudyHomePage = () => {
+const DashboardPage = () => {
   return (
     <div className="flex w-screen flex-col items-center">
       <StudyHomeHeader />
@@ -15,4 +15,4 @@ const StudyHomePage = () => {
   );
 };
 
-export default StudyHomePage;
+export default DashboardPage;

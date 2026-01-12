@@ -99,7 +99,7 @@ export const proxy = auth(async (req) => {
   // 회원가입 완료 유저 처리
   if (GUEST_PATHS.includes(pathname)) {
     return applyCookies(
-      NextResponse.redirect(new URL(PATH.STUDY.HOME, nextUrl)),
+      NextResponse.redirect(new URL(PATH.DASHBOARD, nextUrl)),
       newCookies,
     );
   }

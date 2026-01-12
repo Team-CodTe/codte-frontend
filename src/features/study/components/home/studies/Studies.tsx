@@ -28,7 +28,7 @@ export const Studies = ({ initialData }: Props) => {
     startTransition(() => {
       router.push(
         buildUrlWithParams({
-          url: PATH.STUDY.MAIN,
+          url: PATH.STUDY.SPACE,
           pathParams: { studyId: study.studyId },
         }),
       );

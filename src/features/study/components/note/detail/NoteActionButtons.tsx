@@ -29,7 +29,7 @@ export const NoteActionButtons = ({ studyId, noteId }: Props) => {
   const moveToEditNote = () => {
     router.push(
       buildUrlWithParams({
-        url: PATH.STUDY.NOTE.EDIT,
+        url: PATH.STUDY.NOTES.EDIT,
         pathParams: { studyId, noteId },
       }),
     );

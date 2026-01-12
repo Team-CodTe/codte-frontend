@@ -16,7 +16,7 @@ export const NotesMaximizeTableHeader = ({ studyId, role }: Props) => {
   const isEditable = role === STUDY_ROLE.OWNER;
 
   const templateManagePageUrl = buildUrlWithParams({
-    url: PATH.STUDY.NOTE.TEMPLATE,
+    url: PATH.STUDY.NOTES.TEMPLATE,
     pathParams: { studyId },
   });
 

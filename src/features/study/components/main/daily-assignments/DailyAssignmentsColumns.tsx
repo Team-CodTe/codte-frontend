@@ -79,7 +79,7 @@ export const dailyAssignmentsTableColumns = ({
       const problemId = row.original.problemId;
 
       const noteWriteUrl = buildUrlWithParams({
-        url: PATH.STUDY.NOTE.WRITE,
+        url: PATH.STUDY.NOTES.WRITE,
         pathParams: { studyId },
         queryParams: { problemId },
       });

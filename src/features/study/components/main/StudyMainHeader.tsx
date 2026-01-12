@@ -35,7 +35,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
     initialData,
   });
 
-  const breadcrumbItems = useStudyBreadcrumbs({ studyId: study?.id });
+  const breadcrumbItems = useStudyBreadcrumbs();
   const { noteId, note, isLoading } = useCurrentNoteDetail();
 
   if (!study) {
@@ -43,7 +43,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
   }
 
   const mainPageUrl = buildUrlWithParams({
-    url: PATH.STUDY.MAIN,
+    url: PATH.STUDY.SPACE,
     pathParams: { studyId: study.id },
   });
 
@@ -58,7 +58,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
         <BreadcrumbList className="flex-nowrap">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href={PATH.STUDY.HOME} replace>
+              <Link href={PATH.DASHBOARD} replace>
                 <AppLogo className="h-8 w-auto" />
               </Link>
             </BreadcrumbLink>
@@ -81,7 +81,7 @@ export const StudyMainHeader = ({ studyId, initialData }: Props) => {
           {breadcrumbItems.map((item) => {
             const isWriteSegment = item.href.endsWith('/write');
             const isNoteIdSegment =
-              noteId !== undefined && item.href.endsWith(`/note/${noteId}`);
+              noteId !== undefined && item.href.endsWith(`/notes/${noteId}`);
 
             let displayLabel: React.ReactNode = item.label;
 

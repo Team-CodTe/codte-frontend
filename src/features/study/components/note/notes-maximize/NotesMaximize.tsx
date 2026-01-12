@@ -84,7 +84,7 @@ export const NotesMaximize = ({
     startTransition(() => {
       router.push(
         buildUrlWithParams({
-          url: PATH.STUDY.NOTE.DETAIL,
+          url: PATH.STUDY.NOTES.DETAIL,
           pathParams: { studyId, noteId: note.id },
         }),
       );

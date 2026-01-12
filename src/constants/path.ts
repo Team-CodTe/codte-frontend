@@ -1,20 +1,20 @@
 export const PATH = {
   LANDING: '/',
   LOGIN: '/login',
-  SIGN_UP: '/sign-up',
   AUTH_CALLBACK: '/auth/callback',
+  SIGN_UP: '/sign-up',
+  DASHBOARD: '/dashboard',
   STUDY: {
-    HOME: '/study',
     CREATE: '/study/create',
     JOIN: '/study/join',
-    MAIN: '/study/{studyId}',
+    SPACE: '/study/{studyId}',
     SETTING: '/study/{studyId}/setting',
-    NOTE: {
-      LIST: '/study/{studyId}/note',
-      TEMPLATE: '/study/{studyId}/note/template',
-      WRITE: '/study/{studyId}/note/write',
-      DETAIL: '/study/{studyId}/note/{noteId}',
-      EDIT: '/study/{studyId}/note/{noteId}/edit',
+    NOTES: {
+      LIST: '/study/{studyId}/notes',
+      TEMPLATE: '/study/{studyId}/notes/template',
+      WRITE: '/study/{studyId}/notes/write',
+      DETAIL: '/study/{studyId}/notes/{noteId}',
+      EDIT: '/study/{studyId}/notes/{noteId}/edit',
     },
   },
-};
+} as const;

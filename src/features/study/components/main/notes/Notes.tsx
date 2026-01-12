@@ -41,7 +41,7 @@ export const Notes = ({ studyId, problemId, pageSize, initialData }: Props) => {
     startTransition(() => {
       router.push(
         buildUrlWithParams({
-          url: PATH.STUDY.NOTE.DETAIL,
+          url: PATH.STUDY.NOTES.DETAIL,
           pathParams: {
             studyId,
             noteId: note.id,

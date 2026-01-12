@@ -26,7 +26,7 @@ export const SelectAssignmentDropdownButton = ({ studyId }: Props) => {
   const handleSelectProblem = (selectedProblemId: number) => {
     router.push(
       buildUrlWithParams({
-        url: PATH.STUDY.NOTE.WRITE,
+        url: PATH.STUDY.NOTES.WRITE,
         pathParams: { studyId },
         queryParams: { problemId: selectedProblemId },
       }),
