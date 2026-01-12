@@ -72,6 +72,12 @@ export const NotesMaximizeTable = <TData, TValue>({
     count: rows.length,
     estimateSize: () => TABLE_ROW_HEIGHT,
     getScrollElement: () => tableContainer,
+    // Firefox에서는 테이블 테두리 높이를 잘못 측정하므로, Firefox를 제외한 환경에서만 동적 행 높이를 측정
+    measureElement:
+      typeof window !== 'undefined' &&
+      navigator.userAgent.indexOf('Firefox') === -1
+        ? (element) => element?.getBoundingClientRect().height
+        : undefined,
     overscan: 5,
     useFlushSync: false,
   });
