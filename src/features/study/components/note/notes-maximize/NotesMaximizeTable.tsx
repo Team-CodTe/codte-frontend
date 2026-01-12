@@ -22,7 +22,8 @@ import {
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
-const TABLE_ROW_HEIGHT = 44;
+const TABLE_ROW_HEIGHT = 45; // 행 자체 높이 44px + 보더 1px
+const NON_TABLE_AREA_HEIGHT = '14.5rem';
 
 export const NotesMaximizeTable = <TData, TValue>({
   data,
@@ -71,19 +72,14 @@ export const NotesMaximizeTable = <TData, TValue>({
     count: rows.length,
     estimateSize: () => TABLE_ROW_HEIGHT,
     getScrollElement: () => tableContainer,
-    measureElement:
-      typeof window !== 'undefined' &&
-      navigator.userAgent.indexOf('Firefox') === -1
-        ? (element) => element?.getBoundingClientRect().height
-        : undefined,
     overscan: 5,
     useFlushSync: false,
   });
 
   const setRefs = useCallback(
     (node: HTMLDivElement | null) => {
-      setTableContainer(node); // 내부 State 업데이트 -> 리렌더링 발생
-      scrollRef?.(node); // 부모(useScrollRestoration)의 Ref 실행
+      setTableContainer(node);
+      scrollRef?.(node);
     },
     [scrollRef],
   );
@@ -130,7 +126,7 @@ export const NotesMaximizeTable = <TData, TValue>({
     <div>
       <div
         ref={setRefs}
-        className="relative max-h-[calc(100dvh-14.5rem)] overflow-auto">
+        className={`relative max-h-[calc(100dvh-${NON_TABLE_AREA_HEIGHT})] overflow-auto`}>
         <Table noWrapper style={{ display: 'grid' }}>
           <TableHeader
             style={{
