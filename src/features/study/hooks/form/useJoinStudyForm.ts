@@ -28,7 +28,7 @@ export const useJoinStudyForm = () => {
         startTransition(() => {
           router.replace(
             buildUrlWithParams({
-              url: PATH.STUDY.MAIN,
+              url: PATH.STUDY.SPACE,
               pathParams: { studyId: data.id },
             }),
           );

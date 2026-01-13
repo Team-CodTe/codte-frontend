@@ -77,7 +77,7 @@ export const useSignUpForm = () => {
         startTransition(() => {
           resetUsernameValidation();
           resetBojValidation();
-          router.replace(PATH.STUDY.HOME);
+          router.replace(PATH.DASHBOARD);
         });
         showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
       },

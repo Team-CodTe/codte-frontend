@@ -19,7 +19,7 @@ const AuthCallbackPage = () => {
   const { mutate: mutateSocialLogin } = useSocialLoginMutation({
     onSuccess: (data) => {
       if (data.isRegistered) {
-        router.replace(PATH.STUDY.HOME);
+        router.replace(PATH.DASHBOARD);
       } else {
         router.replace(PATH.SIGN_UP);
       }

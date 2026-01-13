@@ -35,7 +35,7 @@ export const useWriteNote = ({ initialContent }: Props) => {
 
           router.replace(
             buildUrlWithParams({
-              url: PATH.STUDY.NOTE.DETAIL,
+              url: PATH.STUDY.NOTES.DETAIL,
               pathParams: {
                 studyId,
                 noteId: data.id,

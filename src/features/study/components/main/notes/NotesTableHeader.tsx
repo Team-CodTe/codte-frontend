@@ -14,12 +14,12 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
   const isEditable = role === STUDY_ROLE.OWNER;
 
   const manageTemplatePageUrl = buildUrlWithParams({
-    url: PATH.STUDY.NOTE.TEMPLATE,
+    url: PATH.STUDY.NOTES.TEMPLATE,
     pathParams: { studyId },
   });
 
   const maximizeNotesPageUrl = buildUrlWithParams({
-    url: PATH.STUDY.NOTE.LIST,
+    url: PATH.STUDY.NOTES.LIST,
     pathParams: { studyId },
   });
 

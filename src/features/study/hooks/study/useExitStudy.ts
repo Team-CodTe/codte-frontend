@@ -16,7 +16,7 @@ export const useExitStudy = () => {
     useLeaveStudyMutation(studyId, {
       onSuccess: () => {
         startTransition(() => {
-          router.replace(PATH.STUDY.HOME);
+          router.replace(PATH.DASHBOARD);
         });
 
         showToast({ message: '스터디를 탈퇴했습니다.', type: 'success' });
@@ -33,7 +33,7 @@ export const useExitStudy = () => {
     useRemoveStudyMutation(studyId, {
       onSuccess: () => {
         startTransition(() => {
-          router.replace(PATH.STUDY.HOME);
+          router.replace(PATH.DASHBOARD);
         });
 
         showToast({ message: '스터디가 삭제되었습니다.', type: 'success' });

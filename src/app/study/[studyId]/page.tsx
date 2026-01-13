@@ -9,7 +9,7 @@ type Props = {
   }>;
 };
 
-const StudyMainPage = async ({ params }: Props) => {
+const StudySpacePage = async ({ params }: Props) => {
   const studyId = safeParseInt((await params).studyId);
   const study = await getStudyDetail(studyId);
 
@@ -30,4 +30,4 @@ const StudyMainPage = async ({ params }: Props) => {
   );
 };
 
-export default StudyMainPage;
+export default StudySpacePage;

@@ -8,7 +8,7 @@ type Props = {
   }>;
 };
 
-const EditNotePage = async ({ params }: Props) => {
+const NoteEditPage = async ({ params }: Props) => {
   const noteId = safeParseInt((await params).noteId);
   const note = await getNoteDetail(noteId);
 
@@ -19,4 +19,4 @@ const EditNotePage = async ({ params }: Props) => {
   );
 };
 
-export default EditNotePage;
+export default NoteEditPage;

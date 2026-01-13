@@ -35,7 +35,7 @@ export const useRemoveNote = () => {
         startTransition(() => {
           router.replace(
             buildUrlWithParams({
-              url: PATH.STUDY.NOTE.LIST,
+              url: PATH.STUDY.NOTES.LIST,
               pathParams: { studyId },
             }),
           );
