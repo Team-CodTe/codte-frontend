@@ -32,6 +32,7 @@ export const DropdownAvatar = () => {
         <DropdownMenuItem className="focus:bg-transparent">
           <div className="flex flex-col">
             <span className="font-medium">{user?.username}</span>
+            <span className="text-xs">{user?.bojUsername}</span>
             <span className="text-muted-foreground text-xs">{user?.email}</span>
           </div>
         </DropdownMenuItem>

@@ -45,10 +45,10 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
         <Button variant="secondary" size="icon-sm-responsive" asChild>
           <Link
             id="maximize-notes-link"
-            aria-label="전체 페이지로 보기"
+            aria-label="전체 문제 풀이 글 페이지로 이동"
             href={maximizeNotesPageUrl}>
             <Maximize2Icon />
-            <span className="hidden sm:inline">전체 페이지로 보기</span>
+            <span className="hidden sm:inline">전체 페이지 보기</span>
           </Link>
         </Button>
       </div>
