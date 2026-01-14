@@ -27,7 +27,7 @@ const StudySpacePage = async ({ params, searchParams }: Props) => {
 
   return (
     <main className="grid min-h-0 w-full flex-1 grid-cols-1 gap-10 p-5 pt-4 lg:h-screen lg:max-h-[calc(100dvh-4rem)] lg:grid-cols-2 lg:grid-rows-1 lg:gap-8 lg:p-8 lg:pt-4">
-      <div className="flex min-h-0 flex-col gap-10 lg:h-full lg:gap-6">
+      <div className="flex min-h-0 flex-col gap-10 lg:h-full lg:gap-7">
         {/** 오늘의 추천 문제 섹션 */}
         <DailyAssignmentsSection study={study} />
 

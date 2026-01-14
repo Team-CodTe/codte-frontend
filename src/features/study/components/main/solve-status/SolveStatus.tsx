@@ -9,7 +9,7 @@ import { useSolveStatus } from '@/features/study/hooks/solve-status/useSolveStat
 
 import { solveStatusGroupColumns } from './group/SolveStatusGroupColumns';
 import { solveStatusMeColumns } from './me/SolveStatusMeColumns';
-import { SolveStatusTable } from './SolveStatusGroupTable';
+import { SolveStatusTable } from './SolveStatusTable';
 import { SolveStatusTableFooter } from './SolveStatusTableFooter';
 
 type Props = {

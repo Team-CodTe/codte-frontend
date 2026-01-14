@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 
 import { solveStatusGroupColumns } from './group/SolveStatusGroupColumns';
 import { solveStatusMeColumns } from './me/SolveStatusMeColumns';
-import { SolveStatusTable } from './SolveStatusGroupTable';
+import { SolveStatusTable } from './SolveStatusTable';
 
 type Props = {
   view?: ViewMethod;

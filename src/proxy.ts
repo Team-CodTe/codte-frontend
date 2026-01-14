@@ -3,8 +3,8 @@ import { PATH } from '@/constants/path';
 import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
-const PUBLIC_PATHS = [PATH.LANDING, PATH.LOGIN];
-const GUEST_PATHS = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
+const PUBLIC_PATHS: string[] = [PATH.LANDING, PATH.LOGIN];
+const GUEST_PATHS: string[] = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const proxy = auth(async (req) => {

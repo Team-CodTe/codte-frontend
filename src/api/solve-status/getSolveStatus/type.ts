@@ -1,6 +1,7 @@
 export const VIEW_METHOD = {
   ME: 'me',
   GROUP: 'group',
+  MEMBER: 'member',
 } as const;
 
 export type ViewMethod = (typeof VIEW_METHOD)[keyof typeof VIEW_METHOD];
