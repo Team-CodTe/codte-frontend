@@ -12,7 +12,7 @@ export const SolveStatusSection = ({ study }: Props) => {
   return (
     <div className="flex min-h-0 flex-col gap-3 md:flex-1">
       <SolveStatusTableHeader />
-      <SolveStatusSuspense studyId={study.id} view={VIEW_METHOD.GROUP} />
+      <SolveStatusSuspense studyId={study.id} view={VIEW_METHOD.ME} />
     </div>
   );
 };

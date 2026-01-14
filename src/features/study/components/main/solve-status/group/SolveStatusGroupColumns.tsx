@@ -36,7 +36,7 @@ export const solveStatusGroupColumns = (): ColumnDef<GroupMemberItem>[] => [
     },
   },
   {
-    accessorKey: 'summary',
+    accessorKey: 'statusSummary',
     header: '풀이 상태 요약',
     meta: {
       className: 'w-[15%]',
@@ -53,32 +53,36 @@ export const solveStatusGroupColumns = (): ColumnDef<GroupMemberItem>[] => [
           <Badge
             variant="secondary"
             className={cn(
-              'gap-2 transition-colors',
+              'transition-colors',
               problemCompletedCount === totalCount &&
-                'bg-success/15 border-success/30 text-success',
+                'bg-success/10 border-success/30 text-success',
               problemCompletedCount === 0 && 'text-muted-foreground',
             )}>
             <CodeXmlIcon className="size-3" aria-label="문제 풀이 개수" />
-            {problemCompletedCount} / {totalCount}
+            <span>
+              {problemCompletedCount} / {totalCount}
+            </span>
           </Badge>
 
           <Badge
             variant="secondary"
             className={cn(
-              'gap-2 transition-colors',
+              'transition-colors',
               noteCompletedCount === totalCount &&
-                'bg-success/15 border-success/30 text-success',
+                'bg-success/10 border-success/30 text-success',
               noteCompletedCount === 0 && 'text-muted-foreground',
             )}>
             <LibraryIcon className="size-3" aria-label="풀이 글 작성 개수" />
-            {noteCompletedCount} / {totalCount}
+            <span>
+              {noteCompletedCount} / {totalCount}
+            </span>
           </Badge>
         </div>
       );
     },
   },
   {
-    accessorKey: 'solveStatus',
+    accessorKey: 'status',
     header: '풀이 상태',
     meta: {
       className: 'w-[70%]',
@@ -103,7 +107,7 @@ export const solveStatusGroupColumns = (): ColumnDef<GroupMemberItem>[] => [
                 key={problemId}
                 variant="outline"
                 className={cn(
-                  'gap-2 transition-colors',
+                  'transition-colors',
                   isAllCompleted && 'bg-success/10 border-success/30',
                 )}>
                 <div

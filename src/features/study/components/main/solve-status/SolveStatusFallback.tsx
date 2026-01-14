@@ -7,7 +7,7 @@ import {
 import { Skeleton } from '@/components/ui/Skeleton';
 
 import { solveStatusGroupColumns } from './group/SolveStatusGroupColumns';
-import { SolveStatusGroupTable } from './group/SolveStatusGroupTable';
+import { SolveStatusTable } from './SolveStatusGroupTable';
 
 type Props = {
   view?: ViewMethod;
@@ -17,7 +17,7 @@ export const SolveStatusFallback = ({ view }: Props) => {
   return (
     <div className="flex min-h-0 flex-col gap-3 lg:h-full">
       {view === VIEW_METHOD.GROUP ? (
-        <SolveStatusGroupTable
+        <SolveStatusTable
           data={[]}
           columns={solveStatusGroupColumns()}
           isLoading={true}

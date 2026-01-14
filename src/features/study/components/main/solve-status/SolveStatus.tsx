@@ -8,7 +8,8 @@ import {
 import { useSolveStatus } from '@/features/study/hooks/solve-status/useSolveStatus';
 
 import { solveStatusGroupColumns } from './group/SolveStatusGroupColumns';
-import { SolveStatusGroupTable } from './group/SolveStatusGroupTable';
+import { solveStatusMeColumns } from './me/SolveStatusMeColumns';
+import { SolveStatusTable } from './SolveStatusGroupTable';
 import { SolveStatusTableFooter } from './SolveStatusTableFooter';
 
 type Props = {
@@ -25,11 +26,16 @@ export const SolveStatus = ({ initialData, view }: Props) => {
   return (
     <div className="flex min-h-0 flex-col gap-3 lg:h-full">
       {data?.view === VIEW_METHOD.GROUP ? (
-        <SolveStatusGroupTable
+        <SolveStatusTable
           data={data?.members ?? []}
           columns={solveStatusGroupColumns()}
         />
-      ) : null}
+      ) : (
+        <SolveStatusTable
+          data={data?.assignments ?? []}
+          columns={solveStatusMeColumns()}
+        />
+      )}
 
       <SolveStatusTableFooter
         lastUpdatedAt={data?.lastUpdatedAt ?? ''}

@@ -16,7 +16,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export const SolveStatusGroupTable = <TData, TValue>({
+export const SolveStatusTable = <TData, TValue>({
   data,
   columns,
   isLoading = false,
