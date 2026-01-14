@@ -4,8 +4,8 @@ import { withSuspense } from '@/hoc/withSuspense';
 import { FetchError } from '@/lib/fetchInstance';
 import { notFound, redirect } from 'next/navigation';
 
-import { StudyMainHeader } from '../../components/main/StudyMainHeader';
-import { StudyMainHeaderFallback } from '../../components/main/StudyMainHeaderFallback';
+import { StudySpaceHeader } from '../../components/common/StudySpaceHeader';
+import { StudySapceHeaderFallback } from '../../components/common/StudySpaceHeaderFallback';
 
 type Props = {
   studyId: number;
@@ -31,9 +31,9 @@ export const StudyMainHeaderSuspense = withSuspense(
       throw error;
     }
 
-    return <StudyMainHeader studyId={studyId} initialData={data} />;
+    return <StudySpaceHeader studyId={studyId} initialData={data} />;
   },
   {
-    fallback: <StudyMainHeaderFallback />,
+    fallback: <StudySapceHeaderFallback />,
   },
 );

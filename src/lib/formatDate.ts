@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, startOfDay } from 'date-fns';
 
 type FormatOptions = {
   includeTime?: boolean;
@@ -14,10 +14,10 @@ export const formatDate = (
   dateInput: Date | string | number = new Date(),
   options: FormatOptions = { includeTime: true },
 ): string => {
-  const date = new Date(dateInput);
+  let date = new Date(dateInput);
 
   if (isNaN(date.getTime())) {
-    return '잘못된 날짜';
+    date = startOfDay(new Date());
   }
 
   const dateFormat = 'yyyy. M. d.';

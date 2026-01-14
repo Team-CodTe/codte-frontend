@@ -21,8 +21,8 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 
+import { DropdownAvatar } from '../../../../components/common/DropdownAvatar';
 import { useCurrentNoteDetail } from '../../hooks/note/useCurrentNoteDetail';
-import { DropdownAvatar } from '../common/DropdownAvatar';
 import { SelectAssignmentBreadcrumbItem } from '../note/write/SelectAssignmentBreadcrumbItem';
 
 type Props = {
@@ -30,7 +30,7 @@ type Props = {
   initialData: GetStudyDetailResponse;
 };
 
-export const StudyMainHeader = ({ studyId, initialData }: Props) => {
+export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
   const { data: study } = useStudyDetailQuery(studyId, {
     initialData,
   });

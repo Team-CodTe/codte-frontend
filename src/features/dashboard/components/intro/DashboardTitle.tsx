@@ -7,7 +7,7 @@ type Props = {
   initialData: GetMyProfileResponse;
 };
 
-export const StudyHomeTitle = ({ initialData }: Props) => {
+export const DashboardTitle = ({ initialData }: Props) => {
   const { data: user } = useMyProfileQuery({
     initialData,
   });

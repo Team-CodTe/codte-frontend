@@ -1,8 +1,7 @@
 import { getMyStudies } from '@/api/study/getMyStudies/fetch';
+import { Studies } from '@/features/dashboard/components/studies/Studies';
+import { StudiesFallback } from '@/features/dashboard/components/studies/StudiesFallback';
 import { withSuspense } from '@/hoc/withSuspense';
-
-import { Studies } from '../../components/home/studies/Studies';
-import { StudiesFallback } from '../../components/home/studies/StudiesFallback';
 
 export const StudiesSuspense = withSuspense(
   async () => {
