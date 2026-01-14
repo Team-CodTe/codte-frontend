@@ -3,81 +3,71 @@ import {
   NOTE_STATUS,
   PROBLEM_STATUS,
 } from '@/api/solve-status/getSolveStatus/type';
-import { Badge } from '@/components/ui/Badge';
 import { type ColumnDef } from '@tanstack/react-table';
 
-export const solveStatusMeColumns = (): ColumnDef<AssignmentStatusItem>[] => [
+import { StatusBadge } from './StatusBadge';
+
+const STATUS_CONFIG = {
+  PROBLEM: {
+    [PROBLEM_STATUS.NOT_ATTEMPTED]: {
+      label: '풀기 전',
+      style: 'bg-muted-foreground',
+      badgeClass: '',
+    },
+    [PROBLEM_STATUS.IN_PROGRESS]: {
+      label: '푸는 중',
+      style: 'bg-primary',
+      badgeClass: 'bg-primary/10 text-primary',
+    },
+    [PROBLEM_STATUS.COMPLETED]: {
+      label: '완료',
+      style: 'bg-success',
+      badgeClass: 'bg-success/10 text-success',
+    },
+  },
+  NOTE: {
+    [NOTE_STATUS.NOT_COMPLETED]: {
+      label: '작성 전',
+      style: 'bg-muted-foreground',
+      badgeClass: '',
+    },
+    [NOTE_STATUS.COMPLETED]: {
+      label: '완료',
+      style: 'bg-success',
+      badgeClass: 'bg-success/10 text-success',
+    },
+  },
+} as const;
+
+export const solveStatusMeColumns: ColumnDef<AssignmentStatusItem>[] = [
   {
     accessorKey: 'title',
     header: '제목',
-    meta: {
-      className: 'w-[30%]',
-    },
-    cell: ({ row }) => {
-      return (
-        <span className="block max-w-32 truncate">{row.original.title}</span>
-      );
-    },
+    meta: { className: 'w-[30%]' },
+    cell: ({ row }) => (
+      <span className="block max-w-32 truncate">{row.original.title}</span>
+    ),
   },
   {
     accessorKey: 'problemStatus',
     header: '문제 풀이 상태',
-    meta: {
-      className: 'w-[35%]',
-    },
+    meta: { className: 'w-[35%]' },
     cell: ({ row }) => {
-      const { problemStatus } = row.original;
+      const status = row.original.problemStatus;
+      const config = STATUS_CONFIG.PROBLEM[status];
 
-      switch (problemStatus) {
-        case PROBLEM_STATUS.NOT_ATTEMPTED:
-          return (
-            <Badge variant="secondary">
-              <div className="bg-muted-foreground size-2 rounded-full" />
-              <span>풀기 전</span>
-            </Badge>
-          );
-        case PROBLEM_STATUS.IN_PROGRESS:
-          return (
-            <Badge variant="secondary" className="bg-primary/10 text-primary">
-              <div className="bg-primary size-2 rounded-full" />
-              <span>푸는 중</span>
-            </Badge>
-          );
-        case PROBLEM_STATUS.COMPLETED:
-          return (
-            <Badge variant="secondary" className="bg-success/10 text-success">
-              <div className="bg-success size-2 rounded-full" />
-              <span>완료</span>
-            </Badge>
-          );
-      }
+      return <StatusBadge config={config} />;
     },
   },
   {
     accessorKey: 'noteStatus',
     header: '풀이 글 작성 상태',
-    meta: {
-      className: 'w-[35%]',
-    },
+    meta: { className: 'w-[35%]' },
     cell: ({ row }) => {
-      const { noteStatus } = row.original;
+      const status = row.original.noteStatus;
+      const config = STATUS_CONFIG.NOTE[status];
 
-      switch (noteStatus) {
-        case NOTE_STATUS.NOT_COMPLETED:
-          return (
-            <Badge variant="secondary">
-              <div className="bg-muted-foreground size-2 rounded-full" />
-              <span>작성 전</span>
-            </Badge>
-          );
-        case NOTE_STATUS.COMPLETED:
-          return (
-            <Badge variant="secondary" className="bg-success/10 text-success">
-              <div className="bg-success size-2 rounded-full" />
-              <span>완료</span>
-            </Badge>
-          );
-      }
+      return <StatusBadge config={config} />;
     },
   },
 ];

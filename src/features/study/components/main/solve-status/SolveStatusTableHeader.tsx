@@ -15,7 +15,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import { SOLVE_STATUS_VIEW_PARSER } from '@/features/study/constants/searchParams';
-import { ChevronDownIcon, ListCheckIcon } from 'lucide-react';
+import {
+  ChevronDownIcon,
+  ListCheckIcon,
+  UserIcon,
+  UsersIcon,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useQueryState } from 'nuqs';
 
@@ -50,7 +55,14 @@ export const SolveStatusTableHeader = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="sm" className="gap-2">
               <ChevronDownIcon />
-              <span>{VIEW_LABELS[currentView]}</span>
+              {currentView === VIEW_METHOD.GROUP ? (
+                <UsersIcon className="inline sm:hidden" />
+              ) : (
+                <UserIcon className="inline sm:hidden" />
+              )}
+              <span className="hidden sm:inline">
+                {VIEW_LABELS[currentView]}
+              </span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

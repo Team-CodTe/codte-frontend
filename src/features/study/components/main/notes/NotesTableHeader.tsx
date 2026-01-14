@@ -35,7 +35,8 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
             <Link
               id="manage-template-link"
               aria-label="템플릿 관리 페이지로 이동"
-              href={manageTemplatePageUrl}>
+              href={manageTemplatePageUrl}
+              className="cursor-default">
               <FileCog2Icon />
               <span className="hidden sm:inline">템플릿 관리</span>
             </Link>
@@ -46,7 +47,8 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
           <Link
             id="maximize-notes-link"
             aria-label="전체 문제 풀이 글 페이지로 이동"
-            href={maximizeNotesPageUrl}>
+            href={maximizeNotesPageUrl}
+            className="cursor-default">
             <Maximize2Icon />
             <span className="hidden sm:inline">전체 페이지 보기</span>
           </Link>

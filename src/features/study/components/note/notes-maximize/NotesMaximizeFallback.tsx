@@ -3,7 +3,7 @@
 import { Separator } from '@/components/ui/Separator';
 import { Skeleton } from '@/components/ui/Skeleton';
 
-import { NOTES_TABLE_COLUMNS } from '../../main/notes/NotesTableColumns';
+import { notesColumns } from '../../main/notes/NotesTableColumns';
 import { NotesMaximizeTable } from './NotesMaximizeTable';
 
 export const NotesMaximizeFallback = () => {
@@ -33,11 +33,7 @@ export const NotesMaximizeFallback = () => {
         </div>
       </div>
 
-      <NotesMaximizeTable
-        data={[]}
-        columns={NOTES_TABLE_COLUMNS}
-        isLoading={true}
-      />
+      <NotesMaximizeTable data={[]} columns={notesColumns} isLoading={true} />
     </div>
   );
 };

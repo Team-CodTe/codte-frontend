@@ -16,11 +16,11 @@ export const SolveStatusTableFooter = ({
   onRefresh,
 }: Props) => {
   return (
-    <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
+    <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 text-xs">
       <span>{formatDate(lastUpdatedAt)} 기준</span>
 
       <div className="flex items-center gap-1">
-        <HintTooltip content="5분에 한 번씩 할 수 있어요. 문제를 풀고나서 상태를 업데이트할 때 사용해요.">
+        <HintTooltip content="누구나 5분에 한 번씩 할 수 있어요. 문제를 풀고나서 상태를 갱신할 때 사용해요.">
           <InfoIcon className="size-3" />
         </HintTooltip>
         <Button

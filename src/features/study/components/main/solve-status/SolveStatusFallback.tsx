@@ -7,6 +7,7 @@ import {
 import { Skeleton } from '@/components/ui/Skeleton';
 
 import { solveStatusGroupColumns } from './group/SolveStatusGroupColumns';
+import { solveStatusMeColumns } from './me/SolveStatusMeColumns';
 import { SolveStatusTable } from './SolveStatusGroupTable';
 
 type Props = {
@@ -19,13 +20,19 @@ export const SolveStatusFallback = ({ view }: Props) => {
       {view === VIEW_METHOD.GROUP ? (
         <SolveStatusTable
           data={[]}
-          columns={solveStatusGroupColumns()}
+          columns={solveStatusGroupColumns}
           isLoading={true}
         />
-      ) : null}
+      ) : (
+        <SolveStatusTable
+          data={[]}
+          columns={solveStatusMeColumns}
+          isLoading={true}
+        />
+      )}
 
-      <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
-        <Skeleton className="h-4 w-36" />
+      <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 text-xs">
+        <Skeleton className="h-4 w-32" />
         <Skeleton className="h-4 w-28" />
       </div>
     </div>

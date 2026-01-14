@@ -1,10 +1,8 @@
 'use client';
 
+import { studiesColumns } from './StudiesColumns';
 import { StudiesTable } from './StudiesTable';
-import { STUDIES_TABLE_COLUMNS } from './StudiesTableColumns';
 
 export const StudiesFallback = () => {
-  return (
-    <StudiesTable data={[]} columns={STUDIES_TABLE_COLUMNS} isLoading={true} />
-  );
+  return <StudiesTable data={[]} columns={studiesColumns} isLoading={true} />;
 };

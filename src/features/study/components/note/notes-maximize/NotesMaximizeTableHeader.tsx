@@ -32,7 +32,8 @@ export const NotesMaximizeTableHeader = ({ studyId, role }: Props) => {
             <Link
               id="manage-template-link"
               aria-label="템플릿 관리 페이지로 이동"
-              href={templateManagePageUrl}>
+              href={templateManagePageUrl}
+              className="cursor-default">
               <FileCog2Icon />
               <span className="hidden sm:inline">템플릿 관리</span>
             </Link>

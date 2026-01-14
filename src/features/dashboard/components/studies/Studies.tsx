@@ -8,8 +8,8 @@ import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
 
+import { studiesColumns } from './StudiesColumns';
 import { StudiesTable } from './StudiesTable';
-import { STUDIES_TABLE_COLUMNS } from './StudiesTableColumns';
 
 type Props = {
   initialData: GetMyStudiesResponse[];
@@ -38,7 +38,7 @@ export const Studies = ({ initialData }: Props) => {
   return (
     <StudiesTable
       data={data ?? []}
-      columns={STUDIES_TABLE_COLUMNS}
+      columns={studiesColumns}
       onClickRow={moveToStudyMain}
     />
   );

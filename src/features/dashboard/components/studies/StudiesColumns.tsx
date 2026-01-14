@@ -9,7 +9,7 @@ const ROLE_LABEL: Record<StudyRole, string> = {
   [STUDY_ROLE.MEMBER]: '멤버',
 };
 
-export const STUDIES_TABLE_COLUMNS: ColumnDef<GetMyStudiesResponse>[] = [
+export const studiesColumns: ColumnDef<GetMyStudiesResponse>[] = [
   {
     accessorKey: 'studyName',
     header: '스터디 이름',

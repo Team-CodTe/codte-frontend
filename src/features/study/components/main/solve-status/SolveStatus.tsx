@@ -28,12 +28,12 @@ export const SolveStatus = ({ initialData, view }: Props) => {
       {data?.view === VIEW_METHOD.GROUP ? (
         <SolveStatusTable
           data={data?.members ?? []}
-          columns={solveStatusGroupColumns()}
+          columns={solveStatusGroupColumns}
         />
       ) : (
         <SolveStatusTable
           data={data?.assignments ?? []}
-          columns={solveStatusMeColumns()}
+          columns={solveStatusMeColumns}
         />
       )}
 
