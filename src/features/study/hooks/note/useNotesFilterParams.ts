@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { format, isValid, parse } from 'date-fns';
 import { parseAsString, useQueryState } from 'nuqs';
 
+import { NOTES_FILTER_KEYWORD_PARSER } from '../../constants/searchParams';
+
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 const QUERY_KEYS = {
@@ -26,10 +28,7 @@ export const useNotesFilterParams = () => {
   const [openCreatedDate, setOpenCreatedDate] = useState(false);
   const [keyword, setKeyword] = useQueryState(
     QUERY_KEYS.KEYWORD,
-    parseAsString.withDefault('').withOptions({
-      throttleMs: 300,
-      shallow: false,
-    }),
+    NOTES_FILTER_KEYWORD_PARSER,
   );
   const [assignedDateStr, setAssignedDateStr] = useQueryState(
     QUERY_KEYS.ASSIGNED_DATE,

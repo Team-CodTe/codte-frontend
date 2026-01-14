@@ -51,7 +51,7 @@ export const solveStatusGroupColumns = (): ColumnDef<GroupMemberItem>[] => [
       return (
         <div className="flex flex-row items-center gap-3">
           <Badge
-            variant="secondary"
+            variant="outline"
             className={cn(
               'transition-colors',
               problemCompletedCount === totalCount &&
@@ -65,7 +65,7 @@ export const solveStatusGroupColumns = (): ColumnDef<GroupMemberItem>[] => [
           </Badge>
 
           <Badge
-            variant="secondary"
+            variant="outline"
             className={cn(
               'transition-colors',
               noteCompletedCount === totalCount &&
@@ -105,10 +105,10 @@ export const solveStatusGroupColumns = (): ColumnDef<GroupMemberItem>[] => [
             return (
               <Badge
                 key={problemId}
-                variant="outline"
+                variant="secondary"
                 className={cn(
                   'transition-colors',
-                  isAllCompleted && 'bg-success/10 border-success/30',
+                  isAllCompleted && 'bg-success/10',
                 )}>
                 <div
                   className={cn(

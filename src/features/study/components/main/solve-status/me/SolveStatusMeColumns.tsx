@@ -5,7 +5,6 @@ import {
 } from '@/api/solve-status/getSolveStatus/type';
 import { Badge } from '@/components/ui/Badge';
 import { type ColumnDef } from '@tanstack/react-table';
-import { CodeXmlIcon, LibraryIcon } from 'lucide-react';
 
 export const solveStatusMeColumns = (): ColumnDef<AssignmentStatusItem>[] => [
   {
@@ -33,25 +32,21 @@ export const solveStatusMeColumns = (): ColumnDef<AssignmentStatusItem>[] => [
         case PROBLEM_STATUS.NOT_ATTEMPTED:
           return (
             <Badge variant="secondary">
-              <CodeXmlIcon className="size-3" aria-label="문제 풀기 전" />
+              <div className="bg-muted-foreground size-2 rounded-full" />
               <span>풀기 전</span>
             </Badge>
           );
         case PROBLEM_STATUS.IN_PROGRESS:
           return (
-            <Badge
-              variant="secondary"
-              className="bg-primary/10 border-primary/30 text-primary">
-              <CodeXmlIcon className="size-3" aria-label="문제 푸는 중" />
+            <Badge variant="secondary" className="bg-primary/10 text-primary">
+              <div className="bg-primary size-2 rounded-full" />
               <span>푸는 중</span>
             </Badge>
           );
         case PROBLEM_STATUS.COMPLETED:
           return (
-            <Badge
-              variant="secondary"
-              className="bg-success/10 border-success/30 text-success">
-              <CodeXmlIcon className="size-3" aria-label="문제 완료" />
+            <Badge variant="secondary" className="bg-success/10 text-success">
+              <div className="bg-success size-2 rounded-full" />
               <span>완료</span>
             </Badge>
           );
@@ -71,16 +66,14 @@ export const solveStatusMeColumns = (): ColumnDef<AssignmentStatusItem>[] => [
         case NOTE_STATUS.NOT_COMPLETED:
           return (
             <Badge variant="secondary">
-              <LibraryIcon className="size-3" aria-label="풀이 글 작성 전" />
+              <div className="bg-muted-foreground size-2 rounded-full" />
               <span>작성 전</span>
             </Badge>
           );
         case NOTE_STATUS.COMPLETED:
           return (
-            <Badge
-              variant="secondary"
-              className="bg-success/10 border-success/30 text-success">
-              <LibraryIcon className="size-3" aria-label="풀이 글 작성 완료" />
+            <Badge variant="secondary" className="bg-success/10 text-success">
+              <div className="bg-success size-2 rounded-full" />
               <span>완료</span>
             </Badge>
           );
