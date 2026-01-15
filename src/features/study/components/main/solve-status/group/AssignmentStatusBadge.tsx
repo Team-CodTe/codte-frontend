@@ -36,8 +36,11 @@ export const AssignmentStatusBadge = ({
 
   return (
     <Badge
-      variant="secondary"
-      className={cn('transition-colors', isAllCompleted && 'bg-success/10')}>
+      variant="outline"
+      className={cn(
+        'transition-colors',
+        isAllCompleted && 'bg-success/10 border-success/30',
+      )}>
       <div
         className={cn(
           'border-secondary-foreground/20 flex items-center gap-1.5 border-r pr-2 transition-colors',
