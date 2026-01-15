@@ -12,11 +12,16 @@ type ComponentProps<P> = ComponentType<P> | AsyncComponent<P>;
  */
 export const withSuspense = <P extends object>(
   WrappedComponent: ComponentProps<P>,
-  options?: { fallback: ReactNode },
+  options?: { fallback: ReactNode | ((props: P) => ReactNode) },
 ) => {
   const WithSuspense = (props: P) => {
+    const fallback =
+      typeof options?.fallback === 'function'
+        ? options.fallback(props)
+        : options?.fallback;
+
     return (
-      <Suspense fallback={options?.fallback}>
+      <Suspense fallback={fallback}>
         <WrappedComponent {...props} />
       </Suspense>
     );

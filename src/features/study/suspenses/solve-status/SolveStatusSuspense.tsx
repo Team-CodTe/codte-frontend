@@ -20,5 +20,9 @@ export const SolveStatusSuspense = withSuspense(
 
     return <SolveStatus initialData={data} view={view} />;
   },
-  { fallback: <SolveStatusFallback view={VIEW_METHOD.GROUP} /> },
+  {
+    fallback: ({ view }) => (
+      <SolveStatusFallback view={view ?? VIEW_METHOD.GROUP} />
+    ),
+  },
 );

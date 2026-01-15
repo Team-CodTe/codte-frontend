@@ -37,11 +37,6 @@ export const DropdownAvatar = () => {
           </div>
         </DropdownMenuItem>
 
-        {/** @todo 내 프로필 설정 페이지 이동 기능 추가 */}
-        <DropdownMenuItem>
-          <span>내 프로필</span>
-        </DropdownMenuItem>
-
         <DropdownMenuItem
           className="justify-between"
           onSelect={(event) => {

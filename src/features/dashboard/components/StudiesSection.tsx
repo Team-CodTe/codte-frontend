@@ -1,4 +1,4 @@
-import { StudiesSuspense } from '@/features/study/suspenses/study/StudiesSuspense';
+import { StudiesSuspense } from '@/features/dashboard/suspenses/StudiesSuspense';
 
 import { StudiesTableHeader } from './studies/StudiesTableHeader';
 
