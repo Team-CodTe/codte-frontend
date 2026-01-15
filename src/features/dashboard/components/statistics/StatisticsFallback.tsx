@@ -1,6 +1,7 @@
 import { Skeleton } from '@/components/ui/Skeleton';
 
 import { LEGEND_ITEMS, RANGE_DAYS } from '../../constants/heatmap';
+import { HeatmapLegend } from './HeatmapLegend';
 
 export const StatisticsFallback = () => {
   return (
@@ -18,7 +19,7 @@ export const StatisticsFallback = () => {
                 key={item.label}
                 className="flex items-center gap-1.5 whitespace-nowrap">
                 <div
-                  className="h-3 w-3 rounded-[2px]"
+                  className="h-3 w-3 rounded-xs"
                   style={{ background: item.color }}
                 />
                 <span>{item.label}</span>
@@ -28,28 +29,7 @@ export const StatisticsFallback = () => {
         </div>
       </div>
 
-      <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
-        <div className="border-border flex w-full flex-col gap-1 rounded-md border p-4">
-          <span className="text-xs font-medium">전체 추천 문제 수</span>
-          <div className="flex items-end justify-end">
-            <Skeleton className="h-7.5 w-16" />
-          </div>
-        </div>
-        <div className="border-border flex w-full flex-col gap-1 rounded-md border p-4">
-          <span className="text-xs font-medium">푼 문제 수</span>
-          <div className="flex items-end justify-end gap-2">
-            <Skeleton className="h-5 w-10" />
-            <Skeleton className="h-7.5 w-16" />
-          </div>
-        </div>
-        <div className="border-border flex w-full flex-col gap-1 rounded-md border p-4">
-          <span className="text-xs font-medium">작성한 풀이 글 수</span>
-          <div className="flex items-end justify-end gap-2">
-            <Skeleton className="h-5 w-10" />
-            <Skeleton className="h-7.5 w-16" />
-          </div>
-        </div>
-      </div>
+      <HeatmapLegend />
     </div>
   );
 };
