@@ -1,6 +1,6 @@
 import { ListCheckIcon } from 'lucide-react';
 
-import { StatusViewDropdownButton } from './StatusViewDropdownButton';
+import { StatusViewSelect } from './StatusViewSelect';
 
 export const SolveStatusTableHeader = () => {
   return (
@@ -11,7 +11,7 @@ export const SolveStatusTableHeader = () => {
       </div>
 
       <div className="flex gap-2">
-        <StatusViewDropdownButton />
+        <StatusViewSelect />
       </div>
     </div>
   );

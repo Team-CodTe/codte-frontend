@@ -33,6 +33,14 @@ export const useWriteNote = ({ initialContent }: Props) => {
             queryKey: ['study', 'notes', studyId],
           });
 
+          queryClient.invalidateQueries({
+            queryKey: ['study', 'solve-status', studyId],
+          });
+
+          queryClient.invalidateQueries({
+            queryKey: ['study', 'solve-statistics', studyId],
+          });
+
           router.replace(
             buildUrlWithParams({
               url: PATH.STUDY.NOTES.DETAIL,

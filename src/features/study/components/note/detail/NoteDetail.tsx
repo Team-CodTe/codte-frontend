@@ -34,7 +34,7 @@ export const NoteDetail = ({ studyId, initialUser, initialNote }: Props) => {
   const isWriter = user.username === initialNote.username;
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 p-5 pt-4 pb-8 md:gap-16 md:px-0 md:pt-4 md:pb-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:gap-16 md:pt-4 md:pb-16">
       <div className="flex flex-col items-start gap-4">
         <div className="flex w-full flex-col gap-2">
           <h1 className="text-4xl font-bold">{note.problemTitle}</h1>

@@ -7,7 +7,7 @@ import {
 } from '@/api/solve-status/getSolveStatus/type';
 import { Badge } from '@/components/ui/Badge';
 import { cn } from '@/lib/utils';
-import { CodeXmlIcon, LibraryIcon } from 'lucide-react';
+import { BookOpenCheckIcon, CodeXmlIcon } from 'lucide-react';
 
 const getStatusColor = (status: ProblemStatus | NoteStatus) => {
   switch (status) {
@@ -47,7 +47,7 @@ export const AssignmentStatusBadge = ({
           className={cn('size-3', getStatusColor(problemStatus))}
           aria-label={`문제 상태: ${problemStatus}`}
         />
-        <LibraryIcon
+        <BookOpenCheckIcon
           className={cn('size-3', getStatusColor(noteStatus))}
           aria-label={`풀이 글 상태: ${noteStatus}`}
         />

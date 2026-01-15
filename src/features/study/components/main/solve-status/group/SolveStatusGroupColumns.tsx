@@ -1,6 +1,6 @@
 import { type GroupMemberItem } from '@/api/solve-status/getSolveStatus/type';
 import { type ColumnDef } from '@tanstack/react-table';
-import { CodeXmlIcon, LibraryIcon } from 'lucide-react';
+import { BookOpenCheckIcon, CodeXmlIcon } from 'lucide-react';
 
 import { AssignmentStatusBadge } from './AssignmentStatusBadge';
 import { StatusSummaryBadge } from './StatusSummaryBadge';
@@ -35,7 +35,7 @@ export const solveStatusGroupColumns: ColumnDef<GroupMemberItem>[] = [
           <StatusSummaryBadge
             currentCount={noteStatusSummary.completedCount}
             totalCount={totalCount}
-            Icon={LibraryIcon}
+            Icon={BookOpenCheckIcon}
             label="풀이 글 작성 개수"
           />
         </div>
