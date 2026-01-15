@@ -7,13 +7,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/Tooltip';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import { parseISO } from 'date-fns';
 
 import { DynamicCalendarHeatmap } from '../../../../components/common/CalendarHeatmap';
 import {
   LEGEND_ITEMS,
   MONTH_LABELS,
+  RANGE_DAYS,
   WEEKDAY_LABELS,
 } from '../../constants/heatmap';
 
@@ -44,7 +45,9 @@ const getTooltipContent = (value?: {
   date: Date | string | number;
   count?: number;
 }) => {
-  if (!value) return '데이터 없음';
+  if (!value) {
+    return '데이터 없음';
+  }
 
   const date =
     value.date instanceof Date
@@ -59,8 +62,8 @@ const getTooltipContent = (value?: {
 
 export const StatisticsHeatmap = ({ startDate, endDate, values }: Props) => {
   return (
-    <div className="border-border flex w-full flex-col gap-4 rounded-md border p-4">
-      <div className="w-full overflow-x-auto">
+    <div className="border-border flex w-full flex-col gap-2 rounded-md border p-4">
+      <div className="w-full overflow-x-auto overflow-y-hidden">
         <div className="heatmap-wrapper h-[113px] min-w-[723px]">
           <DynamicCalendarHeatmap
             startDate={startDate}
@@ -92,11 +95,11 @@ export const StatisticsHeatmap = ({ startDate, endDate, values }: Props) => {
         </div>
       </div>
 
-      <div className="flex w-full items-center justify-between">
-        <span className="text-muted-foreground text-xs">
-          풀었던 문제의 수가 표시됩니다.
+      <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <span className="text-muted-foreground order-2 text-end text-xs sm:order-1 sm:text-left">
+          최근 {RANGE_DAYS}일 동안 풀었던 문제의 수가 표시됩니다.
         </span>
-        <div className="text-muted-foreground flex items-center gap-3 text-xs">
+        <div className="text-muted-foreground order-1 flex items-center justify-end gap-3 text-xs sm:order-2">
           {LEGEND_ITEMS.map((item) => (
             <div
               key={item.label}

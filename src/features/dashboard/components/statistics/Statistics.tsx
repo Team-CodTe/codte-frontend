@@ -3,6 +3,7 @@
 import { useSolveStatisticsQuery } from '@/api/solve-status/getSolveStatistics/query';
 import { type SolveStatisticsMemberResponse } from '@/api/solve-status/getSolveStatistics/type';
 import { type ViewMethod } from '@/api/solve-status/getSolveStatus/type';
+import { formatPercentage } from '@/lib/formatFunc';
 import {
   eachDayOfInterval,
   format,
@@ -12,6 +13,7 @@ import {
 } from 'date-fns';
 
 import { RANGE_DAYS } from '../../constants/heatmap';
+import { StatisticsCard } from './StatisticsCard';
 import { StatisticsHeatmap } from './StatisticsHeatmap';
 
 type Props = {
@@ -49,12 +51,29 @@ export const Statistics = ({ studyId, initialData, view }: Props) => {
   );
 
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div className="flex w-full flex-col gap-2">
       <StatisticsHeatmap
         startDate={startDate}
         endDate={today}
         values={heatmapValues}
       />
+
+      <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
+        <StatisticsCard
+          label="전체 추천 문제 수"
+          value={myStatistics.totalAssigned}
+        />
+        <StatisticsCard
+          label="푼 문제 수"
+          value={myStatistics.problemStatusSummary.completedCount}
+          subValue={formatPercentage(myStatistics.problemCompletionRate, 2)}
+        />
+        <StatisticsCard
+          label="작성한 풀이 글 수"
+          value={myStatistics.noteStatusSummary.completedCount}
+          subValue={formatPercentage(myStatistics.noteCompletionRate, 2)}
+        />
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { MOCK_PROBLEMS } from '@/api/mock/mockProblem';
 import { MOCK_USERS } from '@/api/mock/mockUser';
 import { type SolutionNoteResponse } from '@/api/types/solutionDto';
 import { TierBadge } from '@/components/common/TierBadge';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import { type ColumnDef } from '@tanstack/react-table';
 
 const getAssignedAt = (problemId: number) => {

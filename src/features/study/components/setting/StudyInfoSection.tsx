@@ -1,6 +1,6 @@
 import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { Separator } from '@/components/ui/Separator';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 
 import { InviteCodeRow } from './study-info/InviteCodeRow';
 import { UpdateStudyForm } from './study-info/UpdateStudyForm';

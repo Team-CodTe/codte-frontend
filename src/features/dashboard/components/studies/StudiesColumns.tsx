@@ -1,6 +1,6 @@
 import { type GetMyStudiesResponse } from '@/api/study/getMyStudies/type';
 import { Badge } from '@/components/ui/Badge';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 import { type ColumnDef } from '@tanstack/react-table';
 

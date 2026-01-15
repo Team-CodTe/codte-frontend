@@ -4,7 +4,7 @@ import { useDailyAssignmentsQuery } from '@/api/assignment/getDailyAssignments/q
 import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssignments/type';
 import { useRefreshDailyAssignmentsMutation } from '@/api/assignment/postRefreshDailyAssignments/mutation';
 import { useParamInt } from '@/hooks/useParamInt';
-import { formatRemainingTime } from '@/lib/formatRemainingTime';
+import { formatRemainingTime } from '@/lib/formatFunc';
 import { showToast } from '@/lib/showToast';
 
 type Props = {

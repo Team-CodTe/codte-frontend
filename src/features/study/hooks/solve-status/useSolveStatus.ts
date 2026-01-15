@@ -7,7 +7,7 @@ import {
 } from '@/api/solve-status/getSolveStatus/type';
 import { useRefreshSolveStatusMutation } from '@/api/solve-status/postRefreshSolveStatus/mutation';
 import { useParamInt } from '@/hooks/useParamInt';
-import { formatRemainingTime } from '@/lib/formatRemainingTime';
+import { formatRemainingTime } from '@/lib/formatFunc';
 import { showToast } from '@/lib/showToast';
 
 type Props = {

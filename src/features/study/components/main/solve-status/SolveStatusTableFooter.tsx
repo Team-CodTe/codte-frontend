@@ -1,7 +1,7 @@
 import { HintTooltip } from '@/components/common/HintTooltip';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import { InfoIcon } from 'lucide-react';
 
 type Props = {

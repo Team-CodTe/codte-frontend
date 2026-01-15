@@ -1,6 +1,6 @@
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { TierBadge } from '@/components/common/TierBadge';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import { type ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 

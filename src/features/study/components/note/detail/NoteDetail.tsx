@@ -8,7 +8,7 @@ import { DynamicMarkdownPreview } from '@/components/common/MarkdownPreview';
 import { TierBadge } from '@/components/common/TierBadge';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import Link from 'next/link';
 
 import { NoteActionButtons } from './NoteActionButtons';
