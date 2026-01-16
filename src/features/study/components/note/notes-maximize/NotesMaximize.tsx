@@ -96,8 +96,8 @@ export const NotesMaximize = ({ studyId, role, problemId }: Props) => {
         />
       </div>
 
-      <div className="flex w-full flex-col items-center justify-center gap-3 px-2 lg:flex-row lg:justify-between lg:gap-6">
-        <div className="flex w-full flex-col items-center justify-between gap-3 sm:flex-1 sm:flex-row">
+      <div className="flex w-full flex-col items-center justify-center gap-2 px-2 lg:flex-row lg:justify-between lg:gap-6">
+        <div className="flex w-full flex-col items-center justify-between gap-2 sm:flex-1 sm:flex-row">
           <span className="text-muted-foreground text-sm">
             {totalCount.toLocaleString()}개의 풀이 글 조회됨
           </span>
