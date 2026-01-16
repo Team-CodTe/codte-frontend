@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+import {
+  getLocalStorageNumber,
+  setLocalStorageNumber,
+} from '@/lib/localStorageActions';
 import { format, isValid, parse } from 'date-fns';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 
@@ -17,6 +21,8 @@ const QUERY_KEYS = {
   PAGE_SIZE: 'pageSize',
 } as const;
 
+const NOTES_PAGE_SIZE_STORAGE_KEY = 'notes_page_size';
+
 const parseDateFromUrl = (dateStr: string | null) => {
   if (!dateStr) {
     return undefined;
@@ -30,6 +36,9 @@ const parseDateFromUrl = (dateStr: string | null) => {
 export const useNotesFilterParams = () => {
   const [openAssignedDate, setOpenAssignedDate] = useState(false);
   const [openCreatedDate, setOpenCreatedDate] = useState(false);
+  const [initialPageSize] = useState(() =>
+    getLocalStorageNumber(NOTES_PAGE_SIZE_STORAGE_KEY, DEFAULT_PAGE_SIZE),
+  );
 
   const [keyword, setKeyword] = useQueryState(
     QUERY_KEYS.KEYWORD,
@@ -47,9 +56,10 @@ export const useNotesFilterParams = () => {
     QUERY_KEYS.PAGE,
     parseAsInteger.withDefault(1),
   );
+
   const [pageSize, setPageSize] = useQueryState(
     QUERY_KEYS.PAGE_SIZE,
-    parseAsInteger.withDefault(DEFAULT_PAGE_SIZE),
+    parseAsInteger.withDefault(initialPageSize),
   );
 
   const selectedAssignedDate = parseDateFromUrl(assignedDateStr);
@@ -77,6 +87,7 @@ export const useNotesFilterParams = () => {
 
   const handlePageSizeChange = (newPageSize: number) => {
     setPageSize(newPageSize);
+    setLocalStorageNumber(NOTES_PAGE_SIZE_STORAGE_KEY, newPageSize);
     setPage(1);
     window.scrollTo({ top: 0 });
   };
