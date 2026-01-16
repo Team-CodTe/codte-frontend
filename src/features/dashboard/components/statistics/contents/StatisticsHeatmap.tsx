@@ -2,6 +2,7 @@
 
 import type { ReactElement } from 'react';
 
+import { DynamicCalendarHeatmap } from '@/components/common/CalendarHeatmap';
 import {
   Tooltip,
   TooltipContent,
@@ -10,8 +11,7 @@ import {
 import { formatDate } from '@/lib/formatFunc';
 import { parseISO } from 'date-fns';
 
-import { DynamicCalendarHeatmap } from '../../../../components/common/CalendarHeatmap';
-import { MONTH_LABELS, WEEKDAY_LABELS } from '../../constants/heatmap';
+import { MONTH_LABELS, WEEKDAY_LABELS } from '../../../constants/heatmap';
 import { HeatmapLegend } from './HeatmapLegend';
 
 type HeatmapValue = {

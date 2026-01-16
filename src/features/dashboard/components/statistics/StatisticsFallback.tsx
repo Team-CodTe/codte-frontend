@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/Skeleton';
 
-import { HeatmapLegend } from './HeatmapLegend';
+import { HeatmapLegend } from './contents/HeatmapLegend';
 
 export const StatisticsFallback = () => {
   return (

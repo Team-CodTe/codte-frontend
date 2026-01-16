@@ -1,4 +1,4 @@
-import { LEGEND_ITEMS, RANGE_DAYS } from '../../constants/heatmap';
+import { LEGEND_ITEMS, RANGE_DAYS } from '../../../constants/heatmap';
 
 export const HeatmapLegend = () => {
   return (

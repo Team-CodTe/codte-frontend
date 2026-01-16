@@ -4,7 +4,7 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { redirect } from 'next/navigation';
 
 import { StatisticsSuspense } from '../suspenses/StatisticsSuspense';
-import { StatisticsEmptyContent } from './statistics/StatisticsEmptyContent';
+import { StatisticsEmptyContent } from './statistics/contents/StatisticsEmptyContent';
 import { StatisticsHeader } from './statistics/StatisticsHeader';
 
 type Props = {

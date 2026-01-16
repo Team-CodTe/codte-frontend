@@ -1,7 +1,7 @@
 import {
   type NoteStatusSummary,
   type ProblemStatusSummary,
-  type VIEW_METHOD,
+  VIEW_METHOD,
 } from '../getSolveStatus/type';
 
 export type DateRange = {
@@ -29,7 +29,7 @@ export type MemberStatistic = {
 };
 
 export type SolveStatisticsMemberResponse = {
-  view: typeof VIEW_METHOD.MEMBER;
+  view: typeof VIEW_METHOD.MEMBER | typeof VIEW_METHOD.ME;
   memberId: number;
   memberEmail: string;
   username: string;
@@ -58,3 +58,8 @@ export type SolveStatisticsGroupResponse = {
 export type GetSolveStatisticsResponse =
   | SolveStatisticsMemberResponse
   | SolveStatisticsGroupResponse;
+
+export const isSolveStatisticsMemberResponse = (
+  data: GetSolveStatisticsResponse,
+): data is SolveStatisticsMemberResponse =>
+  data.view === VIEW_METHOD.MEMBER || data.view === VIEW_METHOD.ME;

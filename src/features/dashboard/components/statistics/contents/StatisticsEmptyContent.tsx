@@ -5,12 +5,12 @@ import 'react-calendar-heatmap/dist/styles.css';
 import { startOfDay, subDays } from 'date-fns';
 import { ChartColumnIncreasingIcon } from 'lucide-react';
 
-import { DynamicCalendarHeatmap } from '../../../../components/common/CalendarHeatmap';
+import { DynamicCalendarHeatmap } from '../../../../../components/common/CalendarHeatmap';
 import {
   MONTH_LABELS,
   RANGE_DAYS,
   WEEKDAY_LABELS,
-} from '../../constants/heatmap';
+} from '../../../constants/heatmap';
 import { HeatmapLegend } from './HeatmapLegend';
 import { StatisticsCard } from './StatisticsCard';
 

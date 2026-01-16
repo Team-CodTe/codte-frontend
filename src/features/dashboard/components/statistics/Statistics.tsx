@@ -1,7 +1,10 @@
 'use client';
 
 import { useSolveStatisticsQuery } from '@/api/solve-status/getSolveStatistics/query';
-import { type SolveStatisticsMemberResponse } from '@/api/solve-status/getSolveStatistics/type';
+import {
+  isSolveStatisticsMemberResponse,
+  type SolveStatisticsMemberResponse,
+} from '@/api/solve-status/getSolveStatistics/type';
 import { type ViewMethod } from '@/api/solve-status/getSolveStatus/type';
 import { formatPercentage } from '@/lib/formatFunc';
 import {
@@ -13,8 +16,8 @@ import {
 } from 'date-fns';
 
 import { RANGE_DAYS } from '../../constants/heatmap';
-import { StatisticsCard } from './StatisticsCard';
-import { StatisticsHeatmap } from './StatisticsHeatmap';
+import { StatisticsCard } from './contents/StatisticsCard';
+import { StatisticsHeatmap } from './contents/StatisticsHeatmap';
 
 type Props = {
   studyId: number;
@@ -26,7 +29,12 @@ const getDateKey = (date: Date) => format(date, 'yyyy-MM-dd');
 
 export const Statistics = ({ studyId, initialData, view }: Props) => {
   const { data } = useSolveStatisticsQuery({ studyId, view }, { initialData });
-  const myStatistics = data as SolveStatisticsMemberResponse;
+
+  if (!data || !isSolveStatisticsMemberResponse(data)) {
+    return null;
+  }
+
+  const myStatistics = data;
 
   const today = startOfDay(new Date());
   const startDate = subDays(today, RANGE_DAYS);

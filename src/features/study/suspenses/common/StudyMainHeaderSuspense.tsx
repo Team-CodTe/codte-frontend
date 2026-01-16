@@ -5,7 +5,7 @@ import { FetchError } from '@/lib/fetchInstance';
 import { notFound, redirect } from 'next/navigation';
 
 import { StudySpaceHeader } from '../../components/common/StudySpaceHeader';
-import { StudySapceHeaderFallback } from '../../components/common/StudySpaceHeaderFallback';
+import { StudySpaceHeaderFallback } from '../../components/common/StudySpaceHeaderFallback';
 
 type Props = {
   studyId: number;
@@ -34,6 +34,6 @@ export const StudyMainHeaderSuspense = withSuspense(
     return <StudySpaceHeader studyId={studyId} initialData={data} />;
   },
   {
-    fallback: <StudySapceHeaderFallback />,
+    fallback: <StudySpaceHeaderFallback />,
   },
 );
