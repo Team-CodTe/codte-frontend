@@ -5,10 +5,11 @@ import { useTransition } from 'react';
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { useNotesPaginatedQuery } from '@/api/note/getNotes/query';
 import { PATH } from '@/constants/path';
+import { DATE_FORMAT } from '@/features/study/constants/notesFilterOptions';
 import { useNotesFilterParams } from '@/features/study/hooks/note/useNotesFilterParams';
-import { useDebounce } from '@/hooks/useDebounce';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { type StudyRole } from '@/types/studyRole';
+import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
 import { NotesMaximizeTable } from './NotesMaximizeTable';
@@ -26,6 +27,7 @@ type Props = {
 export const NotesMaximize = ({ studyId, role, problemId }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
+
   const {
     keyword,
     setKeyword,
@@ -35,23 +37,26 @@ export const NotesMaximize = ({ studyId, role, problemId }: Props) => {
     handlePageSizeChange,
     dateFilter,
     handleFiltersReset,
+    isFiltered,
   } = useNotesFilterParams();
 
-  const { formattedAssignedDate, formattedCreatedDate } = dateFilter;
-  const debouncedQuery = useDebounce(keyword, 300);
+  const assignedDateStr = dateFilter.assigned.date
+    ? format(dateFilter.assigned.date, DATE_FORMAT)
+    : undefined;
+
+  const createdDateStr = dateFilter.created.date
+    ? format(dateFilter.created.date, DATE_FORMAT)
+    : undefined;
 
   const { data, isLoading, isPlaceholderData } = useNotesPaginatedQuery({
     studyId,
     problemId,
     page,
     pageSize,
-    assignedDate: formattedAssignedDate,
-    createdDate: formattedCreatedDate,
-    query: debouncedQuery,
+    assignedDate: assignedDateStr,
+    createdDate: createdDateStr,
+    query: keyword,
   });
-
-  const isFiltered =
-    !!debouncedQuery || !!formattedAssignedDate || !!formattedCreatedDate;
 
   const totalCount = data?.count ?? 0;
   const totalPages = Math.ceil(totalCount / pageSize);

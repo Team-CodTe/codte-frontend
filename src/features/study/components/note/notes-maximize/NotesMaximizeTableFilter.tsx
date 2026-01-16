@@ -1,16 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { Calendar } from '@/components/ui/Calendar';
 import { Input } from '@/components/ui/Input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/Popover';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
-import { formatDate } from '@/lib/formatFunc';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 import {
   CalendarCheck2Icon,
@@ -23,16 +16,18 @@ import {
 import Link from 'next/link';
 
 import { SelectAssignmentDropdownButton } from '../write/SelectAssignmentDropdownButton';
+import { DateFilterPopover } from './DateFilterPopover';
+
+export type DatePickerState = {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  date: Date | undefined;
+  onSelect: (date: Date | undefined) => void;
+};
 
 type DateFilterProps = {
-  openAssignedDate: boolean;
-  openCreatedDate: boolean;
-  setOpenAssignedDate: (open: boolean) => void;
-  setOpenCreatedDate: (open: boolean) => void;
-  selectedAssignedDate: Date | undefined;
-  selectedCreatedDate: Date | undefined;
-  handleAssignedDateChange: (date: Date | undefined) => void;
-  handleCreatedDateChange: (date: Date | undefined) => void;
+  assigned: DatePickerState;
+  created: DatePickerState;
 };
 
 type Props = {
@@ -54,17 +49,6 @@ export const NotesMaximizeTableFilter = ({
   onResetFilters,
   isFiltered,
 }: Props) => {
-  const {
-    openAssignedDate,
-    openCreatedDate,
-    setOpenAssignedDate,
-    setOpenCreatedDate,
-    selectedAssignedDate,
-    selectedCreatedDate,
-    handleAssignedDateChange,
-    handleCreatedDateChange,
-  } = dateFilter;
-
   const isEditable = role === STUDY_ROLE.OWNER;
 
   const templateManagePageUrl = buildUrlWithParams({
@@ -95,48 +79,24 @@ export const NotesMaximizeTableFilter = ({
               size="icon"
               onClick={() => setKeyword('')}
               className="text-muted-foreground absolute inset-y-0 right-0 hover:bg-transparent dark:hover:bg-transparent">
-              <CircleXIcon />
+              <CircleXIcon className="size-4" />
               <span className="sr-only">검색어 초기화</span>
             </Button>
           )}
         </div>
 
         <div className="order-first flex items-center gap-2 sm:order-last">
-          <Popover open={openAssignedDate} onOpenChange={setOpenAssignedDate}>
-            <PopoverTrigger asChild>
-              <Button variant="outline">
-                <CalendarSearchIcon />
-                {selectedAssignedDate
-                  ? formatDate(selectedAssignedDate, { includeTime: false })
-                  : '문제 추천 날짜'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
-              <Calendar
-                mode="single"
-                selected={selectedAssignedDate}
-                onSelect={handleAssignedDateChange}
-              />
-            </PopoverContent>
-          </Popover>
+          <DateFilterPopover
+            state={dateFilter.assigned}
+            icon={CalendarSearchIcon}
+            placeholder="문제 추천 날짜"
+          />
 
-          <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
-            <PopoverTrigger asChild>
-              <Button variant="outline">
-                <CalendarCheck2Icon />
-                {selectedCreatedDate
-                  ? formatDate(selectedCreatedDate, { includeTime: false })
-                  : '작성일'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
-              <Calendar
-                mode="single"
-                selected={selectedCreatedDate}
-                onSelect={handleCreatedDateChange}
-              />
-            </PopoverContent>
-          </Popover>
+          <DateFilterPopover
+            state={dateFilter.created}
+            icon={CalendarCheck2Icon}
+            placeholder="작성일"
+          />
 
           {isFiltered && (
             <Button
@@ -145,6 +105,7 @@ export const NotesMaximizeTableFilter = ({
               onClick={onResetFilters}
               className="order-first sm:order-last">
               <RotateCwIcon />
+              <span className="sr-only">필터 초기화</span>
             </Button>
           )}
         </div>

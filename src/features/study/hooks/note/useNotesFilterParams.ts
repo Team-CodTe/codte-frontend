@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { format, isValid, parse } from 'date-fns';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 
-import { DEFAULT_PAGE_SIZE } from '../../constants/notesPageOptions';
+import {
+  DATE_FORMAT,
+  DEFAULT_PAGE_SIZE,
+} from '../../constants/notesFilterOptions';
 import { NOTES_FILTER_KEYWORD_PARSER } from '../../constants/searchParams';
-
-const DATE_FORMAT = 'yyyy-MM-dd';
 
 const QUERY_KEYS = {
   KEYWORD: 'query',
@@ -29,6 +30,7 @@ const parseDateFromUrl = (dateStr: string | null) => {
 export const useNotesFilterParams = () => {
   const [openAssignedDate, setOpenAssignedDate] = useState(false);
   const [openCreatedDate, setOpenCreatedDate] = useState(false);
+
   const [keyword, setKeyword] = useQueryState(
     QUERY_KEYS.KEYWORD,
     NOTES_FILTER_KEYWORD_PARSER,
@@ -53,15 +55,13 @@ export const useNotesFilterParams = () => {
   const selectedAssignedDate = parseDateFromUrl(assignedDateStr);
   const selectedCreatedDate = parseDateFromUrl(createdDateStr);
 
-  const handleAssignedDateChange = (date: Date | undefined) => {
-    setAssignedDateStr(date ? format(date, DATE_FORMAT) : null);
-    setOpenAssignedDate(false);
-    setPage(1);
-  };
-
-  const handleCreatedDateChange = (date: Date | undefined) => {
-    setCreatedDateStr(date ? format(date, DATE_FORMAT) : null);
-    setOpenCreatedDate(false);
+  const handleDateChange = (
+    date: Date | undefined,
+    setter: (value: string | null) => void,
+    setOpen: (open: boolean) => void,
+  ) => {
+    setter(date ? format(date, DATE_FORMAT) : null);
+    setOpen(false);
     setPage(1);
   };
 
@@ -82,31 +82,36 @@ export const useNotesFilterParams = () => {
   };
 
   const handleFiltersReset = () => {
-    setKeyword('');
+    setKeyword(null);
     setAssignedDateStr(null);
     setCreatedDateStr(null);
     setPage(1);
   };
 
   return {
-    keyword,
+    keyword: keyword || '',
     setKeyword: handleKeywordChange,
     page,
     handlePageChange,
     pageSize,
     handlePageSizeChange,
     dateFilter: {
-      openAssignedDate,
-      openCreatedDate,
-      setOpenAssignedDate,
-      setOpenCreatedDate,
-      selectedAssignedDate,
-      selectedCreatedDate,
-      handleAssignedDateChange,
-      handleCreatedDateChange,
-      formattedAssignedDate: assignedDateStr ?? undefined,
-      formattedCreatedDate: createdDateStr ?? undefined,
+      assigned: {
+        isOpen: openAssignedDate,
+        setIsOpen: setOpenAssignedDate,
+        date: selectedAssignedDate,
+        onSelect: (date: Date | undefined) =>
+          handleDateChange(date, setAssignedDateStr, setOpenAssignedDate),
+      },
+      created: {
+        isOpen: openCreatedDate,
+        setIsOpen: setOpenCreatedDate,
+        date: selectedCreatedDate,
+        onSelect: (date: Date | undefined) =>
+          handleDateChange(date, setCreatedDateStr, setOpenCreatedDate),
+      },
     },
     handleFiltersReset,
+    isFiltered: !!(keyword || assignedDateStr || createdDateStr),
   };
 };

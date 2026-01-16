@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
-import { PAGE_SIZE_OPTIONS } from '@/features/study/constants/notesPageOptions';
+import { PAGE_SIZE_OPTIONS } from '@/features/study/constants/notesFilterOptions';
 
 type Props = {
   pageSize: number;
