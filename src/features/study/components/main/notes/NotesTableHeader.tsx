@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
-import { FileCog2Icon, LibraryIcon, Maximize2Icon } from 'lucide-react';
+import { BookOpenCheckIcon, FileCog2Icon, Maximize2Icon } from 'lucide-react';
 import Link from 'next/link';
 
 type Props = {
@@ -26,7 +26,7 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
   return (
     <div className="flex min-h-8 flex-row items-center justify-between gap-3">
       <div className="text-muted-foreground flex shrink-0 items-center gap-2 text-sm font-semibold whitespace-nowrap">
-        <LibraryIcon className="size-3.5" />
+        <BookOpenCheckIcon className="size-3.5" />
         <span>문제 풀이 글</span>
       </div>
       <div className="flex gap-2">
@@ -35,7 +35,8 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
             <Link
               id="manage-template-link"
               aria-label="템플릿 관리 페이지로 이동"
-              href={manageTemplatePageUrl}>
+              href={manageTemplatePageUrl}
+              className="cursor-default">
               <FileCog2Icon />
               <span className="hidden sm:inline">템플릿 관리</span>
             </Link>
@@ -45,10 +46,11 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
         <Button variant="secondary" size="icon-sm-responsive" asChild>
           <Link
             id="maximize-notes-link"
-            aria-label="전체 페이지로 보기"
-            href={maximizeNotesPageUrl}>
+            aria-label="전체 문제 풀이 글 페이지로 이동"
+            href={maximizeNotesPageUrl}
+            className="cursor-default">
             <Maximize2Icon />
-            <span className="hidden sm:inline">전체 페이지로 보기</span>
+            <span className="hidden sm:inline">전체 페이지 보기</span>
           </Link>
         </Button>
       </div>

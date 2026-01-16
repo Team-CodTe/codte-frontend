@@ -26,6 +26,13 @@ export const API_URLS = {
     REFRESH: '/api/studies/{studyId}/assignments/',
     CUSTOM: '/api/studies/{studyId}/assignments/custom/',
   },
+  SOLVE_STATUS: {
+    OVERVIEW: '/api/studies/{studyId}/assignments/status/',
+    REFRESH: '/api/studies/{studyId}/assignments/update/',
+    PROBLEM_MEMBERS:
+      '/api/studies/{studyId}/problems/{problemId}/status/members/',
+    STATISTICS: '/api/studies/{studyId}/statistics/',
+  },
   NOTE: {
     TEMPLATE: '/api/studies/{studyId}/template/',
     LIST: '/api/studies/{studyId}/notes/',

@@ -1,10 +1,10 @@
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
 import { TierBadge } from '@/components/common/TierBadge';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import { type ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 
-export const NOTES_TABLE_COLUMNS: ColumnDef<GetNoteDetailResponse>[] = [
+export const notesColumns: ColumnDef<GetNoteDetailResponse>[] = [
   {
     accessorKey: 'problemBojNumber',
     header: '문제 번호',

@@ -1,5 +1,5 @@
 import { HintTooltip } from '@/components/common/HintTooltip';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 
 export const DailyAssignmentTableFooter = () => {
   return (

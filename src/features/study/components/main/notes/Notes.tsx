@@ -10,7 +10,7 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
 
 import { NotesTable } from './NotesTable';
-import { NOTES_TABLE_COLUMNS } from './NotesTableColumns';
+import { notesColumns } from './NotesTableColumns';
 
 type Props = {
   studyId: number;
@@ -55,13 +55,13 @@ export const Notes = ({ studyId, problemId, pageSize, initialData }: Props) => {
     <div className="flex h-full min-h-0 flex-col gap-3">
       <NotesTable
         data={data?.results ?? []}
-        columns={NOTES_TABLE_COLUMNS}
+        columns={notesColumns}
         onClickRow={moveToNoteDetail}
       />
 
-      <div className="text-muted-foreground flex flex-col items-end justify-end gap-1 text-xs">
-        <span>최근 등록된 30개의 풀이 글만 표시됩니다.</span>
+      <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 text-xs">
         <span>전체 풀이 글 개수: {data?.count?.toLocaleString()}개</span>
+        <span>최근 등록된 30개의 풀이 글만 표시됩니다.</span>
       </div>
     </div>
   );

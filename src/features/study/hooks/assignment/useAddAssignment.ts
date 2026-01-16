@@ -19,6 +19,14 @@ export const useAddAssignment = () => {
           queryKey: ['study', 'daily-assignments', studyId],
         });
 
+        queryClient.invalidateQueries({
+          queryKey: ['study', 'solve-status', studyId],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: ['study', 'solve-statistics', studyId],
+        });
+
         showToast({
           message: '문제가 추가되었습니다.',
           type: 'success',

@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/Popover';
-import { formatDate } from '@/lib/formatDate';
+import { formatDate } from '@/lib/formatFunc';
 import {
   CalendarCheck2Icon,
   CalendarSearchIcon,
@@ -121,7 +121,7 @@ export const NotesMaximizeTableFilter = ({
             variant="ghost"
             size="icon"
             onClick={() => setKeyword('')}
-            className="text-muted-foreground absolute inset-y-0 right-0 hover:bg-transparent">
+            className="text-muted-foreground absolute inset-y-0 right-0 hover:bg-transparent dark:hover:bg-transparent">
             <CircleXIcon />
             <span className="sr-only">검색어 초기화</span>
           </Button>

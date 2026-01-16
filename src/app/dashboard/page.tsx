@@ -1,15 +1,26 @@
-import { StudiesSection } from '@/features/study/components/home/StudiesSection';
-import { StudyHomeHeader } from '@/features/study/components/home/StudyHomeHeader';
-import { StudyHomeTitleSuspense } from '@/features/study/suspenses/common/StudyHomeTitleSuspense';
+import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
+import { StatisticsSection } from '@/features/dashboard/components/StatisticsSection';
+import { StudiesSection } from '@/features/dashboard/components/StudiesSection';
+import { DashboardTitleSuspense } from '@/features/dashboard/suspenses/DashboardTitleSuspense';
+import { safeParseInt } from '@/lib/parseParam';
 
-const DashboardPage = () => {
+type Props = {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+};
+
+const DashboardPage = async ({ searchParams }: Props) => {
+  const studyId = safeParseInt((await searchParams).studyId);
+
   return (
     <div className="flex w-screen flex-col items-center">
-      <StudyHomeHeader />
+      <DashboardHeader />
 
-      <main className="flex w-full flex-col items-start gap-8 p-5 pt-4 pb-8 md:max-w-2xl md:gap-16 md:px-0 md:pt-4 md:pb-16">
-        <StudyHomeTitleSuspense />
+      <main className="flex w-full flex-col items-start gap-8 p-5 pt-4 pb-8 md:mx-5 md:max-w-3xl md:gap-16 md:px-0 md:pt-4 md:pb-16">
+        <DashboardTitleSuspense />
         <StudiesSection />
+        <StatisticsSection studyId={studyId} />
       </main>
     </div>
   );

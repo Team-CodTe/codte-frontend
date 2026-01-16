@@ -28,9 +28,9 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.58 0.24 27);
   --destructive-foreground: oklch(1 0 0);
-  --caution: oklch(0.705 0.213 47.604);
+  --caution: oklch(0.68 0.213 47.604);
   --caution-foreground: oklch(1 0 0);
-  --success: oklch(0.723 0.219 149.579);
+  --success: oklch(0.58 0.219 149.579);
   --success-foreground: oklch(1 0 0);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -259,5 +259,47 @@ body {
       var(--background)
     );
     --border-radius: var(--radius);
+  }
+
+  /* Calendar Heatmap */
+  .heatmap-wrapper .react-calendar-heatmap {
+    width: 100%;
+    display: block;
+  }
+  .heatmap-wrapper .react-calendar-heatmap rect {
+    rx: 2px;
+    ry: 2px;
+    /* 호버 시 부드러운 전환 효과 추가 (선택사항) */
+    transition: fill 0.2s ease-in-out;
+  }
+
+  /* Color Scale Strategy:
+   color-mix를 사용하여 --success(강조)와 --secondary(배경)를 섞습니다.
+   이렇게 하면 라이트/다크 모드 변수가 바뀔 때 자동으로 그라데이션이 맞춰집니다.
+*/
+
+  /* Level 0: 데이터 없음 (기본 배경색) */
+  .heatmap-wrapper .react-calendar-heatmap .heatmap-color-0 {
+    fill: var(--secondary);
+  }
+
+  /* Level 1: 아주 적음 (Success 20% + Secondary 80%) */
+  .heatmap-wrapper .react-calendar-heatmap .heatmap-color-1 {
+    fill: color-mix(in oklch, var(--success) 20%, var(--secondary));
+  }
+
+  /* Level 2: 적음 (Success 40% + Secondary 60%) */
+  .heatmap-wrapper .react-calendar-heatmap .heatmap-color-2 {
+    fill: color-mix(in oklch, var(--success) 40%, var(--secondary));
+  }
+
+  /* Level 3: 많음 (Success 70% + Secondary 30%) */
+  .heatmap-wrapper .react-calendar-heatmap .heatmap-color-3 {
+    fill: color-mix(in oklch, var(--success) 70%, var(--secondary));
+  }
+
+  /* Level 4: 아주 많음 (Success 100%) */
+  .heatmap-wrapper .react-calendar-heatmap .heatmap-color-4 {
+    fill: var(--success);
   }
 }

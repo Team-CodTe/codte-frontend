@@ -11,7 +11,7 @@ type Props = {
   studyId?: number | undefined;
 };
 
-export const dailyAssignmentsTableColumns = ({
+export const dailyAssignmentsColumns = ({
   studyId,
 }: Props): ColumnDef<DailyAssignment>[] => [
   {

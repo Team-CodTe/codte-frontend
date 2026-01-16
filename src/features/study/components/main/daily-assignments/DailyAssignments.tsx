@@ -4,7 +4,7 @@ import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssig
 import { useDailyAssignments } from '@/features/study/hooks/assignment/useDailyAssignments';
 import type { StudyRole } from '@/types/studyRole';
 
-import { dailyAssignmentsTableColumns } from './DailyAssignmentsColumns';
+import { dailyAssignmentsColumns } from './DailyAssignmentsColumns';
 import { DailyAssignmentsTable } from './DailyAssignmentsTable';
 import { DailyAssignmentsTableFooter } from './DailyAssignmentsTableFooter';
 
@@ -23,7 +23,7 @@ export const DailyAssignments = ({ studyId, initialData, role }: Props) => {
     <div className="flex min-h-0 flex-col gap-3 lg:h-full">
       <DailyAssignmentsTable
         data={data?.assignments ?? []}
-        columns={dailyAssignmentsTableColumns({ studyId })}
+        columns={dailyAssignmentsColumns({ studyId })}
       />
 
       <DailyAssignmentsTableFooter
