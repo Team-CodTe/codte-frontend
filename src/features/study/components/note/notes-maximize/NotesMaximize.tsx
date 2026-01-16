@@ -3,12 +3,10 @@
 import { useTransition } from 'react';
 
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
-import { useNotesInfiniteQuery } from '@/api/note/getNotes/query';
-import { Separator } from '@/components/ui/Separator';
+import { useNotesPaginatedQuery } from '@/api/note/getNotes/query';
 import { PATH } from '@/constants/path';
 import { useNotesFilterParams } from '@/features/study/hooks/note/useNotesFilterParams';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useScrollRestoration } from '@/hooks/useScrollRestoration';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { type StudyRole } from '@/types/studyRole';
 import { useRouter } from 'next/navigation';
@@ -16,67 +14,47 @@ import { useRouter } from 'next/navigation';
 import { NotesMaximizeTable } from './NotesMaximizeTable';
 import { NOTES_MAXIMIZE_TABLE_COLUMNS } from './NotesMaximizeTableColumns';
 import { NotesMaximizeTableFilter } from './NotesMaximizeTableFilter';
-import { NotesMaximizeTableHeader } from './NotesMaximizeTableHeader';
+import { NotesPagination } from './NotesPagination';
+import { PageSizeSelect } from './PageSizeSelect';
 
 type Props = {
   studyId: number;
   role: StudyRole;
   problemId?: number;
-  pageSize?: number;
 };
 
-export const NotesMaximize = ({
-  studyId,
-  role,
-  problemId,
-  pageSize,
-}: Props) => {
+export const NotesMaximize = ({ studyId, role, problemId }: Props) => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
-
-  const { keyword, setKeyword, dateFilter, handleFiltersReset } =
-    useNotesFilterParams();
+  const {
+    keyword,
+    setKeyword,
+    page,
+    handlePageChange,
+    pageSize,
+    handlePageSizeChange,
+    dateFilter,
+    handleFiltersReset,
+  } = useNotesFilterParams();
 
   const { formattedAssignedDate, formattedCreatedDate } = dateFilter;
   const debouncedQuery = useDebounce(keyword, 300);
 
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } =
-    useNotesInfiniteQuery({
-      studyId,
-      problemId,
-      pageSize,
-      assignedDate: formattedAssignedDate,
-      createdDate: formattedCreatedDate,
-      query: debouncedQuery,
-    });
-
-  const { scrollRef, scrollToTop } = useScrollRestoration(
-    `study-${studyId}-notes-maximize`,
-    data,
-  );
+  const { data, isLoading, isPlaceholderData } = useNotesPaginatedQuery({
+    studyId,
+    problemId,
+    page,
+    pageSize,
+    assignedDate: formattedAssignedDate,
+    createdDate: formattedCreatedDate,
+    query: debouncedQuery,
+  });
 
   const isFiltered =
     !!debouncedQuery || !!formattedAssignedDate || !!formattedCreatedDate;
 
-  const handleAssignedDateChangeWithScroll = (date: Date | undefined) => {
-    dateFilter.handleAssignedDateChange(date);
-    scrollToTop();
-  };
-
-  const handleCreatedDateChangeWithScroll = (date: Date | undefined) => {
-    dateFilter.handleCreatedDateChange(date);
-    scrollToTop();
-  };
-
-  const handleKeywordChange = (value: string) => {
-    setKeyword(value);
-    scrollToTop();
-  };
-
-  const handleFiltersResetWithScroll = () => {
-    handleFiltersReset();
-    scrollToTop();
-  };
+  const totalCount = data?.count ?? 0;
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   const moveToNoteDetail = (note: GetNoteDetailResponse) => {
     if (isNavigating) return;
@@ -92,35 +70,46 @@ export const NotesMaximize = ({
   };
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3">
-      <div className="flex flex-col gap-3">
-        <NotesMaximizeTableHeader studyId={studyId} role={role} />
-        <Separator />
-        <NotesMaximizeTableFilter
-          totalCount={data?.pages[0]?.count ?? 0}
-          keyword={keyword}
-          setKeyword={handleKeywordChange}
-          dateFilter={{
-            ...dateFilter,
-            handleAssignedDateChange: handleAssignedDateChangeWithScroll,
-            handleCreatedDateChange: handleCreatedDateChangeWithScroll,
-          }}
-          onResetFilters={handleFiltersResetWithScroll}
-          isFiltered={isFiltered}
-        />
-      </div>
-      <div className="min-h-0 flex-1">
+    <div className="flex flex-col gap-3">
+      <NotesMaximizeTableFilter
+        studyId={studyId}
+        role={role}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        dateFilter={dateFilter}
+        onResetFilters={handleFiltersReset}
+        isFiltered={isFiltered}
+      />
+
+      <div className={isPlaceholderData ? 'opacity-50' : ''}>
         <NotesMaximizeTable
-          data={data?.pages.flatMap((page) => page.results) ?? []}
+          data={data?.results ?? []}
           columns={NOTES_MAXIMIZE_TABLE_COLUMNS}
           isLoading={isLoading}
           isFiltered={isFiltered}
           onClickRow={moveToNoteDetail}
-          hasNextPage={hasNextPage}
-          fetchNextPage={fetchNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          scrollRef={scrollRef}
         />
+      </div>
+
+      <div className="flex w-full flex-col items-center justify-center gap-3 px-2 lg:flex-row lg:justify-between lg:gap-6">
+        <div className="flex w-full flex-col items-center justify-between gap-3 sm:flex-1 sm:flex-row">
+          <span className="text-muted-foreground text-sm">
+            {totalCount.toLocaleString()}개의 풀이 글 조회됨
+          </span>
+
+          <PageSizeSelect
+            pageSize={pageSize}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        </div>
+
+        <div>
+          <NotesPagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

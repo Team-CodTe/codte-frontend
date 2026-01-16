@@ -21,7 +21,7 @@ export const DailyAssignmentsTableFooter = ({
   const isOwner = role === STUDY_ROLE.OWNER;
 
   return (
-    <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 text-xs">
+    <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 px-2 text-xs">
       <span>{formatDate(refreshedAt)} 기준</span>
 
       <div className="flex items-center gap-1">

@@ -59,8 +59,8 @@ export const Notes = ({ studyId, problemId, pageSize, initialData }: Props) => {
         onClickRow={moveToNoteDetail}
       />
 
-      <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 text-xs">
-        <span>전체 풀이 글 개수: {data?.count?.toLocaleString()}개</span>
+      <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 px-2 text-xs">
+        <span>전체 풀이 글 {data?.count?.toLocaleString()}개</span>
         <span>최근 등록된 30개의 풀이 글만 표시됩니다.</span>
       </div>
     </div>

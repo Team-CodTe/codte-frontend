@@ -1,12 +1,9 @@
 import {
-  type OmittedInfiniteQueryOptions,
   type OmittedQueryOptions,
   type OmittedSuspenseQueryOptions,
 } from '@/lib/queryClient';
 import {
-  type InfiniteData,
   keepPreviousData,
-  useInfiniteQuery,
   useQuery,
   useSuspenseQuery,
 } from '@tanstack/react-query';
@@ -17,6 +14,7 @@ import { type GetNotesResponse } from './type';
 type Params = {
   studyId: number;
   problemId?: number;
+  page?: number;
   pageSize?: number;
   assignedDate?: string;
   createdDate?: string;
@@ -61,42 +59,43 @@ export const useNotesSuspenseQuery = (
   });
 };
 
-export const useNotesInfiniteQuery = (
-  { studyId, problemId, pageSize, assignedDate, createdDate, query }: Params,
-  options?: OmittedInfiniteQueryOptions<
-    GetNotesResponse,
-    Error,
-    InfiniteData<GetNotesResponse>,
-    number
-  >,
+export const useNotesPaginatedQuery = (
+  {
+    studyId,
+    problemId,
+    page,
+    pageSize,
+    assignedDate,
+    createdDate,
+    query,
+  }: Params,
+  options?: OmittedQueryOptions<GetNotesResponse>,
 ) => {
-  return useInfiniteQuery({
+  return useQuery({
     queryKey: [
       'study',
       'notes',
       'maximize',
       studyId,
       {
+        page,
+        pageSize,
         assignedDate,
         createdDate,
         query,
       },
     ],
-    queryFn: ({ pageParam }) =>
+    queryFn: () =>
       getNotes({
         studyId,
         problemId,
-        pageParam,
+        page,
         pageSize,
         assignedDate,
         createdDate,
         query,
       }),
-    initialPageParam: 1,
     placeholderData: keepPreviousData,
-    getNextPageParam: (lastPage, _, lastPageParam) => {
-      return lastPage.next ? lastPageParam + 1 : undefined;
-    },
     ...options,
   });
 };

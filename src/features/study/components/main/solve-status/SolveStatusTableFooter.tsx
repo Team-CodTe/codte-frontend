@@ -16,7 +16,7 @@ export const SolveStatusTableFooter = ({
   onRefresh,
 }: Props) => {
   return (
-    <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 text-xs">
+    <div className="text-muted-foreground flex flex-row items-center justify-between gap-3 px-2 text-xs">
       <span>{formatDate(lastUpdatedAt)} 기준</span>
 
       <div className="flex items-center gap-1">
