@@ -21,7 +21,7 @@ const QUERY_KEYS = {
   PAGE_SIZE: 'pageSize',
 } as const;
 
-const NOTES_PAGE_SIZE_STORAGE_KEY = 'notes_page_size';
+const NOTES_PAGE_SIZE_STORAGE_KEY = 'NOTES_PAGE_SIZE';
 
 const parseDateFromUrl = (dateStr: string | null) => {
   if (!dateStr) {

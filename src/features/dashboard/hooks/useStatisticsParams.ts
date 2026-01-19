@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { parseAsInteger, useQueryState } from 'nuqs';
 
-const STATISTICS_STUDY_ID_KEY = 'statistics_study_id';
+const STATISTICS_STUDY_ID_KEY = 'STATISTICS_STUDY_ID';
 
 export const useStatisticsParams = (
   defaultStudyId: number,

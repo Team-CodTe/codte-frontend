@@ -24,6 +24,6 @@ export const setLocalStorageNumber = (key: string, value: number): void => {
   try {
     localStorage.setItem(key, value.toString());
   } catch (error) {
-    console.error('로컬 스토리지 저장 실패:', error);
+    console.error('로컬 스토리지 저장 실패: key=${key}', error);
   }
 };
