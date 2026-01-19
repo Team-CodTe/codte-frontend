@@ -27,19 +27,20 @@ import {
 } from '@/components/ui/Select';
 import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
+import { formatNumberWithComma, parseNumberWithComma } from '@/lib/formatFunc';
 
 import { useCreateStudyForm } from '../../hooks/form/useCreateStudyForm';
 
 export const CreateStudyForm = () => {
   const { form, handleQuit, isSubmitting } = useCreateStudyForm();
 
-  const handleChangeNumber = (
+  const handleChangeNumberWithComma = (
     e: React.ChangeEvent<HTMLInputElement>,
     onChange: (value: number | null) => void,
   ) => {
-    const value = e.target.value;
+    const parsedValue = parseNumberWithComma(e.target.value);
 
-    onChange(value === '' ? null : parseInt(value, 10));
+    onChange(parsedValue);
   };
 
   return (
@@ -180,7 +181,7 @@ export const CreateStudyForm = () => {
                         }}
                       />
                       <FieldDescription>
-                        설정한 티어 범위 안의 문제만 추천돼요.
+                        설정한 티어 범위 안의 문제만 추천됩니다.
                       </FieldDescription>
                     </Field>
                   );
@@ -204,16 +205,17 @@ export const CreateStudyForm = () => {
                       <Input
                         id={field.name}
                         name={field.name}
-                        type="number"
+                        type="text"
                         inputMode="numeric"
                         placeholder="500"
-                        min={0}
-                        value={field.state.value ?? ''}
+                        maxLength={10}
+                        value={formatNumberWithComma(field.state.value)}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleChangeNumber(e, field.handleChange)
+                          handleChangeNumberWithComma(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
+                        autoComplete="off"
                       />
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
@@ -236,16 +238,16 @@ export const CreateStudyForm = () => {
                       <Input
                         id={field.name}
                         name={field.name}
-                        type="number"
+                        type="text"
                         inputMode="numeric"
-                        placeholder="14000"
-                        min={0}
-                        value={field.state.value ?? ''}
+                        placeholder="14,000"
+                        value={formatNumberWithComma(field.state.value)}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleChangeNumber(e, field.handleChange)
+                          handleChangeNumberWithComma(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
+                        autoComplete="off"
                       />
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
@@ -268,7 +270,7 @@ export const CreateStudyForm = () => {
                 if (!hasRangeError)
                   return (
                     <div className="text-muted-foreground text-sm leading-normal font-normal">
-                      비워두면 전체 범위로 설정돼요.
+                      비워두면 전체 범위로 설정됩니다.
                     </div>
                   );
 

@@ -79,7 +79,7 @@ export const SolveStatusTable = <TData, TValue>({
               <TableCell
                 colSpan={columns.length}
                 className="text-muted-foreground text-center">
-                풀이 상태가 없습니다
+                새로고침 후 풀이 상태를 불러오세요
               </TableCell>
             </TableRow>
           )}

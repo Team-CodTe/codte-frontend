@@ -17,8 +17,8 @@ export const StudyFormSchema = z
       .or(z.literal('')),
     dailyProblemCount: z
       .number()
-      .min(1, '오늘의 추천 문제는 최소 1개 이상이어야 해요.')
-      .max(5, '오늘의 추천 문제는 최대 5개까지 설정할 수 있어요.'),
+      .min(1, '오늘의 추천 문제는 최소 1개 이상이어야 합니다.')
+      .max(5, '오늘의 추천 문제는 최대 5개까지 설정할 수 있습니다.'),
     tierMin: z.number().min(0).max(30),
     tierMax: z.number().min(0).max(30),
     minSolved: z

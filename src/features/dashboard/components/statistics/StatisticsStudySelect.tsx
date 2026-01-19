@@ -38,7 +38,7 @@ export const StatisticsStudySelect = ({
       value={studyId.toString()}
       onValueChange={(value) => handleChangeStudyId(safeParseInt(value))}
       disabled={isPending}>
-      <SelectTrigger size="sm" variant="secondary">
+      <SelectTrigger size="sm" variant="secondary" className="max-w-36">
         <SelectValue placeholder="스터디 선택" />
       </SelectTrigger>
       <SelectContent align="end">
