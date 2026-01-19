@@ -6,20 +6,11 @@ import { NotesMaximizeFallback } from '../../components/note/notes-maximize/Note
 
 type Props = {
   study: GetStudyDetailResponse;
-  problemId?: number;
-  pageSize?: number;
 };
 
 export const NotesMaximizeSuspense = withSuspense(
-  ({ study, problemId, pageSize }: Props) => {
-    return (
-      <NotesMaximize
-        studyId={study.id}
-        role={study.myRole}
-        problemId={problemId}
-        pageSize={pageSize}
-      />
-    );
+  ({ study }: Props) => {
+    return <NotesMaximize studyId={study.id} role={study.myRole} />;
   },
   {
     fallback: <NotesMaximizeFallback />,

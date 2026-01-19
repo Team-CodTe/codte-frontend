@@ -29,9 +29,9 @@ export const DailyAssignmentsTable = <TData, TValue>({
   });
 
   return (
-    <div className="relative max-h-64 min-h-0 overflow-auto rounded-md border lg:max-h-none">
+    <div className="border-border relative max-h-64 min-h-0 overflow-auto rounded-md border lg:max-h-none">
       <Table noWrapper>
-        <TableHeader className="bg-muted sticky top-0 z-10">
+        <TableHeader className="bg-secondary sticky top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {

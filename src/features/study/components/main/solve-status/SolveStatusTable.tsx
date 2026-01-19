@@ -31,7 +31,7 @@ export const SolveStatusTable = <TData, TValue>({
   return (
     <div className="relative max-h-64 min-h-0 overflow-auto rounded-md border lg:max-h-none">
       <Table noWrapper>
-        <TableHeader className="bg-muted sticky top-0 z-10">
+        <TableHeader className="bg-secondary sticky top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -79,7 +79,7 @@ export const SolveStatusTable = <TData, TValue>({
               <TableCell
                 colSpan={columns.length}
                 className="text-muted-foreground text-center">
-                풀이 상태가 없습니다
+                새로고침 후 풀이 상태를 불러오세요
               </TableCell>
             </TableRow>
           )}

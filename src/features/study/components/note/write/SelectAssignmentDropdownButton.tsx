@@ -36,9 +36,9 @@ export const SelectAssignmentDropdownButton = ({ studyId }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="icon-responsive">
+        <Button variant="secondary">
           <SquarePenIcon />
-          <span className="hidden sm:inline">글 작성</span>
+          <span>글 작성</span>
         </Button>
       </DropdownMenuTrigger>
 

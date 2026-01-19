@@ -7,7 +7,7 @@ import { type GetNotesResponse } from './type';
 type Params = {
   studyId: number;
   problemId?: number;
-  pageParam?: number;
+  page?: number;
   pageSize?: number;
   assignedDate?: string;
   createdDate?: string;
@@ -17,7 +17,7 @@ type Params = {
 export const getNotes = async ({
   studyId,
   problemId,
-  pageParam: page,
+  page,
   pageSize,
   assignedDate,
   createdDate,

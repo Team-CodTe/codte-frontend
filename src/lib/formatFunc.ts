@@ -58,3 +58,35 @@ export const formatPercentage = (value: number, decimals: number = 2) => {
     maximumFractionDigits: decimals,
   }).format(value);
 };
+
+/**
+ * 숫자를 천 단위 콤마가 포함된 문자열로 변환하는 함수
+ * @param value - 변환할 숫자 값
+ * @returns 콤마가 포함된 숫자 문자열 (예: 1000 → "1,000")
+ */
+export const formatNumberWithComma = (value: number | null): string => {
+  if (value === null) {
+    return '';
+  }
+
+  return value.toLocaleString('ko-KR');
+};
+
+/**
+ * 콤마가 포함된 숫자 입력값을 파싱하여 순수 숫자로 변환하는 함수
+ * @param value - 콤마가 포함된 문자열 (예: "1,000")
+ * @returns 파싱된 숫자 또는 null (빈 문자열이거나 유효하지 않은 경우)
+ */
+export const parseNumberWithComma = (value: string): number | null => {
+  const cleanedValue = value.replace(/,/g, '');
+
+  if (cleanedValue === '') {
+    return null;
+  }
+
+  if (!/^\d+$/.test(cleanedValue)) {
+    return null;
+  }
+
+  return parseInt(cleanedValue, 10);
+};

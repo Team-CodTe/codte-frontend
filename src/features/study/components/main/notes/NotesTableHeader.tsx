@@ -50,7 +50,7 @@ export const NotesTableHeader = ({ studyId, role }: Props) => {
             href={maximizeNotesPageUrl}
             className="cursor-default">
             <Maximize2Icon />
-            <span className="hidden sm:inline">전체 페이지 보기</span>
+            <span className="hidden sm:inline">전체 글 목록</span>
           </Link>
         </Button>
       </div>

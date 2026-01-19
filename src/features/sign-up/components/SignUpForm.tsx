@@ -117,7 +117,7 @@ export const SignUpForm = () => {
                     <FieldError>{usernameApiError}</FieldError>
                   ) : (
                     <FieldDescription>
-                      스터디원들에게 보여질 닉네임이에요.
+                      스터디원들에게 보여질 닉네임입니다.
                     </FieldDescription>
                   )}
                 </Field>
@@ -176,7 +176,10 @@ export const SignUpForm = () => {
                     <FieldError>{bojApiError}</FieldError>
                   ) : (
                     <FieldDescription>
-                      문제 추천 쿼리 및 문제 풀이 상태 조회에 사용돼요.
+                      문제 추천 및 풀이 현황 연동을 위해 백준 계정이 필요합니다.
+                      <br />
+                      가입 후에는 변경이 어려우니 반드시 본인의 아이디를
+                      입력해주세요.
                     </FieldDescription>
                   )}
                 </Field>
