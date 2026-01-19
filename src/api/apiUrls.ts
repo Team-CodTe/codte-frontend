@@ -14,6 +14,7 @@ export const API_URLS = {
   },
   STUDY: {
     MY_LIST: '/api/studies/me/',
+    MEMBERS: '/api/studies/{studyId}/members/',
     CREATE: '/api/studies/',
     JOIN: '/api/studies/join/',
     DETAIL: '/api/studies/{studyId}/',

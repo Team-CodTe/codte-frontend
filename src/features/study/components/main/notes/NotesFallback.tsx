@@ -1,7 +1,7 @@
 'use client';
 
+import { notesColumns } from './NotesColumns';
 import { NotesTable } from './NotesTable';
-import { notesColumns } from './NotesTableColumns';
 
 export const NotesFallback = () => {
   return <NotesTable data={[]} columns={notesColumns} isLoading={true} />;

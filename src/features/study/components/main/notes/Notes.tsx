@@ -9,8 +9,8 @@ import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { useRouter } from 'next/navigation';
 
+import { notesColumns } from './NotesColumns';
 import { NotesTable } from './NotesTable';
-import { notesColumns } from './NotesTableColumns';
 
 type Props = {
   studyId: number;
