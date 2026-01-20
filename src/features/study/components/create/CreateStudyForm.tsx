@@ -163,23 +163,26 @@ export const CreateStudyForm = () => {
                   return (
                     <Field>
                       <FieldLabel>목표 티어 범위</FieldLabel>
-                      <div className="flex items-center justify-center gap-4">
-                        <TierBadge level={tierMin} size={16} />
-                        <span className="text-muted-foreground font-medium">
-                          ~
-                        </span>
-                        <TierBadge level={tierMax} size={16} />
+
+                      <div className="border-input flex flex-col gap-4 rounded-md border p-6 shadow-xs">
+                        <div className="flex items-center justify-center gap-4">
+                          <TierBadge level={tierMin} size={16} />
+                          <span className="text-muted-foreground font-medium">
+                            ~
+                          </span>
+                          <TierBadge level={tierMax} size={16} />
+                        </div>
+                        <Slider
+                          min={0}
+                          max={30}
+                          step={1}
+                          value={[tierMin, tierMax]}
+                          onValueChange={(values) => {
+                            tierMinField.handleChange(values[0]);
+                            tierMaxField.handleChange(values[1]);
+                          }}
+                        />
                       </div>
-                      <Slider
-                        min={0}
-                        max={30}
-                        step={1}
-                        value={[tierMin, tierMax]}
-                        onValueChange={(values) => {
-                          tierMinField.handleChange(values[0]);
-                          tierMaxField.handleChange(values[1]);
-                        }}
-                      />
                       <FieldDescription>
                         설정한 티어 범위 안의 문제만 추천됩니다.
                       </FieldDescription>

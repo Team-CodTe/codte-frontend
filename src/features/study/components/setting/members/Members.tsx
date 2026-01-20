@@ -1,7 +1,8 @@
 'use client';
 
-import { useMembersQuery } from '@/api/study/getMembers/query';
-import { type GetMembersResponse } from '@/api/study/getMembers/type';
+import { useMembersQuery } from '@/api/member/getMembers/query';
+import { type GetMembersResponse } from '@/api/member/getMembers/type';
+import { useStudyDetailQuery } from '@/api/study/getStudyDetail/query';
 
 import { membersColumns } from './MembersColumns';
 import { MembersTable } from './MembersTable';
@@ -12,7 +13,13 @@ type Props = {
 };
 
 export const Members = ({ studyId, initialData }: Props) => {
-  const { data } = useMembersQuery(studyId, { initialData });
+  const { data: study } = useStudyDetailQuery(studyId);
+  const { data: members } = useMembersQuery(studyId, { initialData });
 
-  return <MembersTable data={data ?? []} columns={membersColumns} />;
+  return (
+    <MembersTable
+      data={members ?? []}
+      columns={membersColumns({ myRole: study?.myRole })}
+    />
+  );
 };

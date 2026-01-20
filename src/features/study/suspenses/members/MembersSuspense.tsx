@@ -1,4 +1,4 @@
-import { getMembers } from '@/api/study/getMembers/fetch';
+import { getMembers } from '@/api/member/getMembers/fetch';
 import { withSuspense } from '@/hoc/withSuspense';
 
 import { Members } from '../../components/setting/members/Members';

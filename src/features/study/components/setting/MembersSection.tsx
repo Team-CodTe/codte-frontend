@@ -1,12 +1,13 @@
+import { type GetStudyDetailResponse } from '@/api/study/getStudyDetail/type';
 import { Separator } from '@/components/ui/Separator';
 
 import { MembersSuspense } from '../../suspenses/members/MembersSuspense';
 
 type Props = {
-  studyId: number;
+  study: GetStudyDetailResponse;
 };
 
-export const MembersSection = ({ studyId }: Props) => {
+export const MembersSection = ({ study }: Props) => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
@@ -14,7 +15,7 @@ export const MembersSection = ({ studyId }: Props) => {
         <Separator />
       </div>
 
-      <MembersSuspense studyId={studyId} />
+      <MembersSuspense studyId={study.id} />
     </div>
   );
 };

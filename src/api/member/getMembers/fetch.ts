@@ -6,7 +6,7 @@ import { type GetMembersResponse } from './type';
 
 export const getMembers = async (studyId: number) => {
   const url = buildUrlWithParams({
-    url: API_URLS.STUDY.MEMBERS,
+    url: API_URLS.MEMBER.LIST,
     pathParams: { studyId },
   });
 

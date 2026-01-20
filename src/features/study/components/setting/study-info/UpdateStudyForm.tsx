@@ -27,6 +27,7 @@ import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
 import { useUpdateStudyForm } from '@/features/study/hooks/form/useUpdateStudyForm';
 import { type StudyFormData } from '@/features/study/schemas/studyForm.schema';
+import { formatNumberWithComma, parseNumberWithComma } from '@/lib/formatFunc';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
 type Props = {
@@ -41,13 +42,13 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
 
   const isEditable = role === STUDY_ROLE.OWNER;
 
-  const handleChangeNumber = (
+  const handleChangeNumberWithComma = (
     e: React.ChangeEvent<HTMLInputElement>,
     onChange: (value: number | null) => void,
   ) => {
-    const value = e.target.value;
+    const parsedValue = parseNumberWithComma(e.target.value);
 
-    onChange(value === '' ? null : parseInt(value, 10));
+    onChange(parsedValue);
   };
 
   return (
@@ -175,24 +176,27 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
                   return (
                     <Field>
                       <FieldLabel>목표 티어 범위</FieldLabel>
-                      <div className="flex items-center justify-center gap-4">
-                        <TierBadge level={tierMin} size={16} />
-                        <span className="text-muted-foreground font-medium">
-                          ~
-                        </span>
-                        <TierBadge level={tierMax} size={16} />
+
+                      <div className="border-input flex flex-col gap-4 rounded-md border p-6 shadow-xs">
+                        <div className="flex items-center justify-center gap-4">
+                          <TierBadge level={tierMin} size={16} />
+                          <span className="text-muted-foreground font-medium">
+                            ~
+                          </span>
+                          <TierBadge level={tierMax} size={16} />
+                        </div>
+                        <Slider
+                          min={0}
+                          max={30}
+                          step={1}
+                          disabled={!isEditable}
+                          value={[tierMin, tierMax]}
+                          onValueChange={(values) => {
+                            tierMinField.handleChange(values[0]);
+                            tierMaxField.handleChange(values[1]);
+                          }}
+                        />
                       </div>
-                      <Slider
-                        min={0}
-                        max={30}
-                        step={1}
-                        disabled={!isEditable}
-                        value={[tierMin, tierMax]}
-                        onValueChange={(values) => {
-                          tierMinField.handleChange(values[0]);
-                          tierMaxField.handleChange(values[1]);
-                        }}
-                      />
                     </Field>
                   );
                 }}
@@ -215,17 +219,18 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
                       <Input
                         id={field.name}
                         name={field.name}
-                        type="number"
+                        type="text"
                         inputMode="numeric"
                         placeholder={isEditable ? '500' : '제한 없음'}
-                        min={0}
+                        maxLength={10}
                         readOnly={!isEditable}
-                        value={field.state.value ?? ''}
+                        value={formatNumberWithComma(field.state.value)}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleChangeNumber(e, field.handleChange)
+                          handleChangeNumberWithComma(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
+                        autoComplete="off"
                       />
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
@@ -248,17 +253,18 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
                       <Input
                         id={field.name}
                         name={field.name}
-                        type="number"
+                        type="text"
                         inputMode="numeric"
-                        placeholder={isEditable ? '14000' : '제한 없음'}
-                        min={0}
+                        placeholder={isEditable ? '14,000' : '제한 없음'}
+                        maxLength={10}
                         readOnly={!isEditable}
-                        value={field.state.value ?? ''}
+                        value={formatNumberWithComma(field.state.value)}
                         onBlur={field.handleBlur}
                         onChange={(e) =>
-                          handleChangeNumber(e, field.handleChange)
+                          handleChangeNumberWithComma(e, field.handleChange)
                         }
                         data-invalid={isInvalid}
+                        autoComplete="off"
                       />
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />

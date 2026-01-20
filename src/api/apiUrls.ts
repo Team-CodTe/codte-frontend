@@ -13,14 +13,18 @@ export const API_URLS = {
     },
   },
   STUDY: {
-    MY_LIST: '/api/studies/me/',
-    MEMBERS: '/api/studies/{studyId}/members/',
+    LIST: '/api/studies/me/',
     CREATE: '/api/studies/',
     JOIN: '/api/studies/join/',
     DETAIL: '/api/studies/{studyId}/',
     UPDATE: '/api/studies/{studyId}/',
     REMOVE: '/api/studies/{studyId}/',
     LEAVE: '/api/studies/{studyId}/leave/',
+  },
+  MEMBER: {
+    LIST: '/api/studies/{studyId}/members/',
+    TRANSFER_OWNER: '/api/studies/{studyId}/members/{memberId}/owner/',
+    KICK: '/api/studies/{studyId}/members/{memberId}/',
   },
   ASSIGNMENT: {
     LIST: '/api/studies/{studyId}/assignments/',
