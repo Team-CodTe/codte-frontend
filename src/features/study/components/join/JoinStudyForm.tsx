@@ -78,7 +78,7 @@ export const JoinStudyForm = () => {
               className="order-1 @md/field-group:order-2"
               disabled={isSubmitting}>
               {isSubmitting ? <Spinner /> : null}
-              {isSubmitting ? '가입 중...' : '스터디 가입'}
+              {isSubmitting ? '가입하는 중...' : '가입하기'}
             </Button>
           </Field>
         </FieldGroup>

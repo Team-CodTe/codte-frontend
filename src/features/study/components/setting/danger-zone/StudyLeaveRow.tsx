@@ -48,8 +48,8 @@ export const StudyLeaveRow = () => {
               </AlertDialogTitle>
               <AlertDialogDescription>
                 탈퇴 후 재가입이 가능하나,{' '}
-                <span className="font-bold">
-                  반복적인 가입/탈퇴는 제재 사유
+                <span className="font-semibold">
+                  반복적인 가입/탈퇴는 해당 스터디의 제재 사유
                 </span>
                 가 될 수 있습니다.
               </AlertDialogDescription>

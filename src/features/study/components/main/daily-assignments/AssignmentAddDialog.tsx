@@ -1,16 +1,17 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/Dialog';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/AlertDialog';
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Spinner } from '@/components/ui/Spinner';
@@ -30,49 +31,45 @@ export const AssignmentAddDialog = () => {
   } = useAddAssignment();
 
   return (
-    <Dialog open={open} onOpenChange={handleChangeOpen}>
-      <DialogTrigger asChild>
+    <AlertDialog open={open} onOpenChange={handleChangeOpen}>
+      <AlertDialogTrigger asChild>
         <Button variant="secondary" size="icon-sm-responsive">
           <PlusIcon />
           <span className="hidden sm:inline">문제 직접 추가</span>
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>문제 직접 추가</DialogTitle>
-          <DialogDescription>
-            백준 문제 번호를 입력해서 오늘의 추천 문제 리스트에 직접 추가할 수
-            있어요. 추가된 문제는 강제 갱신해도 사라지지 않습니다.
-          </DialogDescription>
-        </DialogHeader>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>문제 직접 추가하기</AlertDialogTitle>
+          <AlertDialogDescription>
+            함께 풀고 싶은 백준 문제의 번호를 입력하여 오늘의 추천 문제에
+            추가해보세요. 직접 추가한 문제는 추천 문제를 갱신해도 유지됩니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
         <div className="flex flex-col gap-3">
-          <Label htmlFor="custom-assignment">문제 번호</Label>
+          <Label htmlFor="custom-assignment">백준 문제 번호</Label>
           <Input
             id="custom-assignment"
             value={bojNumber}
             onChange={(e) => setBojNumber(e.target.value)}
             type="number"
             inputMode="numeric"
-            placeholder="14501"
+            placeholder="1000"
           />
         </div>
 
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline" disabled={isAdding}>
-              취소
-            </Button>
-          </DialogClose>
-          <Button
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isAdding}>취소</AlertDialogCancel>
+          <AlertDialogAction
             type="submit"
             disabled={!canSubmit || isAdding}
             onClick={handleSubmit}>
             {isAdding ? <Spinner /> : null}
-            {isAdding ? '추가 중...' : '추가'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            {isAdding ? '추가하는 중...' : '추가하기'}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };

@@ -101,7 +101,7 @@ export const MemberActionCell = ({ memberId, memberName }: Props) => {
               }}
               disabled={isTransferring}>
               {isTransferring ? <Spinner className="mr-2" /> : null}
-              {isTransferring ? '위임 중...' : '위임하기'}
+              {isTransferring ? '위임하는 중...' : '위임하기'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -133,7 +133,7 @@ export const MemberActionCell = ({ memberId, memberName }: Props) => {
                 handleCloseDialog();
               }}>
               {isKicking ? <Spinner className="mr-2" /> : null}
-              {isKicking ? '내보내기 중...' : '내보내기'}
+              {isKicking ? '내보내는 중...' : '내보내기'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -300,7 +300,7 @@ export const CreateStudyForm = () => {
               className="order-1 @md/field-group:order-2"
               disabled={isSubmitting}>
               {isSubmitting ? <Spinner /> : null}
-              {isSubmitting ? '생성 중...' : '스터디 생성'}
+              {isSubmitting ? '등록하는 중...' : '등록하기'}
             </Button>
           </Field>
         </FieldGroup>

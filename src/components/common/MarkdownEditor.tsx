@@ -145,7 +145,7 @@ export const MarkdownEditor = ({
               className="order-1 @md/field-group:order-2"
               disabled={isSubmitting || !isDirty}>
               {isSubmitting ? <Spinner /> : null}
-              {isSubmitting ? '저장 중...' : '저장'}
+              {isSubmitting ? '저장하는 중...' : '저장하기'}
             </Button>
             <Button
               variant="outline"

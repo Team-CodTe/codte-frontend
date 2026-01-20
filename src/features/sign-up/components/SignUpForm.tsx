@@ -181,7 +181,7 @@ export const SignUpForm = () => {
                     <FieldError>{bojValidator.errorMessage}</FieldError>
                   ) : (
                     <FieldDescription>
-                      문제 추천 및 풀이 상태 조회를 위해 백준 계정이 필요합니다.
+                      문제 추천 및 풀이 상태 조회를 위해 사용됩니다.
                       <br />
                       가입 후에는 변경이 어려우니 반드시 본인의 아이디를
                       입력해주세요.
@@ -213,7 +213,7 @@ export const SignUpForm = () => {
                     className="order-1 @md/field-group:order-2"
                     disabled={!isFormValid || isSubmitting}>
                     {isSubmitting ? <Spinner /> : null}
-                    {isSubmitting ? '등록 중...' : '회원가입'}
+                    {isSubmitting ? '가입하는 중...' : '가입하기'}
                   </Button>
                 );
               }}
