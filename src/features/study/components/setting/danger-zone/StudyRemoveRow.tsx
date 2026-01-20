@@ -1,16 +1,17 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/Dialog';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/AlertDialog';
+import { Button } from '@/components/ui/Button';
 import {
   Field,
   FieldContent,
@@ -34,7 +35,7 @@ export const StudyRemoveRow = ({ studyName }: Props) => {
     confirmText,
     isConfirmValid,
     handleConfirmTextChange,
-    handleOpenChange,
+    handleChangeOpen,
     open,
     handleSubmit,
     isRemovingStudy,
@@ -46,49 +47,63 @@ export const StudyRemoveRow = ({ studyName }: Props) => {
         <FieldContent>
           <FieldLabel>스터디 삭제</FieldLabel>
           <FieldDescription>
-            스터디를 삭제하면 다시 복구할 수 없습니다.
+            스터디를 삭제하면 모든 데이터가 영구적으로 사라집니다.
           </FieldDescription>
         </FieldContent>
 
-        <Dialog open={open} onOpenChange={handleOpenChange}>
-          <DialogTrigger asChild>
+        <AlertDialog open={open} onOpenChange={handleChangeOpen}>
+          <AlertDialogTrigger asChild>
             <Button variant="destructive">스터디 삭제</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>정말 스터디를 삭제하시겠습니까?</DialogTitle>
-              <DialogDescription>
-                스터디를 삭제하면 모든 스터디 정보가 삭제되고, 복구할 수
-                없습니다. 스터디 삭제를 원하시면 아래 문구를 입력해주세요.
-              </DialogDescription>
-            </DialogHeader>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                정말 스터디를 삭제하시겠습니까?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                이 작업은 되돌릴 수 없습니다. 스터디의 모든 데이터(추천 문제
+                목록, 문제 풀이 글, 스터디 멤버 등)가{' '}
+                <span className="text-destructive font-semibold">
+                  영구적으로 삭제
+                </span>
+                됩니다.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
 
-            <div className="flex flex-col items-center gap-3">
-              <Label htmlFor="confirmText">{expectedText}</Label>
+            <div className="flex flex-col gap-3">
+              <Label
+                htmlFor="confirm-text"
+                className="text-muted-foreground block text-sm">
+                삭제를 확인하려면 아래에{' '}
+                <span className="text-foreground font-semibold select-all">
+                  {expectedText}
+                </span>
+                를 입력하세요.
+              </Label>
               <Input
+                id="confirm-text"
                 value={confirmText}
                 onChange={(e) => handleConfirmTextChange(e.target.value)}
                 disabled={isRemovingStudy}
-                placeholder="여기에 문구 입력"
+                placeholder={expectedText}
+                className="font-medium"
               />
             </div>
 
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline" disabled={isRemovingStudy}>
-                  취소
-                </Button>
-              </DialogClose>
-              <Button
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isRemovingStudy}>
+                취소
+              </AlertDialogCancel>
+              <AlertDialogAction
                 variant="destructive"
                 disabled={!isConfirmValid || isRemovingStudy}
                 onClick={handleSubmit}>
-                {isRemovingStudy ? <Spinner /> : null}
-                {isRemovingStudy ? '삭제 중...' : '스터디 삭제'}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+                {isRemovingStudy ? <Spinner className="mr-2" /> : null}
+                {isRemovingStudy ? '삭제 중...' : '삭제하기'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </Field>
     </FieldGroup>
   );

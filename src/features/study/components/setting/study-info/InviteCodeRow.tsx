@@ -34,7 +34,7 @@ export const InviteCodeRow = ({ inviteCode }: Props) => {
   };
 
   return (
-    <div className="flex max-w-[calc(50%-6px)] flex-col gap-3">
+    <div className="flex w-full flex-col gap-3 md:max-w-[calc(50%-6px)]">
       <Label htmlFor="inviteCode">초대 코드</Label>
       <div className="relative">
         <Input

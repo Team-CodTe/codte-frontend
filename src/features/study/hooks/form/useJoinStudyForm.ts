@@ -22,30 +22,31 @@ export const useJoinStudyForm = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
 
-  const { mutate: mutateJoinStudy, isPending: isJoining } =
-    useJoinStudyMutation({
-      onSuccess: (data) => {
-        startTransition(() => {
-          router.replace(
-            buildUrlWithParams({
-              url: PATH.STUDY.SPACE,
-              pathParams: { studyId: data.id },
-            }),
-          );
-        });
+  const { mutate, isPending } = useJoinStudyMutation({
+    onSuccess: (data) => {
+      startTransition(() => {
+        router.replace(
+          buildUrlWithParams({
+            url: PATH.STUDY.SPACE,
+            pathParams: { studyId: data.id },
+          }),
+        );
+      });
 
-        showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
-      },
-      onError: (error) => {
-        handleApiError({
-          error,
-          defaultMessage: '유효하지 않은 초대 코드입니다.',
-          errorMapping: {
-            ALREADY_MEMBER: (message) => ({ message, type: 'info' }),
-          },
-        });
-      },
-    });
+      showToast({ message: '스터디에 가입되었습니다.', type: 'success' });
+    },
+    onError: (error) => {
+      handleApiError({
+        error,
+        defaultMessage: '유효하지 않은 초대 코드입니다.',
+        errorMapping: {
+          ALREADY_MEMBER: (message) => ({ message, type: 'info' }),
+        },
+      });
+    },
+  });
+
+  const isSubmitting = isPending || isNavigating;
 
   const form = useForm({
     defaultValues: {
@@ -55,11 +56,11 @@ export const useJoinStudyForm = () => {
       onSubmit: JoinStudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      if (isJoining) {
+      if (isSubmitting) {
         return;
       }
 
-      mutateJoinStudy(value);
+      mutate(value);
     },
   });
 
@@ -71,6 +72,6 @@ export const useJoinStudyForm = () => {
   return {
     form,
     handleQuit,
-    isSubmitting: isJoining || isNavigating,
+    isSubmitting,
   };
 };

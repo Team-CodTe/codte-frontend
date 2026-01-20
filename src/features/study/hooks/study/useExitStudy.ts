@@ -46,10 +46,22 @@ export const useExitStudy = () => {
       },
     });
 
+  const isLeavingStudy = isLeaving || isNavigating;
+  const isRemovingStudy = isRemoving || isNavigating;
+
+  const handleLeave = () => {
+    if (isLeavingStudy) {
+      return;
+    }
+
+    mutateLeaveStudy();
+  };
+
   return {
     mutateLeaveStudy,
     mutateRemoveStudy,
-    isLeavingStudy: isLeaving || isNavigating,
-    isRemovingStudy: isRemoving || isNavigating,
+    isLeavingStudy,
+    isRemovingStudy,
+    handleLeave,
   };
 };

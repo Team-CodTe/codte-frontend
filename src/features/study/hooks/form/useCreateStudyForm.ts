@@ -18,31 +18,32 @@ export const useCreateStudyForm = () => {
   const [isNavigating, startTransition] = useTransition();
   const queryClient = useQueryClient();
 
-  const { mutate: mutateCreateStudy, isPending: isCreating } =
-    useCreateStudyMutation({
-      onSuccess: async (data) => {
-        await queryClient.invalidateQueries({
-          queryKey: ['study', 'my-studies'],
-        });
+  const { mutate, isPending } = useCreateStudyMutation({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['study', 'my-studies'],
+      });
 
-        startTransition(() => {
-          router.replace(
-            buildUrlWithParams({
-              url: PATH.STUDY.SPACE,
-              pathParams: { studyId: data.id },
-            }),
-          );
-        });
+      startTransition(() => {
+        router.replace(
+          buildUrlWithParams({
+            url: PATH.STUDY.SPACE,
+            pathParams: { studyId: data.id },
+          }),
+        );
+      });
 
-        showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
-      },
-      onError: () => {
-        showToast({
-          message: '스터디 생성에 실패했습니다. 다시 시도해주세요.',
-          type: 'error',
-        });
-      },
-    });
+      showToast({ message: '스터디가 생성되었습니다.', type: 'success' });
+    },
+    onError: () => {
+      showToast({
+        message: '스터디 생성에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
+
+  const isSubmitting = isPending || isNavigating;
 
   const form = useForm({
     defaultValues: {
@@ -58,11 +59,11 @@ export const useCreateStudyForm = () => {
       onSubmit: StudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      if (isCreating) {
+      if (isSubmitting) {
         return;
       }
 
-      mutateCreateStudy(value);
+      mutate(value);
     },
   });
 
@@ -74,6 +75,6 @@ export const useCreateStudyForm = () => {
   return {
     form,
     handleQuit,
-    isSubmitting: isCreating || isNavigating,
+    isSubmitting,
   };
 };

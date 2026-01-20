@@ -5,13 +5,19 @@ export const StudyFormSchema = z
     name: z
       .string()
       .min(3, '3글자 이상 입력해주세요.')
-      .max(50, '50글자 이하로 입력해주세요.')
+      .max(30, '30글자 이하로 입력해주세요.')
+      .refine((val) => val.trim().length > 0, {
+        message: '공백만 입력할 수 없습니다.',
+      })
       .regex(
         /^[\uAC00-\uD7A3a-zA-Z0-9 _-]+$/,
         '한글, 영문, 숫자, _, -만 입력 가능합니다.',
       ),
     description: z
       .string()
+      .refine((val) => !val || val.trim().length > 0, {
+        message: '공백만 입력할 수 없습니다.',
+      })
       .max(200, '200글자 이하로 입력해주세요.')
       .optional()
       .or(z.literal('')),

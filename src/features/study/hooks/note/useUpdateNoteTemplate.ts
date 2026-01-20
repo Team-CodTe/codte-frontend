@@ -15,33 +15,34 @@ export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
   const [isNavigating, startTransition] = useTransition();
   const [templateContent, setTemplateContent] = useState(initialTemplate);
 
-  const { mutate: mutateUpdateNoteTemplate, isPending: isUpdating } =
-    useUpdateStudyMutation(studyId, {
-      onSuccess: () => {
-        startTransition(() => {
-          router.back();
-        });
+  const { mutate, isPending } = useUpdateStudyMutation(studyId, {
+    onSuccess: () => {
+      startTransition(() => {
+        router.back();
+      });
 
-        showToast({ message: '템플릿이 변경되었습니다.', type: 'success' });
-      },
-      onError: () => {
-        showToast({
-          message: '템플릿 수정에 실패했습니다. 다시 시도해주세요.',
-          type: 'error',
-        });
-      },
-    });
+      showToast({ message: '템플릿이 변경되었습니다.', type: 'success' });
+    },
+    onError: () => {
+      showToast({
+        message: '템플릿 수정에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
+
+  const isSubmitting = isPending || isNavigating;
 
   const handleChange = (value?: string) => {
     setTemplateContent(value || '');
   };
 
   const handleSubmit = () => {
-    if (isUpdating) {
+    if (isSubmitting) {
       return;
     }
 
-    mutateUpdateNoteTemplate({ templateContent });
+    mutate({ templateContent });
   };
 
   const resetForm = () => {
@@ -51,8 +52,9 @@ export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
   return {
     templateContent,
     isDirty:
-      templateContent.trim().length > 0 && templateContent !== initialTemplate,
-    isSubmitting: isUpdating || isNavigating,
+      templateContent.trim().length > 0 &&
+      templateContent.trim() !== initialTemplate.trim(),
+    isSubmitting,
     handleChange,
     handleSubmit,
     resetForm,

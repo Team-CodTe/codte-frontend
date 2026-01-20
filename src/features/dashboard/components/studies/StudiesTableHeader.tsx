@@ -22,7 +22,7 @@ export const StudiesTableHeader = () => {
             href={PATH.STUDY.CREATE}
             className="cursor-default">
             <PlusIcon />
-            <span className="hidden sm:inline">생성</span>
+            <span className="hidden sm:inline">스터디 등록</span>
           </Link>
         </Button>
         <Button variant="secondary" size="icon-sm-responsive" asChild>
@@ -32,7 +32,7 @@ export const StudiesTableHeader = () => {
             href={PATH.STUDY.JOIN}
             className="cursor-default">
             <GitPullRequestArrowIcon />
-            <span className="hidden sm:inline">가입</span>
+            <span className="hidden sm:inline">스터디 가입</span>
           </Link>
         </Button>
       </div>

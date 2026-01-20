@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 
 import { useUpdateProfileMutation } from '@/api/user/patchUpdateProfile/mutation';
 import { useValidateBojMutation } from '@/api/user/postValidateBoj/mutation';
@@ -13,7 +13,7 @@ import { useForm } from '@tanstack/react-form';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
-import { type ValidationStatus } from '../types/validationStatus';
+import { useValidator } from './useValidator';
 
 const UsernameSchema = z
   .string()
@@ -48,66 +48,45 @@ const getErrorMessage = (error: unknown) => {
 export const useSignUpForm = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
+  const { mutateAsync: validateUsernameApi } = useValidateUsernameMutation();
+  const { mutateAsync: validateBojApi } = useValidateBojMutation();
 
-  const [usernameApiError, setUsernameApiError] = useState<string | null>(null);
-  const [usernameValidation, setUsernameValidation] = useState<{
-    status: ValidationStatus;
-    validatedValue: string;
-  }>({ status: 'idle', validatedValue: '' });
+  const usernameValidator = useValidator({
+    mutationFn: (username: string) => validateUsernameApi({ username }),
+    onError: getErrorMessage,
+  });
 
-  const [bojApiError, setBojApiError] = useState<string | null>(null);
-  const [bojValidation, setBojValidation] = useState<{
-    status: ValidationStatus;
-    validatedValue: string;
-  }>({ status: 'idle', validatedValue: '' });
-
-  const resetUsernameValidation = () => {
-    setUsernameApiError(null);
-    setUsernameValidation({ status: 'idle', validatedValue: '' });
-  };
-
-  const resetBojValidation = () => {
-    setBojApiError(null);
-    setBojValidation({ status: 'idle', validatedValue: '' });
-  };
+  const bojValidator = useValidator({
+    mutationFn: (bojUsername: string) => validateBojApi({ bojUsername }),
+    onError: getErrorMessage,
+  });
 
   const { mutate: mutateRegisterProfile, isPending: isRegistering } =
     useUpdateProfileMutation({
       onSuccess: () => {
         startTransition(() => {
-          resetUsernameValidation();
-          resetBojValidation();
           router.replace(PATH.DASHBOARD);
         });
         showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
       },
-      onError: () => {
-        showToast({
-          message: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-          type: 'error',
-        });
-      },
+      onError: () =>
+        showToast({ message: '오류가 발생했습니다.', type: 'error' }),
     });
 
   const form = useForm({
-    defaultValues: {
-      username: '',
-      bojUsername: '',
-    } satisfies SignUpFormData,
-    validators: {
-      onChange: SignUpFormSchema,
-    },
+    defaultValues: { username: '', bojUsername: '' } satisfies SignUpFormData,
+    validators: { onChange: SignUpFormSchema },
     onSubmit: async ({ value }) => {
       const isUsernameValid =
-        usernameValidation.status === 'valid' &&
-        usernameValidation.validatedValue === value.username;
+        usernameValidator.isValid &&
+        usernameValidator.validatedValue === value.username;
       const isBojValid =
-        bojValidation.status === 'valid' &&
-        bojValidation.validatedValue === value.bojUsername;
+        bojValidator.isValid &&
+        bojValidator.validatedValue === value.bojUsername;
 
-      if (!isUsernameValid || !isBojValid) return;
-
-      if (isRegistering) return;
+      if (!isUsernameValid || !isBojValid || isRegistering) {
+        return;
+      }
 
       mutateRegisterProfile({
         username: value.username,
@@ -116,86 +95,27 @@ export const useSignUpForm = () => {
     },
   });
 
-  const validateUsernameMutation = useValidateUsernameMutation({
-    onSuccess: (_, variables) => {
-      setUsernameApiError(null);
-      setUsernameValidation({
-        status: 'valid',
-        validatedValue: variables.username,
-      });
-    },
-    onError: (error) => {
-      setUsernameApiError(getErrorMessage(error));
-      setUsernameValidation((prev) => ({
-        ...prev,
-        status: 'invalid',
-      }));
-    },
-  });
+  const handleValidate = (field: 'username' | 'bojUsername') => {
+    const value = form.getFieldValue(field);
+    const schema = field === 'username' ? UsernameSchema : BojUsernameSchema;
+    const validator = field === 'username' ? usernameValidator : bojValidator;
 
-  const validateBojMutation = useValidateBojMutation({
-    onSuccess: (_, variables) => {
-      setBojApiError(null);
-      setBojValidation({
-        status: 'valid',
-        validatedValue: variables.bojUsername,
-      });
-    },
-    onError: (error) => {
-      setBojApiError(getErrorMessage(error));
-      setBojValidation((prev) => ({
-        ...prev,
-        status: 'invalid',
-      }));
-    },
-  });
-
-  const validateUsername = () => {
-    const username = form.getFieldValue('username');
-    const result = UsernameSchema.safeParse(username);
+    const result = schema.safeParse(value);
 
     if (!result.success) {
-      form.setFieldMeta('username', (prev) => ({
-        ...prev,
-        isTouched: true,
-      }));
+      form.setFieldMeta(field, (prev) => ({ ...prev, isTouched: true }));
 
       return;
     }
 
-    setUsernameApiError(null);
-    setUsernameValidation({ status: 'validating', validatedValue: '' });
-    validateUsernameMutation.mutate({ username });
-  };
-
-  const validateBojUsername = () => {
-    const bojUsername = form.getFieldValue('bojUsername');
-    const result = BojUsernameSchema.safeParse(bojUsername);
-
-    if (!result.success) {
-      form.setFieldMeta('bojUsername', (prev) => ({
-        ...prev,
-        isTouched: true,
-      }));
-
-      return;
-    }
-
-    setBojApiError(null);
-    setBojValidation({ status: 'validating', validatedValue: '' });
-    validateBojMutation.mutate({ bojUsername });
+    validator.validate(value, value);
   };
 
   return {
     form,
-    validateUsername,
-    validateBojUsername,
-    resetUsernameValidation,
-    resetBojValidation,
-    usernameValidation,
-    bojValidation,
-    usernameApiError,
-    bojApiError,
+    usernameValidator,
+    bojValidator,
+    handleValidate,
     isSubmitting: isRegistering || isNavigating,
   };
 };

@@ -10,15 +10,17 @@ import { type LucideIcon } from 'lucide-react';
 
 import { type DatePickerState } from './NotesMaximizeTableFilter';
 
+type Props = {
+  state: DatePickerState;
+  icon: LucideIcon;
+  placeholder: string;
+};
+
 export const DateFilterPopover = ({
   state,
   icon: Icon,
   placeholder,
-}: {
-  state: DatePickerState;
-  icon: LucideIcon;
-  placeholder: string;
-}) => (
+}: Props) => (
   <Popover open={state.isOpen} onOpenChange={state.setIsOpen}>
     <PopoverTrigger asChild>
       <Button variant="outline">
@@ -28,7 +30,7 @@ export const DateFilterPopover = ({
           : placeholder}
       </Button>
     </PopoverTrigger>
-    <PopoverContent className="w-auto p-0" align="end">
+    <PopoverContent className="w-auto p-0">
       <Calendar mode="single" selected={state.date} onSelect={state.onSelect} />
     </PopoverContent>
   </Popover>

@@ -24,28 +24,29 @@ export const useSolveStatus = ({ initialData, date, view }: Props) => {
   );
   const [isRefetching, startTransition] = useTransition();
 
-  const { mutate: mutateRefreshSolveStatus, isPending } =
-    useRefreshSolveStatusMutation(studyId, {
-      onSuccess: () => {
-        startTransition(() => {
-          refetch();
-        });
+  const { mutate, isPending } = useRefreshSolveStatusMutation(studyId, {
+    onSuccess: () => {
+      startTransition(() => {
+        refetch();
+      });
 
-        showToast({
-          message: '문제 풀이 상태가 갱신되었습니다.',
-          type: 'success',
-        });
-      },
-      onError: () => {
-        showToast({
-          message: '문제 풀이 상태 갱신에 실패했습니다. 다시 시도해주세요.',
-          type: 'error',
-        });
-      },
-    });
+      showToast({
+        message: '문제 풀이 상태가 갱신되었습니다.',
+        type: 'success',
+      });
+    },
+    onError: () => {
+      showToast({
+        message: '문제 풀이 상태 갱신에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
+
+  const isRefreshing = isPending || isRefetching;
 
   const handleRefresh = () => {
-    if (isPending) {
+    if (isRefreshing) {
       return;
     }
 
@@ -65,12 +66,12 @@ export const useSolveStatus = ({ initialData, date, view }: Props) => {
       return;
     }
 
-    mutateRefreshSolveStatus();
+    mutate();
   };
 
   return {
     data,
-    isRefreshing: isPending || isRefetching,
+    isRefreshing,
     handleRefresh,
   };
 };

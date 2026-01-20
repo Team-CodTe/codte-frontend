@@ -37,6 +37,8 @@ export const DropdownAvatar = () => {
           </div>
         </DropdownMenuItem>
 
+        <DropdownMenuSeparator />
+
         <DropdownMenuItem
           className="justify-between"
           onSelect={(event) => {
@@ -46,8 +48,6 @@ export const DropdownAvatar = () => {
           <span>테마 변경</span>
           <ThemeIcon />
         </DropdownMenuItem>
-
-        <DropdownMenuSeparator />
 
         <DropdownMenuItem
           className="justify-between"

@@ -15,9 +15,10 @@ type Props = {
 };
 
 export const DailyAssignments = ({ studyId, initialData, role }: Props) => {
-  const { data, isRefreshing, handleRefresh } = useDailyAssignments({
-    initialData,
-  });
+  const { data, isRefreshing, handleRefreshDailyAssignments } =
+    useDailyAssignments({
+      initialData,
+    });
 
   return (
     <div className="flex min-h-0 flex-col gap-3 lg:h-full">
@@ -29,7 +30,7 @@ export const DailyAssignments = ({ studyId, initialData, role }: Props) => {
       <DailyAssignmentsTableFooter
         refreshedAt={data?.refreshedAt ?? ''}
         isRefreshing={isRefreshing}
-        onRefresh={handleRefresh}
+        onRefresh={handleRefreshDailyAssignments}
         role={role}
       />
     </div>
