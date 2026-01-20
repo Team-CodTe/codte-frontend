@@ -4,6 +4,7 @@ import type { PropsWithChildren } from 'react';
 
 import { Providers } from '@/components/providers/Providers';
 import { auth } from '@/lib/auth';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -40,6 +41,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
         className={`${pretendard.variable} ${tossFace.variable} antialiased`}>
         <Providers session={session}>{children}</Providers>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ''} />
     </html>
   );
 };
