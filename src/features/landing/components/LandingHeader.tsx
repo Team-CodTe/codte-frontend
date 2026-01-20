@@ -9,12 +9,14 @@ import Link from 'next/link';
 
 import { ToLoginPageButton } from './ToLoginPageButton';
 
+const SCROLL_THRESHOLD = 1;
+
 export const LandingHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -25,9 +27,9 @@ export const LandingHeader = () => {
   return (
     <header
       className={cn(
-        'fixed top-0 right-0 left-0 z-50 transition-all duration-300',
+        'fixed top-0 right-0 left-0 z-50 transition-all duration-200 ease-in-out',
         isScrolled
-          ? 'bg-background/80 border-border border-b backdrop-blur-md'
+          ? 'bg-background/80 border-border border-b shadow-2xs backdrop-blur-md'
           : 'bg-transparent',
       )}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">

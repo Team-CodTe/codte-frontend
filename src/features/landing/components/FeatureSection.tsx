@@ -75,9 +75,9 @@ export const FeatureSection = ({
               images.length > 1 &&
                 'scrollbar-thin snap-x snap-mandatory overflow-x-auto pb-4',
             )}>
-            {images.map((image, index) => (
+            {images.map((image) => (
               <div
-                key={index}
+                key={image.src}
                 className={cn(
                   'shrink-0 overflow-hidden bg-transparent',
                   images.length > 1 ? 'w-[85%] snap-center' : 'w-full',

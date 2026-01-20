@@ -117,9 +117,9 @@ const LandingPage = () => {
       <LandingHeader />
       <HeroSection />
 
-      {FEATURES.map((feature, index) => (
+      {FEATURES.map((feature) => (
         <FeatureSection
-          key={index}
+          key={feature.title}
           id={feature.id}
           title={feature.title}
           description={feature.description}
