@@ -43,7 +43,7 @@ export const useKickMember = ({ memberName, memberId }: Props) => {
 
   const isKicking = isPending || isTransitioning;
 
-  const handleKick = () => {
+  const handleKickMember = () => {
     if (isKicking) {
       return;
     }
@@ -53,6 +53,6 @@ export const useKickMember = ({ memberName, memberId }: Props) => {
 
   return {
     isKicking,
-    handleKick,
+    handleKickMember,
   };
 };

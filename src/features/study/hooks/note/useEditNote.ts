@@ -19,52 +19,50 @@ export const useEditNote = ({ initialContent }: Props) => {
   const [content, setContent] = useState(initialContent);
   const queryClient = useQueryClient();
 
-  const { mutate: mutateUpdateNote, isPending: isUpdating } =
-    useEditNoteMutation(noteId, {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: ['note', 'detail', noteId],
-        });
-
-        await queryClient.invalidateQueries({
+  const { mutate, isPending } = useEditNoteMutation(noteId, {
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['note', 'detail', noteId] }),
+        queryClient.invalidateQueries({
           queryKey: ['study', 'notes', studyId],
-        });
-
-        await queryClient.invalidateQueries({
+        }),
+        queryClient.invalidateQueries({
           queryKey: ['study', 'notes', 'maximize', studyId],
-        });
+        }),
+      ]);
 
-        startTransition(() => {
-          router.back();
-        });
+      startTransition(() => {
+        router.back();
+      });
 
-        showToast({
-          message: '문제 풀이 글이 수정되었습니다.',
-          type: 'success',
-        });
-      },
-      onError: (error) => {
-        handleApiError({
-          error,
-          defaultMessage:
-            '문제 풀이 글 수정에 실패했습니다. 다시 시도해주세요.',
-          errorMapping: {
-            PERMISSION_DENIED: (message) => ({ message }),
-          },
-        });
-      },
-    });
+      showToast({
+        message: '문제 풀이 글이 수정되었습니다.',
+        type: 'success',
+      });
+    },
+    onError: (error) => {
+      handleApiError({
+        error,
+        defaultMessage: '문제 풀이 글 수정에 실패했습니다. 다시 시도해주세요.',
+        errorMapping: {
+          PERMISSION_DENIED: (message) => ({ message }),
+        },
+      });
+    },
+  });
+
+  const isSubmitting = isPending || isNavigating;
 
   const handleChange = (value?: string) => {
     setContent(value || '');
   };
 
   const handleSubmit = () => {
-    if (isUpdating) {
+    if (isSubmitting) {
       return;
     }
 
-    mutateUpdateNote({ content });
+    mutate({ content });
   };
 
   const resetForm = () => {
@@ -73,8 +71,9 @@ export const useEditNote = ({ initialContent }: Props) => {
 
   return {
     content,
-    isDirty: content.trim().length > 0 && content !== initialContent,
-    isSubmitting: isUpdating || isNavigating,
+    isDirty:
+      content.trim().length > 0 && content.trim() !== initialContent.trim(),
+    isSubmitting,
     handleChange,
     handleSubmit,
     resetForm,

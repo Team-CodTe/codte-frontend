@@ -20,13 +20,14 @@ export const useTransferOwner = ({ memberName, memberId }: Props) => {
 
   const { mutate, isPending } = useTransferOwnerMutation(studyId, memberId, {
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['study', 'members', studyId],
-      });
-
-      await queryClient.invalidateQueries({
-        queryKey: ['study', 'detail', studyId],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['study', 'members', studyId],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ['study', 'detail', studyId],
+        }),
+      ]);
 
       startTransition(() => {
         router.refresh();
@@ -47,7 +48,7 @@ export const useTransferOwner = ({ memberName, memberId }: Props) => {
 
   const isTransferring = isPending || isTransitioning;
 
-  const handleTransfer = () => {
+  const handleTransferOwner = () => {
     if (isTransferring) {
       return;
     }
@@ -57,6 +58,6 @@ export const useTransferOwner = ({ memberName, memberId }: Props) => {
 
   return {
     isTransferring,
-    handleTransfer,
+    handleTransferOwner,
   };
 };

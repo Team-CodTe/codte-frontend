@@ -23,14 +23,14 @@ export const AssignmentAddDialog = () => {
     bojNumber,
     setBojNumber,
     open,
-    handleOpenChange,
+    handleChangeOpen,
     handleSubmit,
     canSubmit,
     isAdding,
   } = useAddAssignment();
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={handleChangeOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary" size="icon-sm-responsive">
           <PlusIcon />

@@ -20,25 +20,26 @@ export const useUpdateStudyForm = ({ initialData }: Props) => {
   const router = useRouter();
   const [isRefreshing, startTransition] = useTransition();
 
-  const { mutate: mutateUpdateStudy, isPending: isUpdating } =
-    useUpdateStudyMutation(studyId, {
-      onSuccess: () => {
-        startTransition(() => {
-          router.refresh();
-        });
+  const { mutate, isPending } = useUpdateStudyMutation(studyId, {
+    onSuccess: () => {
+      startTransition(() => {
+        router.refresh();
+      });
 
-        showToast({
-          message: '스터디 정보가 수정되었습니다.',
-          type: 'success',
-        });
-      },
-      onError: () => {
-        showToast({
-          message: '스터디 정보 수정에 실패했습니다. 다시 시도해주세요.',
-          type: 'error',
-        });
-      },
-    });
+      showToast({
+        message: '스터디 정보가 수정되었습니다.',
+        type: 'success',
+      });
+    },
+    onError: () => {
+      showToast({
+        message: '스터디 정보 수정에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
+
+  const isSubmitting = isPending || isRefreshing;
 
   const form = useForm({
     defaultValues: initialData,
@@ -46,11 +47,11 @@ export const useUpdateStudyForm = ({ initialData }: Props) => {
       onSubmit: StudyFormSchema,
     },
     onSubmit: ({ value }) => {
-      if (isUpdating) {
+      if (isSubmitting) {
         return;
       }
 
-      mutateUpdateStudy(value);
+      mutate(value);
     },
   });
 
@@ -60,7 +61,7 @@ export const useUpdateStudyForm = ({ initialData }: Props) => {
 
   return {
     form,
-    isSubmitting: isUpdating || isRefreshing,
+    isSubmitting,
     resetForm,
   };
 };

@@ -16,28 +16,29 @@ export const useDailyAssignments = ({ initialData }: Props) => {
   const { data, refetch } = useDailyAssignmentsQuery(studyId, { initialData });
   const [isRefetching, startTransition] = useTransition();
 
-  const { mutate: mutateRefreshDailyAssignments, isPending } =
-    useRefreshDailyAssignmentsMutation(studyId, {
-      onSuccess: () => {
-        startTransition(() => {
-          refetch();
-        });
+  const { mutate, isPending } = useRefreshDailyAssignmentsMutation(studyId, {
+    onSuccess: () => {
+      startTransition(() => {
+        refetch();
+      });
 
-        showToast({
-          message: '오늘의 추천 문제가 갱신되었습니다.',
-          type: 'success',
-        });
-      },
-      onError: () => {
-        showToast({
-          message: '오늘의 추천 문제 갱신에 실패했습니다. 다시 시도해주세요.',
-          type: 'error',
-        });
-      },
-    });
+      showToast({
+        message: '오늘의 추천 문제가 갱신되었습니다.',
+        type: 'success',
+      });
+    },
+    onError: () => {
+      showToast({
+        message: '오늘의 추천 문제 갱신에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
 
-  const handleRefresh = () => {
-    if (isPending) {
+  const isRefreshing = isPending || isRefetching;
+
+  const handleRefreshDailyAssignments = () => {
+    if (isRefreshing) {
       return;
     }
 
@@ -57,12 +58,12 @@ export const useDailyAssignments = ({ initialData }: Props) => {
       return;
     }
 
-    mutateRefreshDailyAssignments();
+    mutate();
   };
 
   return {
     data,
-    isRefreshing: isPending || isRefetching,
-    handleRefresh,
+    isRefreshing,
+    handleRefreshDailyAssignments,
   };
 };

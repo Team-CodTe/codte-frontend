@@ -15,28 +15,26 @@ import { Spinner } from '@/components/ui/Spinner';
 import { CheckCircle } from 'lucide-react';
 
 import { useSignUpForm } from '../hooks/useSignUpForm';
-import { type ValidationStatus } from '../types/validationStatus';
+import {
+  VALIDATION_STATUS,
+  type ValidationStatus,
+} from '../types/validationStatus';
 import { LogoutButton } from './LogoutButton';
 
 export const SignUpForm = () => {
   const {
     form,
-    validateUsername,
-    validateBojUsername,
-    resetUsernameValidation,
-    resetBojValidation,
-    usernameValidation,
-    bojValidation,
-    usernameApiError,
-    bojApiError,
+    usernameValidator,
+    bojValidator,
+    handleValidate,
     isSubmitting,
   } = useSignUpForm();
 
   const getValidationButtonText = (status: ValidationStatus) => {
     switch (status) {
-      case 'validating':
+      case VALIDATION_STATUS.VALIDATING:
         return <Spinner />;
-      case 'valid':
+      case VALIDATION_STATUS.VALID:
         return <CheckCircle className="text-success" />;
 
       default:
@@ -50,6 +48,7 @@ export const SignUpForm = () => {
       className="w-full"
       onSubmit={(e) => {
         e.preventDefault();
+        e.stopPropagation();
         form.handleSubmit();
       }}>
       <FieldSet>
@@ -69,11 +68,13 @@ export const SignUpForm = () => {
               const hasSchemaError =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               const hasApiError =
-                usernameValidation.status === 'invalid' && usernameApiError;
-              const isInvalid = hasSchemaError || hasApiError;
+                usernameValidator.status === VALIDATION_STATUS.INVALID &&
+                usernameValidator.errorMessage;
+              const isInvalid = hasSchemaError || !!hasApiError;
+
               const isUsernameValidated =
-                usernameValidation.status === 'valid' &&
-                usernameValidation.validatedValue === field.state.value;
+                usernameValidator.status === VALIDATION_STATUS.VALID &&
+                usernameValidator.validatedValue === field.state.value;
 
               return (
                 <Field data-invalid={isInvalid}>
@@ -89,7 +90,7 @@ export const SignUpForm = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => {
                         field.handleChange(e.target.value);
-                        resetUsernameValidation();
+                        usernameValidator.reset();
                       }}
                       data-invalid={isInvalid}
                       autoComplete="off"
@@ -97,24 +98,24 @@ export const SignUpForm = () => {
                     <Button
                       type="button"
                       variant={isUsernameValidated ? 'outline' : 'secondary'}
-                      onClick={validateUsername}
+                      onClick={() => handleValidate('username')}
                       size={
-                        usernameValidation.status === 'validating' ||
-                        isUsernameValidated
+                        usernameValidator.status ===
+                          VALIDATION_STATUS.VALIDATING || isUsernameValidated
                           ? 'icon'
                           : 'default'
                       }
                       disabled={
-                        usernameValidation.status === 'validating' ||
-                        isUsernameValidated
+                        usernameValidator.status ===
+                          VALIDATION_STATUS.VALIDATING || isUsernameValidated
                       }>
-                      {getValidationButtonText(usernameValidation.status)}
+                      {getValidationButtonText(usernameValidator.status)}
                     </Button>
                   </div>
                   {hasSchemaError ? (
                     <FieldError errors={field.state.meta.errors} />
                   ) : hasApiError ? (
-                    <FieldError>{usernameApiError}</FieldError>
+                    <FieldError>{usernameValidator.errorMessage}</FieldError>
                   ) : (
                     <FieldDescription>
                       스터디원들에게 보여질 닉네임입니다.
@@ -130,11 +131,13 @@ export const SignUpForm = () => {
               const hasSchemaError =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               const hasApiError =
-                bojValidation.status === 'invalid' && bojApiError;
-              const isInvalid = hasSchemaError || hasApiError;
+                bojValidator.status === VALIDATION_STATUS.INVALID &&
+                bojValidator.errorMessage;
+              const isInvalid = hasSchemaError || !!hasApiError;
+
               const isBojValidated =
-                bojValidation.status === 'valid' &&
-                bojValidation.validatedValue === field.state.value;
+                bojValidator.status === VALIDATION_STATUS.VALID &&
+                bojValidator.validatedValue === field.state.value;
 
               return (
                 <Field data-invalid={isInvalid}>
@@ -150,7 +153,7 @@ export const SignUpForm = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => {
                         field.handleChange(e.target.value);
-                        resetBojValidation();
+                        bojValidator.reset();
                       }}
                       data-invalid={isInvalid}
                       autoComplete="off"
@@ -158,25 +161,27 @@ export const SignUpForm = () => {
                     <Button
                       type="button"
                       variant={isBojValidated ? 'outline' : 'secondary'}
-                      onClick={validateBojUsername}
+                      onClick={() => handleValidate('bojUsername')}
                       size={
-                        bojValidation.status === 'validating' || isBojValidated
+                        bojValidator.status === VALIDATION_STATUS.VALIDATING ||
+                        isBojValidated
                           ? 'icon'
                           : 'default'
                       }
                       disabled={
-                        bojValidation.status === 'validating' || isBojValidated
+                        bojValidator.status === VALIDATION_STATUS.VALIDATING ||
+                        isBojValidated
                       }>
-                      {getValidationButtonText(bojValidation.status)}
+                      {getValidationButtonText(bojValidator.status)}
                     </Button>
                   </div>
                   {hasSchemaError ? (
                     <FieldError errors={field.state.meta.errors} />
                   ) : hasApiError ? (
-                    <FieldError>{bojApiError}</FieldError>
+                    <FieldError>{bojValidator.errorMessage}</FieldError>
                   ) : (
                     <FieldDescription>
-                      문제 추천 및 풀이 현황 연동을 위해 백준 계정이 필요합니다.
+                      문제 추천 및 풀이 상태 조회를 위해 백준 계정이 필요합니다.
                       <br />
                       가입 후에는 변경이 어려우니 반드시 본인의 아이디를
                       입력해주세요.
@@ -191,19 +196,16 @@ export const SignUpForm = () => {
             <LogoutButton className="order-2 @md/field-group:order-1" />
             <form.Subscribe
               selector={(state) => ({
-                username: state.values.username,
-                bojUsername: state.values.bojUsername,
+                values: state.values,
                 canSubmit: state.canSubmit,
               })}>
-              {({ username, bojUsername, canSubmit }) => {
-                const isUsernameValidated =
-                  usernameValidation.status === 'valid' &&
-                  usernameValidation.validatedValue === username;
-                const isBojValidated =
-                  bojValidation.status === 'valid' &&
-                  bojValidation.validatedValue === bojUsername;
+              {({ values, canSubmit }) => {
                 const isFormValid =
-                  canSubmit && isUsernameValidated && isBojValidated;
+                  canSubmit &&
+                  usernameValidator.isValid &&
+                  usernameValidator.validatedValue === values.username &&
+                  bojValidator.isValid &&
+                  bojValidator.validatedValue === values.bojUsername;
 
                 return (
                   <Button

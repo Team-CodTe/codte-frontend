@@ -12,42 +12,41 @@ export const useAddAssignment = () => {
   const [bojNumber, setBojNumber] = useState('');
   const [open, setOpen] = useState(false);
 
-  const { mutate: mutateAddAssignment, isPending: isAdding } =
-    useCustomAssignmentMutation(studyId, {
-      onSuccess: () => {
+  const { mutate, isPending: isAdding } = useCustomAssignmentMutation(studyId, {
+    onSuccess: async () => {
+      await Promise.all([
         queryClient.invalidateQueries({
           queryKey: ['study', 'daily-assignments', studyId],
-        });
-
+        }),
         queryClient.invalidateQueries({
           queryKey: ['study', 'solve-status', studyId],
-        });
-
+        }),
         queryClient.invalidateQueries({
           queryKey: ['study', 'solve-statistics', studyId],
-        });
+        }),
+      ]);
 
-        showToast({
-          message: '문제가 추가되었습니다.',
-          type: 'success',
-        });
+      showToast({
+        message: '문제가 추가되었습니다.',
+        type: 'success',
+      });
 
-        setBojNumber('');
-        setOpen(false);
-      },
-      onError: (error) => {
-        handleApiError({
-          error,
-          defaultMessage: '오류가 발생했습니다. 다시 시도해주세요.',
-          errorMapping: {
-            ALREADY_ASSIGNED: (message) => ({ message }),
-            PROBLEM_NOT_FOUND: (message) => ({ message }),
-          },
-        });
-      },
-    });
+      setBojNumber('');
+      setOpen(false);
+    },
+    onError: (error) => {
+      handleApiError({
+        error,
+        defaultMessage: '오류가 발생했습니다. 다시 시도해주세요.',
+        errorMapping: {
+          ALREADY_ASSIGNED: (message) => ({ message }),
+          PROBLEM_NOT_FOUND: (message) => ({ message }),
+        },
+      });
+    },
+  });
 
-  const handleOpenChange = (isOpen: boolean) => {
+  const handleChangeOpen = (isOpen: boolean) => {
     setOpen(isOpen);
 
     if (!isOpen) {
@@ -60,7 +59,7 @@ export const useAddAssignment = () => {
       return;
     }
 
-    mutateAddAssignment({ bojNumber: parseInt(bojNumber, 10) });
+    mutate({ bojNumber: parseInt(bojNumber, 10) });
   };
 
   return {
@@ -68,7 +67,7 @@ export const useAddAssignment = () => {
     setBojNumber,
     open,
     setOpen,
-    handleOpenChange,
+    handleChangeOpen,
     handleSubmit,
     canSubmit: !isAdding && bojNumber.trim(),
     isAdding,

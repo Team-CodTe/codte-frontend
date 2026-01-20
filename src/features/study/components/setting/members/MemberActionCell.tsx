@@ -39,16 +39,16 @@ type Props = {
 
 export const MemberActionCell = ({ memberId, memberName }: Props) => {
   const [dialogType, setDialogType] = useState<DialogType | null>(null);
-  const { handleTransfer, isTransferring } = useTransferOwner({
+  const { handleTransferOwner, isTransferring } = useTransferOwner({
     memberName,
     memberId,
   });
-  const { handleKick, isKicking } = useKickMember({
+  const { handleKickMember, isKicking } = useKickMember({
     memberName,
     memberId,
   });
 
-  const handleClose = () => setDialogType(null);
+  const handleCloseDialog = () => setDialogType(null);
 
   return (
     <>
@@ -76,16 +76,19 @@ export const MemberActionCell = ({ memberId, memberName }: Props) => {
 
       <AlertDialog
         open={dialogType === DIALOG_TYPE.TRANSFER}
-        onOpenChange={(open) => !open && handleClose()}>
+        onOpenChange={(open) => !open && handleCloseDialog()}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              <span className="text-primary">{memberName}</span>
-              님에게 스터디장을 위임하시겠습니까?
+              {memberName}님에게 스터디장을 위임하시겠습니까?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {memberName}님이 새로운 스터디장이 되며, 본인은
-              <b> 일반 멤버로 전환</b>되어 관리 권한이 사라집니다.
+              <span className="font-semibold">
+                {memberName}님이 새로운 스터디장
+              </span>
+              이 되며,{' '}
+              <span className="font-semibold">본인은 일반 멤버로 전환</span>되어
+              관리 권한이 사라집니다.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -93,8 +96,8 @@ export const MemberActionCell = ({ memberId, memberName }: Props) => {
             <AlertDialogCancel>취소</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                handleTransfer();
-                handleClose();
+                handleTransferOwner();
+                handleCloseDialog();
               }}
               disabled={isTransferring}>
               {isTransferring ? <Spinner className="mr-2" /> : null}
@@ -106,31 +109,31 @@ export const MemberActionCell = ({ memberId, memberName }: Props) => {
 
       <AlertDialog
         open={dialogType === DIALOG_TYPE.KICK}
-        onOpenChange={(open) => !open && handleClose()}>
+        onOpenChange={(open) => !open && handleCloseDialog()}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
               {memberName}님을 내보내시겠습니까?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {memberName}님은 즉시 스터디에서 제외되며, 다시 가입하기 전에는
-              스터디에 접근할 수 없게 됩니다.
+              <span className="text-destructive font-semibold">
+                {memberName}님은 즉시 스터디에서 제외
+              </span>
+              되며, 다시 가입하기 전에는 스터디에 접근할 수 없게 됩니다.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           <AlertDialogFooter>
             <AlertDialogCancel>취소</AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button
-                variant="destructive"
-                disabled={isKicking}
-                onClick={() => {
-                  handleKick();
-                  handleClose();
-                }}>
-                {isKicking ? <Spinner className="mr-2" /> : null}
-                {isKicking ? '내보내기 중...' : '내보내기'}
-              </Button>
+            <AlertDialogAction
+              variant="destructive"
+              disabled={isKicking}
+              onClick={() => {
+                handleKickMember();
+                handleCloseDialog();
+              }}>
+              {isKicking ? <Spinner className="mr-2" /> : null}
+              {isKicking ? '내보내기 중...' : '내보내기'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

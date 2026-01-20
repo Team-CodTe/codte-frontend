@@ -16,59 +16,55 @@ export const useRemoveNote = () => {
   const [isNavigating, startTransition] = useTransition();
   const queryClient = useQueryClient();
 
-  const { mutate: mutateDeleteNote, isPending } = useRemoveNoteMutation(
-    noteId,
-    {
-      onSuccess: async () => {
-        queryClient.removeQueries({
-          queryKey: ['note', 'detail', noteId],
-        });
-
-        await queryClient.invalidateQueries({
+  const { mutate, isPending } = useRemoveNoteMutation(noteId, {
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.removeQueries({ queryKey: ['note', 'detail', noteId] }),
+        queryClient.invalidateQueries({
           queryKey: ['study', 'notes', studyId],
-        });
-
-        await queryClient.invalidateQueries({
+        }),
+        queryClient.invalidateQueries({
           queryKey: ['study', 'notes', 'maximize', studyId],
-        });
+        }),
+      ]);
 
-        startTransition(() => {
-          router.replace(
-            buildUrlWithParams({
-              url: PATH.STUDY.NOTES.LIST,
-              pathParams: { studyId },
-            }),
-          );
-        });
+      startTransition(() => {
+        router.replace(
+          buildUrlWithParams({
+            url: PATH.STUDY.NOTES.LIST,
+            pathParams: { studyId },
+          }),
+        );
+      });
 
-        showToast({
-          message: '문제 풀이 글이 삭제되었습니다.',
-          type: 'success',
-        });
-      },
-      onError: (error) => {
-        handleApiError({
-          error,
-          defaultMessage:
-            '문제 풀이 글 삭제에 실패했습니다. 다시 시도해주세요.',
-          errorMapping: {
-            PERMISSION_DENIED: (message) => ({ message }),
-          },
-        });
-      },
+      showToast({
+        message: '문제 풀이 글이 삭제되었습니다.',
+        type: 'success',
+      });
     },
-  );
+    onError: (error) => {
+      handleApiError({
+        error,
+        defaultMessage: '문제 풀이 글 삭제에 실패했습니다. 다시 시도해주세요.',
+        errorMapping: {
+          PERMISSION_DENIED: (message) => ({ message }),
+        },
+      });
+    },
+  });
+
+  const isRemoving = isPending || isNavigating;
 
   const handleRemove = () => {
-    if (isPending || isNavigating) {
+    if (isRemoving) {
       return;
     }
 
-    mutateDeleteNote();
+    mutate();
   };
 
   return {
     handleRemove,
-    isRemoving: isPending || isNavigating,
+    isRemoving,
   };
 };
