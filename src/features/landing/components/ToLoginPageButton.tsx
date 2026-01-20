@@ -4,9 +4,13 @@ import Link from 'next/link';
 
 export const ToLoginPageButton = () => {
   return (
-    <Button size="sm" asChild>
-      <Link id="login-link" aria-label="로그인 페이지로 이동" href={PATH.LOGIN}>
-        로그인
+    <Button asChild>
+      <Link
+        id="login-link"
+        aria-label="로그인 페이지로 이동"
+        href={PATH.LOGIN}
+        className="cursor-default">
+        시작하기
       </Link>
     </Button>
   );
