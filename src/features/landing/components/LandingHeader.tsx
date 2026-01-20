@@ -1,42 +1,42 @@
-import { MOCK_STUDY } from '@/api/mock/mockStudy';
-import { HintTooltip } from '@/components/common/HintTooltip';
+'use client';
+
+import { useEffect, useState } from 'react';
+
 import { AppLogo } from '@/components/logos/AppLogo';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/Breadcrumb';
+import { PATH } from '@/constants/path';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 import { ToLoginPageButton } from './ToLoginPageButton';
 
 export const LandingHeader = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="flex h-16 w-full items-center justify-between gap-4 px-5 lg:px-8">
-      <Breadcrumb className="min-w-0 flex-1">
-        <BreadcrumbList className="flex-nowrap">
-          <BreadcrumbItem>
-            <BreadcrumbPage>
-              <AppLogo className="h-8 w-auto" />
-            </BreadcrumbPage>
-          </BreadcrumbItem>
+    <header
+      className={cn(
+        'fixed top-0 right-0 left-0 z-50 transition-all duration-300',
+        isScrolled
+          ? 'bg-background/80 border-border border-b backdrop-blur-md'
+          : 'bg-transparent',
+      )}>
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+        <Link href={PATH.LANDING} aria-label="홈으로 이동">
+          <AppLogo className="h-9 w-auto" />
+        </Link>
 
-          <BreadcrumbSeparator />
-
-          <HintTooltip
-            content="실제 볼 수 있는 스터디 화면이에요. 한 번 살펴보고 시작해보세요."
-            side="bottom">
-            <BreadcrumbItem className="min-w-0">
-              <BreadcrumbPage className="block truncate">
-                {MOCK_STUDY[0].name}
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </HintTooltip>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      <ToLoginPageButton />
+        <ToLoginPageButton />
+      </div>
     </header>
   );
 };
