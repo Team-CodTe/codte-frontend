@@ -14,7 +14,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/Breadcrumb';
 import { Button } from '@/components/ui/Button';
-import { Skeleton } from '@/components/ui/Skeleton';
 import { PATH } from '@/constants/path';
 import { useStudyBreadcrumbs } from '@/features/study/hooks/common/useStudyBreadcrumbs';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
@@ -86,9 +85,9 @@ export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
             let displayLabel: React.ReactNode = item.label;
 
             if (isNoteIdSegment) {
-              if (isLoading) {
-                displayLabel = <Skeleton className="h-5 w-24" />;
-              } else if (note) {
+              if (isLoading || !note) {
+                displayLabel = '';
+              } else {
                 displayLabel = note.problemTitle;
               }
             }
