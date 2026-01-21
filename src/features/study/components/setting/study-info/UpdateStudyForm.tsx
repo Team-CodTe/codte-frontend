@@ -27,7 +27,10 @@ import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
 import { useUpdateStudyForm } from '@/features/study/hooks/form/useUpdateStudyForm';
 import { type StudyFormData } from '@/features/study/schemas/studyForm.schema';
-import { formatNumberWithComma, parseNumberWithComma } from '@/lib/formatFunc';
+import {
+  formatNumberWithComma,
+  handleChangeNumberWithComma,
+} from '@/lib/formatFunc';
 import { STUDY_ROLE, type StudyRole } from '@/types/studyRole';
 
 type Props = {
@@ -41,15 +44,6 @@ export const UpdateStudyForm = ({ initialData, role }: Props) => {
   });
 
   const isEditable = role === STUDY_ROLE.OWNER;
-
-  const handleChangeNumberWithComma = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    onChange: (value: number | null) => void,
-  ) => {
-    const parsedValue = parseNumberWithComma(e.target.value);
-
-    onChange(parsedValue);
-  };
 
   return (
     <form

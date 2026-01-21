@@ -27,21 +27,15 @@ import {
 } from '@/components/ui/Select';
 import { Slider } from '@/components/ui/Slider';
 import { Spinner } from '@/components/ui/Spinner';
-import { formatNumberWithComma, parseNumberWithComma } from '@/lib/formatFunc';
+import {
+  formatNumberWithComma,
+  handleChangeNumberWithComma,
+} from '@/lib/formatFunc';
 
 import { useCreateStudyForm } from '../../hooks/form/useCreateStudyForm';
 
 export const CreateStudyForm = () => {
   const { form, handleQuit, isSubmitting } = useCreateStudyForm();
-
-  const handleChangeNumberWithComma = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    onChange: (value: number | null) => void,
-  ) => {
-    const parsedValue = parseNumberWithComma(e.target.value);
-
-    onChange(parsedValue);
-  };
 
   return (
     <form
