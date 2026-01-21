@@ -95,7 +95,6 @@ export const parseNumberWithComma = (value: string): number | null => {
  * 콤마가 포함된 숫자 입력값을 파싱하여 순수 숫자로 변환하는 함수
  * @param e
  * @param onChange
- * @returns 파싱된 숫자 또는 null (빈 문자열이거나 유효하지 않은 경우)
  */
 export const handleChangeNumberWithComma = (
   e: React.ChangeEvent<HTMLInputElement>,
