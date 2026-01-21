@@ -45,5 +45,6 @@ export const API_URLS = {
     DETAIL: '/api/notes/{noteId}/',
     UPDATE: '/api/notes/{noteId}/',
     REMOVE: '/api/notes/{noteId}/',
+    REVIEW: '/api/notes/{noteId}/review/',
   },
 } as const;

@@ -2,39 +2,54 @@
 
 import { useNoteDetailQuery } from '@/api/note/getNoteDetail/query';
 import { type GetNoteDetailResponse } from '@/api/note/getNoteDetail/type';
+import { useNoteReviewQuery } from '@/api/note/getNoteReview/query';
+import { type GetNoteReviewResponse } from '@/api/note/getNoteReview/type';
 import { useMyProfileQuery } from '@/api/user/getMyProfile/query';
 import { type GetMyProfileResponse } from '@/api/user/getMyProfile/type';
 import { DynamicMarkdownPreview } from '@/components/common/MarkdownPreview';
 import { TierBadge } from '@/components/common/TierBadge';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { useNoteReview } from '@/features/study/hooks/note/useNoteReview';
 import { formatDate } from '@/lib/formatFunc';
 import Link from 'next/link';
 
 import { NoteActionButtons } from './NoteActionButtons';
+import { ReviewCard } from './ReviewCard';
 
 type Props = {
   studyId: number;
   initialUser: GetMyProfileResponse;
   initialNote: GetNoteDetailResponse;
+  initialReview: GetNoteReviewResponse;
 };
 
-export const NoteDetail = ({ studyId, initialUser, initialNote }: Props) => {
+export const NoteDetail = ({
+  studyId,
+  initialUser,
+  initialNote,
+  initialReview,
+}: Props) => {
   const { data: note } = useNoteDetailQuery(initialNote.id, {
     initialData: initialNote,
   });
   const { data: user } = useMyProfileQuery({
     initialData: initialUser,
   });
+  const { data: review } = useNoteReviewQuery(initialNote.id, {
+    initialData: initialReview,
+  });
 
-  if (!note || !user) {
+  const { handleCreateReview, isPending } = useNoteReview();
+
+  if (!note || !user || !review) {
     return null;
   }
 
   const isWriter = user.username === initialNote.username;
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:gap-16 md:pt-4 md:pb-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:gap-12 md:pt-4 md:pb-16">
       <div className="flex flex-col items-start gap-4">
         <div className="flex w-full flex-col gap-2">
           <h1 className="text-4xl font-bold">{note.problemTitle}</h1>
@@ -76,6 +91,13 @@ export const NoteDetail = ({ studyId, initialUser, initialNote }: Props) => {
           </Button>
         </div>
       </div>
+
+      <ReviewCard
+        reviewContent={review.reviewContent}
+        isWriter={isWriter}
+        isPending={isPending}
+        onCreateReview={handleCreateReview}
+      />
 
       <DynamicMarkdownPreview value={note.content} />
     </div>
