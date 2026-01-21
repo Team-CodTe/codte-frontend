@@ -15,14 +15,14 @@ export const metadata: Metadata = {
 };
 
 const pretendard = localFont({
-  src: '../styles/fonts/pretendard/PretendardVariable.woff2',
+  src: '../assets/fonts/pretendard/PretendardVariable.woff2',
   display: 'swap',
   variable: '--font-pretendard',
   weight: '100 900',
 });
 
 const tossFace = localFont({
-  src: '../styles/fonts/toss-face/TossFaceFontMac.ttf',
+  src: '../assets/fonts/toss-face/TossFaceFontMac.ttf',
   display: 'swap',
   variable: '--font-toss-face',
 });
