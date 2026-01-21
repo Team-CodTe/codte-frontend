@@ -4,6 +4,7 @@ import type { PropsWithChildren } from 'react';
 
 import { Providers } from '@/components/providers/Providers';
 import { auth } from '@/lib/auth';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -14,14 +15,14 @@ export const metadata: Metadata = {
 };
 
 const pretendard = localFont({
-  src: '../styles/fonts/pretendard/PretendardVariable.woff2',
+  src: '../assets/fonts/pretendard/PretendardVariable.woff2',
   display: 'swap',
   variable: '--font-pretendard',
   weight: '100 900',
 });
 
 const tossFace = localFont({
-  src: '../styles/fonts/toss-face/TossFaceFontMac.ttf',
+  src: '../assets/fonts/toss-face/TossFaceFontMac.ttf',
   display: 'swap',
   variable: '--font-toss-face',
 });
@@ -40,6 +41,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
         className={`${pretendard.variable} ${tossFace.variable} antialiased`}>
         <Providers session={session}>{children}</Providers>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ''} />
     </html>
   );
 };

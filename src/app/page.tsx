@@ -17,20 +17,15 @@ type Feature = {
 };
 
 const FEATURES: Feature[] = [
-  // 1. 스터디 생성
   {
     id: 'features',
     title: '목표에 딱 맞는 스터디를 개설하세요',
     description: (
       <>
         <p className="mb-4">
-          복잡한 규칙 정하기는 그만. 몇 번의 클릭으로 우리 팀만의 스터디 공간이
-          완성됩니다.
+          몇 번의 클릭으로 우리 스터디만의 공간이 만들어집니다.
         </p>
-        <p>
-          목표 티어와 하루 문제 수를 설정하고 초대 코드를 공유하세요. 나머지는
-          CodTe가 알아서 관리해 드립니다.
-        </p>
+        <p>목표 티어와 하루 문제 수를 설정하고 초대 코드를 공유하세요.</p>
       </>
     ),
     images: [
@@ -38,7 +33,6 @@ const FEATURES: Feature[] = [
       { src: '/landing/join-study.png', alt: '스터디 가입 화면' },
     ],
   },
-  // 2. 문제 추천 (핵심)
   {
     title: '매일 아침, 내 티어에 맞는 문제가 도착합니다',
     description: (
@@ -48,8 +42,8 @@ const FEATURES: Feature[] = [
           최적의 문제가 매일 자동으로 추천됩니다.
         </p>
         <p>
-          물론 원하는 문제를 직접 추가할 수도 있습니다. 팀원들의 풀이 현황도
-          실시간으로 확인해보세요.
+          물론 원하는 문제를 직접 추가할 수도 있습니다. 팀원들의 풀이 상태도
+          쉽게 확인해보세요.
         </p>
       </>
     ),
@@ -59,7 +53,6 @@ const FEATURES: Feature[] = [
     ],
     reverse: true,
   },
-  // 3. 풀이 기록 (에디터)
   {
     title: '개발자에게 최적화된 풀이 기록 경험',
     description: (
@@ -75,7 +68,6 @@ const FEATURES: Feature[] = [
       { src: '/landing/add-note.png', alt: '풀이 글 추가 화면' },
     ],
   },
-  // 4. 팀원 풀이 (상호작용)
   {
     title: '서로의 코드를 비교해보세요',
     description: (
@@ -93,7 +85,6 @@ const FEATURES: Feature[] = [
     images: [{ src: '/landing/note-list.png', alt: '풀이 글 목록 화면' }],
     reverse: true,
   },
-  // 5. 대시보드 (동기부여)
   {
     title: '꾸준한 노력을 시각적으로 확인하세요',
     description: (
@@ -115,6 +106,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen">
       <LandingHeader />
+
       <HeroSection />
 
       {FEATURES.map((feature) => (

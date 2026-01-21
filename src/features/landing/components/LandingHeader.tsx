@@ -24,6 +24,10 @@ export const LandingHeader = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogoClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header
       className={cn(
@@ -33,7 +37,10 @@ export const LandingHeader = () => {
           : 'bg-transparent',
       )}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link href={PATH.LANDING} aria-label="홈으로 이동">
+        <Link
+          href={PATH.LANDING}
+          aria-label="홈으로 이동"
+          onClick={handleLogoClick}>
           <AppLogo className="h-9 w-auto" />
         </Link>
 

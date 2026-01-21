@@ -90,3 +90,17 @@ export const parseNumberWithComma = (value: string): number | null => {
 
   return parseInt(cleanedValue, 10);
 };
+
+/**
+ * 콤마가 포함된 숫자 입력값을 파싱하여 순수 숫자로 변환하는 함수
+ * @param e
+ * @param onChange
+ */
+export const handleChangeNumberWithComma = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  onChange: (value: number | null) => void,
+) => {
+  const parsedValue = parseNumberWithComma(e.target.value);
+
+  onChange(parsedValue);
+};

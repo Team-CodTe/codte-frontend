@@ -6,6 +6,7 @@ import { AppLogo } from '@/components/logos/AppLogo';
 import { Button } from '@/components/ui/Button';
 import { PATH } from '@/constants/path';
 import { cn } from '@/lib/utils';
+import { sendGAEvent } from '@next/third-parties/google';
 import Link from 'next/link';
 
 export const FooterSection = () => {
@@ -13,6 +14,13 @@ export const FooterSection = () => {
     threshold: 0.2,
     triggerOnce: true,
   });
+
+  const handleStartClick = () => {
+    sendGAEvent('event', 'click_login_button', {
+      event_category: 'auth',
+      event_label: 'landing_page',
+    });
+  };
 
   return (
     <section
@@ -31,8 +39,13 @@ export const FooterSection = () => {
           <br />
           이제 스터디 멤버들과 함께 즐거운 습관으로 만들어보세요.
         </p>
-        <Button asChild size="lg">
-          <Link href={PATH.LOGIN}>1분 만에 스터디 만들기</Link>
+        <Button size="lg" asChild>
+          <Link
+            href={PATH.LOGIN}
+            className="cursor-default"
+            onClick={handleStartClick}>
+            1분 만에 스터디 만들기
+          </Link>
         </Button>
       </div>
 

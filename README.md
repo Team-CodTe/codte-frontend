@@ -1,4 +1,4 @@
-## CodTe - Coding Study Group Platform
+## CodTe - Frontend
 
 코딩 테스트를 함께 공부하기 위한 웹 플랫폼입니다. 조건에 따라 랜덤으로 문제를 추천하고, 해결 방식 혹은 스터디 멤버 간 생각을 쉽게 공유할 수 있습니다.
 
@@ -14,13 +14,20 @@
 
 ## 🛠 기술 스택
 
-| 분야           | 기술                                  |
-| -------------- | ------------------------------------- |
-| **프레임워크** | Next.js                               |
-| **언어**       | TypeScript                            |
-| **스타일링**   | Tailwind CSS, Shadcn/ui, Lucide React |
-| **코드 품질**  | ESLint, Prettier                      |
-| **컴파일러**   | Babel (React Compiler)                |
+| 분야 | 기술 |
+| :--- | :--- |
+| **프레임워크 및 라이브러리** | Next.js 16.1 (App Router), React 19.2 |
+| **언어** | TypeScript 5.x |
+| **데이터 페칭** | TanStack Query 5.90 |
+| **상태 관리** | Zustand 5.0, nuqs 2.8 (URL State) |
+| **인증** | Auth.js 5.0 beta |
+| **스타일링** | Tailwind CSS 4.x, Lucide React 0.554 |
+| **UI 컴포넌트** | Radix UI, Shadcn/ui |
+| **폼 관리** | Zod 4.1, TanStack Form 1.27 |
+| **코드 품질** | ESLint 9.x, Prettier 3.8, Husky 9.1, lint-staged 16.2 |
+| **컴파일러** | React Compiler 1.0 (Babel Plugin) |
+| **분석** | Google Analytics (GA4) |
+| **패키지 매니저** | pnpm 10.x |
 
 <br>
 
@@ -29,45 +36,37 @@
 ```
 ├── public/              # 정적 파일
 ├── src/
-│   ├── app/             # [라우팅 담당]
-│   │   ├── (auth)/      # Route Group 예시
-│   │   ├── api/         # Next.js Route Handlers (백엔드 프록시 역할 필요 시)
+│   ├── api/             # [API 담당] 서버 통신 중앙 관리 (fetch, query, mutation 등)
+│   │   ├── auth/        # 도메인별 폴더 구성
+│   │   ├── study/
+│   │   └── ...
+│   ├── app/             # [라우팅 담당] Next.js App Router
+│   │   ├── auth/        # 로그인 콜백
+│   │   ├── dashboard/   # 개인 대시보드
+│   │   ├── study/       # 스터디 상세 및 활동 공간
+│   │   ├── ...
 │   │   ├── layout.tsx
 │   │   └── page.tsx
-│   │
-│   ├── api/             # [API 담당] 서버 통신 중앙 관리
-│   │   ├── config/      # Axios/Fetch 인스턴스, 인터셉터 설정
-│   │   │   └── instance.ts
-│   │   ├── endpoints/   # 도메인별 실제 API 호출 함수 (features와 매칭)
-│   │   │   ├── auth.ts
-│   │   │   ├── board.ts
-│   │   │   └── user.ts
-│   │   └── types/       # API 요청/응답 데이터 타입 (DTO)
-│   │       ├── authDto.ts
-│   │       └── boardDto.ts
-│   │
-│   ├── features/        # [기능 담당] UI + 비즈니스 로직
-│   │   └── board/       # 예: 게시판 기능
-│   │      ├── components/  # 게시판 전용 UI 컴포넌트
-│   │      ├── hooks/       # React Query 등 훅 (여기서 src/api 함수 호출)
-│   │      ├── lib/         # 게시판 전용 유틸 (데이터 가공 등)
-│   │      └── types.ts     # UI 전용 타입 (컴포넌트 Props, 상태 타입 등)
-│   │
+│   ├── assets/          # [공통 에셋 담당] fonts, svg, images
 │   ├── components/      # [공통 UI 담당]
-│   │   ├── ui/          # shadcn/ui 등 아토믹 컴포넌트
-│   │   └── layout/      # Header, Sidebar 등
-│   │
-│   ├── lib/             # [공통 유틸 담당]
-│   │   └── utils.ts     # cn 등 전역 헬퍼
-│   │
-│   ├── hooks/           # [공통 훅 담당] (useScroll, useInput 등)
-│   ├── types/           # [공통 타입 담당] (전역 상태 타입, 환경변수 타입 등)
-│   ├── styles/          # [스타일 담당]
-│   └── constants/       # [상수 담당]
-│
-├── next.config.js
-├── package.json
-└── tsconfig.json
+│   │   ├── common/      # 전역 공통 UI 컴포넌트 (Editor, Preview, Badge 등)
+│   │   ├── logos/       # 서비스 로고 컴포넌트
+│   │   ├── providers/   # Context API 및 Query Providers
+│   │   └── ui/          # shadcn/ui 기반 저수준 컴포넌트
+│   ├── constants/       # [상수 담당] 서비스 전역 상수 (path 등)
+│   ├── features/        # 기능별 components, hooks, schemas, suspenses 관리
+│   │   ├── dashboard/
+│   │   ├── study/
+│   │   └── ...  
+│   ├── hoc/             # [HOC 담당] Higher-Order Components
+│   ├── hooks/           # [공통 훅 담당] 재사용 가능한 전역 커스텀 훅
+│   ├── lib/             # [공통 유틸 담당] fetchInstance, auth, utils 등
+│   ├── styles/          # [스타일 담당] 글로벌 CSS 및 컴포넌트 스타일
+│   └── types/           # [공통 타입 담당] 전역에서 참조되는 타입 정의
+├── AGENTS.md            # AI 에이전트 가이드라인
+├── next.config.js       # Next.js 설정
+├── package.json         # 의존성 및 스크립트
+└── tsconfig.json        # TypeScript 설정
 ```
 
 - 기본 `page.tsx`, `layout.tsx` 파일 등은 `const Page = () => {}, export default Page` 형식으로 작성됩니다.
@@ -90,6 +89,10 @@ pnpm install
 
 # 개발 서버 실행
 pnpm dev
+
+# 빌드 및 실행
+pnpm build
+pnpm start
 
 # 품질 도구
 pnpm lint           # ESLint 린트 확인
