@@ -30,11 +30,11 @@ export const NoteDetail = ({
   initialNote,
   initialReview,
 }: Props) => {
-  const { data: note } = useNoteDetailQuery(initialNote.id, {
-    initialData: initialNote,
-  });
   const { data: user } = useMyProfileQuery({
     initialData: initialUser,
+  });
+  const { data: note } = useNoteDetailQuery(initialNote.id, {
+    initialData: initialNote,
   });
   const { data: review } = useNoteReviewQuery(initialNote.id, {
     initialData: initialReview,
@@ -42,14 +42,14 @@ export const NoteDetail = ({
 
   const { handleCreateReview, isPending } = useNoteReview();
 
-  if (!note || !user || !review) {
+  if (!user || !note || !review) {
     return null;
   }
 
   const isWriter = user.username === initialNote.username;
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:gap-12 md:pt-4 md:pb-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:pt-4 md:pb-16">
       <div className="flex flex-col items-start gap-4">
         <div className="flex w-full flex-col gap-2">
           <h1 className="text-4xl font-bold">{note.problemTitle}</h1>
