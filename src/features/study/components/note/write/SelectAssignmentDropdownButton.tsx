@@ -1,6 +1,7 @@
 'use client';
 
 import { useDailyAssignmentsQuery } from '@/api/assignment/getDailyAssignments/query';
+import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import {
   DropdownMenu,
@@ -50,6 +51,9 @@ export const SelectAssignmentDropdownButton = ({ studyId }: Props) => {
                 key={assignment.id}
                 onClick={() => handleSelectProblem(assignment.problemId)}>
                 {assignment.title}
+                {assignment.isCustom && (
+                  <Badge variant="secondary">추가됨</Badge>
+                )}
               </DropdownMenuItem>
             );
           })

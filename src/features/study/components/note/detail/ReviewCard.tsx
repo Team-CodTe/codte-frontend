@@ -53,7 +53,7 @@ export const ReviewCard = ({
   return (
     <Card
       className={cn('bg-background transition-all', !isExpanded && 'gap-0')}>
-      <CardHeader className="flex flex-wrap items-start justify-between gap-2">
+      <CardHeader className="flex flex-row items-start justify-between gap-4">
         <div className="flex flex-col gap-2">
           <CardTitle>AI 풀이 리뷰</CardTitle>
           <CardDescription>
@@ -63,7 +63,7 @@ export const ReviewCard = ({
         </div>
         {isWriter && (
           <Button
-            size="sm"
+            size="icon-sm-responsive"
             variant={hasReview ? 'outline' : 'default'}
             disabled={isPending}
             onClick={onCreateReview}>
@@ -78,7 +78,7 @@ export const ReviewCard = ({
                 fill="currentColor"
               />
             )}
-            <span>
+            <span className="hidden sm:block">
               {isPending
                 ? '리뷰 작성 중...'
                 : hasReview
@@ -119,11 +119,21 @@ export const ReviewCard = ({
                   <DynamicMarkdownPreview value={reviewContent} />
                 </motion.div>
               ) : (
-                <motion.div key="empty" {...fadeAnimation}>
-                  <span className="text-sm">
-                    아직 생성된 리뷰가 없습니다. 버튼을 눌러 AI의 피드백 리뷰를
-                    받아보세요!
-                  </span>
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}>
+                  <div
+                    className="hover:bg-muted group flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md py-6 text-center transition-all"
+                    onClick={onCreateReview}>
+                    <span className="decoration-muted-foreground/30 group-hover:text-foreground text-muted-foreground text-sm font-medium underline underline-offset-4">
+                      아직 생성된 리뷰가 없습니다.{' '}
+                      <br className="block sm:hidden" />
+                      여기를 눌러 AI 리뷰를 요청해보세요!
+                    </span>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -164,7 +174,8 @@ export const ReviewCard = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsExpanded(false)}>
+            onClick={() => setIsExpanded(false)}
+            className="w-16">
             <ChevronUpIcon />
           </Button>
         </CardFooter>
