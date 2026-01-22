@@ -86,9 +86,9 @@ export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
             let displayLabel: React.ReactNode = item.label;
 
             if (isNoteIdSegment) {
-              if (isLoading) {
-                displayLabel = <Skeleton className="h-5 w-24" />;
-              } else if (note) {
+              if (isLoading || !note) {
+                displayLabel = <Skeleton className="block h-5 w-24" />;
+              } else {
                 displayLabel = note.problemTitle;
               }
             }

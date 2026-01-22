@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 
 export const NoteDetailFallback = () => {
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:gap-16 md:px-0 md:pt-4 md:pb-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 p-5 pt-4 pb-8 md:pt-4 md:pb-16">
       <div className="flex flex-col items-start gap-4">
         <div className="flex w-full flex-col gap-2">
           <Skeleton className="h-10 w-3/4" />
@@ -21,6 +21,8 @@ export const NoteDetailFallback = () => {
           <Skeleton className="h-8 w-20 rounded-lg" />
         </div>
       </div>
+
+      <Skeleton className="h-52 w-full" />
 
       <div className="flex flex-col gap-12">
         <div className="flex flex-col gap-4">

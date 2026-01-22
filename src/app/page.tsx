@@ -14,6 +14,7 @@ type Feature = {
   description: React.ReactNode;
   images: ImageItem[];
   reverse?: boolean;
+  isVideo?: boolean;
 };
 
 const FEATURES: Feature[] = [
@@ -64,8 +65,8 @@ const FEATURES: Feature[] = [
       </>
     ),
     images: [
-      { src: '/landing/note-detail.png', alt: '풀이 글 상세 화면' },
       { src: '/landing/add-note.png', alt: '풀이 글 추가 화면' },
+      { src: '/landing/note-detail.png', alt: '풀이 글 상세 화면' },
     ],
   },
   {
@@ -86,6 +87,20 @@ const FEATURES: Feature[] = [
     reverse: true,
   },
   {
+    title: 'AI 멘토에게 받는 상세한 풀이 리뷰',
+    description: (
+      <>
+        <p className="mb-4">
+          팀원이 바빠도 괜찮습니다. AI가 내 풀이를 분석하고, 가독성과 효율성을
+          높일 수 있는 구체적인 리팩토링 방안을 제시합니다.
+        </p>
+      </>
+    ),
+    images: [{ src: '/landing/note-review.mp4', alt: 'AI 리뷰 화면' }],
+
+    isVideo: true,
+  },
+  {
     title: '꾸준한 노력을 시각적으로 확인하세요',
     description: (
       <>
@@ -99,6 +114,7 @@ const FEATURES: Feature[] = [
       </>
     ),
     images: [{ src: '/landing/dashboard.png', alt: '대시보드 화면' }],
+    reverse: true,
   },
 ];
 
@@ -117,6 +133,7 @@ const LandingPage = () => {
           description={feature.description}
           images={feature.images}
           reverse={feature.reverse}
+          isVideo={feature.isVideo}
         />
       ))}
 

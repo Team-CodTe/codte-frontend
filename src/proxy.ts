@@ -3,7 +3,15 @@ import { PATH } from '@/constants/path';
 import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
-const PUBLIC_PATHS: string[] = [PATH.LANDING, PATH.LOGIN];
+const ALWAYS_ALLOWED_PATHS: string[] = [
+  PATH.TERMS_OF_SERVICE,
+  PATH.PRIVACY_POLICY,
+];
+const PUBLIC_PATHS: string[] = [
+  PATH.LANDING,
+  PATH.LOGIN,
+  ...ALWAYS_ALLOWED_PATHS,
+];
 const GUEST_PATHS: string[] = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -58,6 +66,15 @@ export const proxy = auth(async (req) => {
 
   // 로그인 검증(세션과 리프레시 토큰 둘 다 있어야 함)
   const hasValidTokenNow = !!accessToken || newCookies.length > 0;
+
+  if (ALWAYS_ALLOWED_PATHS.includes(pathname)) {
+    return applyCookies(
+      NextResponse.next({
+        request: { headers: updatedRequestHeaders },
+      }),
+      newCookies,
+    );
+  }
 
   if (!isLoggedIn || (!refreshToken && !hasValidTokenNow)) {
     if (PUBLIC_PATHS.includes(pathname)) {
@@ -124,5 +141,7 @@ const applyCookies = (response: NextResponse, cookieStrings: string[]) => {
 };
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.mp4$).*)',
+  ],
 };
