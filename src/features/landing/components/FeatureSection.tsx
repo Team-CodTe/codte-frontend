@@ -11,12 +11,13 @@ type ImageItem = {
   alt: string;
 };
 
-interface FeatureSectionProps {
+interface Props {
   id?: string;
   title: string;
   description: ReactNode;
   images: ImageItem[];
   reverse?: boolean;
+  isVideo?: boolean;
 }
 
 export const FeatureSection = ({
@@ -25,7 +26,8 @@ export const FeatureSection = ({
   description,
   images,
   reverse = false,
-}: FeatureSectionProps) => {
+  isVideo = false,
+}: Props) => {
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
@@ -79,17 +81,32 @@ export const FeatureSection = ({
               <div
                 key={image.src}
                 className={cn(
-                  'shrink-0 overflow-hidden bg-transparent',
+                  'bg-foreground dark:bg-muted shrink-0 overflow-hidden rounded-xl p-1 shadow-2xl sm:rounded-2xl sm:p-1.5',
+
                   images.length > 1 ? 'w-[85%] snap-center' : 'w-full',
                 )}>
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  width={0}
-                  height={0}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="h-auto w-full"
-                />
+                {isVideo ? (
+                  <video
+                    src={image.src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="h-auto w-full rounded-lg">
+                    <p className="text-muted-foreground text-xs">
+                      사용 중인 브라우저가 비디오 재생을 지원하지 않습니다.
+                    </p>
+                  </video>
+                ) : (
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={0}
+                    height={0}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="h-auto w-full rounded-lg"
+                  />
+                )}
               </div>
             ))}
           </div>

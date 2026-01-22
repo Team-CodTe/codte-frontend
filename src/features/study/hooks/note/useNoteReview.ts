@@ -18,14 +18,14 @@ export const useNoteReview = () => {
       );
 
       showToast({
-        message: '리뷰가 생성되었습니다.',
+        message: '풀이 글 리뷰가 생성되었습니다.',
         type: 'success',
       });
     },
     onError: (error) => {
       handleApiError({
         error,
-        defaultMessage: '리뷰 생성에 실패했습니다.',
+        defaultMessage: '풀이 글 리뷰 생성에 실패했습니다.',
         errorMapping: {
           PERMISSION_DENIED: (message) => ({ message }),
           GEMINI_API_ERROR: (message) => ({ message }),
