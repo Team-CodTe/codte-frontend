@@ -1,7 +1,7 @@
 import { useTransition } from 'react';
 
 import { useDeleteMyProfileMutation } from '@/api/user/deleteMyProfile/mutation';
-import { useMyProfileQuery } from '@/api/user/getMyProfile/query';
+import { useMyProfileSuspenseQuery } from '@/api/user/getMyProfile/query';
 import { PATH } from '@/constants/path';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { handleApiError } from '@/lib/handleApiError';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 export const useDeleteProfile = () => {
   const router = useRouter();
   const [isNavigating, startTransition] = useTransition();
-  const { data: profile } = useMyProfileQuery();
+  const { data: profile } = useMyProfileSuspenseQuery();
 
   const { mutate, isPending } = useDeleteMyProfileMutation({
     onSuccess: () => {

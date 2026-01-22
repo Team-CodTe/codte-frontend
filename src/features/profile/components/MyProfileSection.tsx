@@ -38,7 +38,7 @@ export const MyProfileSection = ({ profile }: Props) => {
               <Avatar className="size-32 rounded-3xl">
                 <AvatarImage
                   src={profile.profileImgUrl}
-                  alt={String(profile.id)}
+                  alt={profile.username}
                 />
                 <AvatarFallback aria-label="프로필 사진 없음">
                   {profile.username

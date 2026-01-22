@@ -68,7 +68,7 @@ export const UsernameUpdateDialog = ({ initialUsername }: Props) => {
         </AlertDialogHeader>
 
         <form
-          id="sign-up-form"
+          id="username-update-form"
           className="w-full"
           onSubmit={(e) => {
             e.preventDefault();

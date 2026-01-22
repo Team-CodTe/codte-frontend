@@ -9,7 +9,7 @@ export const useMemberMutation = (
   options?: OmittedMutationOptions<void>,
 ) => {
   return useMutation({
-    mutationKey: ['study', 'members', 'kick', studyId, memberId],
+    mutationKey: ['study', 'members', 'delete', studyId, memberId],
     mutationFn: () => deleteMember(studyId, memberId),
     ...options,
   });
