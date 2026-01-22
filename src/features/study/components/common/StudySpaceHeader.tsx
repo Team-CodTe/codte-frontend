@@ -14,6 +14,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/Breadcrumb';
 import { Button } from '@/components/ui/Button';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { PATH } from '@/constants/path';
 import { useStudyBreadcrumbs } from '@/features/study/hooks/common/useStudyBreadcrumbs';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
@@ -86,7 +87,7 @@ export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
 
             if (isNoteIdSegment) {
               if (isLoading || !note) {
-                displayLabel = '';
+                displayLabel = <Skeleton className="block h-5 w-24" />;
               } else {
                 displayLabel = note.problemTitle;
               }
