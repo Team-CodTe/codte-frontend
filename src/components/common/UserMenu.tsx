@@ -13,17 +13,12 @@ import { Spinner } from '@/components/ui/Spinner';
 import { PATH } from '@/constants/path';
 import { useAuth } from '@/hooks/useAuth';
 import { useThemeAction } from '@/hooks/useThemeAction';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export const UserMenu = () => {
-  const router = useRouter();
   const { handleLogout, isLoggingOut } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
   const { data: user } = useMyProfileSuspenseQuery();
-
-  const handleNavigateToProfile = () => {
-    router.push(PATH.PROFILE);
-  };
 
   return (
     <DropdownMenu>
@@ -46,8 +41,10 @@ export const UserMenu = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={handleNavigateToProfile}>
-          <span>내 프로필</span>
+        <DropdownMenuItem asChild>
+          <Link id="profile-link" aria-label="내 프로필" href={PATH.PROFILE}>
+            내 프로필
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem

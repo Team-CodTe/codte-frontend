@@ -39,12 +39,19 @@ export const useValidator = <T>({ mutationFn, onError }: Props<T>) => {
     setErrorMessage(null);
   };
 
+  const setInvalid = (message: string) => {
+    setStatus(VALIDATION_STATUS.INVALID);
+    setValidatedValue('');
+    setErrorMessage(message);
+  };
+
   return {
     status,
     validatedValue,
     errorMessage,
     validate,
     reset,
+    setInvalid,
     isValid: status === VALIDATION_STATUS.VALID,
   };
 };

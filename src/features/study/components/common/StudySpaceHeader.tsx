@@ -121,10 +121,9 @@ export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
             id="study-setting-link"
             aria-label="스터디 설정"
             href={settingPageUrl}>
-            <SettingsIcon className="h-4 w-4" />
+            <SettingsIcon />
           </Link>
         </Button>
-
         <UserMenu />
       </div>
     </header>
