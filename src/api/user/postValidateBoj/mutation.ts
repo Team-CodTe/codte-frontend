@@ -8,7 +8,7 @@ export const useValidateBojMutation = (
   options?: OmittedMutationOptions<void, Error, PostValidateBojRequest>,
 ) => {
   return useMutation({
-    mutationKey: ['validate', 'boj'],
+    mutationKey: ['user', 'validate', 'boj'],
     mutationFn: postValidateBoj,
     ...options,
   });

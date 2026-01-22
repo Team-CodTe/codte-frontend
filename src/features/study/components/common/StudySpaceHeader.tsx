@@ -21,7 +21,7 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import { DropdownAvatar } from '../../../../components/common/DropdownAvatar';
+import { UserMenu } from '../../../../components/common/UserMenu';
 import { useCurrentNoteDetail } from '../../hooks/note/useCurrentNoteDetail';
 import { SelectAssignmentBreadcrumbItem } from '../note/write/SelectAssignmentBreadcrumbItem';
 
@@ -121,11 +121,10 @@ export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
             id="study-setting-link"
             aria-label="스터디 설정"
             href={settingPageUrl}>
-            <SettingsIcon className="h-4 w-4" />
+            <SettingsIcon />
           </Link>
         </Button>
-
-        <DropdownAvatar />
+        <UserMenu />
       </div>
     </header>
   );

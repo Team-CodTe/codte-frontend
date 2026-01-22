@@ -11,7 +11,7 @@ export const useMyProfileQuery = (
   options?: OmittedQueryOptions<GetMyProfileResponse>,
 ) => {
   return useQuery({
-    queryKey: ['user', 'my-profile'],
+    queryKey: ['user', 'profile'],
     queryFn: getMyProfile,
     ...options,
   });
@@ -21,7 +21,7 @@ export const useMyProfileSuspenseQuery = (
   options?: OmittedSuspenseQueryOptions<GetMyProfileResponse>,
 ) => {
   return useSuspenseQuery({
-    queryKey: ['user', 'my-profile'],
+    queryKey: ['user', 'profile'],
     queryFn: getMyProfile,
     ...options,
   });

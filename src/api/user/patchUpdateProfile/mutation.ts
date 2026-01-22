@@ -15,7 +15,7 @@ export const useUpdateProfileMutation = (
   >,
 ) => {
   return useMutation({
-    mutationKey: ['register', 'profile'],
+    mutationKey: ['user', 'profile', 'update', 'register'],
     mutationFn: patchUpdateProfile,
     ...options,
   });

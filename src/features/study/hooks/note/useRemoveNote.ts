@@ -1,6 +1,6 @@
 import { useTransition } from 'react';
 
-import { useRemoveNoteMutation } from '@/api/note/deleteRemoveNote/mutation';
+import { useDeleteNoteMutation } from '@/api/note/deleteNote/mutation';
 import { PATH } from '@/constants/path';
 import { useParamInt } from '@/hooks/useParamInt';
 import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
@@ -16,7 +16,7 @@ export const useRemoveNote = () => {
   const [isNavigating, startTransition] = useTransition();
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useRemoveNoteMutation(noteId, {
+  const { mutate, isPending } = useDeleteNoteMutation(noteId, {
     onSuccess: async () => {
       await Promise.all([
         queryClient.removeQueries({ queryKey: ['note', 'detail', noteId] }),
