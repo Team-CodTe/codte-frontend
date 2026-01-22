@@ -10,13 +10,20 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import { Spinner } from '@/components/ui/Spinner';
+import { PATH } from '@/constants/path';
 import { useAuth } from '@/hooks/useAuth';
 import { useThemeAction } from '@/hooks/useThemeAction';
+import { useRouter } from 'next/navigation';
 
-export const DropdownAvatar = () => {
+export const UserMenu = () => {
+  const router = useRouter();
   const { handleLogout, isLoggingOut } = useAuth();
   const { handleToggleTheme, ThemeIcon } = useThemeAction();
   const { data: user } = useMyProfileSuspenseQuery();
+
+  const handleNavigateToProfile = () => {
+    router.push(PATH.PROFILE);
+  };
 
   return (
     <DropdownMenu>
@@ -39,6 +46,10 @@ export const DropdownAvatar = () => {
 
         <DropdownMenuSeparator />
 
+        <DropdownMenuItem onClick={handleNavigateToProfile}>
+          <span>내 프로필</span>
+        </DropdownMenuItem>
+
         <DropdownMenuItem
           className="justify-between"
           onSelect={(event) => {
@@ -48,6 +59,8 @@ export const DropdownAvatar = () => {
           <span>테마 변경</span>
           <ThemeIcon />
         </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
 
         <DropdownMenuItem
           className="justify-between"

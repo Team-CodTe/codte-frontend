@@ -21,7 +21,7 @@ import { buildUrlWithParams } from '@/lib/buildUrlWithParams';
 import { SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import { DropdownAvatar } from '../../../../components/common/DropdownAvatar';
+import { UserMenu } from '../../../../components/common/UserMenu';
 import { useCurrentNoteDetail } from '../../hooks/note/useCurrentNoteDetail';
 import { SelectAssignmentBreadcrumbItem } from '../note/write/SelectAssignmentBreadcrumbItem';
 
@@ -125,7 +125,7 @@ export const StudySpaceHeader = ({ studyId, initialData }: Props) => {
           </Link>
         </Button>
 
-        <DropdownAvatar />
+        <UserMenu />
       </div>
     </header>
   );

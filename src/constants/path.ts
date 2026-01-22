@@ -6,6 +6,7 @@ export const PATH = {
   AUTH_CALLBACK: '/auth/callback',
   SIGN_UP: '/sign-up',
   DASHBOARD: '/dashboard',
+  PROFILE: '/profile',
   STUDY: {
     CREATE: '/study/create',
     JOIN: '/study/join',
@@ -19,4 +20,5 @@ export const PATH = {
       EDIT: '/study/{studyId}/notes/{noteId}/edit',
     },
   },
+  GOODBYE: '/goodbye',
 } as const;

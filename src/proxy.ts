@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 const ALWAYS_ALLOWED_PATHS: string[] = [
   PATH.TERMS_OF_SERVICE,
   PATH.PRIVACY_POLICY,
+  PATH.GOODBYE,
 ];
 const PUBLIC_PATHS: string[] = [
   PATH.LANDING,
