@@ -1,6 +1,6 @@
 import { useTransition } from 'react';
 
-import { useKickMemberMutation } from '@/api/member/deleteKickMember/mutation';
+import { useMemberMutation } from '@/api/member/deleteMember/mutation';
 import { useParamInt } from '@/hooks/useParamInt';
 import { handleApiError } from '@/lib/handleApiError';
 import { showToast } from '@/lib/showToast';
@@ -18,7 +18,7 @@ export const useKickMember = ({ memberName, memberId }: Props) => {
   const [isTransitioning, startTransition] = useTransition();
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useKickMemberMutation(studyId, memberId, {
+  const { mutate, isPending } = useMemberMutation(studyId, memberId, {
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['study', 'members', studyId],

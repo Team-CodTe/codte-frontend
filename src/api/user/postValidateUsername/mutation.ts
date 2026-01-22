@@ -8,7 +8,7 @@ export const useValidateUsernameMutation = (
   options?: OmittedMutationOptions<void, Error, PostValidateUsernameRequest>,
 ) => {
   return useMutation({
-    mutationKey: ['validate', 'username'],
+    mutationKey: ['user', 'validate', 'username'],
     mutationFn: postValidateUsername,
     ...options,
   });

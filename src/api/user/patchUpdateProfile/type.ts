@@ -1,6 +1,6 @@
 export type PatchUpdateProfileRequest = {
-  username: string;
-  bojUsername: string;
+  username?: string;
+  bojUsername?: string;
 };
 
 export type PatchUpdateProfileResponse = {

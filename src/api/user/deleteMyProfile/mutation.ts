@@ -1,15 +1,14 @@
 import { type OmittedMutationOptions } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
-import { deleteRemoveNote } from './delete';
+import { deleteMyProfile } from './delete';
 
-export const useRemoveNoteMutation = (
-  noteId: number,
+export const useDeleteMyProfileMutation = (
   options?: OmittedMutationOptions<void>,
 ) => {
   return useMutation({
-    mutationKey: ['note', 'remove', noteId],
-    mutationFn: () => deleteRemoveNote(noteId),
+    mutationKey: ['user', 'profile', 'delete'],
+    mutationFn: deleteMyProfile,
     ...options,
   });
 };
