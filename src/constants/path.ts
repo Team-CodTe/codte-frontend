@@ -1,6 +1,8 @@
 export const PATH = {
   LANDING: '/',
   LOGIN: '/login',
+  PRIVACY_POLICY: '/privacy',
+  TERMS_OF_SERVICE: '/terms',
   AUTH_CALLBACK: '/auth/callback',
   SIGN_UP: '/sign-up',
   DASHBOARD: '/dashboard',
