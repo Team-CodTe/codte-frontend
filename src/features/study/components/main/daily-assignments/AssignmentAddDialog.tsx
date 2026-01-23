@@ -2,7 +2,6 @@
 
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -61,13 +60,13 @@ export const AssignmentAddDialog = () => {
 
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isAdding}>취소</AlertDialogCancel>
-          <AlertDialogAction
+          <Button
             type="submit"
             disabled={!canSubmit || isAdding}
             onClick={handleSubmit}>
             {isAdding ? <Spinner /> : null}
             {isAdding ? '추가하는 중...' : '추가하기'}
-          </AlertDialogAction>
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

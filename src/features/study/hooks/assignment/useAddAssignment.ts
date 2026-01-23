@@ -47,6 +47,10 @@ export const useAddAssignment = () => {
   });
 
   const handleChangeOpen = (isOpen: boolean) => {
+    if (!isOpen && isAdding) {
+      return;
+    }
+
     setOpen(isOpen);
 
     if (!isOpen) {

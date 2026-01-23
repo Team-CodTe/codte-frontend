@@ -23,13 +23,13 @@ export const useDailyAssignments = ({ initialData }: Props) => {
       });
 
       showToast({
-        message: '오늘의 추천 문제가 갱신되었습니다.',
+        message: '오늘의 추천 문제가 변경되었습니다.',
         type: 'success',
       });
     },
     onError: () => {
       showToast({
-        message: '오늘의 추천 문제 갱신에 실패했습니다. 다시 시도해주세요.',
+        message: '오늘의 추천 문제 변경에 실패했습니다. 다시 시도해주세요.',
         type: 'error',
       });
     },

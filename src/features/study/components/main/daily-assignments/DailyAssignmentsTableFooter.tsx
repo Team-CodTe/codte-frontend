@@ -25,7 +25,7 @@ export const DailyAssignmentsTableFooter = ({
       <span>{formatDate(refreshedAt)} 기준</span>
 
       <div className="flex items-center gap-1">
-        <HintTooltip content="스터디장만 30분에 한 번씩 할 수 있어요. 새로운 추천 문제를 강제로 갱신할 때 사용해요.">
+        <HintTooltip content="스터디장만 30분에 한 번씩 할 수 있습니다. 새로운 추천 문제를 받을 때 사용합니다.">
           <InfoIcon className="size-3" />
         </HintTooltip>
         <Button
@@ -35,7 +35,7 @@ export const DailyAssignmentsTableFooter = ({
           disabled={isRefreshing || !isOwner}
           className="text-muted-foreground hover:text-foreground h-4 p-0 text-xs">
           {isRefreshing ? <Spinner className="size-3" /> : null}
-          {isRefreshing ? '갱신 중...' : '추천 문제 강제 갱신'}
+          {isRefreshing ? '새로 받아오는 중...' : '추천 문제 변경'}
         </Button>
       </div>
     </div>
