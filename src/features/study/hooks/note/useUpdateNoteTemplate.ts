@@ -1,0 +1,62 @@
+import { useState, useTransition } from 'react';
+
+import { useUpdateStudyMutation } from '@/api/study/patchUpdateStudy/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
+import { showToast } from '@/lib/showToast';
+import { useRouter } from 'next/navigation';
+
+type Props = {
+  initialTemplate: string;
+};
+
+export const useUpdateNoteTemplate = ({ initialTemplate }: Props) => {
+  const studyId = useParamInt('studyId');
+  const router = useRouter();
+  const [isNavigating, startTransition] = useTransition();
+  const [templateContent, setTemplateContent] = useState(initialTemplate);
+
+  const { mutate, isPending } = useUpdateStudyMutation(studyId, {
+    onSuccess: () => {
+      startTransition(() => {
+        router.back();
+      });
+
+      showToast({ message: '템플릿이 변경되었습니다.', type: 'success' });
+    },
+    onError: () => {
+      showToast({
+        message: '템플릿 수정에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
+
+  const isSubmitting = isPending || isNavigating;
+
+  const handleChange = (value?: string) => {
+    setTemplateContent(value || '');
+  };
+
+  const handleSubmit = () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    mutate({ templateContent });
+  };
+
+  const resetForm = () => {
+    setTemplateContent(initialTemplate);
+  };
+
+  return {
+    templateContent,
+    isDirty:
+      templateContent.trim().length > 0 &&
+      templateContent.trim() !== initialTemplate.trim(),
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  };
+};

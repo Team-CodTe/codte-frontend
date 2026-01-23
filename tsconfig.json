@@ -19,7 +19,14 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/components": ["./src/components"],
+      "@/utils": ["./src/utils"],
+      "@/ui": ["./src/components/ui"],
+      "@/hooks": ["./src/hooks"],
+      "@/lib": ["./src/lib"],
+      "@/styles": ["./src/styles"],
+      "@/constants": ["./src/constants"]
     }
   },
   "include": [
@@ -28,7 +35,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "./src/types/nextAuth.d.ts"
   ],
   "exclude": ["node_modules"]
 }

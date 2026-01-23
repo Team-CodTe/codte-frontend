@@ -1,0 +1,69 @@
+import { useTransition } from 'react';
+
+import { useDailyAssignmentsQuery } from '@/api/assignment/getDailyAssignments/query';
+import { type GetDailyAssignmentsResponse } from '@/api/assignment/getDailyAssignments/type';
+import { useRefreshDailyAssignmentsMutation } from '@/api/assignment/postRefreshDailyAssignments/mutation';
+import { useParamInt } from '@/hooks/useParamInt';
+import { formatRemainingTime } from '@/lib/formatFunc';
+import { showToast } from '@/lib/showToast';
+
+type Props = {
+  initialData: GetDailyAssignmentsResponse;
+};
+
+export const useDailyAssignments = ({ initialData }: Props) => {
+  const studyId = useParamInt('studyId');
+  const { data, refetch } = useDailyAssignmentsQuery(studyId, { initialData });
+  const [isRefetching, startTransition] = useTransition();
+
+  const { mutate, isPending } = useRefreshDailyAssignmentsMutation(studyId, {
+    onSuccess: () => {
+      startTransition(() => {
+        refetch();
+      });
+
+      showToast({
+        message: '오늘의 추천 문제가 변경되었습니다.',
+        type: 'success',
+      });
+    },
+    onError: () => {
+      showToast({
+        message: '오늘의 추천 문제 변경에 실패했습니다. 다시 시도해주세요.',
+        type: 'error',
+      });
+    },
+  });
+
+  const isRefreshing = isPending || isRefetching;
+
+  const handleRefreshDailyAssignments = () => {
+    if (isRefreshing) {
+      return;
+    }
+
+    const now = new Date();
+    const nextRefreshAvailableAt = data?.nextRefreshAvailableAt
+      ? new Date(data.nextRefreshAvailableAt)
+      : null;
+
+    if (nextRefreshAvailableAt && now < nextRefreshAvailableAt) {
+      const remaining = formatRemainingTime(nextRefreshAvailableAt, now);
+
+      showToast({
+        message: `${remaining} 뒤에 다시 시도해주세요.`,
+        type: 'warning',
+      });
+
+      return;
+    }
+
+    mutate();
+  };
+
+  return {
+    data,
+    isRefreshing,
+    handleRefreshDailyAssignments,
+  };
+};
