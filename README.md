@@ -9,6 +9,7 @@
 - **문제 추천**: 스터디 조건에 따라 랜덤으로 문제를 추천합니다.
 - **해결 방식 공유**: 문제 해결 과정과 아이디어를 쉽게 공유할 수 있습니다.
 - **스터디 멤버 간 소통**: 누가 문제를 풀었고, 풀이를 공유했는지 쉽게 확인할 수 있으며, 서로의 생각을 나눌 수 있습니다.
+- **문제 풀이 AI 리뷰**: 작성한 문제 풀이를 AI에게 리뷰를 요청할 수 있습니다.
 
 <br>
 
@@ -16,7 +17,7 @@
 
 | 분야 | 기술 |
 | :--- | :--- |
-| **프레임워크 및 라이브러리** | Next.js 16.1 (App Router), React 19.2 |
+| **프레임워크 및 라이브러리** | Next.js 16.1.4 (App Router), React 19.2.0 |
 | **언어** | TypeScript 5.x |
 | **데이터 페칭** | TanStack Query 5.90 |
 | **상태 관리** | Zustand 5.0, nuqs 2.8 (URL State) |
@@ -64,7 +65,7 @@
 │   ├── styles/          # [스타일 담당] 글로벌 CSS 및 컴포넌트 스타일
 │   └── types/           # [공통 타입 담당] 전역에서 참조되는 타입 정의
 ├── AGENTS.md            # AI 에이전트 가이드라인
-├── next.config.js       # Next.js 설정
+├── next.config.ts       # Next.js 설정
 ├── package.json         # 의존성 및 스크립트
 └── tsconfig.json        # TypeScript 설정
 ```
@@ -79,7 +80,33 @@
 ### 사전 요구사항
 
 - Node.js 18 이상
-- pnpm 8 이상
+- pnpm 10.x 이상
+
+### 환경 변수 설정
+
+프로젝트를 실행하기 전에 환경 변수를 설정해야 합니다. 프로젝트 루트에 `.env.local` 파일을 생성하고 다음 변수들을 설정하세요:
+
+| 변수명 | 설명 | 필수 | 비고 |
+|--------|------|------|------|
+| `NEXT_PUBLIC_API_BASE_URL` | 백엔드 API 서버의 기본 URL | ✅ | 예: `https://api.example.com` |
+| `AUTH_SECRET` | Auth.js 세션 암호화를 위한 시크릿 키 | ✅ | `openssl rand -base64 32`로 생성 가능 |
+| `AUTH_GITHUB_ID` | GitHub OAuth App의 Client ID | ✅ | GitHub OAuth 사용 시 필수 |
+| `AUTH_GITHUB_SECRET` | GitHub OAuth App의 Client Secret | ✅ | GitHub OAuth 사용 시 필수 |
+| `AUTH_GOOGLE_ID` | Google OAuth Client ID | ✅ | Google OAuth 사용 시 필수 |
+| `AUTH_GOOGLE_SECRET` | Google OAuth Client Secret | ✅ | Google OAuth 사용 시 필수 |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics (GA4) 측정 ID | ❌ | 분석이 필요한 경우에만 설정 |
+
+**환경 변수 설정 예시:**
+
+```bash
+# .env.local 파일 생성
+cp .env.example .env.local
+
+# 또는 직접 생성
+touch .env.local
+```
+
+`.env.example` 파일을 참고하여 필요한 값들을 입력하세요.
 
 ### 설치 방법
 

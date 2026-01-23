@@ -4,7 +4,10 @@ import { triggerSessionUpdate } from '@/lib/authSessionSync';
 
 const API_TIMEOUT_MS = 5000;
 const REFRESH_TIMEOUT_MS = 10000;
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+const BASE_URL =
+  typeof window === 'undefined'
+    ? process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL
+    : process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

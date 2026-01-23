@@ -31,13 +31,13 @@ export const useSolveStatus = ({ initialData, date, view }: Props) => {
       });
 
       showToast({
-        message: '문제 풀이 상태가 갱신되었습니다.',
+        message: '문제 풀이 상태가 업데이트되었습니다.',
         type: 'success',
       });
     },
     onError: () => {
       showToast({
-        message: '문제 풀이 상태 갱신에 실패했습니다. 다시 시도해주세요.',
+        message: '문제 풀이 상태 업데이트에 실패했습니다. 다시 시도해주세요.',
         type: 'error',
       });
     },
