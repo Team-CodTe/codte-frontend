@@ -51,7 +51,7 @@ export const JoinStudyForm = () => {
                     name={field.name}
                     type="text"
                     inputMode="text"
-                    placeholder="XQ6A3CODTER8J4P"
+                    placeholder="예시) A7#K9@MxQ2"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}

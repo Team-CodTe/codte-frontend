@@ -2,12 +2,10 @@
 
 import '../styles/globals.css';
 
-import { useState } from 'react';
-
-import { postLogout } from '@/api/auth/postLogout/post';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { PATH } from '@/constants/path';
+import { useAuth } from '@/hooks/useAuth';
 import {
   ArrowLeftIcon,
   HomeIcon,
@@ -21,18 +19,14 @@ const SUPPORT_MAIL = 'team.codte@gmail.com';
 
 const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { handleLogout, isLoggingOut } = useAuth();
 
-  const handleLogout = async () => {
-    setIsLoading(true);
-
+  const handleLogoutAndRedirect = async () => {
     try {
-      await postLogout();
+      await handleLogout();
+      await signOut({ callbackUrl: PATH.LANDING });
     } catch (error) {
       console.error('❌ 로그아웃 처리 중 오류 발생', error);
-    } finally {
-      await signOut({ callbackUrl: PATH.LANDING });
-      setIsLoading(false);
     }
   };
 
@@ -60,7 +54,7 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
                 router.refresh();
               }}>
               <RefreshCcwIcon />
-              새로고침
+              새로고침하기
             </Button>
             <Button
               variant="outline"
@@ -68,16 +62,16 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
               className="w-full"
               onClick={() => router.back()}>
               <ArrowLeftIcon />
-              뒤로
+              뒤로가기
             </Button>
             <Button
               variant="outline"
               size="lg"
               className="w-full"
-              onClick={handleLogout}
-              disabled={isLoading}>
+              onClick={handleLogoutAndRedirect}
+              disabled={isLoggingOut}>
               <HomeIcon />
-              {isLoading ? '이동 중...' : '로그인 페이지로'}
+              {isLoggingOut ? '이동 중...' : '로그인 페이지로 가기'}
             </Button>
           </div>
           <div className="flex flex-col justify-center">

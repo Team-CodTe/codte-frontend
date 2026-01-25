@@ -2,8 +2,8 @@ import { API_URLS } from '@/api/apiUrls';
 import { PATH } from '@/constants/path';
 import { triggerSessionUpdate } from '@/lib/authSessionSync';
 
-const API_TIMEOUT_MS = 5000;
-const REFRESH_TIMEOUT_MS = 10000;
+const API_TIMEOUT_MS = 15000; // 15초
+const REFRESH_TIMEOUT_MS = 15000; // 15초
 const BASE_URL =
   typeof window === 'undefined'
     ? process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL

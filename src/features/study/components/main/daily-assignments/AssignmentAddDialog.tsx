@@ -42,7 +42,7 @@ export const AssignmentAddDialog = () => {
           <AlertDialogTitle>문제 직접 추가하기</AlertDialogTitle>
           <AlertDialogDescription>
             함께 풀고 싶은 백준 문제의 번호를 입력하여 오늘의 추천 문제에
-            추가해보세요. 직접 추가한 문제는 추천 문제를 갱신해도 유지됩니다.
+            추가해보세요. 직접 추가한 문제는 추천 문제를 변경해도 유지됩니다.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -54,7 +54,7 @@ export const AssignmentAddDialog = () => {
             onChange={(e) => setBojNumber(e.target.value)}
             type="number"
             inputMode="numeric"
-            placeholder="1000"
+            placeholder="예시) 1000"
           />
         </div>
 

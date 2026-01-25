@@ -30,8 +30,8 @@ export const StatisticsEmptyContent = () => {
       <div className="relative flex w-full flex-col gap-2">
         <div className="bg-background/50 absolute inset-0 z-10 flex flex-col items-center justify-center rounded-md p-10 backdrop-blur-xs">
           <span className="text-foreground text-center text-sm font-medium">
-            스터디장이나 멤버가 되어 CodTe와 함께 코딩 테스트 기록을
-            시작해보세요!
+            아직 심어진 잔디가 없어요. 스터디 활동을 시작하고 초록빛 기록을
+            남겨보세요!
           </span>
         </div>
 
