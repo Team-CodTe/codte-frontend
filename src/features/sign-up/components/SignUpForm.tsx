@@ -85,7 +85,7 @@ export const SignUpForm = () => {
                       name={field.name}
                       type="text"
                       inputMode="text"
-                      placeholder="파이썬조아"
+                      placeholder="예시) 파이썬조아"
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => {
@@ -148,7 +148,7 @@ export const SignUpForm = () => {
                       name={field.name}
                       type="text"
                       inputMode="text"
-                      placeholder="alsdn1360"
+                      placeholder="예시) codte2026"
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => {

@@ -8,10 +8,25 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+const siteDescription =
+  '매일 스터디원에 딱 맞는 새로운 문제를 추천받고, 해결 방법과 풀이를 쉽게 공유할 수 있는 스터디 플랫폼입니다.';
+
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.codte.kr'),
   title: 'CodTe',
-  description:
-    '매일 랜덤으로 주어지는 코딩 테스트 문제를 함께 풀고 쉽게 공유할 수 있는 스터디 플랫폼입니다.',
+  description: siteDescription,
+  openGraph: {
+    title: 'CodTe',
+    description: siteDescription,
+    type: 'website',
+    url: 'https://www.codte.kr',
+    siteName: 'CodTe',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CodTe',
+    description: siteDescription,
+  },
 };
 
 const pretendard = localFont({

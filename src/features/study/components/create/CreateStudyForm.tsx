@@ -70,7 +70,7 @@ export const CreateStudyForm = () => {
                     name={field.name}
                     type="text"
                     inputMode="text"
-                    placeholder="코딩테스트를 스터디하는 사람들 모임"
+                    placeholder="예시) 코딩테스트를 스터디하는 사람들 모임"
                     value={field.state.value ?? ''}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
@@ -96,7 +96,7 @@ export const CreateStudyForm = () => {
                       id={field.name}
                       name={field.name}
                       inputMode="text"
-                      placeholder="저희는 매일 3문제씩 풀어요."
+                      placeholder="예시) 저희는 매일 3문제씩 풀어요."
                       value={field.state.value ?? ''}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
