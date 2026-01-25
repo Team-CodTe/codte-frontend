@@ -20,9 +20,11 @@ export const DashboardTitle = ({ initialData }: Props) => {
         </h2>
         <span className="font-toss-face">🙌🏻</span>
       </div>
-      <span className="text-muted-foreground font-medium">
-        오늘도 한 걸음 나아가는 모습, 멋있어요!
-      </span>
+      <div className="h-5">
+        <span className="text-muted-foreground font-medium">
+          오늘도 한 걸음 나아가는 모습, 멋있어요!
+        </span>
+      </div>
     </div>
   );
 };
