@@ -4,7 +4,6 @@ import '../styles/globals.css';
 
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
-import { PATH } from '@/constants/path';
 import { useAuth } from '@/hooks/useAuth';
 import {
   ArrowLeftIcon,
@@ -13,22 +12,12 @@ import {
   SirenIcon,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
 
 const SUPPORT_MAIL = 'team.codte@gmail.com';
 
 const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
   const router = useRouter();
   const { handleLogout, isLoggingOut } = useAuth();
-
-  const handleLogoutAndRedirect = async () => {
-    try {
-      await handleLogout();
-      await signOut({ callbackUrl: PATH.LANDING });
-    } catch (error) {
-      console.error('❌ 로그아웃 처리 중 오류 발생', error);
-    }
-  };
 
   return (
     <html lang="ko">
@@ -68,7 +57,7 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
               variant="outline"
               size="lg"
               className="w-full"
-              onClick={handleLogoutAndRedirect}
+              onClick={handleLogout}
               disabled={isLoggingOut}>
               <HomeIcon />
               {isLoggingOut ? '이동 중...' : '로그인 페이지로 가기'}
