@@ -3,6 +3,8 @@ import { PATH } from '@/constants/path';
 import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
+import { COOKIE_KEYS } from './constants/cookie';
+
 const ALWAYS_ALLOWED_PATHS: string[] = [
   PATH.TERMS_OF_SERVICE,
   PATH.PRIVACY_POLICY,
@@ -26,9 +28,10 @@ export const proxy = auth(async (req) => {
   }
 
   // 현재 토큰 상태 확인
-  const refreshToken = req.cookies.get('refresh_token');
-  const accessToken = req.cookies.get('access_token');
-  const isRegistered = req.cookies.get('is_registered')?.value === 'true';
+  const refreshToken = req.cookies.get(COOKIE_KEYS.REFRESH_TOKEN);
+  const accessToken = req.cookies.get(COOKIE_KEYS.ACCESS_TOKEN);
+  const isRegistered =
+    req.cookies.get(COOKIE_KEYS.IS_REGISTERED)?.value === 'true';
   const isLoggedIn = !!req.auth;
 
   // 토큰 갱신 로직 (Access Token 만료 & Refresh Token 존재 시)
@@ -43,9 +46,9 @@ export const proxy = auth(async (req) => {
     const response = NextResponse.redirect(redirectUrl);
 
     // 쿠키 삭제
-    response.cookies.delete('access_token');
-    response.cookies.delete('refresh_token');
-    response.cookies.delete('is_registered');
+    response.cookies.delete(COOKIE_KEYS.ACCESS_TOKEN);
+    response.cookies.delete(COOKIE_KEYS.REFRESH_TOKEN);
+    response.cookies.delete(COOKIE_KEYS.IS_REGISTERED);
 
     return response;
   };
@@ -58,7 +61,7 @@ export const proxy = auth(async (req) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Cookie: `refresh_token=${refreshToken.value}`,
+            Cookie: `${COOKIE_KEYS.REFRESH_TOKEN}=${refreshToken.value}`,
           },
         },
       );
