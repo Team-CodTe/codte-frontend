@@ -35,6 +35,21 @@ export const proxy = auth(async (req) => {
   let newCookies: string[] = [];
   const updatedRequestHeaders = new Headers(req.headers);
 
+  const handleRefreshFailure = () => {
+    const redirectUrl = new URL(PATH.LOGIN, nextUrl);
+
+    redirectUrl.searchParams.set('expired', 'true');
+
+    const response = NextResponse.redirect(redirectUrl);
+
+    // 쿠키 삭제
+    response.cookies.delete('access_token');
+    response.cookies.delete('refresh_token');
+    response.cookies.delete('is_registered');
+
+    return response;
+  };
+
   if (refreshToken && !accessToken) {
     try {
       const refreshResponse = await fetch(
@@ -57,11 +72,16 @@ export const proxy = auth(async (req) => {
           updatedRequestHeaders.set('Cookie', newCookies.join('; '));
         }
       } else {
-        // 갱신 실패 시(리프레시 토큰 만료 등), 로그아웃 처리 등을 위해 그대로 둠
+        // 갱신 실패 시(리프레시 토큰 만료 등), 쿠키 삭제 후 로그인 페이지로 리다이렉트
         console.warn('[ Proxy ]: 토큰 재발급 실패');
+
+        return handleRefreshFailure();
       }
     } catch (error) {
+      // 네트워크 에러 등으로 갱신 실패 시에도 쿠키 삭제 후 로그인 페이지로 리다이렉트
       console.error('[ Proxy ]: 토큰 재발급 에러', error);
+
+      return handleRefreshFailure();
     }
   }
 
