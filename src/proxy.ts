@@ -15,37 +15,39 @@ const PUBLIC_PATHS: string[] = [
   PATH.LOGIN,
   ...ALWAYS_ALLOWED_PATHS,
 ];
-const GUEST_PATHS: string[] = [PATH.LANDING, PATH.LOGIN, PATH.SIGN_UP];
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const GUEST_PATHS: string[] = [PATH.LOGIN, PATH.SIGN_UP];
+const UNREGISTERED_ALLOWED_PATHS: string[] = [PATH.SIGN_UP, PATH.LANDING];
+
+const BASE_URL = process.env.API_BASE_URL;
 
 export const proxy = auth(async (req) => {
-  const { nextUrl } = req;
+  const { nextUrl, auth: session } = req;
   const { pathname } = nextUrl;
 
-  // OAuth 콜백은 무조건 통과
-  if (pathname === PATH.AUTH_CALLBACK) {
-    return NextResponse.next();
-  }
-
-  // 현재 토큰 상태 확인
-  const refreshToken = req.cookies.get(COOKIE_KEYS.REFRESH_TOKEN);
-  const accessToken = req.cookies.get(COOKIE_KEYS.ACCESS_TOKEN);
-  const isRegistered =
-    req.cookies.get(COOKIE_KEYS.IS_REGISTERED)?.value === 'true';
-  const isLoggedIn = !!req.auth;
-
-  // 토큰 갱신 로직 (Access Token 만료 & Refresh Token 존재 시)
   let newCookies: string[] = [];
-  const updatedRequestHeaders = new Headers(req.headers);
+  const requestHeaders = new Headers(req.headers);
 
-  const handleRefreshFailure = () => {
-    const redirectUrl = new URL(PATH.LOGIN, nextUrl);
+  const createResponse = (destination?: string | URL) => {
+    const response = destination
+      ? NextResponse.redirect(new URL(destination, nextUrl))
+      : NextResponse.next({ request: { headers: requestHeaders } });
 
-    redirectUrl.searchParams.set('expired', 'true');
+    if (newCookies.length > 0) {
+      newCookies.forEach((cookieStr) =>
+        response.headers.append('Set-Cookie', cookieStr),
+      );
+    }
 
-    const response = NextResponse.redirect(redirectUrl);
+    return response;
+  };
 
-    // 쿠키 삭제
+  const redirectToLoginExpired = () => {
+    const loginUrl = new URL(PATH.LOGIN, nextUrl);
+
+    loginUrl.searchParams.set('expired', 'true');
+
+    const response = createResponse(loginUrl);
+
     response.cookies.delete(COOKIE_KEYS.ACCESS_TOKEN);
     response.cookies.delete(COOKIE_KEYS.REFRESH_TOKEN);
     response.cookies.delete(COOKIE_KEYS.IS_REGISTERED);
@@ -53,7 +55,25 @@ export const proxy = auth(async (req) => {
     return response;
   };
 
-  if (refreshToken && !accessToken) {
+  if (pathname === PATH.AUTH_CALLBACK) {
+    return NextResponse.next();
+  }
+
+  const refreshToken = req.cookies.get(COOKIE_KEYS.REFRESH_TOKEN)?.value;
+  const accessToken = req.cookies.get(COOKIE_KEYS.ACCESS_TOKEN)?.value;
+  const isRegistered =
+    req.cookies.get(COOKIE_KEYS.IS_REGISTERED)?.value === 'true';
+
+  const isAuthenticated = !!session && !!refreshToken;
+  const needsTokenRefresh = isAuthenticated && !accessToken;
+
+  // 미인증자가 공개 페이지 접근 시 통과
+  if (!isAuthenticated && PUBLIC_PATHS.includes(pathname)) {
+    return NextResponse.next();
+  }
+
+  // 액세스 토큰 만료 시 리프레시 토큰으로 재발급
+  if (needsTokenRefresh) {
     try {
       const refreshResponse = await fetch(
         `${BASE_URL}${API_URLS.AUTH.REFRESH}`,
@@ -61,108 +81,58 @@ export const proxy = auth(async (req) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Cookie: `${COOKIE_KEYS.REFRESH_TOKEN}=${refreshToken.value}`,
+            Cookie: `${COOKIE_KEYS.REFRESH_TOKEN}=${refreshToken}`,
           },
         },
       );
 
-      if (refreshResponse.ok) {
-        const setCookieHeader = refreshResponse.headers.getSetCookie();
+      if (!refreshResponse.ok) {
+        throw new Error('리프레시 토큰 재발급 실패');
+      }
 
-        if (setCookieHeader && setCookieHeader.length > 0) {
-          newCookies = setCookieHeader;
+      const setCookieHeader = refreshResponse.headers.getSetCookie();
 
-          updatedRequestHeaders.set('Cookie', newCookies.join('; '));
-        }
-      } else {
-        // 갱신 실패 시(리프레시 토큰 만료 등), 쿠키 삭제 후 로그인 페이지로 리다이렉트
-        console.warn('[ Proxy ]: 토큰 재발급 실패');
-
-        return handleRefreshFailure();
+      if (setCookieHeader?.length > 0) {
+        newCookies = setCookieHeader;
+        requestHeaders.set('Cookie', newCookies.join('; '));
       }
     } catch (error) {
-      // 네트워크 에러 등으로 갱신 실패 시에도 쿠키 삭제 후 로그인 페이지로 리다이렉트
-      console.error('[ Proxy ]: 토큰 재발급 에러', error);
+      console.error('[Proxy] 리프레시 토큰 재발급 실패:', error);
 
-      return handleRefreshFailure();
+      return redirectToLoginExpired();
     }
   }
 
-  // 로그인 검증(세션과 리프레시 토큰 둘 다 있어야 함)
-  const hasValidTokenNow = !!accessToken || newCookies.length > 0;
-
-  if (ALWAYS_ALLOWED_PATHS.includes(pathname)) {
-    return applyCookies(
-      NextResponse.next({
-        request: { headers: updatedRequestHeaders },
-      }),
-      newCookies,
-    );
-  }
-
-  if (!isLoggedIn || (!refreshToken && !hasValidTokenNow)) {
-    if (PUBLIC_PATHS.includes(pathname)) {
-      return applyCookies(
-        NextResponse.next({
-          request: { headers: updatedRequestHeaders },
-        }),
-        newCookies,
-      );
+  // 미인증 유저 처리
+  if (!isAuthenticated) {
+    if (ALWAYS_ALLOWED_PATHS.includes(pathname)) {
+      return createResponse();
     }
 
-    const isExpired = isLoggedIn !== !!refreshToken;
-    const redirectUrl = new URL(PATH.LOGIN, nextUrl);
-
-    if (isExpired) {
-      redirectUrl.searchParams.set('expired', 'true');
+    // 세션 불일치 시 만료 처리
+    if (!!session !== !!refreshToken) {
+      return redirectToLoginExpired();
     }
 
-    return applyCookies(NextResponse.redirect(redirectUrl), newCookies);
+    return createResponse(PATH.LOGIN);
   }
 
   // 회원가입 미완료 유저 처리
   if (!isRegistered) {
-    if (pathname === PATH.SIGN_UP) {
-      return applyCookies(
-        NextResponse.next({
-          request: { headers: updatedRequestHeaders },
-        }),
-        newCookies,
-      );
+    if (!UNREGISTERED_ALLOWED_PATHS.includes(pathname)) {
+      return createResponse(PATH.SIGN_UP);
     }
 
-    return applyCookies(
-      NextResponse.redirect(new URL(PATH.SIGN_UP, nextUrl)),
-      newCookies,
-    );
+    return createResponse();
   }
 
-  // 회원가입 완료 유저 처리
+  // 가입 완료 유저 게스트 페이지 접근 시 대시보드로 리다이렉트
   if (GUEST_PATHS.includes(pathname)) {
-    return applyCookies(
-      NextResponse.redirect(new URL(PATH.DASHBOARD, nextUrl)),
-      newCookies,
-    );
+    return createResponse(PATH.DASHBOARD);
   }
 
-  return applyCookies(
-    NextResponse.next({
-      request: {
-        headers: updatedRequestHeaders,
-      },
-    }),
-    newCookies,
-  );
+  return createResponse();
 });
-
-// 응답에 Set-Cookie 헤더를 적용하는 헬퍼 함수
-const applyCookies = (response: NextResponse, cookieStrings: string[]) => {
-  cookieStrings.forEach((cookieStr) => {
-    response.headers.append('Set-Cookie', cookieStr);
-  });
-
-  return response;
-};
 
 export const config = {
   matcher: [
