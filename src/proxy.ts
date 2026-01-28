@@ -3,6 +3,8 @@ import { PATH } from '@/constants/path';
 import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
+import { COOKIE_KEYS } from './constants/cookie';
+
 const ALWAYS_ALLOWED_PATHS: string[] = [
   PATH.TERMS_OF_SERVICE,
   PATH.PRIVACY_POLICY,
@@ -26,14 +28,30 @@ export const proxy = auth(async (req) => {
   }
 
   // 현재 토큰 상태 확인
-  const refreshToken = req.cookies.get('refresh_token');
-  const accessToken = req.cookies.get('access_token');
-  const isRegistered = req.cookies.get('is_registered')?.value === 'true';
+  const refreshToken = req.cookies.get(COOKIE_KEYS.REFRESH_TOKEN);
+  const accessToken = req.cookies.get(COOKIE_KEYS.ACCESS_TOKEN);
+  const isRegistered =
+    req.cookies.get(COOKIE_KEYS.IS_REGISTERED)?.value === 'true';
   const isLoggedIn = !!req.auth;
 
   // 토큰 갱신 로직 (Access Token 만료 & Refresh Token 존재 시)
   let newCookies: string[] = [];
   const updatedRequestHeaders = new Headers(req.headers);
+
+  const handleRefreshFailure = () => {
+    const redirectUrl = new URL(PATH.LOGIN, nextUrl);
+
+    redirectUrl.searchParams.set('expired', 'true');
+
+    const response = NextResponse.redirect(redirectUrl);
+
+    // 쿠키 삭제
+    response.cookies.delete(COOKIE_KEYS.ACCESS_TOKEN);
+    response.cookies.delete(COOKIE_KEYS.REFRESH_TOKEN);
+    response.cookies.delete(COOKIE_KEYS.IS_REGISTERED);
+
+    return response;
+  };
 
   if (refreshToken && !accessToken) {
     try {
@@ -43,7 +61,7 @@ export const proxy = auth(async (req) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Cookie: `refresh_token=${refreshToken.value}`,
+            Cookie: `${COOKIE_KEYS.REFRESH_TOKEN}=${refreshToken.value}`,
           },
         },
       );
@@ -57,11 +75,16 @@ export const proxy = auth(async (req) => {
           updatedRequestHeaders.set('Cookie', newCookies.join('; '));
         }
       } else {
-        // 갱신 실패 시(리프레시 토큰 만료 등), 로그아웃 처리 등을 위해 그대로 둠
+        // 갱신 실패 시(리프레시 토큰 만료 등), 쿠키 삭제 후 로그인 페이지로 리다이렉트
         console.warn('[ Proxy ]: 토큰 재발급 실패');
+
+        return handleRefreshFailure();
       }
     } catch (error) {
+      // 네트워크 에러 등으로 갱신 실패 시에도 쿠키 삭제 후 로그인 페이지로 리다이렉트
       console.error('[ Proxy ]: 토큰 재발급 에러', error);
+
+      return handleRefreshFailure();
     }
   }
 
