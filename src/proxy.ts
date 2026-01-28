@@ -61,8 +61,11 @@ export const proxy = auth(async (req) => {
 
   const refreshToken = req.cookies.get(COOKIE_KEYS.REFRESH_TOKEN)?.value;
   const accessToken = req.cookies.get(COOKIE_KEYS.ACCESS_TOKEN)?.value;
-  const isRegistered =
-    req.cookies.get(COOKIE_KEYS.IS_REGISTERED)?.value === 'true';
+  const isRegisteredCookieValue = req.cookies.get(
+    COOKIE_KEYS.IS_REGISTERED,
+  )?.value;
+  const hasIsRegisteredCookie = isRegisteredCookieValue !== undefined;
+  const isRegistered = isRegisteredCookieValue === 'true';
 
   const isAuthenticated = !!session && !!refreshToken;
   const needsTokenRefresh = isAuthenticated && !accessToken;
@@ -105,16 +108,17 @@ export const proxy = auth(async (req) => {
 
   // 미인증 유저 처리
   if (!isAuthenticated) {
-    if (ALWAYS_ALLOWED_PATHS.includes(pathname)) {
-      return createResponse();
-    }
-
     // 세션 불일치 시 만료 처리
     if (!!session !== !!refreshToken) {
       return redirectToLoginExpired();
     }
 
     return createResponse(PATH.LOGIN);
+  }
+
+  // `is_registered` 쿠키가 없는 상태에서 회원가입 페이지 직접 접근 방지
+  if (!hasIsRegisteredCookie && pathname === PATH.SIGN_UP) {
+    return redirectToLoginExpired();
   }
 
   // 회원가입 미완료 유저 처리
