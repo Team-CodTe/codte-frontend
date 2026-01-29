@@ -20,9 +20,13 @@ type Props = {
 };
 
 const StudySpacePage = async ({ params, searchParams }: Props) => {
-  const studyId = safeParseInt((await params).studyId);
+  const [resolvedParams, resolvedSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ]);
+  const studyId = safeParseInt(resolvedParams.studyId);
   const study = await getStudyDetail(studyId);
-  const { view } = await searchParams;
+  const { view } = resolvedSearchParams;
   const viewParam = viewSchema.parse(view);
 
   return (

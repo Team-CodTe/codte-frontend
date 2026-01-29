@@ -1,12 +1,13 @@
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 
-import { Providers } from '@/components/providers/Providers';
-import { auth } from '@/lib/auth';
+import { SessionLoader } from '@/components/common/SessionLoader';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+
+import Loading from './loading';
 
 const siteDescription =
   '매일 스터디원에 딱 맞는 새로운 문제를 추천받고, 해결 방법과 풀이를 쉽게 공유할 수 있는 스터디 플랫폼입니다.';
@@ -48,13 +49,13 @@ const tossFace = localFont({
  * @see https://ui.shadcn.com/docs/dark-mode/next
  */
 const RootLayout = async ({ children }: PropsWithChildren) => {
-  const session = await auth();
-
   return (
     <html lang="ko" suppressHydrationWarning>
       <body
         className={`${pretendard.variable} ${tossFace.variable} antialiased`}>
-        <Providers session={session}>{children}</Providers>
+        <Suspense fallback={<Loading />}>
+          <SessionLoader>{children}</SessionLoader>
+        </Suspense>
       </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ''} />
     </html>

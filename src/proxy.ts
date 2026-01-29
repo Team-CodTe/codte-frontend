@@ -10,13 +10,16 @@ const ALWAYS_ALLOWED_PATHS: string[] = [
   PATH.PRIVACY_POLICY,
   PATH.GOODBYE,
 ];
-const PUBLIC_PATHS: string[] = [
+const PUBLIC_PATHS_SET = new Set<string>([
   PATH.LANDING,
   PATH.LOGIN,
   ...ALWAYS_ALLOWED_PATHS,
-];
-const GUEST_PATHS: string[] = [PATH.LOGIN, PATH.SIGN_UP];
-const UNREGISTERED_ALLOWED_PATHS: string[] = [PATH.SIGN_UP, PATH.LANDING];
+]);
+const GUEST_PATHS_SET = new Set<string>([PATH.LOGIN, PATH.SIGN_UP]);
+const UNREGISTERED_ALLOWED_PATHS_SET = new Set<string>([
+  PATH.SIGN_UP,
+  PATH.LANDING,
+]);
 
 const BASE_URL = process.env.API_BASE_URL;
 
@@ -71,7 +74,7 @@ export const proxy = auth(async (req) => {
   const needsTokenRefresh = isAuthenticated && !accessToken;
 
   // 미인증자가 공개 페이지 접근 시 통과
-  if (!isAuthenticated && PUBLIC_PATHS.includes(pathname)) {
+  if (!isAuthenticated && PUBLIC_PATHS_SET.has(pathname)) {
     return NextResponse.next();
   }
 
@@ -123,7 +126,7 @@ export const proxy = auth(async (req) => {
 
   // 회원가입 미완료 유저 처리
   if (!isRegistered) {
-    if (!UNREGISTERED_ALLOWED_PATHS.includes(pathname)) {
+    if (!UNREGISTERED_ALLOWED_PATHS_SET.has(pathname)) {
       return createResponse(PATH.SIGN_UP);
     }
 
@@ -131,7 +134,7 @@ export const proxy = auth(async (req) => {
   }
 
   // 가입 완료 유저 게스트 페이지 접근 시 대시보드로 리다이렉트
-  if (GUEST_PATHS.includes(pathname)) {
+  if (GUEST_PATHS_SET.has(pathname)) {
     return createResponse(PATH.DASHBOARD);
   }
 

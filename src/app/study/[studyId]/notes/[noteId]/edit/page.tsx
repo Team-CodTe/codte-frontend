@@ -4,6 +4,7 @@ import { safeParseInt } from '@/lib/parseParam';
 
 type Props = {
   params: Promise<{
+    studyId: string;
     noteId: string;
   }>;
 };
