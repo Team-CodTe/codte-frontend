@@ -1,10 +1,25 @@
 import { getMyProfile } from '@/api/user/getMyProfile/fetch';
+import { PATH } from '@/constants/path';
 import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
 import { MyProfileSection } from '@/features/profile/components/MyProfileSection';
 import { ProfileDangerZoneSection } from '@/features/profile/components/ProfileDangerZoneSection';
+import { FetchError } from '@/lib/fetchInstance';
+import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 const ProfilePage = async () => {
-  const profile = await getMyProfile();
+  let profile;
+
+  try {
+    profile = await getMyProfile();
+  } catch (error) {
+    if (error instanceof FetchError && error.status === 401) {
+      redirect(PATH.LOGIN);
+    }
+
+    throw error;
+  }
 
   return (
     <div className="flex min-h-screen w-screen flex-col items-center">
